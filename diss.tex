@@ -4,7 +4,9 @@
 \usepackage{setspace}
 \usepackage[margin = 1in]{geometry}
 \usepackage{multirow}
-\usepackage{mdframed}
+\usepackage[framemethod=TikZ]{mdframed}
+\usepackage{newfloat}
+\usepackage{multicol}
 
 \usepackage{amsmath}
 \usepackage[
@@ -28,12 +30,24 @@
 %https://stackoverflow.com/questions/149479/adding-a-caption-to-an-equation-in-latex
 %\captionsetup[equ]{labelformat=empty}
 
-
-
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true
 }
+\DeclareFloatingEnvironment[fileext=frm,placement={!ht},name=Frame]{myfloat}
+\captionsetup[myfloat]{labelfont=bf}
+\newenvironment{frameenv}[1]
+    {\begin{myfloat}[tb]
+    \begin{mdframed}[roundcorner=10pt,backgroundcolor=blue!10]
+    \caption{#1}
+    %\begin{multicols*}{2}
+    }
+    {%\end{multicols*}
+    \end{mdframed}\end{myfloat}
+    }
+
+
+
 
 \title{Testing Pleiotropy vs. Separate QTL in Multiparental Populations}
 \author{Frederick Boehm}
@@ -105,7 +119,7 @@ Y = XB + WC + M\beta + E
 \end{equ}
 
 
-In the above four models, $X$ is a $n$ by $8$ matrix of founder allele probabilities at a single marker, $B$ is a $8$ by $1$ matrix of founder allele effects, $E$ is a $n$ by $1$ matrix of random errors, $b$ is an number, $1$ is a $n$ by $1$ matrix with all entries set to $1$, $Y$ is a $n$ by $1$ matrix of phenotype values (for a single trait), and $M$ is a $n$ by $1$ matrix of values for a putative mediator. $C$ is a matrix of covariate effects, and $W$ is a matrix of covariates. We denote the coefficient of the mediator by $\beta$.
+In the above four models, $X$ is a $n$ by $8$ matrix of founder allele dosages at a single marker, $B$ is a $8$ by $1$ matrix of founder allele effects, $E$ is a $n$ by $1$ matrix of random errors, $b$ is an number, $1$ is a $n$ by $1$ matrix with all entries set to $1$, $Y$ is a $n$ by $1$ matrix of phenotype values (for a single trait), and $M$ is a $n$ by $1$ matrix of values for a putative mediator. $C$ is a matrix of covariate effects, and $W$ is a matrix of covariates. We denote the coefficient of the mediator by $\beta$.
 
 We assume that the vector $E$ is (multivariate) normally distributed with zero vector as mean and covariance matrix $\Sigma = \sigma^2I_n$, where $I_n$ is the $n$ by $n$ identity matrix.
 
@@ -131,7 +145,7 @@ LOD_1 = log_{10}(\text{model 2 likelihood}) - log_{10}(\text{model 1 likelihood}
 LOD_2 = log_{10}(\text{model 4 likelihood}) - log_{10}(\text{model 3 likelihood})
 \end{equation}
 
-And, finally, \citet{keller2018genetic} calculated the statistic:
+And, finally, \citet{chick2016defining} calculated the statistic:
 
 \begin{equation}
 \text{LOD difference} = LOD_1 - LOD_2
@@ -148,7 +162,7 @@ For each mediation analysis, we consider the LOD difference proportion, which we
 
 In other words, we consider what proportion of the association strength, on the LOD scale, is diminished by conditioning on a putative mediator. This statistic differs from the LOD difference statistic in that it scales the mediation LOD difference by LOD$_1$ value. We do this in efforts to accommodate the diversity of LOD peak heights in our data. While a value of 5 for LOD difference may be important for a trait with a LOD$_1$ of 12, another trait with a LOD$_1$ of 120 that has a LOD$_2$ of 115, suggests that nearly all of the signal remains transmitted when conditioning on the putative mediator.
 
-To perform a mediation analysis, we must specify three components of a possible directed acyclic graph. For our purposes, we always begin with a marker's founder allele probabilities. Since we are working in the context of dissecting an expression QTL hotspot, we choose the "driver" to be the founder allele probabilities at the peak position for a local expression trait. We then choose the terminus of the putative graph, i.e., the "target", to be a nonlocal expression trait.
+To perform a mediation analysis, we must specify three components of a possible directed acyclic graph. For our purposes, we always begin with a marker's founder allele dosages. Since we are working in the context of dissecting an expression QTL hotspot, we choose the ``driver'' to be the founder allele dosages at the peak position for a local expression trait. We then choose the terminus of the putative graph, i.e., the ``target'', to be a nonlocal expression trait.
 
 
 
@@ -160,18 +174,33 @@ To perform a mediation analysis, we must specify three components of a possible 
 To claim that the LOD difference statistic reflects a causal relationship, four assumptions about confounding are needed \citep{vanderweele2015explanation}.
 
 
-\begin{mdframed}
-\begin{enumerate}
+%\begin{mdframed}
+%\caption{XXXX}
+%\begin{enumerate}
+%\item No unmeasured confounding of the treatment-outcome %relationship
+%\item No unmeasured confounding of the mediator-outcome %relationship
+%\item No unmeasured confounding of the treatment-mediator relationship
+%\item No mediator-outcome confounder that is affected by the treatment
+%\label{list4}
+%\end{enumerate}
+%\end{mdframed}
+
+\begin{frameenv}{Four assumptions for causal inference}\label{frame1}
+  \begin{enumerate}
 \item No unmeasured confounding of the treatment-outcome relationship
 \item No unmeasured confounding of the mediator-outcome relationship
 \item No unmeasured confounding of the treatment-mediator relationship
 \item No mediator-outcome confounder that is affected by the treatment
-\label{list4}
 \end{enumerate}
-\end{mdframed}
+
+\end{frameenv}
 
 
-In the above terminology, treatment refers to the founder allele dosages matrix, while outcome is the nonlocal gene expression trait, and mediator is the local gene expression trait.
+
+
+
+
+In the above terminology, ``treatment'' refers to the founder allele dosages, while ``outcome'' is the nonlocal gene expression trait, and ``mediator'' is the local gene expression trait.
 
 
 
@@ -191,9 +220,7 @@ We examined the potential that the two methods - 1. pleiotropy vs. separate QTL 
 
 We analyzed data from 378 Diversity Outbred mice \citep{keller2018genetic}. \citet{keller2018genetic} genotyped tail biopsies with the GigaMUGA microarray \citep{morgan2015mouse}. They also used RNA sequencing to measure genome-wide pancreatic islet cell gene expression for each mouse at the time of sacrifice \citep{keller2018genetic}. They shared these data, together with inferred founder allele probabilities, on the Data Dryad site (\url{https://datadryad.org/resource/doi:10.5061/dryad.pj105}).
 
-We downloaded the file "Attie\_DO378\_eQTL\_viewer\_v1.Rdata" from Data Dryad \citep{keller2018genetic} and analyzed the data in the R statistical computing environment \citep{r}.
-
-We examined the Chromosome 2 pancreatic islet cell expression trait hotspot that \citet{keller2018genetic} identified with these data. \citet{keller2018genetic} identified 147 nonlocal traits that map to the 4-Mb region centered at 165.5 Mb on chromosome 2. The 147 nonlocal traits all exceeded the genome-wide LOD significance threshold, 7.18 \citep{keller2018genetic}. With regression-based mediation analyses, they identified expression levels of local gene \emph{Hnf4a} as a mediator of 88 of these 147 nonlocal traits.
+We examined the Chromosome 2 pancreatic islet cell expression trait hotspot that \citet{keller2018genetic} identified. \citet{keller2018genetic} identified 147 nonlocal traits that map to the 4-Mb region centered at 165.5 Mb on Chromosome 2. The 147 nonlocal traits all exceeded the genome-wide LOD significance threshold, 7.18 \citep{keller2018genetic}. With regression-based mediation analyses, they identified expression levels of local gene \emph{Hnf4a} as a mediator of 88 of these 147 nonlocal traits.
 
 Because \citet{keller2018genetic} reported that some nonlocal traits that map to the Chromosome 2 hotspot did not demonstrate evidence of mediation by \emph{Hnf4a} expression levels, we elected to study a collection of local gene expression traits, rather than \emph{Hnf4a} alone. This strategy enabled us to ask whether one of twelve other local traits mediates those nonlocal hotspot traits that are not mediated by \emph{Hnf4a}. Our set of local gene expression traits includes \emph{Hnf4a} and 12 other local genes (Table \ref{tab:annot}). Our 13 local genes are the only genes that met all of the following criteria:
 
@@ -209,8 +236,7 @@ The 147 nonlocal traits that we studied all had LOD peak heights above 7.18 and 
 
 %\subsection{Statistical analyses}
 
-We used both univariate and bivariate QTL scans. In the univariate scans, we identified LOD peaks for each of 160 expression traits that mapped to within 2 Mb of the center of the Chromosome 2 expression trait hotspot. Thirteen of these 160 gene expression traits arise from local genes, \emph{i.e.}, genes on Chromosome 2. The remaining 147 expression traits are nonlocal traits, meaning that they arise from genes that either are not on Chromosome 2 or are on Chromosome 2 but more than 2 Mb from the center of the expression trait hotspot (at 165.5 Mb).
-
+We used both univariate and bivariate QTL scans. In the univariate scans, we identified LOD peaks for each of 160 (147 nonlocal and 13 local) expression traits that mapped to within 2 Mb of the center of the Chromosome 2 expression trait hotspot. 
 
 
 
@@ -218,26 +244,7 @@ We used both univariate and bivariate QTL scans. In the univariate scans, we ide
 
 \citet{keller2018genetic} provided univariate QTL mapping results in their Data Dryad file, so we didn't repeat the univariate QTL scans. We briefly summarize their analyses below.
 
-For a given univariate phenotype, \citet{keller2018genetic} fitted a linear mixed effects model at every marker across the genome.
-
-\begin{equation}
-    Y = XB + WC + G + E
-    \label{eqn:uni-lmm}
-\end{equation}
-
-where $Y$ is a n by 1 matrix of phenotype values, $X$ is a n by 8 matrix of founder allele probabilities at a single marker, $B$ is a 8 by 1 matrix of founder allele effects, $W$ is a n by 4 matrix of four covariates (sex and three binary indicators for wave membership), $C$ is a 4 by 1 matrix of covariate effects, $G$ is a n by 1 matrix of polygenic random effects, and $E$ is a n by 1 matrix of random errors.
-
-$G$ and $E$ are assumed independent and to follow the distributions below.
-
-\begin{equation}
-    G \sim N(0, \sigma^2_gK)
-\end{equation}
-
-\begin{equation}
-    E \sim N(0, \sigma^2_eI)
-\end{equation}
-
-where $K$ is a leave-one-chromosome-out kinship matrix, and $I$ is the n by n identity matrix. \citet{keller2018genetic} fitted the models by first estimating the variance components $\sigma^2_g$ and $\sigma^2_e$ from the null model, \emph{i.e.}, a model, for a given phenotype, that omits founder allele probabilities. With the estimated variance components, they then performed the univariate QTL scan with model fitting by generalized least squares. \citet{keller2018genetic} performed calculations with the \texttt{qtl2} R package \citep{Broman2018}.
+For a given univariate phenotype, \citet{keller2018genetic} fitted a linear mixed effects model (with polygenic random effect) at every marker across the genome. \citet{keller2018genetic} performed calculations with the \texttt{qtl2} R package \citep{Broman2018}.
 
 
 
@@ -249,33 +256,7 @@ We performed a series of two-dimensional QTL scans in which we paired each local
 
 For each QTL scan, we fitted a collection of bivariate models for all 180 * 180 = 32,400 ordered pairs of markers. Throughout our analyses, we treated the founder allele probabilities as known, despite the fact that they are inferred through hidden Markov model methods \citep{broman2012genotype, broman2012haplotype, Broman2018}.
 
-For each ordered pair of markers, we fitted the model:
-
-\begin{equation}
-    vec(Y) = Xvec(B) + vec(G) + vec(E)
-    \label{eqn:bivariate-model}
-\end{equation}
-
-where $Y$ is a $n$ by $2$ matrix of phenotypes, $B$ is a $12$ by $2$ matrix of founder allele and covariate effects, $G$ is a $n$ by $2$ matrix of polygenic random effects, and $E$ is a $n$ by $2$ matrix of random errors. We impose distributional assumptions on $G$ and $E$, which are assumed to be independent.
-
-\begin{equation}
-    G \sim MN(0, K, V_g)
-\end{equation}
-
-\begin{equation}
-    E \sim MN(0, I, V_e)
-\end{equation}
-
-$K$ is a leave-one-chromosome-out $n$ by $n$ kinship matrix. We calculated its entries by using all markers except those on Chromosome 2. The $i, j$ entry of $K$ is calculated with Equation \ref{eqn:kinship-def}.
-
-\begin{equation}
-    K[i, j] = \sum_{k,l} (p_{ikl} p_{jkl})
-    \label{eqn:kinship-def}
-\end{equation}
-
-where $k$ indexes marker positions and includes all markers except those on Chromosome 2, $l$ indexes the eight founder alleles, and $i$ and $j$ represent two subjects.
-
-In equation \ref{eqn:bivariate-model}, $X$ is a $2n$ by $24$ matrix of founder allele probabilities and covariates. $X$ has a block-diagonal structure, with the two $n$ by $12$ blocks on the diagonal containing nonzero entries, while the off-diagonal $n$ by $12$ blocks contain only zeros. Each $n$ by $12$ block on the diagonal contains eight founder allele probabilities for one marker and values for four covariates. We used as covariates sex and three binary indicators for wave number. As \citet{keller2018genetic} describe, the 378 mice represent four distinct waves, or batches.
+For each ordered pair of markers, we fitted a multivariate linear mixed effects model with the methods of Chapter 2.
 
 %\subsubsection{Mediation analyses}
 
@@ -312,49 +293,49 @@ Pkig & 163.66 & 163.73 & 163.52 & 51.68 \\
   Gm14291 & 167.20 & 167.20 & 167.27 & 73.72 \\
    \hline
 \end{tabular}
-\caption{Local gene annotations for analysis of Chromosome 2 expression trait hotspot. All positions are in units of Mb on Chromosome 2. LOD peak position and LOD peak height refer to those obtained from univariate analyses. "Start" and "end" refer to the local gene's DNA start and end positions, as annotated by Ensembl version 75.}
+\caption{Local gene annotations for analysis of Chromosome 2 expression trait hotspot. All positions are in units of Mb on Chromosome 2. LOD peak position and LOD peak height refer to those obtained from univariate analyses. ``Start'' and ``end'' refer to the local gene's DNA start and end positions, as annotated by Ensembl version 75.}
 \label{tab:annot}
 \end{table}
 
 %\subsubsection{Nonlocal gene analyses}
 
-We also examined the 1911 pairs from the per-nonlocal gene perspective. For each of the 147 nonlocal genes, we plotted LOD difference proportion against pleiotropy vs. separate QTL test statistic values. We present below (Figure \ref{fig:4nonlocal}) examples that illustrate some of the observed patterns between pleiotropy vs. separate QTL test statistics and LOD difference proportion values.
+We also examined the 1911 pairs from the per-nonlocal gene perspective. For each of the 147 nonlocal genes, we plotted LOD difference proportion against pleiotropy test statistic values. We present below (Figure \ref{fig:4nonlocal}) examples that illustrate some of the observed patterns between pleiotropy test statistics and LOD difference proportion values.
 
 
 \subsection{Results}
 
 %\subsection{Scatter plot for all 1911 pairs}
 
-We present below our scatter plot for all 147 * 13 = 1911 pairs of traits (Figure \ref{fig:lod-diff-prop-v-lrt-all}). Each pair contains one local expression trait and one nonlocal expression trait. Each point in the figure represents a single pair. We see that points with high values of LOD difference proportion tend to have small values of pleiotropy vs. separate QTL test statistic, and those points with high values of the pleiotropy vs. separate QTL test statistic tend to have small values of LOD difference proportion.
+We present below our scatter plot for all 147 * 13 = 1911 pairs of traits (Figure \ref{fig:lod-diff-prop-v-lrt-all}). Each pair contains one local expression trait and one nonlocal expression trait. Each point in the figure represents a single pair. We see that points with high values of LOD difference proportion tend to have small values of pleiotropy test statistic, and those points with high values of the pleiotropy test statistic tend to have small values of LOD difference proportion.
 
-We colored blue the points that involve \emph{Hnf4a} as the local gene; all other local genes have red points. The most striking feature of the coloring is that many blue points have small values of the pleiotropy vs. separate QTL test statistics and very high values of LOD difference proportion.
+We colored blue the points that involve \emph{Hnf4a} as the local gene; all other local genes have red points. The most striking feature of the coloring is that many blue points have small values of the pleiotropy test statistics and very high values of LOD difference proportion.
 
 
 
 \begin{figure}
     \centering
     \includegraphics[width = 0.7\textwidth]{../keller2018-chr2-hotspot-chtc/Rmd/lod-diff-prop-v-lrt.eps}
-    \caption{LOD difference proportion against pleiotropy vs. separate QTL test statistics for 1911 pairs of traits. Each point represents a single pair. Pairs that involve local expression trait Hnf4a are colored blue, while all others are colored red. Note the high prevalence of blue points in the upper left quadrant of the figure. These points, with low values of the pleiotropy vs. separate QTL test statistic and high values of LOD difference proportion, are consistent with Hnf4a transcript levels mediating the effect of Hnf4a genetic variants affecting nonlocal transcript abundances.}
+    \caption[LOD difference proportion vs. pleiotropy test statistic]{LOD difference proportion against pleiotropy vs. separate QTL test statistics for 1911 pairs of traits. Each point represents a single pair. Pairs that involve local expression trait Hnf4a are colored blue, while all others are colored red. Note the high prevalence of blue points in the upper left quadrant of the figure. These points, with low values of the pleiotropy vs. separate QTL test statistic and high values of LOD difference proportion, are consistent with \emph{Hnf4a} transcript levels mediating the effect of \emph{Hnf4a} genetic variants affecting nonlocal transcript abundances.}
     \label{fig:lod-diff-prop-v-lrt-all}
 \end{figure}
 
 %\subsection{Local gene analyses}
 
-To more thoroughly examine the relationships across the 13 local genes, we created 13 plots of LOD difference proportion (from the mediation analyses) against pleiotropy vs. separate QTL test statistic. They reveal common patterns. First, we see no points in the upper right quadrant of each plot. This tells us that those nonlocal genes with high values of pleiotropy vs. separate QTL test statistic have low values of LOD difference proportion. Similarly, those nonlocal genes with high values of LOD difference proportion tend to have small values of the pleiotropy vs. separate QTL test statistic. Finally, some trait pairs demonstrate low values of both the LOD difference proportion and pleiotropy vs. separate QTL test statistic. This observation suggests that, for a given local expression trait, these pairs are not mediated by the local expression trait yet they arise from a shared pleiotropic locus.
+To more thoroughly examine the relationships across the 13 local genes, we created 13 plots of LOD difference proportion (from the mediation analyses) against pleiotropy test statistic. They reveal common patterns. First, we see no points in the upper right quadrant of each plot. This tells us that those nonlocal genes with high values of pleiotropy test statistic have low values of LOD difference proportion. Similarly, those nonlocal genes with high values of LOD difference proportion tend to have small values of the pleiotropy test statistic. Finally, some trait pairs demonstrate low values of both the LOD difference proportion and pleiotropy test statistic. This observation suggests that, for a given local expression trait, these pairs are not mediated by the local expression trait yet they arise from a shared pleiotropic locus.
 
 In comparing the \emph{Hnf4a} plot (Figure \ref{fig:hnf4a}) with the other 12 plots (Figure \ref{fig:nothnf4a-12}), we see that none of the 12 plots in Figure \ref{fig:nothnf4a-12} closely resembles Figure \ref{fig:hnf4a}. \emph{Serinc3}, \emph{Stk4}, \emph{Neurl2}, and \emph{Cdh22} are closest in appearance to the plot of \emph{Hnf4a}. However, each of \emph{Serinc3}, \emph{Stk4}, \emph{Neurl2}, and \emph{Cdh22} has very few points with LOD difference proportion above 0.5, while \emph{Hnf4a} has many points with LOD difference proportion above 0.5.
 
 \begin{figure}
     \centering
     \includegraphics[width = \textwidth]{../keller2018-chr2-hotspot-chtc/Rmd/Hnf4a-lod-diff-prop-v-lrt.eps}
-    \caption{Scatter plot of LOD difference proportion against pleiotropy vs. separate QTL test statistic for 147 pairs of traits. Each pair includes \emph{Hnf4a} and one of the nonlocal gene expression traits that map to the Chromosome 2 hotspot.}
+    \caption[LOD difference proportion vs. pleiotropy test statistic.]{Scatter plot of LOD difference proportion against pleiotropy vs. separate QTL test statistic for 147 pairs of traits. Each pair includes \emph{Hnf4a} and one of the nonlocal gene expression traits that map to the Chromosome 2 hotspot.}
     \label{fig:hnf4a}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width = 0.8\textwidth]{../keller2018-chr2-hotspot-chtc/Rmd/12local-facet_grid-no-strip.eps}
-    \caption{Scatter plots of LOD difference proportion against pleiotropy vs. separate QTL test statistic with 147 pairs of traits per panel. Each panel includes a local gene expression trait (per the label in the upper right quadrant) and one of the 147 nonlocal gene expression traits that map to the Chromosome 2 hotspot.}
+    \caption[LOD difference proportion vs. pleiotropy test statistic from the per-local gene perspective.]{Scatter plots of LOD difference proportion against pleiotropy vs. separate QTL test statistic with 147 pairs of traits per panel. Each panel includes a local gene expression trait (per the label in the upper right quadrant) and one of the 147 nonlocal gene expression traits that map to the Chromosome 2 hotspot.}
     \label{fig:nothnf4a-12}
 \end{figure}
 
@@ -392,26 +373,26 @@ In comparing the \emph{Hnf4a} plot (Figure \ref{fig:hnf4a}) with the other 12 pl
 
 %\subsection{Nonlocal gene analyses}
 
-Scatter plots of LOD difference proportion values against pleiotropy vs. separate QTL test statistics for each of the 147 nonlocal expression traits demonstrated multiple patterns. Eighty-nine nonlocal genes' plots showed Hnf4a to have the greatest value, among the 13 putative mediators, of the LOD difference proportion statistic. In many cases, Hnf4a's LOD difference proportion statistic was at least twice that of any of the other 12 local gene expression levels.
+Scatter plots of LOD difference proportion values against pleiotropy vs. separate QTL test statistics for each of the 147 nonlocal expression traits demonstrated multiple patterns. Eighty-nine nonlocal genes' plots showed \emph{Hnf4a} to have the greatest value, among the 13 putative mediators, of the LOD difference proportion statistic. In many cases, \emph{Hnf4a}'s LOD difference proportion statistic was at least twice that of any of the other 12 local gene expression levels.
 
 \begin{figure}
     \centering
-    \caption{Scatter plots for four nonlocal expression traits. Each plot features 13 points, one for each local gene expression trait. The y axis denotes LOD difference proportion values, while the x axis corresponds to pleiotropy vs. separate QTL test statistics. Blue points represent the pairing with local gene expression trait Hnf4a. Red points represent the other 12 local gene expression traits.}
+    \caption{Scatter plots for four nonlocal expression traits. Each plot features 13 points, one for each local gene expression trait. The y axis denotes LOD difference proportion values, while the x axis corresponds to pleiotropy vs. separate QTL test statistics. Blue points represent the pairing with local gene expression trait \emph{Hnf4a}. Red points represent the other 12 local gene expression traits.}
     \begin{subfigure}[t]{.45\textwidth}
         \includegraphics[width = \textwidth]{../keller2018-chr2-hotspot-chtc/Rmd/nonlocal-scatter_97.eps}
-        \caption{Hnf4a transcript levels mediate Abcb4 transcript levels. The high LOD difference proportion and the very small pleiotropy vs. separate QTL test statistic together provide evidence that Hnf4a mediates Abcb4 transcript levels.}
+        \caption[\emph{Hnf4a} transcript levels mediate \emph{Abcb4} transcript levels.]{\emph{Hnf4a} transcript levels mediate \emph{Abcb4} transcript levels. The high LOD difference proportion and the very small pleiotropy test statistic together provide evidence that \emph{Hnf4a} mediates \emph{Abcb4} transcript levels.}
     \end{subfigure}
     \begin{subfigure}[t]{.45\textwidth}
         \includegraphics[width = \textwidth]{../keller2018-chr2-hotspot-chtc/Rmd/nonlocal-scatter_105.eps}
-        \caption{Hnf4a transcript levels mediate Smim5 transcript levels. The high LOD difference proportion and the very small pleiotropy vs. separate QTL test statistic together provide evidence that Hnf4a mediates Smim5 transcript levels.}
+        \caption[\emph{Hnf4a} transcript levels mediate \emph{Smim5} transcript levels.]{\emph{Hnf4a} transcript levels mediate \emph{Smim5} transcript levels. The high LOD difference proportion and the very small pleiotropy test statistic together provide evidence that \emph{Hnf4a} mediates \emph{Smim5} transcript levels.}
     \end{subfigure}
     \begin{subfigure}[t]{.45\textwidth}
         \includegraphics[width = \textwidth]{../keller2018-chr2-hotspot-chtc/Rmd/nonlocal-scatter_64.eps}
-        \caption{Tmprww4 transcript levels are not mediated by any of the 13 local gene expression traits. However, several local gene expression traits arise from separate QTL, as evidenced by their large (greater than 5) values of the pleiotropy vs. separate QTL test statistic.}
+        \caption[\emph{Tmprww4} transcript levels are not mediated by any of the 13 local gene expression traits.]{\emph{Tmprww4} transcript levels are not mediated by any of the 13 local gene expression traits. However, several local gene expression traits arise from separate QTL, as evidenced by their large (greater than 5) values of the pleiotropy test statistic.}
     \end{subfigure}
     \begin{subfigure}[t]{.45\textwidth}
         \includegraphics[width = \textwidth]{../keller2018-chr2-hotspot-chtc/Rmd/nonlocal-scatter_141.eps}
-        \caption{Gm3095 transcript levels are not mediated by any of the 13 local genes. The tests of pleiotropy vs. separate QTL demonstrate evidence of separate QTL for some local expression traits when paired with Gm3095.}
+        \caption[\emph{Gm3095} transcript levels are not mediated by any of the 13 local genes.]{\emph{Gm3095} transcript levels are not mediated by any of the 13 local genes. The tests of pleiotropy demonstrate evidence of separate QTL for some local expression traits when paired with \emph{Gm3095}.}
     \end{subfigure}
     \label{fig:4nonlocal}
 \end{figure}
@@ -422,7 +403,7 @@ Scatter plots of LOD difference proportion values against pleiotropy vs. separat
 
 \subsection{Discussion}
 
-Our pairwise analyses with both mediation analyses and tests of pleiotropy vs. separate QTL provide additional evidence for the importance of Hnf4a in the biology of the Chromosome 2 hotspot in pancreatic islet cells. Our analyses, and, specifically, the test of pleiotropy vs. separate QTL, may be more useful when studying nonlocal traits that map to a hotspot yet don't show strong evidence of mediation by local expression traits. In such a setting, the test of pleiotropy vs. separate QTL can, at least, provide some information about the genetic architecture at the hotspot. Specifically, our test of pleiotropy vs. separate QTL may inform inferences about the number of underlying QTL in a given expression trait hotspot. Additionally, our test may limit the number of expression traits that are potential intermediates between a QTL and a specified nonlocal expression trait. This relies on the assumption that an intermediate expression trait and a target expression trait presumably share a QTL.
+Our pairwise analyses with both mediation analyses and tests of pleiotropy vs. separate QTL provide additional evidence for the importance of \emph{Hnf4a} in the biology of the Chromosome 2 hotspot in pancreatic islet cells. Our analyses, and, specifically, the test of pleiotropy vs. separate QTL, may be more useful when studying nonlocal traits that map to a hotspot yet don't show strong evidence of mediation by local expression traits. In such a setting, the test of pleiotropy vs. separate QTL can, at least, provide some information about the genetic architecture at the hotspot. Specifically, our test of pleiotropy vs. separate QTL may inform inferences about the number of underlying QTL in a given expression trait hotspot. Additionally, our test may limit the number of expression traits that are potential intermediates between a QTL and a specified nonlocal expression trait. This relies on the assumption that an intermediate expression trait and a target expression trait presumably share a QTL.
 
 On the other hand, mediation analyses, when they provide evidence for mediation of a nonlocal trait by a local expression trait, are more informative than the test of pleiotropy vs. separate QTL, since the mediation analyses identify precisely the intermediate expression trait.
 
@@ -438,8 +419,11 @@ The social and health sciences have witnessed much methods research in  mediatio
 
 % latex table generated in R 3.5.1 by xtable 1.8-3 package
 % Tue Dec 18 18:18:00 2018
+{\tiny
 \begin{longtable}{lrr}
+\caption{LOD peak positions and peak heights for 147 expression traits that map to the Chromosome 2 expression trait hotspot.}\\
 \hline \\
+%\begingroup\tiny
 
 Gene symbol & Peak position & LOD \\
   \hline
@@ -591,10 +575,12 @@ Mtfp1 & 163.52 & 17.79 \\
   Acat3 & 166.61 & 7.17 \\
   Gpr20 & 166.84 & 8.41 \\
    \hline
-  \caption{LOD peak positions and peak heights for 147 expression traits that map to the Chromosome 2 expression trait hotspot.}
+  % \endgroup
+  
   \label{tab:hot-annot}
 
 \end{longtable}
+}
 %%%%% 3A end
 
 %%%% 3B start
