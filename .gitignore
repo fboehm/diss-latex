@@ -2,3 +2,13 @@
 .Rhistory
 .RData
 .Ruserdata
+diss.log
+diss.aux
+diss.bbl
+diss.bcf
+diss.blg
+diss.fdb_latexmk
+diss.fls
+diss.out
+diss.run.xml
+diss.toc
