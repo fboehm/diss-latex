@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass{book}
 \usepackage[utf8]{inputenc}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{setspace}
@@ -60,31 +60,765 @@
 \maketitle
 \tableofcontents
 
+\chapter{Complex traits in multiparental populations}
+
+
+%%% chapter 2 start
+\chapter{Testing pleiotropy in multiparental populations}
+
+\section{Introduction}
+
+Complex trait studies in multiparental populations present new
+challenges in statistical methods and data analysis. Among these is
+the development of strategies for multivariate trait analysis. The
+joint analysis of two or more traits allows one to address additional
+questions, such as whether two traits share a single pleiotropic
+locus.
+
+
+
+
+Previous research addressed the question of pleiotropy vs.\ separate
+QTL in two-parent crosses.
+\citet{jiang1995multiple} developed a likelihood
+ratio test for pleiotropy vs.\ separate QTL for a pair of traits.
+Their approach assumed that each trait was affected by a single QTL.
+Under the null hypothesis, the two traits were affected by a common
+QTL, and under the alternative hypothesis the two traits were affected
+by distinct QTL.
+\citet{knott2000multitrait} used linear regression to develop a fast
+approximation to the test of \citet{jiang1995multiple}, while
+\citet{tian2016dissection} used the methods from
+\citet{knott2000multitrait} to dissect QTL hotspots in a F$_2$
+population.
+
+
+
+
+Multiparental populations, such
+as the Diversity Outbred (DO)mouse population \citep{churchill2012diversity}, enable high-precision
+mapping of complex traits \citep{de2014genetics}. The DO
+mouse population began with progenitors of the Collaborative
+Cross (CC) mice \citep{churchill2004collaborative}
+Each DO mouse is a highly heterozygous genetic mosaic
+of alleles from the eight CC founder lines. Random
+matings among non-siblings have maintained the DO
+population for more than 23 generations \citep{chesler2016diversity}.
+
+Several limitations of previous pleiotropy vs.\ separate QTL tests
+prevent their direct application in multiparental populations. First,
+multiparental populations can have complex patterns of relatedness
+among subjects, and failure to account for these patterns of
+relatedness may lead to spurious results \citep{yang2014advantages}.
+Second, previous tests allowed for only two founder lines
+\citep{jiang1995multiple}. Finally, \citet{jiang1995multiple} assumed
+that the null distribution of the test statistic follows a chi-square
+distribution.
+
+We developed a pleiotropy vs.\ separate QTL test for two traits in
+multiparental populations. Our test builds on research that
+\citet{jiang1995multiple}, \citet{knott2000multitrait},
+\citet{tian2016dissection}, and \citet{zhou2014efficient} initiated.
+Our innovations include the accommodation of $k$ founder alleles per
+locus (compared to the traditional two founder alleles per locus) and
+the incorporation of multivariate polygenic random effects to account
+for relatedness. Furthermore, we implemented a parametric bootstrap to
+calibrate test statistic values \citep{efron1979,tian2016dissection}.
+
+Below, we describe our likelihood ratio test for pleiotropy vs.\
+separate QTL. In simulation studies, we find that it is slightly
+conservative, and that it has power to detect two separate loci when
+the univariate LOD peaks are strong. We further illustrate our
+approach with an application to data on a pair of behavior traits in
+a population of 261 DO mice \citep{logan2013high,recla2014precise}.
+We find modest evidence for distinct QTL in a 2.5-cM region on mouse
+Chromosome 8.
+
+
+\section{Methods}
+\label{sec:materials:methods}
+
+Our strategy involves first identifying two traits that map to a common
+genomic region. We then perform a two-dimensional, two-QTL scan over
+the genomic region, with each trait affected by one QTL of varying
+position. We identify the QTL position that maximizes the likelihood
+under pleiotropy (that is, along the diagonal where the two QTL are at
+a common location), and the ordered pair of positions that maximizes
+the likelihood under the model where the two QTL are allowed to be
+distinct. The logarithm of the ratio of the two likelihoods is our
+test statistic. We calibrate this test statistic with a parametric
+bootstrap.
+
+\subsection{Data structures}
+
+The data consist of three objects. The first is an $n$ by $k$ by $m$
+array of allele probabilities for $n$ subjects with $k$ alleles and
+$m$ marker positions on a single chromosome [derived from the observed
+SNP genotype data by a hidden Markov model; see
+\citet{broman2019rqtl2}]. The second object is an $n$ by 2 matrix of
+phenotype values. Each column is a phenotype and each row is a
+subject. The third object is an $n$ by $c$ matrix of covariates, where
+each row is a subject and each column is a covariate.
+
+One additional object is the genotype-derived kinship matrix, which is
+used in the linear mixed model to account for population structure. We
+are focusing on a defined genomic interval, and we prefer to use a
+kinship matrix derived by the ``leave one chromosome out'' (LOCO)
+method \citep{yang2014advantages}, in which the kinship matrix is
+derived from the genotypes for all chromosomes except the chromosome
+under test.
+
+
+
+
+\subsection{Statistical Models}
+
+Focusing on a pair of traits and a particular genomic region of
+interest, the next step is a two-dimensional, two-QTL
+scan \citep{jiang1995multiple}. We consider two QTL with each
+affecting a different trait, and consider all possible pairs of
+locations for the two QTL. For each pair of positions, we fit
+the multivariate linear mixed effects model defined in Equation
+\ref{eqn:model1}. Note that we have
+assumed an additive genetic model throughout our analyses, but
+extensions to design matrices that include dominance are
+straightforward.
+
+
+\begin{equation}
+vec(Y) = X vec(B) + vec(G) + vec(E)
+\label{eqn:model1}
+\end{equation}
+where $Y$ is the $n$ by $2$ matrix of phenotypes values;
+$X$ is a $2n$ by $2(k + c)$
+matrix that contains the $k$ allele probabilities for the two QTL
+positions and the $c$
+covariates in diagonal blocks; $B$ is a $(k + c)$ by $2$ matrix of
+allele effects and covariate effects; $G$ is a $n$ by $2$ matrix of
+random effects; and $E$ is a $n$ by $2$ matrix of random errors. $n$
+is the number of mice. The `vec' operator stacks columns from a matrix
+into a single vector. For example, a 2 by 2 matrix inputted to `vec'
+results in a vector with length 4. Its first two entries are the
+matrix's first column, while the third and fourth entries are the
+matrix's second column.
+
+
+We also impose distributional assumptions on $G$ and $E$:
+
+\begin{equation}
+G \sim MN_{n x 2}(0, K, V_g)
+\label{eqn:model2}
+\end{equation}
+
+and
+
+\begin{equation}
+E \sim MN_{nx2}(0, I, V_e)
+\label{eqn:model3}
+\end{equation}
+where $MN_{n x 2}(0, V_r, V_c)$ denotes the matrix-variate ($n$ by 2)
+normal distribution with mean being the $n$ by $2$ matrix with all
+zero entries and row covariance $V_r$ and column covariance $V_c$. We
+assume that $G$ and $E$ are independent.
+
+
+\subsection{Parameter inference and log likelihood calculation}
+
+Inference for parameters in multivariate linear mixed effects models
+is notoriously difficult and can be computationally intense
+\citep{meyer1989restricted,meyer1991estimating}. Thus, we estimate
+$V_g$ and $V_e$ under the null hypothesis of no QTL, and then take
+them as fixed and known in our two-dimensional, two-QTL genome scan.
+We use restricted maximum likelihood methods to fit the
+model:
+
+\begin{equation}
+vec(Y) = X_0vec(B) + vec(G) + vec(E)
+\label{model}
+\end{equation}
+where $X_0$ is a $2n$ by $2(c + 1)$ matrix whose first column of each
+diagonal block in $X_0$ has all entries equal to one (for an intercept); the remaining
+columns are the covariates.
+
+We draw on our R implementation \citep{gemma2} of the
+GEMMA algorithm for fitting a multivariate linear mixed effects model
+with expectation-maximization \citep{zhou2014efficient}. We use
+restricted maximum likelihood fits for the variance components $V_g$
+and $V_e$ in subsequent calculations of the generalized least squares
+solution $\hat B$.
+
+\begin{equation}
+    \hat B = (X^T\hat\Sigma^{-1}X)^{-1}X^T\hat\Sigma^{-1}vec(Y)
+\end{equation}
+
+\noindent where
+
+\begin{equation}
+    \hat\Sigma = \hat V_g \otimes K + \hat V_e \otimes I_n
+    \label{cov}
+\end{equation}
+
+\noindent where $\otimes$ denotes the Kronecker product, $K$ is the
+kinship matrix, and $I_n$ is a n by n
+identity matrix. We then calculate the log likelihood for a normal
+distribution with mean $X vec(\hat B)$ and covariance $\hat \Sigma$
+that depends on our estimates of $V_g$ and $V_e$ (Equation \ref{cov}).
+
+\subsection{Pleiotropy vs.\ separate QTL hypothesis testing framework}
+
+Our test applies to two traits considered simultaneously. Below,
+$\lambda_1$ and $\lambda_2$ denote putative locus positions for traits
+one and two. We quantitatively state the competing hypotheses for our
+test as:
+
+\begin{eqnarray}
+H_0: \lambda_1 = \lambda_2 \nonumber\\
+H_A: \lambda_1 \neq \lambda_2
+\label{eqn:hypotheses}
+\end{eqnarray}
+
+\noindent Our likelihood ratio test statistic is:
+
+\begin{equation}
+\text{LOD} = \log_{10} \left[ \frac{\max_{\lambda_1, \lambda_2} L(B, \Sigma, \lambda_1, \lambda_2)}{
+    \max_\lambda L(B, \Sigma, \lambda, \lambda)} \right]
+\label{eqn:test-statistic}
+\end{equation}
+where $L$ is the likelihood for fixed QTL positions,
+maximized over all other parameters.
+
+\subsection{Visualizing profile LOD traces}
+
+The output of the above analysis is a two-dimensional log$_{10}$ likelihood
+surface. To visualize these results, we followed an innovation of \citet{zeng2000genetic} and
+\citet{tian2016dissection}, and plot three traces: the results along the
+diagonal (corresponding to the null hypothesis of pleiotropy), and
+then the profiles derived by fixing one QTL's position
+and maximizing over the other QTL's position.
+
+We define the LOD score for our test:
+
+\begin{equation}
+\text{LOD}(\lambda_1, \lambda_2) = ll_{10}(\lambda_1, \lambda_2) - \max ll_{10}(\lambda, \lambda)
+\label{eq:lodpvl}
+\end{equation}
+where $ll_{10}$ denotes log$_{10}$ likelihood.
+
+We follow \citet{zeng2000genetic} and \citet{tian2016dissection} in
+defining profile LOD by the equation
+
+\begin{equation}
+\text{profile LOD}_1(\lambda_1) = \max_{\lambda_2}\text{LOD}(\lambda_1, \lambda_2)
+\label{eq:profilelod}
+\end{equation}
+We define profile LOD$_2(\lambda_2)$ analogously.
+The maximum value for the profile LOD$_1$
+profile LOD$_2$ traces are the same and are non-negative, and give the
+overall LOD test statistic.
+
+We construct the pleiotropy trace by calculating the log-likelihoods
+for the pleiotropic models at every position.
+
+\begin{equation}
+LOD_{p}(\lambda) = ll_{10}(\lambda, \lambda) - \max ll_{10}(\lambda, \lambda)
+\label{eq:lodp}
+\end{equation}
+By definition, the maximum value for this pleiotropy trace
+is zero.
+
+
+
+
+
+
+\subsection{Bootstrap for test statistic calibration}
+
+We use a parametric bootstrap to calibrate our test statistic
+\citep{efron1979}. While \citet{jiang1995multiple} used quantiles of a
+chi-squared distribution to determine p-values, this does not account
+for the two-dimensional search over QTL positions.
+We follow the approach of \citet{tian2016dissection}, and identify
+the maximum likelihood estimate of the QTL position under the null
+hypothesis of pleiotropy.
+We then use the inferred model parameters under that model and with
+the QTL at that position to simulate bootstrap data sets according to
+the model in equations \ref{eqn:model1}--\ref{eqn:model3}.
+For each of $b$ bootstrap data sets, we
+perform a two-dimensional QTL scan (over the genomic region of
+interest) and derive the test
+statistic value. We treat these $b$ test statistics as the
+empirical null distribution, and calculate a p-value as the
+proportion of the $b$ bootstrap test statistics that equal or exceed
+the observed one, with the original data,
+$p = \# \{ i:\text{LOD}^*_i \geq \text{LOD}\} / b$
+where $\text{LOD}_i^*$ denotes the LOD score for the $i$th bootstrap
+replicate and LOD is the observed test statistic.
+
+
+
+\subsection{Data \& Software Availability}
+
+Our methods have been implemented in an R package, \texttt{qtl2pleio},
+available at GitHub:
+
+\href{https://github.com/fboehm/qtl2pleio}{https://github.com/fboehm/qtl2pleio}
+
+\noindent Custom R code for our analyses and simulations are at GitHub:
+
+\href{https://github.com/fboehm/qtl2pleio-manuscript}{https://github.com/fboehm/qt2pleio-manuscript}
+
+\noindent The data from \citet{recla2014precise} and
+\citet{logan2013high} are available at the Mouse Phenome Database:
+
+\href{https://phenome.jax.org/projects/Chesler4}{https://phenome.jax.org/projects/Chesler4} and \href{https://phenome.jax.org/projects/Recla1}{https://phenome.jax.org/projects/Recla1}.
+
+\noindent They are also available in R/qtl2 format at
+\href{https://github.com/rqtl/qtl2data}{https://github.com/rqtl/qtl2data}.
+
+
+
+
+\section{Simulation studies}
+
+We performed two types of simulation studies, one for type I error
+rate assessment and one to characterize the power to detect separate
+QTL. To simulate traits, we specified $X$, $B$, $V_g$, $K$, and $V_e$
+matrices (Equations \ref{eqn:model1}--\ref{eqn:model3}). For both we
+used the allele probabilities from a single genomic region derived
+empirically from data for a set of 479 Diversity Outbred mice from
+\citet{keller2018genetic}.
+
+\subsection{Type I error rate analysis}
+
+To quantify type I error rate ({\em i.e.}, false positive rate), we
+simulated 400 pairs of traits for each of eight sets of parameter
+inputs (Table~\ref{table-typeI}). We used a $2^3$ factorial
+experimental design with three factors: allele effects difference,
+allele effects partitioning, and genetic correlation, \textit{i.e.},
+the off-diagonal entry in the 2 by 2 matrix $V_g$.
+
+\begin{table}
+\begin{center}
+  \caption{Type I error rates for all runs in our $2^3$
+    experimental design. We set (marginal) genetic variances
+    (\emph{i.e.}, diagonal elements of $V_g$) to 1 in all runs. $V_e$
+    was set to the 2 by 2 identity matrix in all runs. We used allele
+    probabilities at a single genetic marker to simulate traits for
+    all eight sets of parameter inputs. In the
+    column ``Allele effects partitioning'', ``ABCD:EFGH'' means that lines
+    A--D carry one QTL allele while lines E--H carry the other allele.
+    ``F:ABCDEGH'' means the QTL has a private allele in strain F.}
+  \label{table-typeI}
+
+  \bigskip
+
+\small
+  \begin{tabular}{ c | c | c | c | c}
+    \hline
+    Run & $\Delta$(Allele effects) & Allele effects partitioning & Genetic correlation & Type I error rate \\ \hline
+    1 & 6 & ABCD:EFGH & 0 & 0.032\\
+    2 & 6 & ABCD:EFGH & 0.6 & 0.035\\
+    3 & 6 & F:ABCDEGH & 0 & 0.040\\
+    4 & 6 & F:ABCDEGH & 0.6 & 0.045\\
+    5 & 12 & ABCD:EFGH & 0 & 0.038\\
+    6 & 12 & ABCD:EFGH & 0.6 & 0.042\\
+    7 & 12 & F:ABCDEGH & 0 & 0.025\\
+    8 & 12 & F:ABCDEGH & 0.6 & 0.025\\
+    \hline
+  \end{tabular}
+\end{center}
+  \end{table}
+
+We chose two strong allele effects difference values, 6 and 12. These
+ensured that the univariate phenotypes mapped with high LOD scores to
+the region of interest. For the allele partitioning factor, we used
+either equally frequent QTL alleles, or a private allele in the CAST
+strain (F). For the residual genetic correlation (the off-diagonal
+entry in $V_g$), we considered the values 0 and 0.6. The marginal
+genetic variances (\textit{i.e.}, the diagonal entries in $V_g$) for
+each trait were always set to one.
+
+We performed 400 simulation replicates per set of parameter inputs,
+and each used $b = 400$ bootstrap samples. For each bootstrap sample, we calculated the
+test statistic (Equation \ref{eqn:test-statistic}). We then compared
+the test statistic from the simulated trait against the empirical
+distribution of its 400 bootstrap test statistics. When the simulated
+trait's test statistic exceeded the 0.95 quantile of the empirical
+distribution of bootstrap test statistics, we rejected the null
+hypothesis. We observed that the test is slightly conservative over
+our range of parameter selections (Table~\ref{table-typeI}), with
+estimated type I error rates $<$ 0.05.
+
+
+\subsection{Power analysis}
+
+We also investigated the power to detect the presence of two
+distinct QTL. We used a 2 $\times$ 2 $\times$ 5 experimental design, where our
+three factors were allele effects difference, allele effects
+partitioning, and inter-locus distance. The two levels of allele
+effects difference were 1 and 2. The two levels of allele effects
+partitioning were as in the type I error rate studies, ABCD:EFGH and
+F:ABCDEGH (Table~\ref{table-letters}). The five levels of interlocus
+distance were 0, 0.5, 1, 2, and 3 cM. $V_g$ and $V_e$ were both set to
+the 2 by 2 identity matrix in all power study simulations.
+
+We simulated 400 pairs of traits per set of parameter inputs. For
+each simulation replicate, we calculated the likelihood ratio test
+statistic. We then applied our parametric bootstrap to calibrate the
+test statistics. For each simulation replicate, we used $b = 400$ bootstrap
+samples. Because the bootstrap test statistics within a single set of
+parameter inputs followed approximately the same distribution, we
+pooled the $400 * 400 = 160,000$ bootstrap samples per set of
+parameter inputs and compared each test statistic to the empirical
+distribution derived from the 160,000 bootstrap samples. However, for
+parameter inputs with interlocus distance equal to zero, we didn't
+pool the 160,000 bootstrap samples; instead, we proceeded by
+calculating power (\textit{i.e.}, type I error rate, in this case), as we did in the
+type I error rate study above.
+
+\begin{figure}
+\includegraphics[width = \textwidth]{../qtl2pleio-manuscript/R/power-curves.eps}
+\caption{Pleiotropy vs.\ separate QTL power curves for each of four
+  sets of parameter settings. Factors that differ among the four
+  curves are allele effects difference and allele partitioning. Red denotes high allele effects difference, while black is the low allele effects difference. Solid line denotes the even allele partitioning (ABCD:EFGH), while dashed line denotes the uneven allele partitioning (F:ABCDEGH).}
+\label{fig:power}
+\end{figure}
+
+We present our power study results in Figure~\ref{fig:power}.
+Power increases as interlocus distance increases. The top two curves
+correspond to the case where the QTL effects are largest. For each value
+for the QTL effect, power is greater when the QTL alleles are equally
+frequent, and smaller when a QTL allele is private to one strain. One
+can have high power to detect that the two traits have distinct QTL
+when they are separated by $>$ 1~cM and when the QTL have large effect.
+
+
+\section{Application}
+\label{sec:app}
+
+To illustrate our methods, we applied our test to data from
+\citet{logan2013high} and \citet{recla2014precise}, on 261 DO mice
+measured for a set of behavioral phenotypes.
+\citet{recla2014precise} identified \textit{Hydin} as the gene that
+underlies a QTL on Chromosome 8 at 57 cM for the ``hot plate latency''
+phenotype (a measure of pain tolerance). The phenotype ``percent time in light''
+in a light-dark box (a measure of anxiety) was
+measured on the same set of mice \citep{logan2013high} and also shows a QTL near
+this location, which led us to ask whether the same locus affects both traits.
+The two traits show a correlation of $-0.15$ (Figure~\ref{fig:scatter}).
+
+QTL analysis with the LOCO method, and using sex as an additive
+covariate, showed multiple suggestive QTL for each
+phenotype (Figure~\ref{fig:genomewide10-22}; Table~\ref{table-peaks}). For our investigation of
+pleiotropy, we focused on the interval 53--64~cM on Chromosome 8.
+The univariate QTL results for this region are shown in
+Figure~\ref{fig:chr8-lod}.
+
+\begin{figure}
+\includegraphics[width = \textwidth]{../qtl2pleio-manuscript/Rmd/chr8-lods.eps}
+\caption{Chromosome 8 univariate LOD scores for percent time in light
+  and hot plate latency reveal broad, overlapping peaks between 53 cM
+  and 64 cM. The peak for percent time in light spans the region from
+  approximately 53 cM to 60 cM, with a maximum near 55 cM. The peak
+  for hot plate latency begins near 56 cM and ends about 64 cM.}
+\label{fig:chr8-lod}
+\end{figure}
+
+
+The estimated QTL allele effects for the two traits are quite
+different (Figure~\ref{fig:chr8-effects}).
+With the QTL placed at 55~cM, for ``percent time in light'', the WSB and PWK alleles are associated
+with large phenotypes and NOD with low phenotypes.
+For ``hot plate latency'', on the other hand,
+CAST and NZO show low phenotypes and NOD and PWK are near the center.
+
+\begin{figure}
+\includegraphics[width = \textwidth]{../qtl2pleio-manuscript/Rmd/coefs.eps}
+\caption{Chromosome 8 univariate LOD scores for percent time in light
+  and hot plate latency reveal broad, overlapping peaks between 53 cM
+  and 64 cM. The peak for percent time in light spans the region from
+  approximately 53 cM to 60 cM, with a maximum near 55 cM. The peak
+  for hot plate latency begins near 56 cM and ends about 64 cM.}
+\label{fig:chr8-effects}
+\end{figure}
+
+In applying our test for pleiotropy,  we performed a two-dimensional, two-QTL scan for the pair of
+phenotypes. With these results, we created a profile LOD plot
+(Figure~\ref{fig:profiles}). The profile LOD for ``percent
+time in light'' (in brown) peaks near 55 cM, as was seen in the univariate
+analysis.  The profile LOD for ``hot plate latency'' (in blue) peaks near 57 cM,
+also similar to the univariate analysis.
+The pleiotropy trace (in gray) peaks near 55 cM.
+
+\begin{figure}
+\includegraphics[width = \textwidth]{../qtl2pleio-manuscript/Rmd/profile.eps}
+\caption{Profile LOD curves for the pleiotropy vs.\ separate QTL
+  hypothesis test for ``percent time in light'' and ``hot plate latency''.
+  Gray trace denotes pleiotropy LOD values. Triangles denote the
+  univariate LOD maxima, while diamonds denote the profile LOD maxima.
+  For ``percent time in light'', the brown triangle obscures the
+  smaller brown diamond. Likelihood ratio test statistic value
+  corresponds to the height of the blue and brown traces at their
+  maxima.}
+\label{fig:profiles}
+\end{figure}
+
+The likelihood ratio test statistic for the test of pleiotropy was
+1.2. Based on a parametric bootstrap with 1,000 bootstrap replicates,
+the estimated p-value was 0.11, indicating weak
+evidence for distinct QTL for the two traits.
+
+
+
+
+
+
+
+
+
+\section{Discussion}
+
+We developed a test of pleiotropy vs.\ separate QTL for multiparental
+populations, extending the work of \citet{jiang1995multiple} for
+multiple alleles and with a linear mixed model to account for
+population structure \citep{kang2010variance, yang2014advantages}. Our simulation
+studies indicate that the test has power to detect presence of
+separate loci, especially when univariate trait associations are
+strong (Figure~\ref{fig:power}). Type I error rates indicate that our
+test is slightly conservative (Table~\ref{table-typeI}).
+
+In the application of our method to two behavioral phenotypes in a
+study of 261 Diversity Outbred mice
+\citep{recla2014precise,logan2013high}, we obtained weak evidence
+(p=0.11) for the presence of two distinct QTL, with one QTL (which
+contained the \textit{Hydin} gene) affecting only ``hot plate latency'' and a
+second QTL affecting ``percent time in light'' (Figure~\ref{fig:profiles}).
+
+Founder allele effects plots provide further evidence for the presence
+of two distinct loci. As \citet{macdonald2007joint} and
+\citet{king2012genetic} have demonstrated in their analyses of multiparental
+\emph{Drosophila} populations, a biallelic pleiotropic QTL would result in
+allele effects plots that have similar patterns. While we don't know
+that ``percent time in light'' and ``hot plate latency'' arise from
+biallelic QTL, the dramatic differences that we observe in allele
+effects patterns further support the argument for two distinct loci.
+
+We have implemented our methods in an R package
+\texttt{qtl2pleio}, but analyses can be computationally intensive and
+time consuming. \texttt{qtl2pleio} is written mostly in R, and so we
+could likely obtain improved computational speed by porting parts of
+the calculations to a compiled language such as C or C++.
+To accelerate our multi-dimensional QTL
+scans, we have integrated C++ code into \texttt{qtl2pleio},
+using the Rcpp package \citep{eddelbuettel2011rcpp}.
+
+Another computational bottleneck is the estimation of the variance
+components $V_g$ and $V_e$. To accelerate this procedure, 
+especially for the joint analysis of more than two traits, we will
+consider other strategies for variance component estimation, including
+that described by \citet{hannah2018limmbo}. \citet{hannah2018limmbo}, in joint analysis of dozens of traits, implement a bootstrap
+strategy to estimate variance components for lower-dimensional
+phenotypes before combining bootstrap estimates
+into valid covariance matrices for the full multivariate phenotype. 
+Such an approach may ease some of the computational burdens that we encountered.
+
+
+We view tests of pleiotropy as complementary to 
+mediation tests and related methods that have become popular for
+inferring biomolecular causal relationships
+\citep{chick2016defining,schadt2005integrative,baron1986moderator}. A
+mediation test proceeds by including a putative mediator as a
+covariate in the regression analysis of phenotype and QTL genotype;
+a substantial reduction in the association between
+genotype and phenotype corresponds to evidence of mediation. 
+
+
+Mediation analyses and our pleiotropy test ask distinct, but related, questions. Mediation analysis seeks to establish causal relationships among traits, including molecular traits, or dependent biological and behavioral processes. Pleiotropy tests examine whether two traits share a single source of genetic variation, which may act in parallel or in a causal network. Pleiotropy is required for causal relations among traits. In many cases, the pleiotropy hypothesis is the only reasonable one. 
+
+\citet{schadt2005integrative} argued that
+both pleiotropy tests and causal inference methods may contribute to gene network
+reconstruction. They developed a model selection strategy, based on
+the Akaike Information Criterion \citep{akaike1974new}, to determine which
+causal model is most compatible with the observed data.
+\citet{schadt2005integrative} extended the methods of
+\citet{jiang1995multiple} to consider more complicated alternative
+hypotheses, such as the possibility of two QTL, one of which
+associates with both traits, and one of which associates with only one
+trait. As envisioned by \citet{schadt2005integrative}, we foresee
+complementary roles emerging for our pleiotropy test
+and mediation tests in the dissection of complex trait genetic
+architecture.
+
+CAPE (Combinatorial Analysis of Pleiotropy and Epistasis) is a strategy for identifying higher-order relationships among traits and marker genotypes \citep{tyler2013cape}. 
+\citet{tyler2017epistatic} used CAPE to identify epistatic gene networks in Diversity Outbred mice. \citet{tyler2016weak} found evidence for weak epistasis in a large intercross population. 
+
+CAPE uses linear models that are distinct from those in our pleiotropy test. 
+A CAPE starts with founder allele dosages at all markers and a collection of two or more traits \citep{tyler2017epistatic}. 
+After eigendecomposition to get two or more eigentraits, univariate QTL scans are performed and founder allele effects are estimated at all markers (or a subset of all markers). 
+Next, one identifies markers with sufficiently strong effects of at least one founder allele. 
+Resulting (eigentrait, marker, founder allele) triples are then subjected to a second model fitting. 
+This second round of modeling involves two (eigentrait, marker, founder allele) triples that share an eigentrait. 
+The shared (univariate) eigentrait is modeled as a linear function of the two founder allele dosages and their interaction. 
+
+In comparing CAPE and our pleiotropy test, it's important to recognize that the two methods ask different questions. 
+CAPE enables assessment of interactions among specific founder allele dosages at two (possibly identical) markers while examining one eigentrait at a time. 
+Our pleiotropy test, on the other hand, jointly models two phenotypes and quantifies the evidence against the pleiotropy hypothesis by performing a two-dimensional QTL scan over a genomic region. 
+One limitation of CAPE is its inability to account for population structure. Incorporation of a polygenic random effect into CAPE's linear models may improve its performance in multiparental populations. 
+CAPE's methods also highlight a current limitation of our pleiotropy test. 
+While our multivariate linear models accommodate interactions between founder allele dosages at two markers, we haven't yet incorporated this functionality into our software. 
+It is one direction for future research.
+
+
+
+Technological advances
+in mass spectrometry and RNA sequencing have enabled the acquisition of
+high-dimensional biomolecular phenotypes
+\citep{ozsolak2011rna,han2012multi}. Multiparental populations in
+\textit{Arabidopsis}, maize, wheat, oil palm, rice,
+\textit{Drosophila}, yeast, and other organisms enable high-precision
+QTL mapping \citep{yu2008genetic, tisne2017identification,
+  stanley2017genetic, raghavan2017approaches, mackay2012drosophila,
+  kover2009multiparent, cubillos2013high}. The need to analyze
+high-dimensional phenotypes in multiparental populations compels the
+scientific community to develop tools to study genotype-phenotype
+relationships and complex trait architecture. Our test, and its future
+extensions, will contribute to these ongoing efforts.
+
+
+
+
+\subsection*{Acknowledgments}
+
+The authors thank Lindsay Traeger, Julia Kemis, and Rene Welch for
+valuable suggestions to improve the manuscript. This work was
+supported in part by National Institutes of Health grant R01GM070683
+(to K.W.B.). The research made use of compute resources and assistance
+of the UW-Madison Center For High Throughput Computing (CHTC) in the
+Department of Computer Sciences at UW-Madison, which is supported by
+the Advanced Computing Initiative, the Wisconsin Alumni Research
+Foundation, the Wisconsin Institutes for Discovery, and the National
+Science Foundation, and is an active member of the Open Science Grid,
+which is supported by the National Science Foundation and the U.S.
+Department of Energy's Office of Science.
+
+
+
+
+
+%\bibliography{research,qtl2pleio-manuscript}
+
+\newpage
+\appendix
+
+% supplemental tables
+\renewcommand{\thetable}{\textbf{S\arabic{table}}}
+\setcounter{table}{0}
+
+
+\begin{table}
+  \caption{Eight founder lines and their one-letter abbreviations.}
+  \label{table-letters}
+\begin{center}
+\small
+  \begin{tabular}{ c | c }
+    \hline
+    Founder allele & One-letter abbreviation \\ \hline
+    A/J & A \\
+    C57BL/6J & B \\
+    129S1/SvImJ & C \\
+    NOD/ShiLtJ & D\\
+    NZO/H1LTJ & E\\
+    Cast/EiJ & F\\
+    PWK/PhJ & G\\
+    WSB/EiJ & H\\
+    \hline
+  \end{tabular}
+
+\end{center}
+  \end{table}
+
+\clearpage
+
+  % latex table generated in R 3.5.1 by xtable 1.8-3 package
+% Tue Nov 20 10:28:47 2018
+\begin{table}
+\caption{Both ``hot plate latency'' and ``percent time in light''
+  demonstrate multiple QTL peaks with LOD scores above 5.}
+  \label{table-peaks}
+\begin{center}
+\begin{tabular}{l|lrr}
+  \hline
+phenotype & chr & pos & LOD score \\
+   \hline
+percent time in light & 8 & 55.28 & 5.27 \\
+ hot plate latency & 8 & 57.77 & 6.22 \\
+ percent time in light & 9 & 36.70 & 5.42 \\
+ hot plate latency & 9 & 46.85 & 5.22 \\
+ percent time in light & 11 & 63.39 & 6.46 \\
+ hot plate latency & 12 & 43.52 & 5.13 \\
+ percent time in light & 15 & 15.24 & 5.67 \\
+ hot plate latency & 19 & 47.80 & 5.48 \\
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+
+
+
+
+
+\clearpage
+
+
+% supplemental figures
+\renewcommand{\thefigure}{\textbf{S\arabic{figure}}}
+\setcounter{figure}{0}
+
+\begin{figure}
+\includegraphics[width = \textwidth]{../qtl2pleio-manuscript/Rmd/scatter.eps}
+\caption{Scatter plot of ``hot plate latency'' against ``percent time in
+  light'', after applying logarithm transformations and winsorizing
+  both traits.}
+\label{fig:scatter}
+\end{figure}
+
+
+\begin{figure}
+\includegraphics{../qtl2pleio-manuscript/Rmd/genomewide_lods_10-22.eps}
+\caption{Genome-wide QTL scan for percent time in light reveals
+  multiple QTL, including one on Chromosome 8.}
+\label{fig:genomewide10-22}
+\end{figure}
+
+
+
+%%% Chapter 2 end
+
 
 %%%%% 3A start
-\section{Expression hotspot dissection}
-\subsection{Introduction}
+\chapter{Expression hotspot dissection}
+\section{Introduction}
 
-A central goal of systems genetics studies is to identify causal relationships between genetic variants and quantitative traits. Recent work by \citet{chick2016defining} has popularized linear regression-based methods for causal inference in systems genetics. The great successes of these methods in identifying causal relationships among genetic variants and quantitative biomolecule concentrations motivates our goal of clarifying a role for our test of pleiotropy vs. separate QTL in systems genetics studies. We argue that our test of pleiotropy vs. separate QTL complements mediation analysis in two ways. First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. Second, when regression-based mediation analysis fails to identify a mediator, our test of pleiotropy vs. separate QTL still provides information on the number of QTL. The number of separate QTL may provide clues to aid biological understanding.
-
-We begin below with an overview of a causal mediation analysis framework that \citet{vanderweele2015explanation} summarizes. We then discuss applications of parts of this framework to the systems genetics context. We describe in our methods section the study design and statistical analyses in which we use mediation analysis and our pleiotropy vs. separate QTL test to dissect an expression trait hotspot with data from 378 Diversity Outbred mice.
+A central goal of systems genetics studies is to identify causal relationships between biomolecules. Recent work by \citet{chick2016defining} has popularized linear regression-based methods for causal inference in genetics. The great success of these methods in identifying causal relationships motivates our goal of clarifying a role for our pleiotropy test. We argue that our pleiotropy test complements mediation analysis in two ways. First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. Second, when regression-based mediation analysis fails to identify a mediator, our test of pleiotropy vs. separate QTL still provides information on the number of QTL, which may provide clues to aid biological understanding.
 
 
+We begin by discussing what it means for one trait to mediate a relationship between a DNA variant and another trait. To clarify our discussion, we refer to an example from \citet{chick2016defining}. \citet{chick2016defining}, in studying livers of 192 Diversity Outbred mice, found evidence that \emph{Dhtkd1} transcript levels associated with a local marker on Chromosome 2. They also found that the same marker affected DHTKD1 protein concentrations. As anticipated, mediation analysis, in which the DHTKD1 protein concentrations are regressed on founder allele dosages (at the Chromosome 2 marker) demonstrated that \emph{Dhtkd1} transcript levels act as a mediator between DHTKD1 protein concentrations and the founder allele dosages. In fact, the extent of the reduction in association strength indicates that the primary pathway by which the genetic marker affects DHTKD1 protein concentrations is through \emph{Dhtkd1} transcript levels.
 
+\citet{crick1958protein} articulated a pathway for transmission of biological information that is now known as the central dogma of molecular biology. In it, he argued that information encoded in DNA sequence is transmitted via transcription to RNA molecules, which, in turn, transfer the information to proteins via translation. This sequence of information transfer, from DNA to RNA to protein, provides a natural setting by which to examine mediation analysis. If a DNA variant affects protein concentrations only through its RNA transcripts, then conditioning on RNA transcript levels would greatly reduce the strength of association between DNA variant and protein concentration. In the example above, a DNA variant in the \emph{Dhtkd1} gene affects its transcript levels, which then affect DHTKD1 protein levels.
 
+Following \citet{keller2018genetic}, we generalize this setting to the case where a DNA variant affects a local transcript level, which then affects a nonlocal transcript level. We term a transcript ``local'' to a marker when its DNA is near that of the marker. Typically, we use a threshold of no more than 2 Mb. A nonlocal transcript, then, is either one that arises from a gene on another chromosome or from a distant gene on the same chromosome as the marker.
 
+To determine whether a local transcript level mediates the relationship between a nonlocal transcript level and a DNA variant, we perform a series of regression analyses, which we detail below (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}). In brief, we regress the nonlocal transcript levels on founder allele dosages at the DNA variant, with and without conditioning on the candidate mediator (the local transcript levels). If the LOD score diminishes sufficiently upon conditioning on a candidate mediator, then we declare the candidate mediator a mediator.
 
-Specifically, one may formulate a mediation analysis by identifying a marker (and its founder allele probabilities) as the "driver" of a causal diagram. In recalling the central dogma of molecular biology, we want to consider a marker that affects transcript levels of a nearby gene \citep{crick1958protein}. For example, if a gene is located on Chromosome 2 and centered at 100 Mb, then we would want to consider markers that are also on Chromosome 2 and near 100 Mb, perhaps between 98 Mb and 102 Mb. If a second expression trait - typically transcripts from a gene that is not “local” - maps near the marker that we’ve identified, then we can ask whether trait1 “mediates” the relationship between trait2 and the marker.
+The rationale behind this strategy is as follows. If the DNA variant affects the nonlocal transcript levels solely by way of local transcript levels, then conditioning on the local transcript levels would nullify the relationship between DNA variant and the nonlocal transcript levels. At the other extreme, if the DNA variant affects nonlocal transcript levels solely through mechanisms that don't involve the local transcript levels, then conditioning on local transcript levels would not affect the association between the DNA variant and nonlocal transcript levels.
 
-To determine whether trait1 mediates the relationship between trait2 and the marker genotypes, \emph{i.e.}, the driver, we perform a series of regression analyses, which we detail below (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}). In brief, we perform regression-based QTL mapping between trait2 and the marker, with and without conditioning on the candidate mediator. If the LOD score diminishes sufficiently upon conditioning on a candidate mediator, then we declare the candidate mediator a mediator.
-
-The rationale behind this strategy is as follows. If the driver affects trait2 solely by way of trait1, then conditioning on trait1 would nullify the relationship between driver and trait2. At the other extreme, if the driver affects trait2 solely through mechanisms that don't involve trait1, then conditioning on trait1 values would not affect the association between the driver and trait2.
-
-One role for our test of pleiotropy vs separate QTL is to potentially limit the set of candidate mediators that require study. For example, if trait1 and trait2 map to separate QTL, then it would be unlikely that trait1 affects trait2 (or vice versa). On the other hand, if we believe that a single pleiotropic locus affects both trait1 and trait2, then a mediation analysis is particularly useful in efforts to clarify the relationship between trait1 and trait2. In this setting, where a single pleiotropic locus affects both trait1 and trait2, and we seek to identify whether the trait1 or trait2 is the intermediate, we would perform two mediation analyses, one with trait1 as candidate intermediate between driver and trait2, and a second analysis with trait2 as a candidate intermediate between driver and trait1.
+One role for our pleiotropy test is to potentially limit the set of candidate mediators that require study. For example, if local transcript levels and nonlocal transcript levels map to separate QTL, then it would be unlikely that local transcript levels affect the nonlocal transcript levels (or vice versa). On the other hand, if we believe that a single pleiotropic locus affects both local transcript levels and nonlocal transcript levels, then a mediation analysis is particularly useful in efforts to clarify the relationship between the local transcript levels and nonlocal transcript levels. In this setting, where a single pleiotropic locus affects both local transcipt levels and nonlocal transcript levels, and we seek to identify the intermediate, we would perform two mediation analyses, one with local transcript levels as candidate intermediate between DNA variant and nonlocal transcript levels, and a second analysis with nonlocal transcript levels as a candidate intermediate between DNA variant and local transcript levels.
 
 %\subsection{Regression-based mediation methods}
 
-Frequently one uses regression-based methods to identify causal intermediates from among multiple measured variables \citep{baron1986moderator}. For example, \citet{chick2016defining} measured 16,921 gene transcript levels and 6,756 protein concentrations in liver tissue from 192 mice. After identifying QTL for gene transcript levels and protein concentrations, they performed regression-based mediation analyses. For each candidate mediator, they fitted four linear models:
+%Frequently one uses regression-based methods to identify causal intermediates from among multiple measured variables \citep{baron1986moderator}. For example, \citet{chick2016defining} measured 16,921 gene transcript levels and 6,756 protein concentrations in liver tissue from 192 mice. After identifying QTL for gene transcript levels and protein concentrations, they performed regression-based mediation analyses. For each candidate mediator, they fitted four linear models:
 
 \begin{equ}[!ht]
 \begin{equation}
@@ -162,7 +896,6 @@ For each mediation analysis, we consider the LOD difference proportion, which we
 
 In other words, we consider what proportion of the association strength, on the LOD scale, is diminished by conditioning on a putative mediator. This statistic differs from the LOD difference statistic in that it scales the mediation LOD difference by LOD$_1$ value. We do this in efforts to accommodate the diversity of LOD peak heights in our data. While a value of 5 for LOD difference may be important for a trait with a LOD$_1$ of 12, another trait with a LOD$_1$ of 120 that has a LOD$_2$ of 115, suggests that nearly all of the signal remains transmitted when conditioning on the putative mediator.
 
-To perform a mediation analysis, we must specify three components of a possible directed acyclic graph. For our purposes, we always begin with a marker's founder allele dosages. Since we are working in the context of dissecting an expression QTL hotspot, we choose the ``driver'' to be the founder allele dosages at the peak position for a local expression trait. We then choose the terminus of the putative graph, i.e., the ``target'', to be a nonlocal expression trait.
 
 
 
@@ -187,10 +920,10 @@ To claim that the LOD difference statistic reflects a causal relationship, four 
 
 \begin{frameenv}{Four assumptions for causal inference}\label{frame1}
   \begin{enumerate}
-\item No unmeasured confounding of the treatment-outcome relationship
-\item No unmeasured confounding of the mediator-outcome relationship
-\item No unmeasured confounding of the treatment-mediator relationship
-\item No mediator-outcome confounder that is affected by the treatment
+\item No unmeasured confounding of the DNA variant-nonlocal transcript levels relationship
+\item No unmeasured confounding of the local transcript levels-nonlocal transcript levels relationship
+\item No unmeasured confounding of the DNA variant-local transcript levels relationship
+\item No local transcript levels-nonlocal transcript levels confounder that is affected by the DNA variant
 \end{enumerate}
 
 \end{frameenv}
@@ -200,7 +933,9 @@ To claim that the LOD difference statistic reflects a causal relationship, four 
 
 
 
-In the above terminology, ``treatment'' refers to the founder allele dosages, while ``outcome'' is the nonlocal gene expression trait, and ``mediator'' is the local gene expression trait.
+It is often difficult to quantify unmeasured confounders. In studies of Diversity Outbred mice, relatedness and population structure are possible confounders, yet the linear models (Equations~\ref{1,2,3,4}) fail to account for the complex relatedness patterns among Diversity Outbred mice. Scientists have developed a suite of sensitivity analysis tools to characterize possible unmeasured confounders and their possible impact on inferred relationships in mediation analysis. While a discussion of sensitivity analysis is beyond the scope of this thesis, it may be useful in future studies to assess robustness of mediation analysis results in the presence of unmeasured confounders. \citet{vanderweele2015explanation} discusses sensitivity analysis in detail. 
+
+
 
 
 
@@ -208,27 +943,30 @@ In the above terminology, ``treatment'' refers to the founder allele dosages, wh
 
 %\subsection{Declaring mediators}
 
-Multiple research teams have proposed strategies for assessing statistical significance of the "mediation LOD difference" statistic. \citet{chick2016defining} used individual transcript levels as sham mediators and tabulated their LOD difference statistics. They then compared the observed LOD difference statistics for putative mediators to the empirical distribution of LOD difference statistics obtained from the collection of sham mediators. \citet{keller2018genetic}, on the other hand, in their study of pancreatic islet cell biology, declared mediators those local transcripts that diminished the LOD score of nonlocal transcripts by at least 1.5 \citep{keller2018genetic}. While significance threshold determination remains an active area of research, we proceed below by examining all 147 nonlocal transcript levels that \citet{keller2018genetic} identified as mapping to the Chromosome 2 hotspot.
+Multiple research teams have proposed strategies for assessing statistical significance of the ``mediation LOD difference'' statistic. \citet{chick2016defining} used individual transcript levels as sham mediators and tabulated their LOD difference statistics. They then compared the observed LOD difference statistics for putative mediators to the empirical distribution of LOD difference statistics obtained from the collection of sham mediators. \citet{keller2018genetic}, on the other hand, in their study of pancreatic islet cell biology, declared mediators those local transcripts that diminished the LOD score of nonlocal transcripts by at least 1.5 \citep{keller2018genetic}. While significance threshold determination remains an active area of research, we proceed below by examining all 147 nonlocal transcript levels that \citet{keller2018genetic} identified as mapping to the Chromosome 2 hotspot.
 
 
 
-\subsection{Methods}
+\section{Methods}
 
-We examined the potential that the two methods - 1. pleiotropy vs. separate QTL testing and 2. mediation analysis - could play complementary roles in efforts to dissect gene expression trait hotspots. After describing our data, we explain our statistical analyses involving 13 local gene expression traits and 147 nonlocal gene expression traits, all of which map to a 4-Mb hotspot on Chromosome 2.
+We examined the potential that the two methods - 1. pleiotropy vs. separate QTL testing and 2. mediation analysis - could play complementary roles in efforts to dissect gene expression trait hotspots. After describing our data below, we explain our statistical analyses involving 13 local gene expression traits and 147 nonlocal gene expression traits, all of which map to a 4-Mb hotspot on Chromosome 2.
 
 %\subsection{Data description}
 
 We analyzed data from 378 Diversity Outbred mice \citep{keller2018genetic}. \citet{keller2018genetic} genotyped tail biopsies with the GigaMUGA microarray \citep{morgan2015mouse}. They also used RNA sequencing to measure genome-wide pancreatic islet cell gene expression for each mouse at the time of sacrifice \citep{keller2018genetic}. They shared these data, together with inferred founder allele probabilities, on the Data Dryad site (\url{https://datadryad.org/resource/doi:10.5061/dryad.pj105}).
 
-We examined the Chromosome 2 pancreatic islet cell expression trait hotspot that \citet{keller2018genetic} identified. \citet{keller2018genetic} identified 147 nonlocal traits that map to the 4-Mb region centered at 165.5 Mb on Chromosome 2. The 147 nonlocal traits all exceeded the genome-wide LOD significance threshold, 7.18 \citep{keller2018genetic}. With regression-based mediation analyses, they identified expression levels of local gene \emph{Hnf4a} as a mediator of 88 of these 147 nonlocal traits.
+We examined the Chromosome 2 pancreatic islet cell expression trait hotspot that \citet{keller2018genetic} identified. \citet{keller2018genetic} found that 147 nonlocal traits map to the 4-Mb region centered at 165.5 Mb on Chromosome 2. The 147 nonlocal traits all exceeded the genome-wide LOD significance threshold, 7.18 \citep{keller2018genetic}. With regression-based mediation analyses, they identified transcript levels of local gene \emph{Hnf4a} as a mediator of 88 of these 147 nonlocal traits.
 
 Because \citet{keller2018genetic} reported that some nonlocal traits that map to the Chromosome 2 hotspot did not demonstrate evidence of mediation by \emph{Hnf4a} expression levels, we elected to study a collection of local gene expression traits, rather than \emph{Hnf4a} alone. This strategy enabled us to ask whether one of twelve other local traits mediates those nonlocal hotspot traits that are not mediated by \emph{Hnf4a}. Our set of local gene expression traits includes \emph{Hnf4a} and 12 other local genes (Table \ref{tab:annot}). Our 13 local genes are the only genes that met all of the following criteria:
+
+\begin{frameenv}{Local gene inclusion criteria}\label{frame2}
 
 \begin{enumerate}
     \item QTL peak with LOD $>$ 40
     \item QTL peak position within 2 Mb of hotspot center (165.5 Mb)
     \item Gene midpoint within 2 Mb of hotspot center (165.5 Mb)
 \end{enumerate}
+\end{frameenv}
 
 The 147 nonlocal traits that we studied all had LOD peak heights above 7.18 and LOD peak positions within 2 Mb of the center of the hotspot (at 165.5 Mb).
 
@@ -236,25 +974,17 @@ The 147 nonlocal traits that we studied all had LOD peak heights above 7.18 and 
 
 %\subsection{Statistical analyses}
 
-We used both univariate and bivariate QTL scans. In the univariate scans, we identified LOD peaks for each of 160 (147 nonlocal and 13 local) expression traits that mapped to within 2 Mb of the center of the Chromosome 2 expression trait hotspot. 
-
-
-
-%\subsubsection{Univariate QTL scans}
-
-\citet{keller2018genetic} provided univariate QTL mapping results in their Data Dryad file, so we didn't repeat the univariate QTL scans. We briefly summarize their analyses below.
-
-For a given univariate phenotype, \citet{keller2018genetic} fitted a linear mixed effects model (with polygenic random effect) at every marker across the genome. \citet{keller2018genetic} performed calculations with the \texttt{qtl2} R package \citep{Broman2018}.
+We used both univariate and bivariate QTL scans. In the univariate scans, we identified LOD peaks for each of 160 (147 nonlocal and 13 local) expression traits that mapped to within 2 Mb of the center of the Chromosome 2 expression trait hotspot. \citet{keller2018genetic} provided univariate QTL mapping results in their Data Dryad file, so we didn't repeat the univariate QTL scans. For a given univariate phenotype, \citet{keller2018genetic} fitted a linear mixed effects model (with polygenic random effect) at every marker across the genome. \citet{keller2018genetic} performed calculations with the \texttt{qtl2} R package \citep{broman2019rqtl2}.
 
 
 
 %\subsubsection{Bivariate QTL scans}
 
-Our analyses involved 13 local expression traits and 147 nonlocal expression traits. We described above the criteria for choosing these expression traits.
+Our analyses involved 13 local expression traits and 147 nonlocal expression traits. We described above (Frame~\ref{frame2}) the criteria for choosing these expression traits.
 
-We performed a series of two-dimensional QTL scans in which we paired each local gene's transcript levels with each nonlocal gene's transcript levels, for a total of 13 * 147 = 1911 two-dimensional scans. Each scan examined the same set of 180 markers, which spanned the interval from 163.1 Mb to 167.8 Mb and included univariate peaks for all 13 + 147 = 160 expression traits. We performed these analyses with the R package \texttt{qtl2pleio} \citep{qtl2pleio}.
+We performed a series of two-dimensional QTL scans in which we paired each local gene's transcript levels with each nonlocal gene's transcript levels, for a total of 13 * 147 = 1,911 two-dimensional scans. Each scan examined the same set of 180 markers, which spanned the interval from 163.1 Mb to 167.8 Mb and included univariate peaks for all 13 + 147 = 160 expression traits. We performed these analyses with the R package \texttt{qtl2pleio} \citep{qtl2pleio}.
 
-For each QTL scan, we fitted a collection of bivariate models for all 180 * 180 = 32,400 ordered pairs of markers. Throughout our analyses, we treated the founder allele probabilities as known, despite the fact that they are inferred through hidden Markov model methods \citep{broman2012genotype, broman2012haplotype, Broman2018}.
+For each QTL scan, we fitted a collection of bivariate models for all 180 * 180 = 32,400 ordered pairs of markers. Throughout our analyses, we treated the founder allele dosages as known, despite the fact that they are inferred through hidden Markov model methods \citep{broman2012genotype, broman2012haplotype, broman2019rqtl2}.
 
 For each ordered pair of markers, we fitted a multivariate linear mixed effects model with the methods of Chapter 2.
 
@@ -276,7 +1006,7 @@ To visualize the summary statistics for our two methods, we plotted, for each lo
 \centering
 \begin{tabular}{lrrrr}
   \hline
-symbol & start & end & LOD\_peak\_position & LOD\_peak\_height \\
+symbol & start & end & QTL peak position & LOD\\
   \hline
 Pkig & 163.66 & 163.73 & 163.52 & 51.68 \\
   Serinc3 & 163.62 & 163.65 & 163.58 & 126.93 \\
@@ -299,10 +1029,10 @@ Pkig & 163.66 & 163.73 & 163.52 & 51.68 \\
 
 %\subsubsection{Nonlocal gene analyses}
 
-We also examined the 1911 pairs from the per-nonlocal gene perspective. For each of the 147 nonlocal genes, we plotted LOD difference proportion against pleiotropy test statistic values. We present below (Figure \ref{fig:4nonlocal}) examples that illustrate some of the observed patterns between pleiotropy test statistics and LOD difference proportion values.
+We also examined the 1,911 pairs from the per-nonlocal gene perspective. For each of the 147 nonlocal genes, we plotted LOD difference proportion against pleiotropy test statistic values. We present below (Figure \ref{fig:4nonlocal}) examples that illustrate some of the observed patterns between pleiotropy test statistics and LOD difference proportion values.
 
 
-\subsection{Results}
+\section{Results}
 
 %\subsection{Scatter plot for all 1911 pairs}
 
@@ -401,7 +1131,7 @@ Scatter plots of LOD difference proportion values against pleiotropy vs. separat
 
 
 
-\subsection{Discussion}
+\section{Discussion}
 
 Our pairwise analyses with both mediation analyses and tests of pleiotropy vs. separate QTL provide additional evidence for the importance of \emph{Hnf4a} in the biology of the Chromosome 2 hotspot in pancreatic islet cells. Our analyses, and, specifically, the test of pleiotropy vs. separate QTL, may be more useful when studying nonlocal traits that map to a hotspot yet don't show strong evidence of mediation by local expression traits. In such a setting, the test of pleiotropy vs. separate QTL can, at least, provide some information about the genetic architecture at the hotspot. Specifically, our test of pleiotropy vs. separate QTL may inform inferences about the number of underlying QTL in a given expression trait hotspot. Additionally, our test may limit the number of expression traits that are potential intermediates between a QTL and a specified nonlocal expression trait. This relies on the assumption that an intermediate expression trait and a target expression trait presumably share a QTL.
 
@@ -874,6 +1604,260 @@ C030046E11Rik & 29.52 & 29.61 & 29.55 & 95.58 \\
 
 
 %%%% 3B end
+
+%%%% 3C start
+
+\section{Microbiome case study}
+\subsection{Introduction}
+
+Recent technological innovations have fueled exploration of ecological relationships between gut microbiota and their hosts. Advances in mass spectrometry experimental methods have enabled high-throughput quantification of lipid levels and protein concentrations. These developments, when coupled with experiments to quantify the gut microbiome, have the potential to uncover new microbiome-host interactions. Such discoveries would lead to a more nuanced understanding of organismal biology and health implications of the gut microbiome. Below, we use our test of pleiotropy vs. separate QTL to identify a pleiotropic QTL that affects both the abundance level of a group of bacteria in the distal gut and plasma cholic acid levels in the host. While many questions remain after our investigation, our identification of a single pleiotropic locus that affects these two phenotypes is an important preliminary step for further investigations.  \todo[inline]{add citations to reviews here. Look at J's ms too. What does J discuss in her intro?}
+
+
+
+\subsection{Methods}
+
+As we describe in Kreznar et al. (forthcoming), we analyzed data from 384 Diversity Outbred mice. \citet{keller2018genetic} analyzed data from many of these same mice. Specifically, we examined two microbiome-related phenotypes, 1. plasma cholic acid and 2. \emph{Turicibacter} abundance in the distal gut. Both traits map to Chromosome 8 (4.3 Mb and 5.7 Mb, respectively) in univariate QTL scans (Table \ref{tab:3c-lod-peaks}).
+
+Following the procedures outlined by Kreznar et al. (forthcoming), we collected fecal samples from all mice immediately immediately after a four-hour fast. We sacrificed the mice, at the age of 22 weeks, immediately after the fast. We extracted DNA from fecal samples and subjected it to 16S ribosomal RNA gene sequencing, as we describe in Kreznar et al. (forthcoming) in efforts to infer abundances of microbial taxa in the fecal samples. Demultiplexed, paired-end FASTQ files resulted from the sequencing. We used the QIIME2 (version 2018.4) software package for quality control and processing of sequence data. We applied the DADA2 software package to denoise sequencing reads and to identify de novo sub-operational taxonomic units. We aligned sequence variants with the software package mafft. After FastTree-based phylogeny reconstruction, we assigned taxonomic classifications with classify-sklearn against the Greengenes OTUs reference sequences. We normalized sequencing data with cumulative sum scaling with MetagenomeSeq. We limited study of microbiome-derived traits to those that we detected in at least 20\% of subjects. The \emph{Turicibacter} abundance trait is one element of the resulting core measurable microbiota. 
+
+As Kreznar et al. (forthcoming) describe, we collected 40 $\mu$L of plasma from each mouse at time of sacrifice. After removing soluble proteins, we analyzed each mouse's sample by mass spectrometry. Specifically, we performed liquid chromatography - mass spectrometry under conditions specified in Kreznar et al. to measure abundances of pre-specified bile acids. We processed and normalized plasma bile acid measurements to obtain the phenotypes for QTL analysis.
+
+We inferred 36-state genotype probabilities for every (autosomal) marker and every mouse from GigaMUGA SNP microarray data \citep{morgan2015mouse}. We used a hidden Markov model strategy developed by \citet{broman2012genotype, broman2012haplotype} and implemented in the R package \texttt{qtl2} \citep{qtl2}. We treated these inferred genotype probabilities as known quantities in the analyses below.
+
+We calculated founder allele dosages by summing the appropriate genotype probabilities. We performed these calculations with functions from the R package \texttt{qtl2}\citep{qtl2}.
+
+We performed univariate QTL analyses for both microbiome-related traits. We used the R package \texttt{qtl2} for these analyses \citep{qtl2}.
+
+Specifically, for each marker and each univariate phenotype $Y$, we fitted the model:
+
+\begin{equation}
+Y = XB + WC + G + E  
+\label{eq:uni-model}
+\end{equation}
+
+where $Y$ is a n by 1 vector with trait values, $X$ is a $n$ by $8$ matrix of founder allele probabilities for a single genetic marker, $B$ is a $8$ by $1$ vector of unknown founder allele effects, $W$ is a $n$ by $c$ matrix of covariates, $C$ is a $c$ by $1$ vector of covariate effects, $G$ is a $n$ by $1$ vector of random effects, and $E$ is a $n$ by $1$ vector of random errors. $G$ and $E$ are independent, and 
+
+\begin{equation}
+G \sim N(0, \sigma^2_g K)    
+\end{equation}
+\begin{equation}
+E \sim N(0, \sigma^2_e I)    
+\end{equation}
+
+
+In the above expressions, $K$ is a kinship matrix, while $\sigma^2_g$ and $\sigma^2_e$ are unknown constants. We used a distinct kinship matrix for each chromosome via the leave-one-chromosome-out method \citep{yang2014advantages}. By using leave-one-chromosome-out kinship matrices, we ensured that each marker's genetic data was not used in both the $X$ matrix and the random effects in a single model. \citet{yang2014advantages} demonstrated a decrease in statistical power to detect genetic associations when testing a marker that is used in constructing the kinship matrix. 
+
+We then calculated LOD values comparing the univariate models' base-10 log-likelihoods  at each marker to the base-10 log-likelihood of the model without founder allele dosages, \emph{i.e.}, the model with a single column of $1$'s replacing the eight columns of founder allele dosages. In summarizing LOD peak results, we identified a small region on Chromosome 8 that contains LOD peaks for both \emph{Turicibacter} abundance and plasma cholic acid levels.
+
+
+With the founder allele dosages, we calculated 20 kinship matrices, one for each chromosome, via the leave-one-chromosome-out method \citep{yang2014advantages}. Specifically, we calculated the $(i, j)$ entry in the matrix $K$ with Equation \ref{eq:kinship}.
+
+\begin{equation}
+K[i, j] = \sum_{k,l}p_{ikl}p_{jkl}
+\label{eq:kinship}
+\end{equation}
+where $p_{ikl}$ and $p_{jkl}$ are the dosages for founder allele $l$ at marker $k$ for subjects $i$ and $j$ and the sum is over all markers that are not present on a given chromosome. Thus, we omitted Chromosome 8 markers when calculating the kinship matrix for use in our test below. 
+
+
+
+We estimated founder allele effects using the above model. We calculated
+
+\begin{equation}
+\widehat{(B:C)} = \left((X:W)^T\Gamma^{-1}(X:W)\right)^{-1}(X:W)^T\Gamma^{-1}Y
+\label{eq:allele-effects}
+\end{equation}
+
+where $B:C$ denotes the concatenation of $B$ vector and $C$ vector and $X:W$ denotes the appending of the eight columns of $X$ with the $c$ columns of $W$ into a matrix with $(8 + c)$ columns. 
+
+We define covariance matrix $\Gamma$ in Equation \ref{eq:gamma}.
+
+\begin{equation}
+\Gamma = \sigma^2_g K + \sigma^2_e I_n
+\label{eq:gamma}
+\end{equation}
+
+
+We performed a test of pleiotropy vs. separate QTL for our two traits, \emph{Turicibacter} abundance and plasma cholic acid levels. We proceeded by estimating variance components, performing the two-dimensional scan, calculating our likelihood ratio test statistic, constructing bootstrap samples, performing two-dimensional scans for each bootstrap sample, and then determining a bootstrap p-value for our test statistic.
+
+
+
+%\subsubsection{Estimating variance components}
+
+Estimation of variance components $V_g$ and $V_e$, both of which are 2 by 2 covariance matrices, proceeded by an expectation-maximization algorithm as in the GEMMA algorithm \citep{zhou2014efficient}. We used our implementation of the GEMMA software's algorithm for multivariate linear mixed effects models in the R package \texttt{gemma2} \citep{gemma2}. Unlike the GEMMA algorithm, which relies on both expectation-maximization and Newton-Raphson algorithms, \texttt{gemma2} uses only expectation-maximization to estimate the variance components. \citet{zhou2014efficient} explain that the Newton-Raphson algorithm decreased the computation time compared to using expectation-maximization alone. Because we perform only one instance of variance component estimation for each analysis, we decided to implement only the expectation-maximization algorithm. 
+
+We omitted founder allele probabilities when estimating variance components. That is, we used the model:
+
+\begin{equation}
+vec(Y) = X_1 vec(B) + vec(G) + vec(E)
+\label{eq:no-geno}
+\end{equation}
+
+with 
+
+\begin{equation}
+G \sim MN(0, K, V_g)
+\end{equation}
+
+\begin{equation}
+E \sim MN(0, I_n, V_e)
+\end{equation}
+
+We assume that $G$ and $E$ are independent. $X_1$ is a $2n$ by $2(c + 1)$ matrix containing two $n$ by $(c + 1)$ nonzero blocks on the diagonal. The two off-diagonal blocks have all entries set to zero. Each $n$ by $(c + 1)$ block contains $c$ covariates and a column of $1$'s. $vec$ denotes the operation of stacking columns of a matrix into a matrix with exactly one column. Since $Y$ is a $n$ by $2$ matrix, $vec(Y)$ is a $2n$ by $1$ column matrix.
+
+
+With the estimated variance components, which we obtained from model \ref{eq:no-geno}, we calculated the the covariance matrix $\Sigma$.
+
+\begin{equation}
+\Sigma = V_g \otimes K + V_e \otimes I_n
+\end{equation}
+
+We use the matrix $\Sigma$ in our two-dimensional QTL scan below.
+
+
+
+%\subsubsection{Two-dimensional QTL scan}
+
+For every ordered pair of markers in the scan region, we fitted by generalized least squares model \ref{eq:biv-model}.
+
+\begin{equation}
+vec(Y) = X vec(B) + vec(G) + vec(E)
+\label{eq:biv-model}
+\end{equation}
+
+with 
+
+\begin{equation}
+G \sim MN(0, K, V_g)
+\end{equation}
+
+\begin{equation}
+E \sim MN(0, I_n, V_e)
+\end{equation}
+
+and $G$ and $E$ independent. $X$ is a $2n$ by $2(8 + c)$ block-diagonal matrix containing two $n$ by $(8 + c)$ nonzero blocks. Each $n$ by $(8 + c)$ block on the diagonal contains $8$ founder allele dosages and $c$ covariate values for each subject.  
+
+Our R package \texttt{qtl2pleio} contains the function \texttt{scan\_pvl}, which performs a two-dimensional QTL scan. 
+
+For each ordered pair of markers in our genomic region, we calculate a log-likelihood based on the multivariate normal distribution (Equation \ref{eq:ll}).
+
+\begin{equation}
+ll(\hat B | V_g, V_e, X, Y) = det\left(2\pi\Sigma\right)^{-\frac{1}{2}}\exp{\left(- \frac{1}{2}(vec(Y) - Xvec(\hat B))^T\Sigma^{-1}(vec(Y) - Xvec(\hat B))\right)}
+\label{eq:ll}
+\end{equation}
+
+
+
+%\subsubsection{Calculating the test statistic}
+
+The output of the two-dimensional QTL scan is a collection of log-likelihood values for each ordered pair of markers in the genomic region. To calculate our test statistic, we identify the maximum log-likelihood over the entire collection of values and the maximum over the restricted collection of log-likelihood values. The restricted set of log-likelihood values is those for which the first and second markers are the same. This corresponds to the null hypothesis of a single pleiotropic QTL for our test.
+
+\begin{equation}
+\Lambda = \log\left(\frac{\max_{\text{pleiotropy}}ll(\hat B)}{max_{\text{separate QTL}}ll(\hat B)}\right)
+\end{equation}
+
+
+%\subsubsection{Constructing parametric bootstrap samples}
+
+To construct bootstrap samples, we first used the pleiotropy trace from the LOD profile plot to identify the marker with the greatest log-likelihood value. This was the eighth marker on Chromosome 8. We then performed a parametric bootstrap analysis to acquire 1000 bootstrap samples. Specifically, we used the parameter estimates for our model at the 8th marker on Chromosome 8 and took pseudo-random draws from the multivariate normal distribution with mean $Xvec(\hat B)$ and covariance matrix $\Sigma$. Our $2n$ by $2(8 + c)$ matrix $X$ contains two nonzero $n$ by $(8 + c)$ blocks on the diagonal. These two blocks are identical and both contain the founder allele dosages at the eighth marker on Chromosome 8, along with the $c$ covariates. 
+
+Equivalently, we define this $X$ matrix as the Kronecker product of two smaller matrices (Equation \ref{eq:X8}). 
+
+\begin{equation}
+X = I_2 \otimes X_{\text{marker 8}}
+\label{eq:X8}
+\end{equation}
+
+where $X_{\text{marker 8}}$ is the $n$ by $(8 + c)$ matrix of eight founder allele dosages and $c$ covariates at the eighth marker on Chromosome 8, and $I_2$ is the 2 by 2 identity matrix.
+
+Each bootstrap sample consists of a $n$ by $2$ matrix of two simulated phenotypes. For each of the 1000 bootstrap samples, we estimated variance components and performed a two-dimensional QTL scan. We then calculated the pleiotropy vs. separate QTL likelihood ratio test statistic for each bootstrap sample.
+
+
+%\subsubsection{Determining the bootstrap p-value}
+
+With the collection of 1000 test statistic values from the bootstrap samples, we calculated a bootstrap p-value as the proportion of the 1000 tests, denoted by $\Lambda_i$, with $i$ ranging from 1 to 1000, that were at least as extreme as the true test statistic $\Lambda$ (Equation \ref{eq:bootp}).
+
+\begin{equation}
+\text{bootstrap p-value} = \frac{\#(\Lambda_i \geq \Lambda)}{1000}
+\label{eq:bootp}
+\end{equation}
+
+
+
+\subsection{Results}
+
+%\subsection{Scatter plot for two phenotypes}
+
+\begin{figure}
+\includegraphics{../kemis-do-analysis/Rmd/scatter.pdf}
+\caption{Scatter plot of Plasma cholic acid levels against \emph{Turicibacter} abundance}
+\end{figure}
+
+The scatter plot of 
+
+%\subsection{Univariate QTL analyses}
+
+% latex table generated in R 3.5.1 by xtable 1.8-3 package
+% Fri Nov 30 10:14:43 2018
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrr}
+  \hline
+phenotype & chromosome & position & LOD \\ 
+  \hline
+plasma cholic acid &   1 & 91.61 & 5.37 \\ 
+ \emph{Turicibacter} abundance &   2 & 17.20 & 5.40 \\ 
+  plasma cholic acid &   3 & 40.53 & 5.80 \\ 
+  plasma cholic acid &   7 & 122.19 & 6.83 \\ 
+  plasma cholic acid &   8 & 4.32 & 6.52 \\ 
+ \emph{Turicibacter} abundance &   8 & 5.68 & 7.22 \\ 
+  plasma cholic acid &  12 & 16.60 & 5.24 \\ 
+ \emph{Turicibacter} abundance &  12 & 76.34 & 5.17 \\ 
+   \hline
+\end{tabular}
+\caption{\label{tab:3c-lod-peaks}Genome-wide LOD peaks greater than 5 for plasma cholic acid levels and \emph{Turicibacter} abundance. Both traits map to approximately the same region on Chromosome 8.}
+\end{table}
+
+\begin{figure}
+
+\begin{subfigure}[b]{\textwidth}
+\centering
+\includegraphics[height = 3.5in]{../kemis-do-analysis/Rmd/Chol_effects.pdf}
+\subcaption{}
+\end{subfigure}
+
+\begin{subfigure}[b]{\textwidth}
+\centering
+\includegraphics[height = 3.5in]{../kemis-do-analysis/Rmd/Turc_effects.pdf}
+\subcaption{}
+\end{subfigure}
+\caption{}
+\end{figure}
+
+
+
+%\subsection{Profile LOD plot}
+
+\begin{figure}
+\includegraphics{../kemis-do-analysis/Rmd/profiles.pdf}
+\caption{Profile LODs for \emph{Turicibacter} abundance and Plasma cholic acid levels.}
+\end{figure}
+
+
+%\subsection{Calculating the likelihood ratio test statistic and bootstrap-based p-value}
+
+We used the R package \texttt{qtl2pleio} \citep{qtl2pleio} to calculate the likelihood ratio test statistic, $\Lambda = 0.45$. We determined the bootstrap p-value to be $0.531$. Thus, we failed to reject the null hypothesis of pleiotropy.
+
+
+\subsection{Discussion}
+
+The above study illustrates another scientific application of our test of pleiotropy vs. separate QTL. We plan to perform additional statistical analyses, including mediation studies, with these data. Our test of pleiotropy vs. separate QTL tells us that the data are consistent with presence of a single QTL affecting both \emph{Turicibacter} abundance and plasma cholic acid levels, but it doesn't provide information about the possibilities that plasma cholic acid levels affect \emph{Turicibacter} abundance or that \emph{Turicibacter} abundance affects plasma cholic acid levels.
+
+\todo{incorporate what is known about cholic acid biology here. Is cholic acid absorbed from the distal gut? What is needed for cholic acid synthesis? What is the chemical structure of cholic acid? Look at Julia's ms}
+
+%%%% end 3C
+
+
+
 
 \printbibliography
 
