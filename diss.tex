@@ -7,7 +7,6 @@
 \usepackage[framemethod=TikZ]{mdframed}
 \usepackage{newfloat}
 \usepackage{multicol}
-
 \usepackage{amsmath}
 \usepackage[
     backend=biber,
@@ -29,6 +28,125 @@
 \DeclareCaptionType{equ}[][] 
 %https://stackoverflow.com/questions/149479/adding-a-caption-to-an-equation-in-latex
 %\captionsetup[equ]{labelformat=empty}
+
+%%%%%% VIGNETTE HEADER STUFF
+\usepackage{lmodern}
+%\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+%\usepackage[margin=1in]{geometry}
+%\usepackage{hyperref}
+%\hypersetup{unicode=true,
+%            pdftitle={Recla Analysis},
+%            pdfauthor={Frederick Boehm},
+%            pdfborder={0 0 0},
+%            breaklinks=true}
+%\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+%\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+%\IfFileExists{parskip.sty}{%
+%\usepackage{parskip}
+%}{% else
+%\setlength{\parindent}{0pt}
+%\setlength{\parskip}{6pt plus 2pt minus 1pt}
+%}
+%\setlength{\emergencystretch}{3em}  % prevent overfull lines
+%\providecommand{\tightlist}{%
+%  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+%\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+%\ifx\paragraph\undefined\else
+%\let\oldparagraph\paragraph
+%\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+%\fi
+%\ifx\subparagraph\undefined\else
+%\let\oldsubparagraph\subparagraph
+%\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+%\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+%\let\rmarkdownfootnote\footnote%
+%\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+%\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+%\newcommand{\subtitle}[1]{
+%  \posttitle{
+%    \begin{center}\large#1\end{center}
+%    }
+%}
+
+
+
+%%%%%% END VIGNETTE HEADER STUFF
+
 
 \usepackage{hyperref}
 \hypersetup{
@@ -64,7 +182,7 @@
 
 
 %%% chapter 2 start
-\chapter{Testing pleiotropy in multiparental populations}
+\chapter{Methods development}
 
 \section{Introduction}
 
@@ -707,61 +825,61 @@ Department of Energy's Office of Science.
 
 %\bibliography{research,qtl2pleio-manuscript}
 
-\newpage
-\appendix
+%\newpage
+%\appendix
 
 % supplemental tables
-\renewcommand{\thetable}{\textbf{S\arabic{table}}}
-\setcounter{table}{0}
+%\renewcommand{\thetable}{\textbf{S\arabic{table}}}
+%\setcounter{table}{0}
 
 
-\begin{table}
-  \caption{Eight founder lines and their one-letter abbreviations.}
-  \label{table-letters}
-\begin{center}
-\small
-  \begin{tabular}{ c | c }
-    \hline
-    Founder allele & One-letter abbreviation \\ \hline
-    A/J & A \\
-    C57BL/6J & B \\
-    129S1/SvImJ & C \\
-    NOD/ShiLtJ & D\\
-    NZO/H1LTJ & E\\
-    Cast/EiJ & F\\
-    PWK/PhJ & G\\
-    WSB/EiJ & H\\
-    \hline
-  \end{tabular}
+%\begin{table}
+%  \caption{Eight founder lines and their one-letter abbreviations.}
+%  \label{table-letters}
+%\begin{center}
+%\small
+%  \begin{tabular}{ c | c }
+%    \hline
+%    Founder allele & One-letter abbreviation \\ \hline
+%    A/J & A \\
+%    C57BL/6J & B \\
+%    129S1/SvImJ & C \\
+%    NOD/ShiLtJ & D\\
+%    NZO/H1LTJ & E\\
+%    Cast/EiJ & F\\
+%    PWK/PhJ & G\\
+%    WSB/EiJ & H\\
+%    \hline
+%  \end{tabular}
 
-\end{center}
-  \end{table}
+%\end{center}
+%  \end{table}
 
-\clearpage
+%\clearpage
 
   % latex table generated in R 3.5.1 by xtable 1.8-3 package
 % Tue Nov 20 10:28:47 2018
-\begin{table}
-\caption{Both ``hot plate latency'' and ``percent time in light''
-  demonstrate multiple QTL peaks with LOD scores above 5.}
-  \label{table-peaks}
-\begin{center}
-\begin{tabular}{l|lrr}
-  \hline
-phenotype & chr & pos & LOD score \\
-   \hline
-percent time in light & 8 & 55.28 & 5.27 \\
- hot plate latency & 8 & 57.77 & 6.22 \\
- percent time in light & 9 & 36.70 & 5.42 \\
- hot plate latency & 9 & 46.85 & 5.22 \\
- percent time in light & 11 & 63.39 & 6.46 \\
- hot plate latency & 12 & 43.52 & 5.13 \\
- percent time in light & 15 & 15.24 & 5.67 \\
- hot plate latency & 19 & 47.80 & 5.48 \\
-   \hline
-\end{tabular}
-\end{center}
-\end{table}
+%\begin{table}
+%\caption{Both ``hot plate latency'' and ``percent time in light''
+%  demonstrate multiple QTL peaks with LOD scores above 5.}
+%  \label{table-peaks}
+%\begin{center}
+%\begin{tabular}{l|lrr}
+%  \hline
+%phenotype & chr & pos & LOD score \\
+%   \hline
+%percent time in light & 8 & 55.28 & 5.27 \\
+% hot plate latency & 8 & 57.77 & 6.22 \\
+% percent time in light & 9 & 36.70 & 5.42 \\
+% hot plate latency & 9 & 46.85 & 5.22 \\
+% percent time in light & 11 & 63.39 & 6.46 \\
+% hot plate latency & 12 & 43.52 & 5.13 \\
+% percent time in light & 15 & 15.24 & 5.67 \\
+% hot plate latency & 19 & 47.80 & 5.48 \\
+%   \hline
+%\end{tabular}
+%\end{center}
+%\end{table}%
 
 
 
@@ -769,48 +887,49 @@ percent time in light & 8 & 55.28 & 5.27 \\
 
 
 
-\clearpage
+%\clearpage
 
 
 % supplemental figures
-\renewcommand{\thefigure}{\textbf{S\arabic{figure}}}
-\setcounter{figure}{0}
+%\renewcommand{\thefigure}{\textbf{S\arabic{figure}}}
+%\setcounter{figure}{0}
 
-\begin{figure}
-\includegraphics[width = \textwidth]{../qtl2pleio-manuscript/Rmd/scatter.eps}
-\caption{Scatter plot of ``hot plate latency'' against ``percent time in
-  light'', after applying logarithm transformations and winsorizing
-  both traits.}
-\label{fig:scatter}
-\end{figure}
+%\begin{figure}
+%\includegraphics[width = \textwidth]{../qtl2pleio-manuscript/Rmd/scatter.eps}
+%\caption{Scatter plot of ``hot plate latency'' against ``percent time in
+%  light'', after applying logarithm transformations and winsorizing
+%  both traits.}
+%\label{fig:scatter}
+%\end{figure}
 
 
-\begin{figure}
-\includegraphics{../qtl2pleio-manuscript/Rmd/genomewide_lods_10-22.eps}
-\caption{Genome-wide QTL scan for percent time in light reveals
-  multiple QTL, including one on Chromosome 8.}
-\label{fig:genomewide10-22}
-\end{figure}
+%\begin{figure}
+%\includegraphics{../qtl2pleio-manuscript/Rmd/genomewide_lods_10-22.eps}
+%\caption{Genome-wide QTL scan for percent time in light reveals
+%  multiple QTL, including one on Chromosome 8.}
+%\label{fig:genomewide10-22}
+%\end{figure}
 
 
 
 %%% Chapter 2 end
 
 
+\chapter{Applications}
 %%%%% 3A start
-\chapter{Expression hotspot dissection}
-\section{Introduction}
+\section{Expression trait hotspot dissection}
+\subsection{Introduction}
 
-A central goal of systems genetics studies is to identify causal relationships between biomolecules. Recent work by \citet{chick2016defining} has popularized linear regression-based methods for causal inference in genetics. The great success of these methods in identifying causal relationships motivates our goal of clarifying a role for our pleiotropy test. We argue that our pleiotropy test complements mediation analysis in two ways. First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. Second, when regression-based mediation analysis fails to identify a mediator, our test of pleiotropy vs. separate QTL still provides information on the number of QTL, which may provide clues to aid biological understanding.
+A central goal of systems genetics studies is to identify causal relationships between biomolecules. Recent work by \citet{chick2016defining} has popularized linear regression-based methods for causal inference in genetics. This development motivates our goal of clarifying a role for our pleiotropy test. We argue that our pleiotropy test complements mediation analysis in two ways. First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. Second, when regression-based mediation analysis fails to identify a mediator, our test of pleiotropy vs. separate QTL still provides information on the number of QTL, which may provide clues to aid biological understanding.
 
 
 We begin by discussing what it means for one trait to mediate a relationship between a DNA variant and another trait. To clarify our discussion, we refer to an example from \citet{chick2016defining}. \citet{chick2016defining}, in studying livers of 192 Diversity Outbred mice, found evidence that \emph{Dhtkd1} transcript levels associated with a local marker on Chromosome 2. They also found that the same marker affected DHTKD1 protein concentrations. As anticipated, mediation analysis, in which the DHTKD1 protein concentrations are regressed on founder allele dosages (at the Chromosome 2 marker) demonstrated that \emph{Dhtkd1} transcript levels act as a mediator between DHTKD1 protein concentrations and the founder allele dosages. In fact, the extent of the reduction in association strength indicates that the primary pathway by which the genetic marker affects DHTKD1 protein concentrations is through \emph{Dhtkd1} transcript levels.
 
 \citet{crick1958protein} articulated a pathway for transmission of biological information that is now known as the central dogma of molecular biology. In it, he argued that information encoded in DNA sequence is transmitted via transcription to RNA molecules, which, in turn, transfer the information to proteins via translation. This sequence of information transfer, from DNA to RNA to protein, provides a natural setting by which to examine mediation analysis. If a DNA variant affects protein concentrations only through its RNA transcripts, then conditioning on RNA transcript levels would greatly reduce the strength of association between DNA variant and protein concentration. In the example above, a DNA variant in the \emph{Dhtkd1} gene affects its transcript levels, which then affect DHTKD1 protein levels.
 
-Following \citet{keller2018genetic}, we generalize this setting to the case where a DNA variant affects a local transcript level, which then affects a nonlocal transcript level. We term a transcript ``local'' to a marker when its DNA is near that of the marker. Typically, we use a threshold of no more than 2 Mb. A nonlocal transcript, then, is either one that arises from a gene on another chromosome or from a distant gene on the same chromosome as the marker.
+Following \citet{keller2018genetic}, we generalize this setting to the case where a DNA variant affects a local transcript level, which then affects a nonlocal transcript level. We term a transcript ``local'' to a marker when its DNA is near that marker. Typically, we use a threshold of no more than 2 Mb to restrict the number of local transcripts for a given marker. A nonlocal transcript, then, is either one that arises from a gene on another chromosome or from a distant gene on the same chromosome as the marker.
 
-To determine whether a local transcript level mediates the relationship between a nonlocal transcript level and a DNA variant, we perform a series of regression analyses, which we detail below (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}). In brief, we regress the nonlocal transcript levels on founder allele dosages at the DNA variant, with and without conditioning on the candidate mediator (the local transcript levels). If the LOD score diminishes sufficiently upon conditioning on a candidate mediator, then we declare the candidate mediator a mediator.
+To determine whether a local transcript level mediates the relationship between a nonlocal transcript level and a DNA variant, we perform a series of regression analyses, which we detail below (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}). In brief, we regress the nonlocal transcript levels on founder allele dosages at the DNA variant, with and without conditioning on the candidate mediator (the local transcript levels). If the LOD score diminishes sufficiently upon conditioning on a candidate mediator, then we declare the candidate a mediator.
 
 The rationale behind this strategy is as follows. If the DNA variant affects the nonlocal transcript levels solely by way of local transcript levels, then conditioning on the local transcript levels would nullify the relationship between DNA variant and the nonlocal transcript levels. At the other extreme, if the DNA variant affects nonlocal transcript levels solely through mechanisms that don't involve the local transcript levels, then conditioning on local transcript levels would not affect the association between the DNA variant and nonlocal transcript levels.
 
@@ -894,7 +1013,7 @@ For each mediation analysis, we consider the LOD difference proportion, which we
 \label{eq:lod-diff-prop}
 \end{equation}
 
-In other words, we consider what proportion of the association strength, on the LOD scale, is diminished by conditioning on a putative mediator. This statistic differs from the LOD difference statistic in that it scales the mediation LOD difference by LOD$_1$ value. We do this in efforts to accommodate the diversity of LOD peak heights in our data. While a value of 5 for LOD difference may be important for a trait with a LOD$_1$ of 12, another trait with a LOD$_1$ of 120 that has a LOD$_2$ of 115, suggests that nearly all of the signal remains transmitted when conditioning on the putative mediator.
+In other words, we consider what proportion of the association strength, on the LOD scale, is diminished by conditioning on a putative mediator. This statistic differs from the LOD difference statistic in that it scales the LOD difference by LOD$_1$ value. We do this in efforts to accommodate the diversity of LODs in our data. While a value of 5 for LOD difference may be important for a trait with a LOD$_1$ of 12, another trait with a LOD$_1$ of 120 that has a LOD$_2$ of 115, suggests that nearly all of the signal remains transmitted when conditioning on the putative mediator.
 
 
 
@@ -933,7 +1052,7 @@ To claim that the LOD difference statistic reflects a causal relationship, four 
 
 
 
-It is often difficult to quantify unmeasured confounders. In studies of Diversity Outbred mice, relatedness and population structure are possible confounders, yet the linear models (Equations~\ref{1,2,3,4}) fail to account for the complex relatedness patterns among Diversity Outbred mice. Scientists have developed a suite of sensitivity analysis tools to characterize possible unmeasured confounders and their possible impact on inferred relationships in mediation analysis. While a discussion of sensitivity analysis is beyond the scope of this thesis, it may be useful in future studies to assess robustness of mediation analysis results in the presence of unmeasured confounders. \citet{vanderweele2015explanation} discusses sensitivity analysis in detail. 
+It is often difficult to recognize unmeasured confounders. In studies of Diversity Outbred mice, relatedness and population structure are possible confounders, yet the linear models (Equations~\ref{model1},~\ref{model2},~\ref{model3},~\ref{model4}) fail to account for the complex relatedness patterns among Diversity Outbred mice. Scientists have developed a suite of sensitivity analysis tools to characterize possible unmeasured confounders and their possible impact in mediation analysis. While a discussion of sensitivity analysis is beyond the scope of this thesis, it may be useful in future studies to assess robustness of mediation analysis results in the presence of unmeasured confounders. \citet{vanderweele2015explanation} discusses sensitivity analysis in detail. 
 
 
 
@@ -943,11 +1062,11 @@ It is often difficult to quantify unmeasured confounders. In studies of Diversit
 
 %\subsection{Declaring mediators}
 
-Multiple research teams have proposed strategies for assessing statistical significance of the ``mediation LOD difference'' statistic. \citet{chick2016defining} used individual transcript levels as sham mediators and tabulated their LOD difference statistics. They then compared the observed LOD difference statistics for putative mediators to the empirical distribution of LOD difference statistics obtained from the collection of sham mediators. \citet{keller2018genetic}, on the other hand, in their study of pancreatic islet cell biology, declared mediators those local transcripts that diminished the LOD score of nonlocal transcripts by at least 1.5 \citep{keller2018genetic}. While significance threshold determination remains an active area of research, we proceed below by examining all 147 nonlocal transcript levels that \citet{keller2018genetic} identified as mapping to the Chromosome 2 hotspot.
+Multiple research teams have proposed strategies for assessing statistical significance of the ``LOD difference'' statistic. \citet{chick2016defining} used individual transcript levels as sham mediators and tabulated their LOD difference statistics. They then compared the observed LOD difference statistics for putative mediators to the empirical distribution of LOD difference statistics obtained from the collection of sham mediators. \citet{keller2018genetic}, on the other hand, in their study of pancreatic islet cell biology, declared mediators those local transcripts that diminished the LOD score of nonlocal transcripts by at least 1.5 \citep{keller2018genetic}. While significance threshold determination remains an active area of research, we proceed below by examining all 147 nonlocal transcript levels that \citet{keller2018genetic} identified as mapping to the Chromosome 2 hotspot.
 
 
 
-\section{Methods}
+\subsection{Methods}
 
 We examined the potential that the two methods - 1. pleiotropy vs. separate QTL testing and 2. mediation analysis - could play complementary roles in efforts to dissect gene expression trait hotspots. After describing our data below, we explain our statistical analyses involving 13 local gene expression traits and 147 nonlocal gene expression traits, all of which map to a 4-Mb hotspot on Chromosome 2.
 
@@ -1006,7 +1125,7 @@ To visualize the summary statistics for our two methods, we plotted, for each lo
 \centering
 \begin{tabular}{lrrrr}
   \hline
-symbol & start & end & QTL peak position & LOD\\
+gene & start & end & QTL peak position & LOD\\
   \hline
 Pkig & 163.66 & 163.73 & 163.52 & 51.68 \\
   Serinc3 & 163.62 & 163.65 & 163.58 & 126.93 \\
@@ -1032,11 +1151,11 @@ Pkig & 163.66 & 163.73 & 163.52 & 51.68 \\
 We also examined the 1,911 pairs from the per-nonlocal gene perspective. For each of the 147 nonlocal genes, we plotted LOD difference proportion against pleiotropy test statistic values. We present below (Figure \ref{fig:4nonlocal}) examples that illustrate some of the observed patterns between pleiotropy test statistics and LOD difference proportion values.
 
 
-\section{Results}
+\subsection{Results}
 
 %\subsection{Scatter plot for all 1911 pairs}
 
-We present below our scatter plot for all 147 * 13 = 1911 pairs of traits (Figure \ref{fig:lod-diff-prop-v-lrt-all}). Each pair contains one local expression trait and one nonlocal expression trait. Each point in the figure represents a single pair. We see that points with high values of LOD difference proportion tend to have small values of pleiotropy test statistic, and those points with high values of the pleiotropy test statistic tend to have small values of LOD difference proportion.
+We present below our scatter plot for all 147 * 13 = 1,911 pairs of traits (Figure \ref{fig:lod-diff-prop-v-lrt-all}). Each pair contains one local expression trait and one nonlocal expression trait. Each point in the figure represents a single pair. We see that points with high values of LOD difference proportion tend to have small values of pleiotropy test statistic, and those points with high values of the pleiotropy test statistic tend to have small values of LOD difference proportion.
 
 We colored blue the points that involve \emph{Hnf4a} as the local gene; all other local genes have red points. The most striking feature of the coloring is that many blue points have small values of the pleiotropy test statistics and very high values of LOD difference proportion.
 
@@ -1107,7 +1226,7 @@ Scatter plots of LOD difference proportion values against pleiotropy vs. separat
 
 \begin{figure}
     \centering
-    \caption{Scatter plots for four nonlocal expression traits. Each plot features 13 points, one for each local gene expression trait. The y axis denotes LOD difference proportion values, while the x axis corresponds to pleiotropy vs. separate QTL test statistics. Blue points represent the pairing with local gene expression trait \emph{Hnf4a}. Red points represent the other 12 local gene expression traits.}
+    \caption{Scatter plots for four nonlocal expression traits. Each plot features 13 points, one for each local gene expression trait. The vertical axis denotes LOD difference proportion values, while the horizontal axis corresponds to pleiotropy test statistics. Blue points represent the pairing with local gene expression trait \emph{Hnf4a}. Red points represent the other 12 local gene expression traits.}
     \begin{subfigure}[t]{.45\textwidth}
         \includegraphics[width = \textwidth]{../keller2018-chr2-hotspot-chtc/Rmd/nonlocal-scatter_97.eps}
         \caption[\emph{Hnf4a} transcript levels mediate \emph{Abcb4} transcript levels.]{\emph{Hnf4a} transcript levels mediate \emph{Abcb4} transcript levels. The high LOD difference proportion and the very small pleiotropy test statistic together provide evidence that \emph{Hnf4a} mediates \emph{Abcb4} transcript levels.}
@@ -1131,7 +1250,7 @@ Scatter plots of LOD difference proportion values against pleiotropy vs. separat
 
 
 
-\section{Discussion}
+\subsection{Discussion}
 
 Our pairwise analyses with both mediation analyses and tests of pleiotropy vs. separate QTL provide additional evidence for the importance of \emph{Hnf4a} in the biology of the Chromosome 2 hotspot in pancreatic islet cells. Our analyses, and, specifically, the test of pleiotropy vs. separate QTL, may be more useful when studying nonlocal traits that map to a hotspot yet don't show strong evidence of mediation by local expression traits. In such a setting, the test of pleiotropy vs. separate QTL can, at least, provide some information about the genetic architecture at the hotspot. Specifically, our test of pleiotropy vs. separate QTL may inform inferences about the number of underlying QTL in a given expression trait hotspot. Additionally, our test may limit the number of expression traits that are potential intermediates between a QTL and a specified nonlocal expression trait. This relies on the assumption that an intermediate expression trait and a target expression trait presumably share a QTL.
 
@@ -1151,11 +1270,12 @@ The social and health sciences have witnessed much methods research in  mediatio
 % Tue Dec 18 18:18:00 2018
 {\tiny
 \begin{longtable}{lrr}
-\caption{LOD peak positions and peak heights for 147 expression traits that map to the Chromosome 2 expression trait hotspot.}\\
+\caption{LOD peak positions and peak heights for 147 expression traits that map to the Chromosome 2 expression trait hotspot. We see that some transcript levels have LOD scores below the 7.18 genome-wide threshold. We believe that this is due to variations in statistical modeling between our analyses and those of \citet{keller2018genetic}.}\\ 
+% perhaps inclusion or exclusion of an intercept term.
 \hline \\
 %\begingroup\tiny
 
-Gene symbol & Peak position & LOD \\
+Gene & Peak position & LOD \\
   \hline
 Mtfp1 & 163.52 & 17.79 \\
   Slc12a7 & 163.58 & 8.30 \\
@@ -1352,7 +1472,7 @@ We identified a set of 76 non-anchor local expression traits that map to the 20-
 \centering
 \begin{tabular}{>{\em}lrrrr}
   \hline
-symbol & start & end & peak\_position & lod \\
+Gene & Start & End & QTL peak position & LOD \\
   \hline
 Asah2 & 31.98 & 32.06 & 32.14 & 101.20 \\
   Lipo1 & 33.52 & 33.76 & 33.67 & 85.46 \\
@@ -1407,7 +1527,7 @@ For each of the 80 expression traits, we used the fitted founder allele and cova
 \centering
 \begin{tabular}{>{\em}cccc}
   \hline
- Gene Symbol & Founder allele & Effect & Standard error \\
+ Gene & Founder allele & Effect & Standard error \\
   \hline
 \multirow{8}{*}{Asah2} & A & -0.96 & 0.17 \\
   & B & 1.01 & 0.19 \\
@@ -1457,7 +1577,7 @@ All four anchor traits demonstrate strong PWK (``G'') allele effects. \emph{Lipo
 \begin{figure}
     \centering
     \includegraphics[width = \textwidth]{../keller-2018-chr19-power/Rmd/lrt-v-middle-of-gene.pdf}
-    \caption[Pleiotropy LRT vs. chromosomal position plots reveal that higher values of pleiotropy LRT tend to correspond to greater interlocus distance and greater univariate LOD score.]{Each anchor gene has its own panel. Along the horizontal axis is Chromosome 19 position. The vertical axis is for pleiotropy test statistic value. Each point corresponds to a local gene expression trait. Point color corresponds to the nonlocal gene's univariate LOD score, with lighter shades of blue denoting greater values of univariate LOD score. Vertical black bar denotes the anchor gene's position on Chromosome 19. All four panels reveal that points further from the anchor gene tend to show greater test statistic values. Additionally, the Lipo1 and Lipo2 panels offer an opportunity to compare the impact of anchor gene univariate LOD score on pleiotropy test statistic values.}
+    \caption[Pleiotropy LRT vs. chromosomal position plots reveal that higher values of pleiotropy LRT tend to correspond to greater interlocus distance and greater univariate LOD score.]{Each anchor gene has its own panel. Along the horizontal axis is Chromosome 19 position. The vertical axis is for pleiotropy test statistic value. Each point corresponds to a local gene expression trait. Point color corresponds to the nonlocal gene's univariate LOD score, with lighter shades of blue denoting greater values of univariate LOD score. Vertical black bar denotes the anchor gene's position on Chromosome 19. All four panels reveal that points further from the anchor gene tend to show greater test statistic values. Additionally, the \emph{Lipo1} and \emph{Lipo2} panels offer an opportunity to compare the impact of anchor gene univariate LOD score on pleiotropy test statistic values.}
     \label{fig:middle}
 \end{figure}
 
@@ -1855,6 +1975,978 @@ The above study illustrates another scientific application of our test of pleiot
 \todo{incorporate what is known about cholic acid biology here. Is cholic acid absorbed from the distal gut? What is needed for cholic acid synthesis? What is the chemical structure of cholic acid? Look at Julia's ms}
 
 %%%% end 3C
+
+%%% Ch4 start
+\chapter{Computing vignettes}
+
+
+%%%%% recla-analysis vignette
+\section{Recla data analysis vignette}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(qtl2pleio)}
+\KeywordTok{library}\NormalTok{(qtl2)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{load-recla-from-qtl2data-github-repository}{%
+\subsection{\texorpdfstring{Load Recla from \texttt{qtl2data} github
+repository}{Load Recla from qtl2data github repository}}\label{load-recla-from-qtl2data-github-repository}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{file <-}\StringTok{ }\KeywordTok{paste0}\NormalTok{(}\StringTok{"https://raw.githubusercontent.com/rqtl/"}\NormalTok{,}
+               \StringTok{"qtl2data/master/DO_Recla/recla.zip"}\NormalTok{)}
+\NormalTok{recla <-}\StringTok{ }\KeywordTok{read_cross2}\NormalTok{(file)}
+\CommentTok{# make sex a covariate for use in qtl2pleio::scan_pvl}
+\NormalTok{recla[[}\DecValTok{6}\NormalTok{]][ , }\DecValTok{1}\NormalTok{, drop =}\StringTok{ }\OtherTok{FALSE}\NormalTok{] ->}\StringTok{ }\NormalTok{sex}
+\CommentTok{# insert pseudomarkers}
+\KeywordTok{insert_pseudomarkers}\NormalTok{(recla, }\DataTypeTok{step =} \FloatTok{0.10}\NormalTok{) ->}\StringTok{ }\NormalTok{pseudomap}
+\NormalTok{gm <-}\StringTok{ }\NormalTok{pseudomap}\OperatorTok{$}\StringTok{`}\DataTypeTok{8}\StringTok{`}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{probs <-}\StringTok{ }\KeywordTok{calc_genoprob}\NormalTok{(recla, }\DataTypeTok{map =}\NormalTok{ pseudomap)}
+\end{Highlighting}
+\end{Shaded}
+
+We now convert the genotype probabilities to haplotype dosages.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{aprobs <-}\StringTok{ }\KeywordTok{genoprob_to_alleleprob}\NormalTok{(probs)}
+\end{Highlighting}
+\end{Shaded}
+
+We now calculate kinship matrices, by the ``leave one chromosome out
+(loco)'' method.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kinship <-}\StringTok{ }\KeywordTok{calc_kinship}\NormalTok{(aprobs, }\StringTok{"loco"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{recla}\OperatorTok{$}\NormalTok{pheno ->}\StringTok{ }\NormalTok{ph}
+\KeywordTok{log}\NormalTok{(ph) ->}\StringTok{ }\NormalTok{lph}
+\KeywordTok{apply}\NormalTok{(}\DataTypeTok{FUN =}\NormalTok{ broman}\OperatorTok{::}\NormalTok{winsorize, }\DataTypeTok{X =}\NormalTok{ lph, }\DataTypeTok{MARGIN =} \DecValTok{2}\NormalTok{) ->}\StringTok{ }\NormalTok{wlph}
+\CommentTok{#colnames(wlph)[c(7, 10, 22)] <- c("distance traveled in light", "percent time in light", "hot plate latency")}
+
+\KeywordTok{as_tibble}\NormalTok{(wlph) ->}\StringTok{ }\NormalTok{wlph_tib}
+\end{Highlighting}
+\end{Shaded}
+
+We next perform the univariate QTL scan for our phenotypes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sex2 <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(sex }\OperatorTok{==}\StringTok{ "female"}\NormalTok{), }\DataTypeTok{ncol =} \DecValTok{1}\NormalTok{)}
+\KeywordTok{colnames}\NormalTok{(sex2) <-}\StringTok{ "female"}
+\KeywordTok{rownames}\NormalTok{(sex2) <-}\StringTok{ }\KeywordTok{rownames}\NormalTok{(aprobs[[}\DecValTok{1}\NormalTok{]])}
+\NormalTok{out <-}\StringTok{ }\KeywordTok{scan1}\NormalTok{(}\DataTypeTok{genoprobs =}\NormalTok{ aprobs, }\DataTypeTok{pheno =}\NormalTok{ wlph, }\DataTypeTok{kinship =}\NormalTok{ kinship, }\DataTypeTok{addcovar =}\NormalTok{ sex2, }\DataTypeTok{reml =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Let's find the univariate QTL peaks for all phenotypes.
+
+We want to look closely at those peaks on Chromosome 8. We'll save the
+positions of peaks for our two traits of interest.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(peaks <-}\StringTok{ }\KeywordTok{find_peaks}\NormalTok{(out, pseudomap, }\DataTypeTok{threshold =} \DecValTok{5}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{arrange}\NormalTok{(chr, pos) }\OperatorTok{%>%}
+\StringTok{   }\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\StringTok{ }\NormalTok{lodindex))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                    lodcolumn chr     pos      lod
+## 1                         bw   1 23.9075 5.471580
+## 2         OF_distance_first4   1 43.2385 5.772977
+## 3             LD_transitions   1 95.8075 5.028258
+## 4                OF_distance   2 49.9770 5.544458
+## 5                         bw   2 52.3932 7.352334
+## 6            OF_immobile_pct   2 53.2646 9.771813
+## 7  VC_bottom_distance_first4   2 71.0160 6.531654
+## 8         OF_distance_first4   3 10.7360 5.541166
+## 9  VC_bottom_distance_first4   3 16.3700 5.518637
+## 10           VC_top_time_pct   3 17.9390 5.951067
+## 11         LD_distance_light   3 23.4390 5.203246
+## 12                        bw   3 24.8390 5.632714
+## 13        VC_top_time_first4   3 48.1280 6.144073
+## 14           VC_top_velocity   3 48.5630 6.264824
+## 15        VC_top_time_first4   4  3.5340 5.016970
+## 16             OF_corner_pct   4  9.0111 6.272996
+## 17           OF_immobile_pct   4 37.5206 5.529985
+## 18         LD_distance_light   4 71.2992 5.040185
+## 19                        bw   5 10.0740 5.728865
+## 20 VC_bottom_distance_first4   5 19.9741 5.419061
+## 21        VC_top_time_first4   5 20.0741 6.075282
+## 22        VC_bottom_distance   5 20.5930 5.691913
+## 23        VC_bottom_time_pct   5 20.5930 6.360001
+## 24       TS_latency_immobile   5 43.3504 5.995115
+## 25             OF_corner_pct   5 64.2551 5.665658
+## 26           OF_immobile_pct   6 53.4292 6.968771
+## 27     TS_frequency_climbing   6 57.0362 5.361091
+## 28                        bw   7  9.1778 6.057098
+## 29          TS_time_immobile   7 49.4778 8.067612
+## 30        VC_bottom_distance   7 54.5591 5.011113
+## 31        OF_distance_first4   7 57.9454 5.327302
+## 32           VC_top_distance   7 83.8778 5.724788
+## 33           OF_immobile_pct   7 83.9778 5.823556
+## 34     TS_frequency_climbing   8 48.1732 5.483064
+## 35         LD_distance_light   8 55.2762 5.323391
+## 36              LD_light_pct   8 55.2762 5.274185
+## 37                HP_latency   8 57.7732 6.223739
+## 38         LD_distance_light   9 36.6965 5.196968
+## 39              LD_light_pct   9 36.6965 5.417419
+## 40        VC_top_time_first4   9 38.4834 5.109813
+## 41           VC_top_time_pct   9 39.2680 6.356432
+## 42                HP_latency   9 46.8502 5.222074
+## 43                        bw  10  3.7781 6.526199
+## 44        OF_distance_first4  10 29.6698 5.462975
+## 45        VC_bottom_time_pct  10 32.5438 5.432804
+## 46          OF_periphery_pct  10 74.8530 5.246487
+## 47           VC_top_distance  11  7.8200 6.245803
+## 48    VC_top_distance_first4  11 11.6236 5.486915
+## 49 VC_bottom_distance_first4  11 54.3420 5.367052
+## 50            LD_transitions  11 58.9000 5.903217
+## 51     VC_bottom_transitions  11 60.5984 5.114051
+## 52              LD_light_pct  11 63.3943 6.464176
+## 53         LD_distance_light  11 63.4514 6.373437
+## 54           VC_top_time_pct  12 20.5776 6.950144
+## 55        VC_bottom_velocity  12 21.7760 5.653292
+## 56             OF_center_pct  12 35.5140 6.399422
+## 57                HP_latency  12 43.5150 5.131074
+## 58          OF_periphery_pct  12 53.5776 7.240951
+## 59             OF_corner_pct  13 59.7966 6.594594
+## 60     VC_bottom_time_first4  14 11.9183 5.204369
+## 61 VC_bottom_distance_first4  14 12.5316 5.763233
+## 62     VC_bottom_transitions  14 12.5316 6.478533
+## 63           VC_top_velocity  14 12.7819 6.840412
+## 64        VC_bottom_distance  14 14.5316 5.592030
+## 65     TS_frequency_climbing  14 21.1141 5.372594
+## 66             OF_center_pct  14 53.7316 5.377182
+## 67     TS_frequency_climbing  15 12.6680 6.043265
+## 68              LD_light_pct  15 15.2374 5.674922
+## 69        OF_distance_first4  16 23.2656 5.242101
+## 70           VC_top_distance  17 15.6390 6.669275
+## 71           VC_top_velocity  18  8.3750 5.558628
+## 72        VC_top_time_first4  18 17.8068 6.246206
+## 73            LD_transitions  18 37.4182 5.090332
+## 74 VC_bottom_distance_first4  19 24.9615 7.362557
+## 75     VC_bottom_time_first4  19 24.9615 7.499959
+## 76           OF_immobile_pct  19 31.9505 5.639812
+## 77                HP_latency  19 47.7977 5.485000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{peaks8 <-}\StringTok{ }\NormalTok{peaks }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(chr }\OperatorTok{==}\StringTok{ }\DecValTok{8}\NormalTok{, pos }\OperatorTok{>}\StringTok{ }\DecValTok{50}\NormalTok{, pos }\OperatorTok{<}\StringTok{ }\DecValTok{60}\NormalTok{)}
+\NormalTok{pos_LD_light_pct <-}\StringTok{ }\NormalTok{peaks8 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(lodcolumn }\OperatorTok{==}\StringTok{ "LD_light_pct"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(pos)}
+\NormalTok{pos_HP_latency <-}\StringTok{ }\NormalTok{peaks8 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(lodcolumn }\OperatorTok{==}\StringTok{ "HP_latency"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{select}\NormalTok{(pos)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{correlation}{%
+\subsection{Correlation}\label{correlation}}
+
+Given that the two traits ``percent time in light'' and ``distance
+traveled in light'' share a peak, we want to ask how correlated they
+are.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cor}\NormalTok{(wlph[ , }\DecValTok{7}\NormalTok{], wlph[ , }\DecValTok{10}\NormalTok{], }\DataTypeTok{use =} \StringTok{"complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8859402
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cor}\NormalTok{(wlph[ , }\DecValTok{22}\NormalTok{], wlph[ , }\DecValTok{10}\NormalTok{], }\DataTypeTok{use =} \StringTok{"complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.1507317
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cor}\NormalTok{(wlph[ , }\DecValTok{7}\NormalTok{], wlph[ , }\DecValTok{22}\NormalTok{], }\DataTypeTok{use =} \StringTok{"complete.obs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.143598
+\end{verbatim}
+
+Since ``percent time in light'' and ``distance traveled in light'' are
+very highly correlated, we'll discard ``distance traveled in light'' and
+perform subsequent analyses with only ``percent time in light'' and the
+second trait, ``hot plate latency''.
+
+\hypertarget{scatter-plot-of-phenotypes}{%
+\subsection{Scatter plot of
+phenotypes}\label{scatter-plot-of-phenotypes}}
+
+We create a scatter plot for the two phenotypes, ``hot plate latency''
+and ``percent time in light''.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{scatter1022 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ wlph_tib, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{y =}\NormalTok{ HP_latency, }\DataTypeTok{x =}\NormalTok{ LD_light_pct)) }\OperatorTok{+}\StringTok{ }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Percent time in light"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Hot plate latency"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Scatterplot of hot plate latency vs. percent time in light"}\NormalTok{)}
+\NormalTok{scatter1022}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 3 rows containing missing values (geom_point).
+\end{verbatim}
+
+\includegraphics{../../Rpkgs/qtl2pleio/vignettes/recla-analysis_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\hypertarget{genome-wide-lod-plots-for-the-traits-from-recla}{%
+\subsection{Genome-wide LOD plots for the traits from
+Recla}\label{genome-wide-lod-plots-for-the-traits-from-recla}}
+
+Let's plot the results of the univariate QTL scans for our two traits.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(out, }\DataTypeTok{map =}\NormalTok{ pseudomap, }\DataTypeTok{lodcolumn =} \DecValTok{10}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Genome-wide LOD for percent time in light"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{../../Rpkgs/qtl2pleio/vignettes/recla-analysis_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(out, }\DataTypeTok{map =}\NormalTok{ pseudomap, }\DataTypeTok{lodcolumn =} \DecValTok{22}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Genome-wide LOD for hot plate latency"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{../../Rpkgs/qtl2pleio/vignettes/recla-analysis_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\hypertarget{allele-effects-plots-on-chr-8-for-each-of-the-three-recla-traits}{%
+\subsection{Allele effects plots on Chr 8 for each of the three Recla
+traits}\label{allele-effects-plots-on-chr-8-for-each-of-the-three-recla-traits}}
+
+We examine the allele effects plots for our two traits, in the region of
+interest on Chromosome 8.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{scan1coef}\NormalTok{(aprobs[ , }\DecValTok{8}\NormalTok{], }\DataTypeTok{pheno =}\NormalTok{ wlph[, }\DecValTok{10}\NormalTok{], }\DataTypeTok{kinship =}\NormalTok{ kinship}\OperatorTok{$}\StringTok{`}\DataTypeTok{8}\StringTok{`}\NormalTok{, }
+          \DataTypeTok{reml =} \OtherTok{TRUE}\NormalTok{,}
+          \DataTypeTok{addcovar =}\NormalTok{ sex2) ->}\StringTok{ }\NormalTok{s1c_}\DecValTok{10}
+\KeywordTok{scan1coef}\NormalTok{(aprobs[ , }\DecValTok{8}\NormalTok{], }\DataTypeTok{pheno =}\NormalTok{ wlph[, }\DecValTok{22}\NormalTok{], }\DataTypeTok{kinship =}\NormalTok{ kinship}\OperatorTok{$}\StringTok{`}\DataTypeTok{8}\StringTok{`}\NormalTok{, }
+          \DataTypeTok{reml =} \OtherTok{TRUE}\NormalTok{,}
+          \DataTypeTok{addcovar =}\NormalTok{ sex2) ->}\StringTok{ }\NormalTok{s1c_}\DecValTok{22}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# subset scan1output objects}
+\NormalTok{s1c_10s <-}\StringTok{ }\NormalTok{s1c_}\DecValTok{10}\NormalTok{[}\DecValTok{650}\OperatorTok{:}\DecValTok{999}\NormalTok{, ] }\CommentTok{# 650:999 is the same as the interval for the two-dimensional scan.}
+\NormalTok{s1c_22s <-}\StringTok{ }\NormalTok{s1c_}\DecValTok{22}\NormalTok{[}\DecValTok{650}\OperatorTok{:}\DecValTok{999}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot_coefCC}\NormalTok{(s1c_10s, }\DataTypeTok{map =}\NormalTok{ pseudomap, }\DataTypeTok{main =} \StringTok{"Allele effects for percent time in light"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{../../Rpkgs/qtl2pleio/vignettes/recla-analysis_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot_coefCC}\NormalTok{(s1c_22s, }\DataTypeTok{map =}\NormalTok{ pseudomap, }\DataTypeTok{main =} \StringTok{"Allele effects for hot plate latency"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{../../Rpkgs/qtl2pleio/vignettes/recla-analysis_files/figure-latex/unnamed-chunk-15-2.pdf}
+
+\hypertarget{two-dimensional-scan-results-from-github}{%
+\subsection{Two-dimensional scan results from
+github}\label{two-dimensional-scan-results-from-github}}
+
+We present the code that we ran to perform the two-dimensional scan.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{scan_pvl}\NormalTok{(}\DataTypeTok{probs =}\NormalTok{ pp, }\DataTypeTok{pheno =}\NormalTok{ wlph[, }\KeywordTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{22}\NormalTok{)], }\DataTypeTok{covariates =}\NormalTok{ sex2, }\DataTypeTok{kinship =}\NormalTok{ kinship}\OperatorTok{$}\StringTok{`}\DataTypeTok{8}\StringTok{`}\NormalTok{, }\DataTypeTok{start_snp1 =} \DecValTok{650}\NormalTok{, }\DataTypeTok{n_snp =} \DecValTok{350}\NormalTok{) ->}\StringTok{ }\NormalTok{pvl1022}
+\KeywordTok{write.table}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ pvl1022, }\DataTypeTok{file =} \StringTok{"recla-10-22.txt"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+To save computing time, we read the two-dimensional scan results from
+Github.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{as_tibble}\NormalTok{(}\KeywordTok{read.table}\NormalTok{(}\StringTok{"https://raw.githubusercontent.com/fboehm/qtl2pleio-manuscript/master/Rmd/recla-10-22.txt"}\NormalTok{)) ->}\StringTok{ }\NormalTok{pvl1022}
+\end{Highlighting}
+\end{Shaded}
+
+We then calculate the likelihood ratio test statistic.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(mylrt <-}\StringTok{ }\KeywordTok{calc_lrt_tib}\NormalTok{(pvl1022))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.771408
+\end{verbatim}
+
+\hypertarget{profile-lod-plot}{%
+\subsection{Profile LOD Plot}\label{profile-lod-plot}}
+
+We create a profile LOD plot.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{colnames}\NormalTok{(recla}\OperatorTok{$}\NormalTok{pheno)[}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{22}\NormalTok{)] <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Percent time in light"}\NormalTok{, }\StringTok{"Hot plate latency"}\NormalTok{)}
+\NormalTok{p1022 <-}\StringTok{ }\KeywordTok{tidy_scan_pvl}\NormalTok{(pvl1022, }\DataTypeTok{pmap =}\NormalTok{ gm) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{add_intercepts}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\KeywordTok{as.numeric}\NormalTok{(pos_LD_light_pct), }\KeywordTok{as.numeric}\NormalTok{(pos_HP_latency))) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{plot_pvl}\NormalTok{(}\DataTypeTok{phenames =} \KeywordTok{colnames}\NormalTok{(recla}\OperatorTok{$}\NormalTok{pheno)[}\KeywordTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{22}\NormalTok{)]) }\OperatorTok{+}\StringTok{ }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Chromosome 8 profile LOD for percent time in light and hot plate latency"}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Column `marker`/`marker1` joining character vector and factor,
+## coercing into character vector
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Column `marker2`/`marker` joining factor and character vector,
+## coercing into character vector
+\end{verbatim}
+
+\hypertarget{bootstrap-analyses}{%
+\subsection{Bootstrap analyses}\label{bootstrap-analyses}}
+
+First, we find the \emph{pleiotropy peak} marker. This is the marker for
+which the log likelihood is maximized under the constraint of
+pleiotropy.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{find_pleio_peak_tib}\NormalTok{(pvl1022, }\DataTypeTok{start_snp =} \DecValTok{650}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## loglik139 
+##       788
+\end{verbatim}
+
+To save computing time, we read the bootstrap results files from Github.
+For details of how we performed the bootstrap analyses on the University
+of Wisconsin-Madison Center for High-Throughput Computing, please see
+the documentation in the qtl2pleio-manuscript repository:
+\url{https://github.com/fboehm/qtl2pleio-manuscript}.
+
+The code below creates a temporary directory ``tmp'' in the user's
+working directory. We then download a gzipped tar file that contains
+1000 text files. Each text file contains a single likelihood ratio test
+statistic from a bootstrap sample.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gz_file <-}\StringTok{ "https://raw.githubusercontent.com/fboehm/qtl2pleio-manuscript/master/chtc/Recla-bootstrap/submit_files/recla-boot-run561.tar.gz"}
+\NormalTok{tmp_dir <-}\StringTok{ }\KeywordTok{file.path}\NormalTok{(}\KeywordTok{getwd}\NormalTok{(), }\StringTok{"tmp"}\NormalTok{)}
+\KeywordTok{dir.create}\NormalTok{(tmp_dir)}
+\KeywordTok{download.file}\NormalTok{(gz_file, }\DataTypeTok{destfile =} \KeywordTok{file.path}\NormalTok{(tmp_dir, }\StringTok{"recla-boot-run561.tar.gz"}\NormalTok{))}
+\KeywordTok{untar}\NormalTok{(}\KeywordTok{file.path}\NormalTok{(tmp_dir, }\StringTok{"recla-boot-run561.tar.gz"}\NormalTok{), }\DataTypeTok{exdir =}\NormalTok{ tmp_dir)}
+\CommentTok{## read boot lrt files}
+\NormalTok{boot_lrt <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\DecValTok{1000}\NormalTok{)\{}
+\NormalTok{  n <-}\StringTok{ }\NormalTok{i }\OperatorTok{-}\StringTok{ }\DecValTok{1}
+\NormalTok{  fn <-}\StringTok{ }\KeywordTok{paste0}\NormalTok{(}\StringTok{"recla-boot-run561_"}\NormalTok{, n, }\StringTok{".txt"}\NormalTok{)}
+\NormalTok{  boot_lrt[i] <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\KeywordTok{file.path}\NormalTok{(tmp_dir, fn))}
+\NormalTok{\}}
+\CommentTok{# convert list to numeric vector}
+\NormalTok{boot_lrt <-}\StringTok{ }\KeywordTok{unlist}\NormalTok{(boot_lrt)}
+\CommentTok{# delete tmp_dir and its contents}
+\KeywordTok{unlink}\NormalTok{(tmp_dir, }\DataTypeTok{recursive =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We get a bootstrap p-value by comparing the above vector's values to
+\texttt{mylrt}, the test statistic for the observed data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sum}\NormalTok{(boot_lrt }\OperatorTok{>=}\StringTok{ }\NormalTok{mylrt) }\OperatorTok{/}\StringTok{ }\KeywordTok{length}\NormalTok{(boot_lrt)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.109
+\end{verbatim}
+
+\hypertarget{session-info}{%
+\subsection{Session info}\label{session-info}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{session_info}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## - Session info ----------------------------------------------------------
+##  setting  value                                      
+##  version  R version 3.5.2 Patched (2018-12-24 r75893)
+##  os       macOS Mojave 10.14.2                       
+##  system   x86_64, darwin15.6.0                       
+##  ui       RStudio                                    
+##  language (EN)                                       
+##  collate  en_US.UTF-8                                
+##  ctype    en_US.UTF-8                                
+##  tz       America/Chicago                            
+##  date     2019-02-05                                 
+## 
+## - Packages --------------------------------------------------------------
+##  package     * version    date       lib source                           
+##  assertthat    0.2.0      2017-04-11 [1] CRAN (R 3.5.0)                   
+##  backports     1.1.3      2018-12-14 [1] CRAN (R 3.5.0)                   
+##  bindr         0.1.1      2018-03-13 [1] CRAN (R 3.5.0)                   
+##  bindrcpp    * 0.2.2      2018-03-29 [1] CRAN (R 3.5.0)                   
+##  bit           1.1-14     2018-05-29 [1] CRAN (R 3.5.0)                   
+##  bit64         0.9-7      2017-05-08 [1] CRAN (R 3.5.0)                   
+##  blob          1.1.1      2018-03-25 [1] CRAN (R 3.5.0)                   
+##  broman        0.68-2     2018-07-25 [1] CRAN (R 3.5.0)                   
+##  callr         3.1.1      2018-12-21 [1] CRAN (R 3.5.0)                   
+##  cli           1.0.1      2018-09-25 [1] CRAN (R 3.5.0)                   
+##  colorspace    1.3-2      2016-12-14 [1] CRAN (R 3.5.0)                   
+##  crayon        1.3.4      2017-09-16 [1] CRAN (R 3.5.0)                   
+##  data.table    1.11.8     2018-09-30 [1] CRAN (R 3.5.0)                   
+##  DBI           1.0.0      2018-05-02 [1] CRAN (R 3.5.0)                   
+##  desc          1.2.0      2018-05-01 [1] CRAN (R 3.5.0)                   
+##  devtools      2.0.1      2018-10-26 [1] CRAN (R 3.5.2)                   
+##  digest        0.6.18     2018-10-10 [1] CRAN (R 3.5.0)                   
+##  dplyr       * 0.7.8      2018-11-10 [1] CRAN (R 3.5.0)                   
+##  evaluate      0.12       2018-10-09 [1] CRAN (R 3.5.0)                   
+##  fs            1.2.6      2018-08-23 [1] CRAN (R 3.5.0)                   
+##  ggplot2     * 3.1.0      2018-10-25 [1] CRAN (R 3.5.0)                   
+##  glue          1.3.0      2018-07-17 [1] CRAN (R 3.5.0)                   
+##  gtable        0.2.0      2016-02-26 [1] CRAN (R 3.5.0)                   
+##  htmltools     0.3.6      2017-04-28 [1] CRAN (R 3.5.0)                   
+##  jsonlite      1.6        2018-12-07 [1] CRAN (R 3.5.0)                   
+##  knitr         1.21       2018-12-10 [1] CRAN (R 3.5.2)                   
+##  labeling      0.3        2014-08-23 [1] CRAN (R 3.5.0)                   
+##  lazyeval      0.2.1      2017-10-29 [1] CRAN (R 3.5.0)                   
+##  magrittr      1.5        2014-11-22 [1] CRAN (R 3.5.0)                   
+##  memoise       1.1.0      2017-04-21 [1] CRAN (R 3.5.0)                   
+##  munsell       0.5.0      2018-06-12 [1] CRAN (R 3.5.0)                   
+##  packrat       0.5.0      2018-11-14 [1] CRAN (R 3.5.0)                   
+##  pillar        1.3.1      2018-12-15 [1] CRAN (R 3.5.0)                   
+##  pkgbuild      1.0.2      2018-10-16 [1] CRAN (R 3.5.0)                   
+##  pkgconfig     2.0.2      2018-08-16 [1] CRAN (R 3.5.0)                   
+##  pkgload       1.0.2      2018-10-29 [1] CRAN (R 3.5.0)                   
+##  plyr          1.8.4      2016-06-08 [1] CRAN (R 3.5.0)                   
+##  prettyunits   1.0.2      2015-07-13 [1] CRAN (R 3.5.0)                   
+##  processx      3.2.1      2018-12-05 [1] CRAN (R 3.5.0)                   
+##  ps            1.3.0      2018-12-21 [1] CRAN (R 3.5.0)                   
+##  purrr         0.2.5      2018-05-29 [1] CRAN (R 3.5.0)                   
+##  qtl2        * 0.17-9     2018-12-25 [1] Github (rqtl/qtl2@1c007a2)       
+##  qtl2pleio   * 0.1.2.9000 2018-12-31 [1] Github (fboehm/qtl2pleio@be41d66)
+##  R6            2.3.0      2018-10-04 [1] CRAN (R 3.5.0)                   
+##  Rcpp          1.0.0.1    2018-12-28 [1] Github (RcppCore/Rcpp@0c9f683)   
+##  remotes       2.0.2      2018-10-30 [1] CRAN (R 3.5.0)                   
+##  rlang         0.3.0.1    2018-10-25 [1] CRAN (R 3.5.0)                   
+##  rmarkdown   * 1.11       2018-12-08 [1] CRAN (R 3.5.0)                   
+##  rprojroot     1.3-2      2018-01-03 [1] CRAN (R 3.5.0)                   
+##  RSQLite       2.1.1      2018-05-06 [1] CRAN (R 3.5.0)                   
+##  scales        1.0.0      2018-08-09 [1] CRAN (R 3.5.0)                   
+##  sessioninfo   1.1.1      2018-11-05 [1] CRAN (R 3.5.0)                   
+##  stringi       1.2.4      2018-07-20 [1] CRAN (R 3.5.0)                   
+##  stringr       1.3.1      2018-05-10 [1] CRAN (R 3.5.0)                   
+##  testthat      2.0.1      2018-10-13 [1] CRAN (R 3.5.0)                   
+##  tibble        1.4.2      2018-01-22 [1] CRAN (R 3.5.0)                   
+##  tidyselect    0.2.5      2018-10-11 [1] CRAN (R 3.5.0)                   
+##  usethis       1.4.0      2018-08-14 [1] CRAN (R 3.5.0)                   
+##  withr         2.1.2      2018-03-15 [1] CRAN (R 3.5.0)                   
+##  xfun          0.4        2018-10-23 [1] CRAN (R 3.5.0)                   
+##  yaml          2.2.0      2018-07-25 [1] CRAN (R 3.5.0)                   
+## 
+## [1] /Library/Frameworks/R.framework/Versions/3.5/Resources/library
+\end{verbatim}
+
+\section{Pleiotropy testing vignette}
+
+\hypertarget{setting-for-pleiotropy-vs.two-separate-qtl}{%
+\subsection{Setting for pleiotropy vs.~two separate
+QTL}\label{setting-for-pleiotropy-vs.two-separate-qtl}}
+
+Our setting involves a pair of traits, \(Y_1\) and \(Y_2\), each of
+which individually (univariately) maps to a single genomic region.
+\(Y_1\) and \(Y_2\) are both measured on the same subjects. The exact
+definition of a genomic region is imprecise; in practice, it may be as
+large as 4 or 5 Mb. We seek to distinguish whether \(Y_1\) and \(Y_2\)
+associations (in the genomic region of interest) arise due to a single
+QTL or whether there are two two distinct loci, each of which associates
+with exactly one of the two traits. We recognize that more complicated
+association patterns are possible, but we neglect them in this test.
+
+\hypertarget{installing-qtl2pleio}{%
+\subsection{\texorpdfstring{Installing
+\texttt{qtl2pleio}}{Installing qtl2pleio}}\label{installing-qtl2pleio}}
+
+We install \texttt{qtl2pleio} from github via the \texttt{devtools} R
+package, which is available from CRAN.
+
+If you haven't installed \texttt{devtools} R package, you can do so with
+this line of code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"devtools"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Now that you have installed \texttt{devtools}, you can install
+\texttt{qtl2pleio} from its Github repository with this line of code:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"fboehm/qtl2pleio"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The above line only needs to be run once on a given computer (unless you
+wish to install a newer version of the package).
+
+We then load the library into our R session with the \texttt{library}
+command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(qtl2pleio)}
+\end{Highlighting}
+\end{Shaded}
+
+We'll work with data from the \texttt{qtl2data} repository, which is on
+github. First, we install and load the \texttt{qtl2} package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"rqtl/qtl2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We use the above line once to install the package on our computer before
+loading the package with the \texttt{library} command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(qtl2)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{reading-data-from-qtl2data-repository-on-github}{%
+\subsection{\texorpdfstring{Reading data from \texttt{qtl2data}
+repository on
+github}{Reading data from qtl2data repository on github}}\label{reading-data-from-qtl2data-repository-on-github}}
+
+We read from github.com data from the \texttt{qtl2data} repository.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tmpfile <-}\StringTok{ }\KeywordTok{tempfile}\NormalTok{()}
+\NormalTok{file <-}\StringTok{ }\KeywordTok{paste0}\NormalTok{(}\StringTok{"https://raw.githubusercontent.com/rqtl/"}\NormalTok{,}
+               \StringTok{"qtl2data/master/DOex/DOex_alleleprobs.rds"}\NormalTok{)}
+\KeywordTok{download.file}\NormalTok{(file, tmpfile)}
+\NormalTok{pr <-}\StringTok{ }\KeywordTok{readRDS}\NormalTok{(tmpfile)}
+\KeywordTok{unlink}\NormalTok{(tmpfile)}
+\NormalTok{tmpfile <-}\StringTok{ }\KeywordTok{tempfile}\NormalTok{()}
+\NormalTok{file <-}\StringTok{ }\KeywordTok{paste0}\NormalTok{(}\StringTok{"https://raw.githubusercontent.com/rqtl/"}\NormalTok{,}
+               \StringTok{"qtl2data/master/DOex/DOex_pmap.csv"}\NormalTok{)}
+\KeywordTok{download.file}\NormalTok{(file, tmpfile)}
+\NormalTok{pmap_pre <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(tmpfile)}
+\KeywordTok{unlink}\NormalTok{(tmpfile)}
+\NormalTok{pm2 <-}\StringTok{ }\NormalTok{pmap_pre[pmap_pre}\OperatorTok{$}\NormalTok{chr }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\KeywordTok{names}\NormalTok{(pm2) <-}\StringTok{ }\NormalTok{pmap_pre[pmap_pre}\OperatorTok{$}\NormalTok{chr }\OperatorTok{==}\StringTok{ }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{]}
+\NormalTok{pm3 <-}\StringTok{ }\NormalTok{pmap_pre[pmap_pre}\OperatorTok{$}\NormalTok{chr }\OperatorTok{==}\StringTok{ }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\KeywordTok{names}\NormalTok{(pm3) <-}\StringTok{ }\NormalTok{pmap_pre[pmap_pre}\OperatorTok{$}\NormalTok{chr }\OperatorTok{==}\StringTok{ }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{]}
+\NormalTok{pmX <-}\StringTok{ }\NormalTok{pmap_pre[pmap_pre}\OperatorTok{$}\NormalTok{chr }\OperatorTok{==}\StringTok{ "X"}\NormalTok{, }\DecValTok{3}\NormalTok{]}
+\KeywordTok{names}\NormalTok{(pmX) <-}\StringTok{ }\NormalTok{pmap_pre[pmap_pre}\OperatorTok{$}\NormalTok{chr }\OperatorTok{==}\StringTok{ "X"}\NormalTok{, }\DecValTok{1}\NormalTok{]}
+\KeywordTok{list}\NormalTok{(pm2, pm3, pmX) ->}\StringTok{ }\NormalTok{pm}
+\KeywordTok{names}\NormalTok{(pm) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"`2`"}\NormalTok{, }\StringTok{"`3`"}\NormalTok{, }\StringTok{"X"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+We now have an allele probabilities object stored in \texttt{pr}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{names}\NormalTok{(pr)}
+\CommentTok{#> [1] "2" "3" "X"}
+\KeywordTok{dim}\NormalTok{(pr}\OperatorTok{$}\StringTok{`}\DataTypeTok{2}\StringTok{`}\NormalTok{)}
+\CommentTok{#> [1] 261   8 127}
+\end{Highlighting}
+\end{Shaded}
+
+We see that \texttt{pr} is a list of 3 three-dimensional arrays - one
+array for each of 3 chromosomes.
+
+\hypertarget{kinship-calculations}{%
+\subsection{Kinship calculations}\label{kinship-calculations}}
+
+For our statistical model, we need a kinship matrix. Although we don't
+have genome-wide data - since we have allele probabilities for only 3
+chromosomes - let's calculate a kinship matrix using
+``leave-one-chromosome-out''. In practice, one would want to use allele
+probabilities from a full genome-wide set of markers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{calc_kinship}\NormalTok{(}\DataTypeTok{probs =}\NormalTok{ pr, }\DataTypeTok{type =} \StringTok{"loco"}\NormalTok{) ->}\StringTok{ }\NormalTok{kinship}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(kinship)}
+\CommentTok{#> List of 3}
+\CommentTok{#>  $ 2: num [1:261, 1:261] 0.6919 0.0707 0.2355 0.0558 0.0512 ...}
+\CommentTok{#>   ..- attr(*, "n_pos")= int 195}
+\CommentTok{#>   ..- attr(*, "dimnames")=List of 2}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\CommentTok{#>  $ 3: num [1:261, 1:261] 0.6642 0.0638 0.2035 0.1128 0.0772 ...}
+\CommentTok{#>   ..- attr(*, "n_pos")= int 220}
+\CommentTok{#>   ..- attr(*, "dimnames")=List of 2}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\CommentTok{#>  $ X: num [1:261, 1:261] 0.4853 0.0821 0.1958 0.1039 0.1123 ...}
+\CommentTok{#>   ..- attr(*, "n_pos")= int 229}
+\CommentTok{#>   ..- attr(*, "dimnames")=List of 2}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\end{Highlighting}
+\end{Shaded}
+
+We see that \texttt{kinship} is a list containing 3 matrices. Each
+matrix is 261 by 261 - where the number of subjects is 261 - and
+symmetric. The \((i, j)\) cell in the matrix contains the estimate of
+identity-by-state (IBS) probability for randomly chosen alleles at a
+single locus for those two subjects.
+
+Before we simulate phenotype data, we first specify our statistical
+model.
+
+We use the model:
+
+\[vec(Y) = X vec(B) + vec(G) + vec(E)\]
+
+where \(Y\) is a \(n\) by \(2\) matrix, where each row is one subject
+and each column is one quantitative trait. \(X\) is a \(2n\) by \(2f\)
+design matrix containing \(n\) by \(f\) allele probabilities matrices
+for each of two (possibly identical) markers. Thus, \(X\) is a
+block-diagonal matrix, with exactly two \(n\) by \(f\) blocks on the
+diagonal. \(B\) is a \(f\) by 2 matrix. ``vec'' refers to the
+vectorization operator. ``vec(B)'', where \(B\) is a \(f\) by \(2\)
+matrix, is, thus, a (column) vector of length \(2f\) that is formed by
+stacking the second column of \(B\) beneath the first column of \(B\).
+
+\(G\) is a matrix of random effects. We specify its distribution as
+matrix-variate normal with mean being a \(n\) by \(2\) matrix of zeros,
+covariance among row vectors a \(n\) by \(n\) kinship matrix, \(K\), and
+covariance among column vectors a \(2\) by \(2\) genetic covariance
+matrix, \(V_g\).
+
+In mathematical notation, we write:
+
+\[G \sim MN_{\text{n by 2}}(0, K, V_g)\]
+
+We also need to specify the distribution of the \(E\) matrix, which
+contains the random errors. \(E\) is a random \(n\) by \(2\) matrix that
+is distributed as a matrix-variate normal distribution with mean being
+the \(n\) by \(2\) zero matrix, covariance among row vectors \(I_n\),
+the \(n\) by \(n\) identity matrix, and covariance among columns the
+\(2\) by \(2\) matrix \(V_e\).
+
+\[E \sim MN_{\text{n by 2}}(0, I_n, V_e)\]
+
+In practice, we typically observe the phenotype matrix \(Y\). We also
+treat as known the design matrix \(X\) and the kinship matrix \(K\). We
+then infer the values of \(B\), \(V_g\), and \(V_e\).
+
+\hypertarget{simulating-phenotypes-with-qtl2pleiosim1}{%
+\subsection{\texorpdfstring{Simulating phenotypes with
+\texttt{qtl2pleio::sim1}}{Simulating phenotypes with qtl2pleio::sim1}}\label{simulating-phenotypes-with-qtl2pleiosim1}}
+
+The function to simulate phenotypes in \texttt{qtl2pleio} is
+\texttt{sim1}. By examining its help page, we see that it takes five
+arguments. The help page also gives the dimensions of the inputs.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# set up the design matrix, X}
+\NormalTok{pp <-}\StringTok{ }\NormalTok{pr[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{X <-}\StringTok{ }\NormalTok{gemma2}\OperatorTok{::}\KeywordTok{stagger_mats}\NormalTok{(pp[ , , }\DecValTok{50}\NormalTok{], pp[ , , }\DecValTok{50}\NormalTok{])}
+\CommentTok{# assemble B matrix of allele effects}
+\NormalTok{B <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\DataTypeTok{data =} \KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{8}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{, }\DataTypeTok{byrow =} \OtherTok{FALSE}\NormalTok{)}
+\CommentTok{# verify that B is what we want:}
+\NormalTok{B}
+\CommentTok{#>      [,1] [,2]}
+\CommentTok{#> [1,]   -1   -1}
+\CommentTok{#> [2,]   -1   -1}
+\CommentTok{#> [3,]   -1   -1}
+\CommentTok{#> [4,]   -1   -1}
+\CommentTok{#> [5,]    1    1}
+\CommentTok{#> [6,]    1    1}
+\CommentTok{#> [7,]    1    1}
+\CommentTok{#> [8,]    1    1}
+\CommentTok{# set.seed to ensure reproducibility}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{2018-01-30}\NormalTok{)}
+\CommentTok{# call to sim1}
+\NormalTok{Ypre <-}\StringTok{ }\KeywordTok{sim1}\NormalTok{(}\DataTypeTok{X =}\NormalTok{ X, }\DataTypeTok{B =}\NormalTok{ B, }\DataTypeTok{Vg =} \KeywordTok{diag}\NormalTok{(}\DecValTok{2}\NormalTok{), }\DataTypeTok{Ve =} \KeywordTok{diag}\NormalTok{(}\DecValTok{2}\NormalTok{), }\DataTypeTok{kinship =}\NormalTok{ kinship[[}\DecValTok{2}\NormalTok{]])}
+\NormalTok{Y <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(Ypre, }\DataTypeTok{nrow =} \DecValTok{261}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{, }\DataTypeTok{byrow =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(Y) <-}\StringTok{ }\KeywordTok{rownames}\NormalTok{(pp)}
+\KeywordTok{colnames}\NormalTok{(Y) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"tr1"}\NormalTok{, }\StringTok{"tr2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Let's perform univariate QTL mapping for each of the two traits in the Y
+matrix.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{scan1}\NormalTok{(}\DataTypeTok{genoprobs =}\NormalTok{ pr, }\DataTypeTok{pheno =}\NormalTok{ Y, }\DataTypeTok{kinship =}\NormalTok{ kinship) ->}\StringTok{ }\NormalTok{s1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(s1, pm)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{../../Rpkgs/qtl2pleio/vignettes/testing-pleiotropy-vs-separate-qtl_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{find_peaks}\NormalTok{(s1, }\DataTypeTok{map =}\NormalTok{ pm)}
+\CommentTok{#>   lodindex lodcolumn chr       pos       lod}
+\CommentTok{#> 1        1       tr1 `2` 75.562440  3.636498}
+\CommentTok{#> 2        1       tr1 `3` 82.778059 24.552172}
+\CommentTok{#> 3        1       tr1   X 13.406552  3.585519}
+\CommentTok{#> 4        2       tr2 `2`  3.164247  8.195879}
+\CommentTok{#> 5        2       tr2 `3` 82.778059 17.454825}
+\CommentTok{#> 6        2       tr2   X 95.069663 14.110670}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{perform-two-dimensional-scan-as-first-step-in-pleiotropy-v-separate-qtl-hypothesis-test}{%
+\subsection{Perform two-dimensional scan as first step in pleiotropy v
+separate QTL hypothesis
+test}\label{perform-two-dimensional-scan-as-first-step-in-pleiotropy-v-separate-qtl-hypothesis-test}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{out <-}\StringTok{ }\KeywordTok{scan_pvl}\NormalTok{(}\DataTypeTok{probs =}\NormalTok{ pp, }
+                \DataTypeTok{pheno =}\NormalTok{ Y, }
+                \DataTypeTok{kinship =}\NormalTok{ kinship[[}\DecValTok{2}\NormalTok{]], }\CommentTok{# 2nd entry in kinship list is Chr 3}
+                \DataTypeTok{start_snp =} \DecValTok{38}\NormalTok{, }
+                \DataTypeTok{n_snp =} \DecValTok{25}\NormalTok{, }\DataTypeTok{n_cores =} \DecValTok{1}
+\NormalTok{                )}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{create-a-profile-lod-plot-to-visualize-results-of-two-dimensional-scan}{%
+\subsubsection{Create a profile LOD plot to visualize results of
+two-dimensional
+scan}\label{create-a-profile-lod-plot-to-visualize-results-of-two-dimensional-scan}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dplyr)}
+\NormalTok{out }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{tidy_scan_pvl}\NormalTok{(pm3) }\OperatorTok{%>%}\StringTok{ }\CommentTok{# pm3 is physical map for Chr 3}
+\StringTok{  }\KeywordTok{add_intercepts}\NormalTok{(}\DataTypeTok{intercepts_univariate =} \KeywordTok{c}\NormalTok{(}\FloatTok{82.8}\NormalTok{, }\FloatTok{82.8}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{plot_pvl}\NormalTok{(}\DataTypeTok{phenames =} \KeywordTok{c}\NormalTok{(}\StringTok{"tr1"}\NormalTok{, }\StringTok{"tr2"}\NormalTok{))}
+\CommentTok{#> Warning: Removed 50 rows containing missing values (geom_path).}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{../../Rpkgs/qtl2pleio/vignettes/testing-pleiotropy-vs-separate-qtl_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\hypertarget{calculate-the-likelihood-ratio-test-statistic-for-pleiotropy-v-separate-qtl}{%
+\subsubsection{Calculate the likelihood ratio test statistic for
+pleiotropy v separate
+QTL}\label{calculate-the-likelihood-ratio-test-statistic-for-pleiotropy-v-separate-qtl}}
+
+We use the function \texttt{calc\_lrt\_tib} to calculate the likelihood
+ratio test statistic value for the specified traits and specified
+genomic region.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\KeywordTok{calc_lrt_tib}\NormalTok{(out) ->}\StringTok{ }\NormalTok{lrt)}
+\CommentTok{#> [1] 0.7730965}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{bootstrap-analysis-to-get-p-values}{%
+\subsection{Bootstrap analysis to get
+p-values}\label{bootstrap-analysis-to-get-p-values}}
+
+The calibration of test statistic values to get p-values uses bootstrap
+methods because we don't know the theoretical distribution of the test
+statistic under the null hypothesis. Thus, we use a bootstrap approach
+to obtain an empirical distribution of test statistic values under the
+null hypothesis of the presence of one pleiotropic locus.
+
+We will use the function \texttt{boot\_pvl} from our package
+\texttt{qtl2pleio}.
+
+We use a parametric bootstrap strategy in which we first use the studied
+phenotypes to infer the values of model parameters. Once we have the
+inferred values of the model parameters, we simulate phenotypes from the
+pleiotropy model (with the inferred parameter values).
+
+A natural question that arises is ``which marker's allele probabilities
+do we use when simulating phenotypes?'' We use the marker that, under
+the null hypothesis, ie, under the pleiotropy constraint, yields the
+greatest value of the log-likelihood.
+
+Before we call \texttt{boot\_pvl}, we need to identify the index (on the
+chromosome under study) of the marker that maximizes the likelihood
+under the pleiotropy constraint. To do this, we use the
+\texttt{qtl2pleio} function \texttt{find\_pleio\_peak\_tib}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(pleio_index <-}\StringTok{ }\KeywordTok{find_pleio_peak_tib}\NormalTok{(out, }\DataTypeTok{start_snp =} \DecValTok{38}\NormalTok{))}
+\CommentTok{#> loglik13 }
+\CommentTok{#>       50}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{2018-10-03}\NormalTok{)}
+\KeywordTok{system.time}\NormalTok{(b_out <-}\StringTok{ }\KeywordTok{boot_pvl}\NormalTok{(}\DataTypeTok{probs =}\NormalTok{ pp,}
+         \DataTypeTok{pheno =}\NormalTok{ Y, }
+         \DataTypeTok{pleio_peak_index =}\NormalTok{ pleio_index, }
+         \DataTypeTok{kinship =}\NormalTok{ kinship[[}\DecValTok{2}\NormalTok{]], }\CommentTok{# 2nd element in kinship list is Chr 3 }
+         \DataTypeTok{nboot_per_job =} \DecValTok{10}\NormalTok{, }
+         \DataTypeTok{start_snp =} \DecValTok{38}\NormalTok{, }
+         \DataTypeTok{n_snp =} \DecValTok{10}
+\NormalTok{         ))}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#>    user  system elapsed }
+\CommentTok{#>  53.541   0.446  54.045}
+\end{Highlighting}
+\end{Shaded}
+
+The argument \texttt{nboot\_per\_job} indicates the number of bootstrap
+samples that will be created and analyzed. Here, we set
+\texttt{nboot\_per\_job\ =\ 10}, so we expect to see returned a numeric
+vector of length 10, where each entry is a LRT statistic value from a
+distinct bootstrap sample.
+
+Finally, we determine a bootstrap p-value in the usual method. We treat
+the bootstrap samples' test statistics as an empirical distribution of
+the test statistic under the null hypothesis of pleiotropy. Thus, to get
+a p-value, we want to ask ``What is the probability, under the null
+hypothesis, of observing a test statistic value that is at least as
+extreme as that which we observed?''
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(pvalue <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(b_out }\OperatorTok{>=}\StringTok{ }\NormalTok{lrt))}
+\CommentTok{#> [1] 0.1}
+\end{Highlighting}
+\end{Shaded}
+
+Typically, one would want to conduct the two-dimensional scan over a
+larger grid (ie, with more markers). We abbreviated the scan above to
+reduce computing time.
+
+In practice, one would want to use many more bootstrap samples to
+achieve an empirical distribution that is closer to the theoretical
+distribution of the test statistic under the null hypothesis.
+
+However, if one wants to perform analyses with a reasonable number - say
+400 - bootstrap samples, this will take a very long time - several days
+- on a single laptop computer. We have used a series of computer
+clusters that are coordinated by the University of Wisconsin-Madison's
+Center for High-throughput Computing (\url{http://chtc.cs.wisc.edu}). We
+typically are able to analyze 1000 bootstrap samples in less than 24
+hours with this service.
+
+We recently added parallel computing capacity with \texttt{boot\_pvl}
+and \texttt{scan\_pvl}. The user may specify \texttt{n\_cores} when
+calling each function.
 
 
 
