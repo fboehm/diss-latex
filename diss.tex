@@ -920,10 +920,11 @@ Department of Energy's Office of Science.
 \section{Expression trait hotspot dissection}
 \subsection{Introduction}
 
-A central goal of systems genetics studies is to identify causal relationships between biomolecules. Recent work by \citet{chick2016defining} has popularized linear regression-based methods for causal inference in genetics. This development motivates our goal of clarifying a role for our pleiotropy test. We argue that our pleiotropy test complements mediation analysis in two ways. First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. Second, when regression-based mediation analysis fails to identify a mediator, our test of pleiotropy vs. separate QTL still provides information on the number of QTL, which may provide clues to aid biological understanding.
+A central goal of systems genetics studies is to identify causal relationships between biomolecules. Recent work by \citet{chick2016defining}, which builds on research from \citet{baron1986moderator} has popularized linear regression-based methods for causal inference in genetics. This development motivates our goal of clarifying a role for our pleiotropy test. We argue that our pleiotropy test complements mediation analysis in two ways. First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. Second, when regression-based mediation analysis fails to identify a mediator, our pleiotropy test still provides information on the number of QTL, which may provide clues to aid biological understanding.
 
 
-We begin by discussing what it means for one trait to mediate a relationship between a DNA variant and another trait. To clarify our discussion, we refer to an example from \citet{chick2016defining}. \citet{chick2016defining}, in studying livers of 192 Diversity Outbred mice, found evidence that \emph{Dhtkd1} transcript levels associated with a local marker on Chromosome 2. They also found that the same marker affected DHTKD1 protein concentrations. As anticipated, mediation analysis, in which the DHTKD1 protein concentrations are regressed on founder allele dosages (at the Chromosome 2 marker) demonstrated that \emph{Dhtkd1} transcript levels act as a mediator between DHTKD1 protein concentrations and the founder allele dosages. In fact, the extent of the reduction in association strength indicates that the primary pathway by which the genetic marker affects DHTKD1 protein concentrations is through \emph{Dhtkd1} transcript levels.
+We begin by discussing what it means for one trait to mediate a relationship between a DNA variant and another trait. To clarify our discussion, we refer to an example from \citet{chick2016defining}. \citet{chick2016defining}, in studying livers of 192 Diversity Outbred mice, found evidence that \emph{Dhtkd1} transcript levels associated with a local marker on Chromosome 2. They also found that the same marker affected DHTKD1 protein concentrations. 
+As anticipated, mediation analysis, in which the DHTKD1 protein concentrations are regressed on founder allele dosages (at the Chromosome 2 marker) demonstrated that \emph{Dhtkd1} transcript levels act as a mediator between DHTKD1 protein concentrations and the founder allele dosages. In fact, the extent of the reduction in association strength indicates that the primary pathway by which the genetic marker affects DHTKD1 protein concentrations is through \emph{Dhtkd1} transcript levels.
 
 \citet{crick1958protein} articulated a pathway for transmission of biological information that is now known as the central dogma of molecular biology. In it, he argued that information encoded in DNA sequence is transmitted via transcription to RNA molecules, which, in turn, transfer the information to proteins via translation. This sequence of information transfer, from DNA to RNA to protein, provides a natural setting by which to examine mediation analysis. If a DNA variant affects protein concentrations only through its RNA transcripts, then conditioning on RNA transcript levels would greatly reduce the strength of association between DNA variant and protein concentration. In the example above, a DNA variant in the \emph{Dhtkd1} gene affects its transcript levels, which then affect DHTKD1 protein levels.
 
@@ -1985,31 +1986,12 @@ The above study illustrates another scientific application of our test of pleiot
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(dplyr)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## 
-## Attaching package: 'dplyr'
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(ggplot2)}
 \KeywordTok{library}\NormalTok{(qtl2pleio)}
 \KeywordTok{library}\NormalTok{(qtl2)}
+\NormalTok{knitr}\OperatorTok{::}\NormalTok{opts_chunk}\OperatorTok{$}\KeywordTok{set}\NormalTok{(}\DataTypeTok{tidy =} \OtherTok{TRUE}\NormalTok{, }
+                      \DataTypeTok{tidy.opts =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{width.cutoff =} \DecValTok{60}\NormalTok{)}
+\NormalTok{                      )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2473,6 +2455,7 @@ We get a bootstrap p-value by comparing the above vector's values to
 ##  dplyr       * 0.7.8      2018-11-10 [1] CRAN (R 3.5.0)                   
 ##  evaluate      0.12       2018-10-09 [1] CRAN (R 3.5.0)                   
 ##  fs            1.2.6      2018-08-23 [1] CRAN (R 3.5.0)                   
+##  gemma2        0.0.1.1    2018-12-25 [1] Github (fboehm/gemma2@2872396)   
 ##  ggplot2     * 3.1.0      2018-10-25 [1] CRAN (R 3.5.0)                   
 ##  glue          1.3.0      2018-07-17 [1] CRAN (R 3.5.0)                   
 ##  gtable        0.2.0      2016-02-26 [1] CRAN (R 3.5.0)                   
@@ -2480,8 +2463,11 @@ We get a bootstrap p-value by comparing the above vector's values to
 ##  jsonlite      1.6        2018-12-07 [1] CRAN (R 3.5.0)                   
 ##  knitr         1.21       2018-12-10 [1] CRAN (R 3.5.2)                   
 ##  labeling      0.3        2014-08-23 [1] CRAN (R 3.5.0)                   
+##  lattice       0.20-38    2018-11-04 [1] CRAN (R 3.5.2)                   
 ##  lazyeval      0.2.1      2017-10-29 [1] CRAN (R 3.5.0)                   
 ##  magrittr      1.5        2014-11-22 [1] CRAN (R 3.5.0)                   
+##  MASS          7.3-51.1   2018-11-01 [1] CRAN (R 3.5.2)                   
+##  Matrix        1.2-15     2018-11-01 [1] CRAN (R 3.5.2)                   
 ##  memoise       1.1.0      2017-04-21 [1] CRAN (R 3.5.0)                   
 ##  munsell       0.5.0      2018-06-12 [1] CRAN (R 3.5.0)                   
 ##  packrat       0.5.0      2018-11-14 [1] CRAN (R 3.5.0)                   
@@ -2510,6 +2496,7 @@ We get a bootstrap p-value by comparing the above vector's values to
 ##  testthat      2.0.1      2018-10-13 [1] CRAN (R 3.5.0)                   
 ##  tibble        1.4.2      2018-01-22 [1] CRAN (R 3.5.0)                   
 ##  tidyselect    0.2.5      2018-10-11 [1] CRAN (R 3.5.0)                   
+##  tinytex       0.9        2018-10-23 [1] CRAN (R 3.5.0)                   
 ##  usethis       1.4.0      2018-08-14 [1] CRAN (R 3.5.0)                   
 ##  withr         2.1.2      2018-03-15 [1] CRAN (R 3.5.0)                   
 ##  xfun          0.4        2018-10-23 [1] CRAN (R 3.5.0)                   
@@ -2785,7 +2772,7 @@ matrix.
 \end{Shaded}
 
 \hypertarget{perform-two-dimensional-scan-as-first-step-in-pleiotropy-v-separate-qtl-hypothesis-test}{%
-\subsection{Perform two-dimensional scan as first step in pleiotropy v
+\section{Perform two-dimensional scan as first step in pleiotropy v
 separate QTL hypothesis
 test}\label{perform-two-dimensional-scan-as-first-step-in-pleiotropy-v-separate-qtl-hypothesis-test}}
 
@@ -2904,7 +2891,7 @@ under the pleiotropy constraint. To do this, we use the
 \CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
 \CommentTok{#> covariance matrices estimation completed.}
 \CommentTok{#>    user  system elapsed }
-\CommentTok{#>  53.541   0.446  54.045}
+\CommentTok{#>  53.802   0.375  54.249}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2948,9 +2935,192 @@ We recently added parallel computing capacity with \texttt{boot\_pvl}
 and \texttt{scan\_pvl}. The user may specify \texttt{n\_cores} when
 calling each function.
 
+\hypertarget{session-info}{%
+\subsection{Session info}\label{session-info-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{session_info}\NormalTok{()}
+\CommentTok{#> - Session info ----------------------------------------------------------}
+\CommentTok{#>  setting  value                                      }
+\CommentTok{#>  version  R version 3.5.2 Patched (2018-12-24 r75893)}
+\CommentTok{#>  os       macOS Mojave 10.14.2                       }
+\CommentTok{#>  system   x86_64, darwin15.6.0                       }
+\CommentTok{#>  ui       RStudio                                    }
+\CommentTok{#>  language (EN)                                       }
+\CommentTok{#>  collate  en_US.UTF-8                                }
+\CommentTok{#>  ctype    en_US.UTF-8                                }
+\CommentTok{#>  tz       America/Chicago                            }
+\CommentTok{#>  date     2019-02-05                                 }
+\CommentTok{#> }
+\CommentTok{#> - Packages --------------------------------------------------------------}
+\CommentTok{#>  package     * version    date       lib source                           }
+\CommentTok{#>  assertthat    0.2.0      2017-04-11 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  backports     1.1.3      2018-12-14 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  bindr         0.1.1      2018-03-13 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  bindrcpp    * 0.2.2      2018-03-29 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  bit           1.1-14     2018-05-29 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  bit64         0.9-7      2017-05-08 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  blob          1.1.1      2018-03-25 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  broman        0.68-2     2018-07-25 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  callr         3.1.1      2018-12-21 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  cli           1.0.1      2018-09-25 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  colorspace    1.3-2      2016-12-14 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  crayon        1.3.4      2017-09-16 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  data.table    1.11.8     2018-09-30 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  DBI           1.0.0      2018-05-02 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  desc          1.2.0      2018-05-01 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  devtools      2.0.1      2018-10-26 [1] CRAN (R 3.5.2)                   }
+\CommentTok{#>  digest        0.6.18     2018-10-10 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  dplyr       * 0.7.8      2018-11-10 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  evaluate      0.12       2018-10-09 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  fs            1.2.6      2018-08-23 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  gemma2        0.0.1.1    2018-12-25 [1] Github (fboehm/gemma2@2872396)   }
+\CommentTok{#>  ggplot2     * 3.1.0      2018-10-25 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  glue          1.3.0      2018-07-17 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  gtable        0.2.0      2016-02-26 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  htmltools     0.3.6      2017-04-28 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  jsonlite      1.6        2018-12-07 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  knitr         1.21       2018-12-10 [1] CRAN (R 3.5.2)                   }
+\CommentTok{#>  labeling      0.3        2014-08-23 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  lattice       0.20-38    2018-11-04 [1] CRAN (R 3.5.2)                   }
+\CommentTok{#>  lazyeval      0.2.1      2017-10-29 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  magrittr      1.5        2014-11-22 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  MASS          7.3-51.1   2018-11-01 [1] CRAN (R 3.5.2)                   }
+\CommentTok{#>  Matrix        1.2-15     2018-11-01 [1] CRAN (R 3.5.2)                   }
+\CommentTok{#>  memoise       1.1.0      2017-04-21 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  munsell       0.5.0      2018-06-12 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  packrat       0.5.0      2018-11-14 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  pillar        1.3.1      2018-12-15 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  pkgbuild      1.0.2      2018-10-16 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  pkgconfig     2.0.2      2018-08-16 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  pkgload       1.0.2      2018-10-29 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  plyr          1.8.4      2016-06-08 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  prettyunits   1.0.2      2015-07-13 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  processx      3.2.1      2018-12-05 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  ps            1.3.0      2018-12-21 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  purrr         0.2.5      2018-05-29 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  qtl2        * 0.17-9     2018-12-25 [1] Github (rqtl/qtl2@1c007a2)       }
+\CommentTok{#>  qtl2pleio   * 0.1.2.9000 2018-12-31 [1] Github (fboehm/qtl2pleio@be41d66)}
+\CommentTok{#>  R6            2.3.0      2018-10-04 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  Rcpp          1.0.0.1    2018-12-28 [1] Github (RcppCore/Rcpp@0c9f683)   }
+\CommentTok{#>  remotes       2.0.2      2018-10-30 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  rlang         0.3.0.1    2018-10-25 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  rmarkdown   * 1.11       2018-12-08 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  rprojroot     1.3-2      2018-01-03 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  RSQLite       2.1.1      2018-05-06 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  scales        1.0.0      2018-08-09 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  sessioninfo   1.1.1      2018-11-05 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  stringi       1.2.4      2018-07-20 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  stringr       1.3.1      2018-05-10 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  testthat      2.0.1      2018-10-13 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  tibble        1.4.2      2018-01-22 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  tidyselect    0.2.5      2018-10-11 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  tinytex       0.9        2018-10-23 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  usethis       1.4.0      2018-08-14 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  withr         2.1.2      2018-03-15 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  xfun          0.4        2018-10-23 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#>  yaml          2.2.0      2018-07-25 [1] CRAN (R 3.5.0)                   }
+\CommentTok{#> }
+\CommentTok{#> [1] /Library/Frameworks/R.framework/Versions/3.5/Resources/library}
+\end{Highlighting}
+\end{Shaded}
 
 
 
 \printbibliography
+
+\newpage
+\appendix
+
+% supplemental tables
+\renewcommand{\thetable}{\textbf{S\arabic{table}}}
+\setcounter{table}{0}
+
+
+\begin{table}
+  \caption{Eight founder lines and their one-letter abbreviations.}
+  \label{table-letters}
+\begin{center}
+\small
+  \begin{tabular}{ c | c }
+    \hline
+    Founder allele & One-letter abbreviation \\ \hline
+    A/J & A \\
+    C57BL/6J & B \\
+    129S1/SvImJ & C \\
+    NOD/ShiLtJ & D\\
+    NZO/H1LTJ & E\\
+    Cast/EiJ & F\\
+    PWK/PhJ & G\\
+    WSB/EiJ & H\\
+    \hline
+  \end{tabular}
+
+\end{center}
+  \end{table}
+
+\clearpage
+
+  % latex table generated in R 3.5.1 by xtable 1.8-3 package
+% Tue Nov 20 10:28:47 2018
+\begin{table}
+\caption{Both ``hot plate latency'' and ``percent time in light''
+  demonstrate multiple QTL peaks with LOD scores above 5.}
+  \label{table-peaks}
+\begin{center}
+\begin{tabular}{l|lrr}
+  \hline
+phenotype & chr & pos & LOD score \\
+   \hline
+percent time in light & 8 & 55.28 & 5.27 \\
+ hot plate latency & 8 & 57.77 & 6.22 \\
+ percent time in light & 9 & 36.70 & 5.42 \\
+ hot plate latency & 9 & 46.85 & 5.22 \\
+ percent time in light & 11 & 63.39 & 6.46 \\
+ hot plate latency & 12 & 43.52 & 5.13 \\
+ percent time in light & 15 & 15.24 & 5.67 \\
+ hot plate latency & 19 & 47.80 & 5.48 \\
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+
+
+
+
+
+\clearpage
+
+
+% supplemental figures
+\renewcommand{\thefigure}{\textbf{S\arabic{figure}}}
+\setcounter{figure}{0}
+
+\begin{figure}
+\includegraphics[width = \textwidth]{../qtl2pleio-manuscript/Rmd/scatter.eps}
+\caption{Scatter plot of ``hot plate latency'' against ``percent time in
+  light'', after applying logarithm transformations and winsorizing
+  both traits.}
+\label{fig:scatter}
+\end{figure}
+
+
+\begin{figure}
+\includegraphics{../qtl2pleio-manuscript/Rmd/genomewide_lods_10-22.eps}
+\caption{Genome-wide QTL scan for percent time in light reveals
+  multiple QTL, including one on Chromosome 8.}
+\label{fig:genomewide10-22}
+\end{figure}
+
+
+
+
+
+
+
+
 
 \end{document}
