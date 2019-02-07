@@ -938,6 +938,7 @@ Department of Energy's Office of Science.
 \subsection{Introduction}
 
 A central goal of systems genetics studies is to identify causal relationships between biomolecules. Recent work by \citet{chick2016defining}, which builds on research from \citet{baron1986moderator}, has popularized linear regression-based methods for causal inference in genetics. This development motivates our goal of clarifying a role for our pleiotropy test. We argue that our pleiotropy test complements mediation analysis in two ways. First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. Second, when regression-based mediation analysis fails to identify a mediator, our pleiotropy test still provides information on the number of QTL, which may provide clues to aid biological understanding.
+<<<<<<< HEAD
 
 
 We begin by discussing what it means for one trait to mediate a relationship between a 
@@ -985,6 +986,33 @@ transcript levels, which then affect DHTKD1 protein levels (Figure~\ref{fig:Dhtk
 
 
 
+=======
+
+
+We begin by discussing what it means for one trait to mediate a relationship between a DNA variant and another trait. To clarify our discussion, we refer to an example from \citet{chick2016defining} (Figure~\ref{fig:Dhtkd1}). \citet{chick2016defining}, in studying livers of 192 Diversity Outbred mice, found evidence that \emph{Dhtkd1} transcript levels associated with a local marker on Chromosome 2. They also found that the same marker affected DHTKD1 protein concentrations. 
+As anticipated, mediation analysis, in which the DHTKD1 protein concentrations are regressed on founder allele dosages (at the Chromosome 2 marker) demonstrated that \emph{Dhtkd1} transcript levels act as a mediator between DHTKD1 protein concentrations and the founder allele dosages. In fact, the extent of the reduction in association strength indicates that the primary pathway by which the genetic marker affects DHTKD1 protein concentrations is through \emph{Dhtkd1} transcript levels.
+
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.7\textwidth]{../QTLfigs/Figs/central_dogma-Dhtkd1.pdf}
+  \caption{A DNA variant in the \emph{Dhtkd1} gene affects \emph{Dhtkd1} transcript abundances which, in turn, affect DHTKD1 protein concentrations.}\label{fig:Dhtkd1}
+\end{figure}
+
+
+
+
+\citet{crick1958protein} articulated a pathway for transmission of biological information that is now known as the central dogma of molecular biology (Figure~\ref{fig:dogma}). In it, he argued that information encoded in DNA sequence is transmitted via transcription to RNA molecules, which, in turn, transfer the information to proteins via translation. This sequence of information transfer, from DNA to RNA to protein, provides a natural setting by which to examine mediation analysis. If a DNA variant affects protein concentrations only through its RNA transcripts, then conditioning on RNA transcript levels would greatly reduce the strength of association between DNA variant and protein concentration. In the example above, a DNA variant in the \emph{Dhtkd1} gene affects its transcript levels, which then affect DHTKD1 protein levels (Figure~\ref{fig:Dhtkd1}).
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width = 0.7\textwidth]{../QTLfigs/Figs/central_dogma.pdf}
+  \caption{Biological information is encoded in DNA. This information is passed, via transcription, to RNA molecules. The process of translation transmits the information to proteins.}\label{fig:dogma}
+\end{figure}
+
+
+
+>>>>>>> 15b9a669016045ba1679bc028b2f4babf0d6499b
 
 Following \citet{keller2018genetic}, we generalize this setting to the case where a DNA variant affects a local transcript level, which then affects a nonlocal transcript level. We term a transcript ``local'' to a marker when its DNA is near that marker. Typically, we use a threshold of no more than 2 Mb to restrict the number of local transcripts for a given marker. A nonlocal transcript, then, is either one that arises from a gene on another chromosome or from a distant gene on the same chromosome as the marker.
 
