@@ -1456,7 +1456,16 @@ In comparing the plot for \emph{Asah2} with those of \emph{Lipo1}, \emph{Lipo2},
     \label{fig:lod}
 \end{figure}
 
-Analyses for all four anchor gene expression traits demonstrate that greater univariate LOD scores tend to correspond to greater values of the pleiotropy test statistic (Figure \ref{fig:lod}).
+Analyses for all four anchor gene expression traits demonstrate that greater univariate LOD scores tend to correspond to greater values of the pleiotropy test statistic (Figure~\ref{fig:lod}). 
+The coloring of points reflects interlocus distance from the anchor gene. 
+All four panels reveal a common pattern in the coloring of points.
+For a given univariate LOD value, those genes with greater interlocus distance tend to have greater values of the pleiotropy test statistic. 
+Anchor gene 4933413C19Rik, due to its position on Chromosome 19, has multiple light blue points. 
+Nearly all of these light blue points have large pleiotropy test statistics relative to their univariate LOD scores.
+
+
+
+
 
 
 
@@ -1474,7 +1483,7 @@ Analyses for all four anchor gene expression traits demonstrate that greater uni
     \label{fig:cor}
 \end{figure}
 
-Figure \ref{fig:cor} features four panels, one for each anchor gene. Each point corresponds to a pairing between the specified anchor and one of the 79 other gene expression traits.
+Figure \ref{fig:cor} features four panels, one for each anchor gene. Each point corresponds to a pairing between the specified anchor and one of the 79 other gene expression traits. None of the four panels reveals a strong relationship between fitted values correlation and pleiotropy test statistics. There may be weak evidence for a downward trend in pleiotropy test statistics at larger values of fitted values correlation, as demonstrated by \emph{Asah2}, \emph{Lipo1}, and \emph{Lipo2}. 
 
 
 
@@ -1482,13 +1491,13 @@ Figure \ref{fig:cor} features four panels, one for each anchor gene. Each point 
 
 Our goal for this study was to characterize the impacts of univariate LOD score, inter-locus distance, and founder allele effects pattern similarities on pleiotropy test statistic values. Our study design, in which we examined 310 pairs of local gene expression traits on Chromosome 19, allowed us to interrogate both the effects of univariate association strength and the effects of inter-locus distance. We found that stronger univariate associations and greater inter-locus distances correspond to greater pleiotropy test statistic values (Figures \ref{fig:middle} and \ref{fig:lod}). We expected these trends based on our simulation studies in Chapter 2.
 
-Figure \ref{fig:cor} revealed no marginal relationship between fitted values correlations and pleiotropy test statistics. However, close examination of Figure \ref{fig:cor} reveals the possibility that there is an interaction between 1) fitted values correlations and 2) univariate association strength. In every panel, those expression traits with stronger univariate associations tend to have steeper slopes between the conditional mean pleiotropy test statistic values and fitted values correlations. The plots suggest that, at greater univariate LOD values, there is a greater (negative) relationship between fitted values correlation and pleiotropy test statistic value.
+Figure \ref{fig:cor} revealed no strong relationship between fitted values correlations and pleiotropy test statistics. However, close examination of Figure \ref{fig:cor} reveals the possibility that there is an interaction between 1) fitted values correlations and 2) univariate LOD scores. In every panel, those expression traits with stronger univariate associations tend to have steeper slopes between the conditional mean pleiotropy test statistic values and fitted values correlations. The plots weakly suggest that, at greater univariate LOD values, there is a greater (negative) relationship between fitted values correlation and pleiotropy test statistic value.
 
 We anticipated that more similar founder allele effects patterns would correspond to smaller values for the pleiotropy test statistic, when holding other factors constant. As we stated above, \citet{macdonald2007joint} and \citet{king2012genetic} argued that, for biallelic markers, two pleiotropic traits should have similar founder allele effects patterns. In our setting, it's unclear whether the markers are biallelic in the collection of eight founder lines.
 
-We've demonstrated strong evidence in support of the roles of 1) univariate QTL LOD scores and 2) interlocus distances impacting pleiotropy test statistic values. Greater univariate QTL scores and greater interlocus distance lead to greater pleiotropy test statistics. Future research may clarify the impoact of founder allele effects patterns on pleiotropy test statistics. The fact that all four anchor traits had strong PWK effects limited our ability to fully define the impact of allele effects patterns on our test statistics.
+We've demonstrated strong evidence in support of the roles of 1) univariate QTL LOD scores and 2) interlocus distances impacting pleiotropy test statistic values. Greater univariate QTL scores and greater interlocus distance lead to greater pleiotropy test statistics. Future research may clarify the impoact of founder allele effects patterns on pleiotropy test statistics. The fact that all four anchor traits had strong PWK effects (Table~\ref{tab:effects}) limited our ability to fully define the impact of allele effects patterns on our test statistics.
 
-Throughout this study, we elected to use test statistic values rather than p-values, as our measure of evidence supporting the separate QTL hypothesis. The primary reason for doing this is to avoid the computationally costly bootstrap sampling and two-dimensional QTL scans that we would need to get bootstrap p-values.
+Throughout this study, we elected to use test statistic values rather than p-values as our measure of evidence supporting the separate QTL hypothesis. The primary reason for doing this is to avoid the computationally costly bootstrap sampling and two-dimensional QTL scans that we would need to get bootstrap p-values.
 
 We share our analysis \texttt{R} code \citep{r} as a \texttt{git} repository at this URL: \url{https://github.com/fboehm/keller-2018-chr19-power}.
 
