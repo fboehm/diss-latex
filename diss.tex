@@ -1516,24 +1516,76 @@ Recent technological innovations have fueled exploration of ecological relations
 
 As we describe in Kreznar et al. (forthcoming), we analyzed data from 384 Diversity Outbred mice. \citet{keller2018genetic} analyzed data from many of these same mice. Specifically, we examined two microbiome-related phenotypes, 1. plasma cholic acid and 2. \emph{Turicibacter} abundance in the distal gut. Both traits map to Chromosome 8 (4.3 Mb and 5.7 Mb, respectively) in univariate QTL scans (Table \ref{tab:3c-lod-peaks}).
 
-Following the procedures outlined by Kreznar et al. (forthcoming), we collected fecal samples from all mice immediately immediately after a four-hour fast. We sacrificed the mice, at the age of 22 weeks, immediately after the fast. We extracted DNA from fecal samples and subjected it to 16S ribosomal RNA gene sequencing, as we describe in Kreznar et al. (forthcoming) in efforts to infer abundances of microbial taxa in the fecal samples. Demultiplexed, paired-end FASTQ files resulted from the sequencing. We used the QIIME2 (version 2018.4) software package for quality control and processing of sequence data. We applied the DADA2 software package to denoise sequencing reads and to identify de novo sub-operational taxonomic units. We aligned sequence variants with the software package mafft. After FastTree-based phylogeny reconstruction, we assigned taxonomic classifications with classify-sklearn against the Greengenes OTUs reference sequences. We normalized sequencing data with cumulative sum scaling with MetagenomeSeq. We limited study of microbiome-derived traits to those that we detected in at least 20\% of subjects. The \emph{Turicibacter} abundance trait is one element of the resulting core measurable microbiota. 
+Following the procedures outlined by Kreznar et al. (forthcoming), 
+we collected fecal samples from all mice immediately immediately 
+after a four-hour fast. We sacrificed the mice, at the age of 22 
+weeks, immediately after the fast. We extracted DNA from fecal 
+samples and subjected it to 16S ribosomal RNA gene sequencing, as we 
+describe in Kreznar et al. (forthcoming), in efforts to infer 
+abundances of microbial taxa. Demultiplexed, 
+paired-end FASTQ files resulted from the sequencing. We used the 
+QIIME2 (version 2018.4) software package for quality control and 
+processing of sequence data. We applied the DADA2 software package 
+to denoise sequencing reads and to identify de novo sub-operational 
+taxonomic units. We aligned sequence variants with the software 
+package mafft. After FastTree-based phylogeny reconstruction, we 
+assigned taxonomic classifications with classify-sklearn against the 
+Greengenes OTUs reference sequences. We normalized sequencing data 
+with cumulative sum scaling with MetagenomeSeq. We limited study of 
+microbiome-derived traits to those that we detected in at least 20\% 
+of subjects. The \emph{Turicibacter} abundance trait is one element 
+of the resulting core measurable microbiota. 
 
-As Kreznar et al. (forthcoming) describe, we collected 40 $\mu$L of plasma from each mouse at time of sacrifice. After removing soluble proteins, we analyzed each mouse's sample by mass spectrometry. Specifically, we performed liquid chromatography - mass spectrometry under conditions specified in Kreznar et al. to measure abundances of pre-specified bile acids. We processed and normalized plasma bile acid measurements to obtain the phenotypes for QTL analysis.
 
-We inferred 36-state genotype probabilities for every (autosomal) marker and every mouse from GigaMUGA SNP microarray data \citep{morgan2015mouse}. We used a hidden Markov model strategy developed by \citet{broman2012genotype, broman2012haplotype} and implemented in the R package \texttt{qtl2} \citep{qtl2}. We treated these inferred genotype probabilities as known quantities in the analyses below.
+As Kreznar et al. (forthcoming) describe, we collected 40 $\mu$L of 
+plasma from each mouse at time of sacrifice. After removing soluble 
+proteins, we analyzed each mouse's sample by mass spectrometry. 
+Specifically, we performed liquid chromatography - mass spectrometry 
+under conditions specified in Kreznar et al. to measure abundances 
+of pre-specified bile acids. We processed and normalized plasma bile 
+acid measurements to obtain the phenotypes for QTL analysis.
 
-We calculated founder allele dosages by summing the appropriate genotype probabilities. We performed these calculations with functions from the R package \texttt{qtl2}\citep{qtl2}.
 
-We performed univariate QTL analyses for both microbiome-related traits. We used the R package \texttt{qtl2} for these analyses \citep{qtl2}.
+We inferred 36-state genotype probabilities for every (autosomal) 
+marker and every mouse from GigaMUGA SNP microarray data \citep{morg
+an2015mouse}. We used a hidden Markov model strategy developed by 
+\citet{broman2012genotype, broman2012haplotype} and implemented in 
+the R package \texttt{qtl2} \citep{qtl2}. We treated these inferred 
+genotype probabilities as known quantities in the analyses below.
 
-Specifically, for each marker and each univariate phenotype $Y$, we fitted the model:
+
+
+We calculated founder allele dosages by summing the appropriate 
+genotype probabilities. We performed these calculations with 
+functions from the R package \texttt{qtl2}\citep{qtl2}.
+
+
+
+We performed univariate QTL analyses for both microbiome-related 
+traits. We used the R package \texttt{qtl2} for these analyses 
+\citep{qtl2}.
+
+
+
+Specifically, for each marker and each univariate phenotype $Y$, we 
+fitted the model:
+
+
 
 \begin{equation}
 Y = XB + WC + G + E  
 \label{eq:uni-model}
 \end{equation}
 
-where $Y$ is a n by 1 vector with trait values, $X$ is a $n$ by $8$ matrix of founder allele probabilities for a single genetic marker, $B$ is a $8$ by $1$ vector of unknown founder allele effects, $W$ is a $n$ by $c$ matrix of covariates, $C$ is a $c$ by $1$ vector of covariate effects, $G$ is a $n$ by $1$ vector of random effects, and $E$ is a $n$ by $1$ vector of random errors. $G$ and $E$ are independent, and 
+
+
+where $Y$ is a n by 1 vector with trait values, $X$ is a $n$ by $8$ 
+matrix of founder allele probabilities for a single genetic marker, 
+$B$ is a $8$ by $1$ vector of unknown founder allele effects, $W$ is 
+a $n$ by $c$ matrix of covariates, $C$ is a $c$ by $1$ vector of 
+covariate effects, $G$ is a $n$ by $1$ vector of random effects, and 
+$E$ is a $n$ by $1$ vector of random errors. $G$ and $E$ are 
+independent, and 
 
 \begin{equation}
 G \sim N(0, \sigma^2_g K)    
@@ -1543,18 +1595,44 @@ E \sim N(0, \sigma^2_e I)
 \end{equation}
 
 
-In the above expressions, $K$ is a kinship matrix, while $\sigma^2_g$ and $\sigma^2_e$ are unknown constants. We used a distinct kinship matrix for each chromosome via the leave-one-chromosome-out method \citep{yang2014advantages}. By using leave-one-chromosome-out kinship matrices, we ensured that each marker's genetic data was not used in both the $X$ matrix and the random effects in a single model. \citet{yang2014advantages} demonstrated a decrease in statistical power to detect genetic associations when testing a marker that is used in constructing the kinship matrix. 
+In the above expressions, $K$ is a kinship matrix, while $\sigma^2_g
+$ and $\sigma^2_e$ are unknown constants. We used a distinct kinship 
+matrix for each chromosome via the leave-one-chromosome-out method 
+\citep{yang2014advantages}. By using leave-one-chromosome-out 
+kinship matrices, we ensured that each marker's genetic data was not 
+used in both the $X$ matrix and the random effects in a single model
+. \citet{yang2014advantages} demonstrated a decrease in statistical 
+power to detect genetic associations when testing a marker that is 
+used in constructing the kinship matrix. 
 
-We then calculated LOD values comparing the univariate models' base-10 log-likelihoods  at each marker to the base-10 log-likelihood of the model without founder allele dosages, \emph{i.e.}, the model with a single column of $1$'s replacing the eight columns of founder allele dosages. In summarizing LOD peak results, we identified a small region on Chromosome 8 that contains LOD peaks for both \emph{Turicibacter} abundance and plasma cholic acid levels.
 
 
-With the founder allele dosages, we calculated 20 kinship matrices, one for each chromosome, via the leave-one-chromosome-out method \citep{yang2014advantages}. Specifically, we calculated the $(i, j)$ entry in the matrix $K$ with Equation \ref{eq:kinship}.
+We then calculated LOD values comparing the univariate models' base
+-10 log-likelihoods  at each marker to the base-10 log-likelihood of 
+the model without founder allele dosages, \emph{i.e.}, the model 
+with a single column of $1$'s replacing the eight columns of founder 
+allele dosages. In summarizing LOD peak results, we identified a 
+small region on Chromosome 8 that contains LOD peaks for both 
+\emph{Turicibacter} abundance and plasma cholic acid levels.
+
+
+
+With the founder allele dosages, we calculated 20 kinship matrices, 
+one for each chromosome, via the leave-one-chromosome-out method 
+\citep{yang2014advantages}. Specifically, we calculated the $(i, j)$ 
+entry in the matrix $K$ with Equation \ref{eq:kinship}.
 
 \begin{equation}
 K[i, j] = \sum_{k,l}p_{ikl}p_{jkl}
 \label{eq:kinship}
 \end{equation}
-where $p_{ikl}$ and $p_{jkl}$ are the dosages for founder allele $l$ at marker $k$ for subjects $i$ and $j$ and the sum is over all markers that are not present on a given chromosome. Thus, we omitted Chromosome 8 markers when calculating the kinship matrix for use in our test below. 
+
+where $p_{ikl}$ and $p_{jkl}$ are the dosages for founder allele $l$ 
+at marker $k$ for subjects $i$ and $j$ and the sum is over all 
+markers that are not present on a given chromosome. Thus, we omitted 
+Chromosome 8 markers when calculating the kinship matrix for use in 
+our test below. 
+
 
 
 
@@ -1575,102 +1653,7 @@ We define covariance matrix $\Gamma$ in Equation \ref{eq:gamma}.
 \end{equation}
 
 
-We performed a test of pleiotropy vs. separate QTL for our two traits, \emph{Turicibacter} abundance and plasma cholic acid levels. We proceeded by estimating variance components, performing the two-dimensional scan, calculating our likelihood ratio test statistic, constructing bootstrap samples, performing two-dimensional scans for each bootstrap sample, and then determining a bootstrap p-value for our test statistic.
-
-
-
-%\subsubsection{Estimating variance components}
-
-Estimation of variance components $V_g$ and $V_e$, both of which are 2 by 2 covariance matrices, proceeded by an expectation-maximization algorithm as in the GEMMA algorithm \citep{zhou2014efficient}. We used our implementation of the GEMMA software's algorithm for multivariate linear mixed effects models in the R package \texttt{gemma2} \citep{gemma2}. Unlike the GEMMA algorithm, which relies on both expectation-maximization and Newton-Raphson algorithms, \texttt{gemma2} uses only expectation-maximization to estimate the variance components. \citet{zhou2014efficient} explain that the Newton-Raphson algorithm decreased the computation time compared to using expectation-maximization alone. Because we perform only one instance of variance component estimation for each analysis, we decided to implement only the expectation-maximization algorithm. 
-
-We omitted founder allele probabilities when estimating variance components. That is, we used the model:
-
-\begin{equation}
-vec(Y) = X_1 vec(B) + vec(G) + vec(E)
-\label{eq:no-geno}
-\end{equation}
-
-with 
-
-\begin{equation}
-G \sim MN(0, K, V_g)
-\end{equation}
-
-\begin{equation}
-E \sim MN(0, I_n, V_e)
-\end{equation}
-
-We assume that $G$ and $E$ are independent. $X_1$ is a $2n$ by $2(c + 1)$ matrix containing two $n$ by $(c + 1)$ nonzero blocks on the diagonal. The two off-diagonal blocks have all entries set to zero. Each $n$ by $(c + 1)$ block contains $c$ covariates and a column of $1$'s. $vec$ denotes the operation of stacking columns of a matrix into a matrix with exactly one column. Since $Y$ is a $n$ by $2$ matrix, $vec(Y)$ is a $2n$ by $1$ column matrix.
-
-
-With the estimated variance components, which we obtained from model \ref{eq:no-geno}, we calculated the the covariance matrix $\Sigma$.
-
-\begin{equation}
-\Sigma = V_g \otimes K + V_e \otimes I_n
-\end{equation}
-
-We use the matrix $\Sigma$ in our two-dimensional QTL scan below.
-
-
-
-%\subsubsection{Two-dimensional QTL scan}
-
-For every ordered pair of markers in the scan region, we fitted by generalized least squares model \ref{eq:biv-model}.
-
-\begin{equation}
-vec(Y) = X vec(B) + vec(G) + vec(E)
-\label{eq:biv-model}
-\end{equation}
-
-with 
-
-\begin{equation}
-G \sim MN(0, K, V_g)
-\end{equation}
-
-\begin{equation}
-E \sim MN(0, I_n, V_e)
-\end{equation}
-
-and $G$ and $E$ independent. $X$ is a $2n$ by $2(8 + c)$ block-diagonal matrix containing two $n$ by $(8 + c)$ nonzero blocks. Each $n$ by $(8 + c)$ block on the diagonal contains $8$ founder allele dosages and $c$ covariate values for each subject.  
-
-Our R package \texttt{qtl2pleio} contains the function \texttt{scan\_pvl}, which performs a two-dimensional QTL scan. 
-
-For each ordered pair of markers in our genomic region, we calculate a log-likelihood based on the multivariate normal distribution (Equation \ref{eq:ll-B}).
-
-\begin{equation}
-ll(\hat B | V_g, V_e, X, Y) = det\left(2\pi\Sigma\right)^{-\frac{1}{2}}\exp{\left(- \frac{1}{2}(vec(Y) - Xvec(\hat B))^T\Sigma^{-1}(vec(Y) - Xvec(\hat B))\right)}
-\label{eq:ll-B}
-\end{equation}
-
-
-
-%\subsubsection{Calculating the test statistic}
-
-The output of the two-dimensional QTL scan is a collection of log-likelihood values for each ordered pair of markers in the genomic region. To calculate our test statistic, we identify the maximum log-likelihood over the entire collection of values and the maximum over the restricted collection of log-likelihood values. The restricted set of log-likelihood values is those for which the first and second markers are the same. This corresponds to the null hypothesis of a single pleiotropic QTL for our test.
-
-\begin{equation}
-\Lambda = \log\left(\frac{\max_{\text{pleiotropy}}ll(\hat B)}{max_{\text{separate QTL}}ll(\hat B)}\right)
-\end{equation}
-
-
-%\subsubsection{Constructing parametric bootstrap samples}
-
-To construct bootstrap samples, we first used the pleiotropy trace from the LOD profile plot to identify the marker with the greatest log-likelihood value. This was the eighth marker on Chromosome 8. We then performed a parametric bootstrap analysis to acquire 1000 bootstrap samples. Specifically, we used the parameter estimates for our model at the 8th marker on Chromosome 8 and took pseudo-random draws from the multivariate normal distribution with mean $Xvec(\hat B)$ and covariance matrix $\Sigma$. Our $2n$ by $2(8 + c)$ matrix $X$ contains two nonzero $n$ by $(8 + c)$ blocks on the diagonal. These two blocks are identical and both contain the founder allele dosages at the eighth marker on Chromosome 8, along with the $c$ covariates. 
-
-Equivalently, we define this $X$ matrix as the Kronecker product of two smaller matrices (Equation \ref{eq:X8}). 
-
-\begin{equation}
-X = I_2 \otimes X_{\text{marker 8}}
-\label{eq:X8}
-\end{equation}
-
-where $X_{\text{marker 8}}$ is the $n$ by $(8 + c)$ matrix of eight founder allele dosages and $c$ covariates at the eighth marker on Chromosome 8, and $I_2$ is the 2 by 2 identity matrix.
-
-Each bootstrap sample consists of a $n$ by $2$ matrix of two simulated phenotypes. For each of the 1000 bootstrap samples, we estimated variance components and performed a two-dimensional QTL scan. We then calculated the pleiotropy vs. separate QTL likelihood ratio test statistic for each bootstrap sample.
-
-
-%\subsubsection{Determining the bootstrap p-value}
+We performed a test of pleiotropy vs. separate QTL for our two traits, \emph{Turicibacter} abundance and plasma cholic acid levels, with the methods of Chapter 2. We then performed a parametric bootstrap analysis to acquire 1000 bootstrap samples. 
 
 With the collection of 1000 test statistic values from the bootstrap samples, we calculated a bootstrap p-value as the proportion of the 1000 tests, denoted by $\Lambda_i$, with $i$ ranging from 1 to 1000, that were at least as extreme as the true test statistic $\Lambda$ (Equation \ref{eq:bootp}).
 
@@ -1716,19 +1699,18 @@ plasma cholic acid &   1 & 91.61 & 5.37 \\
 \end{table}
 
 \begin{figure}
-
 \begin{subfigure}[b]{\textwidth}
 \centering
 \includegraphics[height = 3.5in]{../kemis-do-analysis/Rmd/Chol_effects.pdf}
-\subcaption{}
+\subcaption{Plasma cholic acid founder allele effects over the scan interval.}
 \end{subfigure}
 
 \begin{subfigure}[b]{\textwidth}
 \centering
 \includegraphics[height = 3.5in]{../kemis-do-analysis/Rmd/Turc_effects.pdf}
-\subcaption{}
+\subcaption{\emph{Turicibacter} abundance founder allele effects over the scan interval.}
 \end{subfigure}
-\caption{}
+%\caption{}
 \end{figure}
 
 
@@ -1748,7 +1730,9 @@ We used the R package \texttt{qtl2pleio} \citep{qtl2pleio} to calculate the like
 
 \subsection{Discussion}
 
-The above study illustrates another scientific application of our test of pleiotropy vs. separate QTL. We plan to perform additional statistical analyses, including mediation studies, with these data. Our test of pleiotropy vs. separate QTL tells us that the data are consistent with presence of a single QTL affecting both \emph{Turicibacter} abundance and plasma cholic acid levels, but it doesn't provide information about the possibilities that plasma cholic acid levels affect \emph{Turicibacter} abundance or that \emph{Turicibacter} abundance affects plasma cholic acid levels.
+The above study illustrates another scientific application of our pleiotropy test. We plan to perform additional statistical analyses, including mediation studies, with these data. Our pleiotropy test tells us that the data are consistent with presence of a single QTL affecting both \emph{Turicibacter} abundance and plasma cholic acid levels, but it doesn't provide information about the possibilities that plasma cholic acid levels affect \emph{Turicibacter} abundance or that \emph{Turicibacter} abundance affects plasma cholic acid levels. Future mediation analyses may clarify these issues.
+
+
 
 \todo{incorporate what is known about cholic acid biology here. Is cholic acid absorbed from the distal gut? What is needed for cholic acid synthesis? What is the chemical structure of cholic acid? Look at Julia's ms}
 
