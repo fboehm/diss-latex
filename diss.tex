@@ -1511,17 +1511,24 @@ We share our analysis \texttt{R} code \citep{r} as a \texttt{git} repository at 
 Recent technological innovations have fueled exploration of ecological relationships between gut microbiota and their hosts. Advances in mass spectrometry experimental methods have enabled high-throughput quantification of lipid levels and protein concentrations. These developments, when coupled with experiments to quantify the gut microbiome, have the potential to uncover new microbiome-host interactions. Such discoveries would lead to a more nuanced understanding of organismal biology and health implications of the gut microbiome. Below, we use our test of pleiotropy vs. separate QTL to identify a pleiotropic QTL that affects both the abundance level of a group of bacteria in the distal gut and plasma cholic acid levels in the host. While many questions remain after our investigation, our identification of a single pleiotropic locus that affects these two phenotypes is an important preliminary step for further investigations.  \todo[inline]{add citations to reviews here. Look at J's ms too. What does J discuss in her intro?}
 
 
+\begin{figure}
+\centering
+\includegraphics[]{../kemis-do-analysis/overleaf/cholic-acid-structure.pdf}
+\caption{Cholic acid chemical structure. From Wikipedia, \url{https://upload.wikimedia.org/wikipedia/commons/2/21/Chols\%C3\%A4ure.svg}.}\label{fig:cholic-structure}
+\end{figure}
+
+
 
 \subsection{Methods}
 
 As we describe in Kreznar et al. (forthcoming), we analyzed data from 384 Diversity Outbred mice. \citet{keller2018genetic} analyzed data from many of these same mice. Specifically, we examined two microbiome-related phenotypes, 1. plasma cholic acid and 2. \emph{Turicibacter} abundance in the distal gut. Both traits map to Chromosome 8 (4.3 Mb and 5.7 Mb, respectively) in univariate QTL scans (Table \ref{tab:3c-lod-peaks}).
 
 Following the procedures outlined by Kreznar et al. (forthcoming), 
-we collected fecal samples from all mice immediately immediately 
+we collected fecal samples from all mice immediately 
 after a four-hour fast. We sacrificed the mice, at the age of 22 
 weeks, immediately after the fast. We extracted DNA from fecal 
 samples and subjected it to 16S ribosomal RNA gene sequencing, as we 
-describe in Kreznar et al. (forthcoming), in efforts to infer 
+describe in Kreznar et al. (forthcoming), to infer 
 abundances of microbial taxa. Demultiplexed, 
 paired-end FASTQ files resulted from the sequencing. We used the 
 QIIME2 (version 2018.4) software package for quality control and 
@@ -1537,73 +1544,27 @@ of subjects. The \emph{Turicibacter} abundance trait is one element
 of the resulting core measurable microbiota. 
 
 
-As Kreznar et al. (forthcoming) describe, we collected 40 $\mu$L of 
+As Kreznar et al. (forthcoming) describe, we collected
 plasma from each mouse at time of sacrifice. After removing soluble 
 proteins, we analyzed each mouse's sample by mass spectrometry. 
 Specifically, we performed liquid chromatography - mass spectrometry 
-under conditions specified in Kreznar et al. to measure abundances 
+under conditions specified by Kreznar et al. to measure abundances 
 of pre-specified bile acids. We processed and normalized plasma bile 
 acid measurements to obtain the phenotypes for QTL analysis.
 
 
 We inferred 36-state genotype probabilities for every (autosomal) 
-marker and every mouse from GigaMUGA SNP microarray data \citep{morg
-an2015mouse}. We used a hidden Markov model strategy developed by 
+marker and every mouse from GigaMUGA SNP microarray data \citep{morgan2015mouse}. We used a hidden Markov model strategy developed by 
 \citet{broman2012genotype, broman2012haplotype} and implemented in 
-the R package \texttt{qtl2} \citep{qtl2}. We treated these inferred 
-genotype probabilities as known quantities in the analyses below.
-
-
-
+the R package \texttt{qtl2} \citep{broman2019rqtl2}. We treated these inferred 
+genotype probabilities as known quantities in the analyses below. 
 We calculated founder allele dosages by summing the appropriate 
-genotype probabilities. We performed these calculations with 
-functions from the R package \texttt{qtl2}\citep{qtl2}.
+genotype probabilities. 
 
 
-
-We performed univariate QTL analyses for both microbiome-related 
-traits. We used the R package \texttt{qtl2} for these analyses 
-\citep{qtl2}.
-
-
-
-Specifically, for each marker and each univariate phenotype $Y$, we 
-fitted the model:
-
-
-
-\begin{equation}
-Y = XB + WC + G + E  
-\label{eq:uni-model}
-\end{equation}
-
-
-
-where $Y$ is a n by 1 vector with trait values, $X$ is a $n$ by $8$ 
-matrix of founder allele probabilities for a single genetic marker, 
-$B$ is a $8$ by $1$ vector of unknown founder allele effects, $W$ is 
-a $n$ by $c$ matrix of covariates, $C$ is a $c$ by $1$ vector of 
-covariate effects, $G$ is a $n$ by $1$ vector of random effects, and 
-$E$ is a $n$ by $1$ vector of random errors. $G$ and $E$ are 
-independent, and 
-
-\begin{equation}
-G \sim N(0, \sigma^2_g K)    
-\end{equation}
-\begin{equation}
-E \sim N(0, \sigma^2_e I)    
-\end{equation}
-
-
-In the above expressions, $K$ is a kinship matrix, while $\sigma^2_g
-$ and $\sigma^2_e$ are unknown constants. We used a distinct kinship 
-matrix for each chromosome via the leave-one-chromosome-out method 
-\citep{yang2014advantages}. By using leave-one-chromosome-out 
-kinship matrices, we ensured that each marker's genetic data was not 
-used in both the $X$ matrix and the random effects in a single model
-. \citet{yang2014advantages} demonstrated a decrease in statistical 
-power to detect genetic associations when testing a marker that is 
-used in constructing the kinship matrix. 
+We then performed univariate QTL analyses for both microbiome-related 
+traits. 
+For each marker and each univariate phenotype we fitted a linear mixed effects model (with a polygenic random effect), as implemented in the R package \texttt{qtl2} \citep{broman2019rqtl2}. We treated founder allele effects as additive and neglected possible interactions. We incorporated four covariates into the model: sex and three binary indicators for wave number. 
 
 
 
@@ -1617,45 +1578,11 @@ small region on Chromosome 8 that contains LOD peaks for both
 
 
 
-With the founder allele dosages, we calculated 20 kinship matrices, 
-one for each chromosome, via the leave-one-chromosome-out method 
-\citep{yang2014advantages}. Specifically, we calculated the $(i, j)$ 
-entry in the matrix $K$ with Equation \ref{eq:kinship}.
+We estimated founder allele effects using the above linear mixed effects model. 
 
-\begin{equation}
-K[i, j] = \sum_{k,l}p_{ikl}p_{jkl}
-\label{eq:kinship}
-\end{equation}
+We then performed a test of pleiotropy vs. separate QTL for our two traits, \emph{Turicibacter} abundance and plasma cholic acid levels, with the methods of Chapter 2. To calibrate our test statistic, we performed a parametric bootstrap analysis to acquire 1000 bootstrap samples. 
 
-where $p_{ikl}$ and $p_{jkl}$ are the dosages for founder allele $l$ 
-at marker $k$ for subjects $i$ and $j$ and the sum is over all 
-markers that are not present on a given chromosome. Thus, we omitted 
-Chromosome 8 markers when calculating the kinship matrix for use in 
-our test below. 
-
-
-
-
-We estimated founder allele effects using the above model. We calculated
-
-\begin{equation}
-\widehat{(B:C)} = \left((X:W)^T\Gamma^{-1}(X:W)\right)^{-1}(X:W)^T\Gamma^{-1}Y
-\label{eq:allele-effects}
-\end{equation}
-
-where $B:C$ denotes the concatenation of $B$ vector and $C$ vector and $X:W$ denotes the appending of the eight columns of $X$ with the $c$ columns of $W$ into a matrix with $(8 + c)$ columns. 
-
-We define covariance matrix $\Gamma$ in Equation \ref{eq:gamma}.
-
-\begin{equation}
-\Gamma = \sigma^2_g K + \sigma^2_e I_n
-\label{eq:gamma}
-\end{equation}
-
-
-We performed a test of pleiotropy vs. separate QTL for our two traits, \emph{Turicibacter} abundance and plasma cholic acid levels, with the methods of Chapter 2. We then performed a parametric bootstrap analysis to acquire 1000 bootstrap samples. 
-
-With the collection of 1000 test statistic values from the bootstrap samples, we calculated a bootstrap p-value as the proportion of the 1000 tests, denoted by $\Lambda_i$, with $i$ ranging from 1 to 1000, that were at least as extreme as the true test statistic $\Lambda$ (Equation \ref{eq:bootp}).
+With the collection of 1000 bootstrap test statistic values, we calculated a bootstrap p-value as the proportion of the 1000 tests, denoted by $\Lambda_i$, with $i$ ranging from 1 to 1000, that were at least as extreme as the true test statistic $\Lambda$ (Equation \ref{eq:bootp}).
 
 \begin{equation}
 \text{bootstrap p-value} = \frac{\#(\Lambda_i \geq \Lambda)}{1000}
@@ -1670,10 +1597,12 @@ With the collection of 1000 test statistic values from the bootstrap samples, we
 
 \begin{figure}
 \includegraphics{../kemis-do-analysis/Rmd/scatter.pdf}
-\caption{Scatter plot of Plasma cholic acid levels against \emph{Turicibacter} abundance}
+\caption{Scatter plot of plasma cholic acid levels against \emph{Turicibacter} abundance}
 \end{figure}
 
-The scatter plot of 
+The scatter plot of plasma cholic acid levels and \emph{Turicibacter} abundance levels demonstrates little correlation between the two traits (Pearson correlation coefficient = ). xx of yy points have the smallest \emph{Turicibacter} abundance level. \emph{Turicibacter} was unobserved in these mice.
+
+
 
 %\subsection{Univariate QTL analyses}
 
@@ -1719,7 +1648,7 @@ plasma cholic acid &   1 & 91.61 & 5.37 \\
 
 \begin{figure}
 \includegraphics{../kemis-do-analysis/Rmd/profiles.pdf}
-\caption{Profile LODs for \emph{Turicibacter} abundance and Plasma cholic acid levels.}
+\caption{Profile LODs for \emph{Turicibacter} abundance and plasma cholic acid levels.}
 \end{figure}
 
 
