@@ -1,3 +1,82 @@
+@preamble{ " \newcommand{\noop}[1]{} " } % a do-nothing command that serves a purpose
+%% https://tex.stackexchange.com/questions/31384/how-to-enter-publications-in-press-or-submitted-to-in-bibtex
+
+@article{kemis2019genetic,
+  title={Genetic determinants of gut microbiota composition and bile acid profiles in mice},
+  author = {Kemis, Julia H. and Linke, Vanessa and Barrett, Kelsey and Boehm, Frederick J. and Traeger, Lindsay L. and Keller, Mark P. and Rabaglia, Mary E. and Schueler, Kathryn and Stapleton, Donald S. and Gatti, Dan and Churchill, Gary and Amador-Noguez, Daniel and Russell, Jason and Yandell, Brian S. and Broman, Karl W. and Coon, Joshua and Attie, Alan D. and Rey, Federico E.},
+  year = {\noop{3001}in preparation}
+}
+
+@article{paulson2013metagenomeseq,
+  title={metagenomeSeq: Statistical analysis for sparse high-throughput sequencing},
+  author={Paulson, Joseph Nathaniel and Pop, M and Bravo, HC},
+  journal={Bioconductor package},
+  volume={1},
+  number={0},
+  year={2013}
+}
+
+
+@article{desantis2006greengenes,
+  title={Greengenes, a chimera-checked 16S rRNA gene database and workbench compatible with ARB},
+  author={DeSantis, Todd Z and Hugenholtz, Philip and Larsen, Neils and Rojas, Mark and Brodie, Eoin L and Keller, Keith and Huber, Thomas and Dalevi, Daniel and Hu, Ping and Andersen, Gary L},
+  journal={Applied and environmental microbiology},
+  volume={72},
+  number={7},
+  pages={5069--5072},
+  year={2006},
+  publisher={Am Soc Microbiol}
+}
+
+
+
+@article{price2010fasttree,
+  title={FastTree 2--approximately maximum-likelihood trees for large alignments},
+  author={Price, Morgan N and Dehal, Paramvir S and Arkin, Adam P},
+  journal={PloS one},
+  volume={5},
+  number={3},
+  pages={e9490},
+  year={2010},
+  publisher={Public Library of Science}
+}
+
+
+@article{katoh2013mafft,
+  title={MAFFT multiple sequence alignment software version 7: improvements in performance and usability},
+  author={Katoh, Kazutaka and Standley, Daron M},
+  journal={Molecular biology and evolution},
+  volume={30},
+  number={4},
+  pages={772--780},
+  year={2013},
+  publisher={Society for Molecular Biology and Evolution}
+}
+
+@article{callahan2016dada2,
+  title={DADA2: high-resolution sample inference from Illumina amplicon data},
+  author={Callahan, Benjamin J and McMurdie, Paul J and Rosen, Michael J and Han, Andrew W and Johnson, Amy Jo A and Holmes, Susan P},
+  journal={Nature methods},
+  volume={13},
+  number={7},
+  pages={581},
+  year={2016},
+  publisher={Nature Publishing Group}
+}
+
+
+@techreport{bolyen2018qiime,
+  title={QIIME 2: Reproducible, interactive, scalable, and extensible microbiome data science},
+  author={Bolyen, Evan and Rideout, Jai Ram and Dillon, Matthew R and Bokulich, Nicholas A and Abnet, Christian and Al-Ghalith, Gabriel A and Alexander, Harriet and Alm, Eric J and Arumugam, Manimozhiyan and Asnicar, Francesco and others},
+  year={2018},
+  institution={PeerJ Preprints}
+}
+
+
+
+
+
+
 @article{macdonald2007joint,
   title={Joint Estimates of QTL Effect and Frequency Using Synthetic Recombinant Populations of Drosophila melanogaster},
   author={Macdonald, Stuart J and Long, Anthony D},
@@ -256,21 +335,6 @@
 }
 
 
-@Manual{broman2016qtl2geno,
-    title = {qtl2geno: Treatment of Marker Genotypes for QTL Experiments},
-    author = {Karl W Broman},
-    year = {2016},
-    note = {R package version 0.4-10},
-    url = {http://kbroman.org/qtl2},
-  }
-
-@Manual{broman2016qtl2scan,
-    title = {qtl2scan: Genome Scans for QTL Experiments},
-    author = {Karl W Broman},
-    year = {2016},
-    note = {R package version 0.4-22},
-    url = {http://kbroman.org/qtl2},
-  }
 
 @article{morgan2015mouse,
   title={The mouse universal genotyping array: from substrains to subspecies},
@@ -422,13 +486,6 @@
   publisher={National Acad Sciences}
 }
 
-@misc{broman2015lmm,
-  title = {Fitting linear mixed models for QTL mapping},
-  year = {2015},
-  author = {Broman, Karl},
-  howpublished = {\url{https://kbroman.wordpress.com/2015/11/24/fitting-linear-mixed-models-for-qtl-mapping}},
-  note = {Accessed: 2017-01-01}
-}
 
 @article{ran2013genome,
   title={Genome engineering using the CRISPR-Cas9 system},
@@ -631,12 +688,6 @@
   publisher={Genetics Soc America}
 }
 
-@Manual{qtl2,
-    title = {qtl2: Quantitative Trait Locus Mapping in Experimental Crosses},
-    author = {Karl W Broman},
-    year = {2018},
-    note = {http://kbroman.org/qtl2, https://github.com/rqtl/qtl2},
-  }
 
 @Manual{qtl2pleio,
     title = {qtl2pleio: Hypothesis test of close linkage vs pleiotropy in multiparental populations},
@@ -663,12 +714,6 @@
   publisher={Genetics Soc America}
 }  
 
-@book{efron1994introduction,
-  title={An introduction to the bootstrap},
-  author={Efron, Bradley and Tibshirani, Robert J},
-  year={1994},
-  publisher={CRC press}
-}
 
 @article{bogue2018mouse,
   title={Mouse Phenome Database: an integrative database and analysis suite for curated empirical phenotype data from laboratory mice},
@@ -927,15 +972,6 @@
   year={1958}
 }
 
-@Article{Broman2018,
-    title = {R/qtl2: software for mapping quantitative trait loci with high-dimensional data and multi-parent populations.},
-    author = {Karl W. Broman and Daniel M. Gatti and Petr Simecek and Nicholas A. Furlotte and Pjotr Prins and Saunak Sen and Brian S. Yandell and Gary A. Churchill},
-    journal = {bioRxiv},
-    doi = {10.1101/414748},
-    year = {2018},
-    url = {https://www.biorxiv.org/content/early/2018/09/12/414748},
-    eprint = {https://www.biorxiv.org/content/biorxiv/early/2018/09/12/414748.full.pdf}
-  }
 
 @book{vanderweele2015explanation,
     title = {Explanation in causal inference},
@@ -989,5 +1025,45 @@
   year={2016},
   publisher={Public Library of Science}
 }
+@article{smith2018modeling,
+  title={Modeling Diversity: Do Homogeneous Laboratory Strains Limit Discovery?},
+  author={Smith, Clare M and Sassetti, Christopher M},
+  journal={Trends in microbiology},
+  volume={26},
+  number={11},
+  pages={892--895},
+  year={2018},
+  publisher={Elsevier}
+}
 
+@article{tuttle2018comparing,
+  title={Comparing phenotypic variation between inbred and outbred mice},
+  author={Tuttle, Alexander H and Philip, Vivek M and Chesler, Elissa J and Mogil, Jeffrey S},
+  journal={Nature methods},
+  volume={15},
+  number={12},
+  pages={994},
+  year={2018},
+  publisher={Nature Publishing Group}
+}
+
+@article{fitzgerald2018future,
+  title={The future of humans as model organisms},
+  author={FitzGerald, Garret and Botstein, David and Califf, Robert and Collins, Rory and Peters, Keith and Van Bruggen, Nick and Rader, Dan},
+  journal={Science},
+  volume={361},
+  number={6402},
+  pages={552--553},
+  year={2018},
+  publisher={American Association for the Advancement of Science}
+}
+  
+@article{recla2018genetic,
+  title={Genetic mapping in Diversity Outbred mice identifies a Trpa1 variant influencing late phase formalin response},
+  author={Recla, Jill M and Bubier, Jason A and Gatti, Daniel M and Ryan, Jennifer L and Long, Katie H and Robledo, Raymond F and Glidden, Nicole and Hou, Guoqiang and Churchill, Gary A and Maser, Richard S and others},
+  journal={bioRxiv},
+  pages={362855},
+  year={2018},
+  publisher={Cold Spring Harbor Laboratory}
+}  
   

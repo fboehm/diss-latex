@@ -863,18 +863,15 @@ protein concentrations is through \emph{Dhtkd1} transcript levels.
 
 \begin{figure}
   \centering
-  \includegraphics[width = 0.7\textwidth, natwidth=600, natheight=200]{../QTLfigs/Figs/central_dogma-Dhtkd1.pdf}
+  \includegraphics[width = 0.7\textwidth]{../QTLfigs/Figs/central_dogma-Dhtkd1.pdf}
   \caption{A DNA variant in the \emph{Dhtkd1} gene affects \emph{Dhtkd1} transcript abundances which, in turn, affect DHTKD1 protein concentrations.}\label{fig:Dhtkd1}
 \end{figure}
 
 
 
 
-\citet{crick1958protein} articulated a pathway for transmission of biological informatio
-n that is now known as the central dogma of molecular biology (Figure~\ref{fig:dogma}). 
-In it, he argued that information encoded in DNA sequence is transmitted via transcripti
-on to RNA molecules, which, in turn, transfer the information to proteins via translatio
-n. This sequence of information transfer, from DNA to RNA to protein, provides a natural 
+\citet{crick1958protein} articulated a pathway for transmission of biological information that is now known as the central dogma of molecular biology (Figure~\ref{fig:dogma}). 
+In it, he argued that information encoded in DNA sequence is transmitted via transcription to RNA molecules, which, in turn, transfer the information to proteins via translation. This sequence of information transfer, from DNA to RNA to protein, provides a natural 
 setting by which to examine mediation analysis. If a DNA variant affects protein 
 concentrations only through its RNA transcripts, then conditioning on RNA transcript 
 levels would greatly reduce the strength of association between DNA variant and protein 
@@ -886,7 +883,7 @@ transcript levels, which then affect DHTKD1 protein levels (Figure~\ref{fig:Dhtk
 
 \begin{figure}
   \centering
-  \includegraphics[width = 0.7\textwidth, natwidth=600, natheight=200]{../QTLfigs/Figs/central_dogma.pdf}
+  \includegraphics[width = 0.7\textwidth]{../QTLfigs/Figs/central_dogma.pdf}
   \caption{Biological information is encoded in DNA. This information is passed, via transcription, to RNA molecules. The process of translation transmits the information to proteins.}\label{fig:dogma}
 \end{figure}
 
@@ -1509,8 +1506,12 @@ We share our analysis \texttt{R} code \citep{r} as a \texttt{git} repository at 
 \section{Microbiome case study}
 \subsection{Introduction}
 
-Recent technological innovations have fueled exploration of ecological relationships between gut microbiota and their hosts. Advances in mass spectrometry experimental methods have enabled high-throughput quantification of lipid levels and protein concentrations. These developments, when coupled with experiments to quantify the gut microbiome, have the potential to uncover new microbiome-host interactions. Such discoveries would lead to a more nuanced understanding of organismal biology and health implications of the gut microbiome. Below, we use our test of pleiotropy vs. separate QTL to identify a pleiotropic QTL that affects both the abundance level of a group of bacteria in the distal gut and plasma cholic acid levels in the host. While many questions remain after our investigation, our identification of a single pleiotropic locus that affects these two phenotypes is an important preliminary step for further investigations.  \todo[inline]{add citations to reviews here. Look at J's ms too. What does J discuss in her intro?}
+Recent technological innovations have fueled exploration of ecological relationships between gut microbiota and their hosts. Advances in mass spectrometry experimental methods have enabled high-throughput quantification of lipid levels and protein concentrations. These developments, when coupled with experiments to quantify the gut microbiome, have the potential to uncover new microbiome-host interactions. Such discoveries would lead to a more nuanced understanding of organismal biology and health implications of the gut microbiome. 
 
+Previous research demonstrated that hosts and gut microbiome communicate with each other via small molecule metabolites, including bile acids. The liver uses cholesterol to synthesize an array of bile acids. These bile acids are secreted into the gut, where bacteria chemically transform some bile acids. One function of bile acids is to aid digestion by emulsification of dietary fats. While some bile acids are lost in the feces, much of the secreted bile acids is reabsorbed in the distal gut. Finally, reabsorbed bile acids are transported via the circulatory system back to the liver.
+
+
+Below, we use our pleiotropy test to identify a pleiotropic QTL that affects both the abundance level of a group of bacteria in the distal gut and plasma cholic acid levels in the host. While many questions remain after our investigation, our identification of a single pleiotropic locus that affects these two phenotypes is an important preliminary step for further investigations.
 
 \begin{figure}
 \centering
@@ -1522,36 +1523,33 @@ Recent technological innovations have fueled exploration of ecological relations
 
 \subsection{Methods}
 
-As we describe in Kreznar et al. (forthcoming), we analyzed data from 384 Diversity Outbred mice. \citet{keller2018genetic} analyzed data from many of these same mice. Specifically, we examined two microbiome-related phenotypes, 1. plasma cholic acid and 2. \emph{Turicibacter} abundance in the distal gut. Both traits map to Chromosome 8 (4.3 Mb and 5.7 Mb, respectively) in univariate QTL scans (Table \ref{tab:3c-lod-peaks}).
+As we describe in \citet{kemis2019genetic}, we analyzed data from 384 Diversity Outbred mice. \citet{keller2018genetic} analyzed data from many of these same mice. Specifically, we examined two microbiome-related phenotypes, 1. plasma cholic acid and 2. \emph{Turicibacter} abundance in the distal gut. Both traits map to Chromosome 8 (4.3 Mb and 5.7 Mb, respectively) in univariate QTL scans (Table \ref{tab:3c-lod-peaks}).
 
-Following the procedures outlined by Kreznar et al. (forthcoming), 
+Following the procedures in \citet{kemis2019genetic}, 
 we collected fecal samples from all mice immediately 
 after a four-hour fast. We sacrificed the mice, at the age of 22 
 weeks, immediately after the fast. We extracted DNA from fecal 
-samples and subjected it to 16S ribosomal RNA gene sequencing, as we 
-describe in Kreznar et al. (forthcoming), to infer 
+samples and subjected it to 16S ribosomal RNA gene sequencing to infer 
 abundances of microbial taxa. Demultiplexed, 
 paired-end FASTQ files resulted from the sequencing. We used the 
-QIIME2 (version 2018.4) software package for quality control and 
-processing of sequence data. We applied the DADA2 software package 
-to denoise sequencing reads and to identify de novo sub-operational 
+QIIME2 (version 2018.4) software package \citep{bolyen2018qiime} for quality control and 
+processing of sequence data. We applied the DADA2 software package \citep{callahan2016dada2} to denoise sequencing reads and to identify de novo sub-operational 
 taxonomic units. We aligned sequence variants with the software 
-package mafft. After FastTree-based phylogeny reconstruction, we 
+package mafft \citep{katoh2013mafft}. After FastTree-based phylogeny reconstruction \citep{price2010fasttree}, we 
 assigned taxonomic classifications with classify-sklearn against the 
-Greengenes OTUs reference sequences. We normalized sequencing data 
-with cumulative sum scaling with MetagenomeSeq. We limited study of 
+Greengenes OTUs reference sequences \citep{desantis2006greengenes}. We normalized sequencing data 
+with cumulative sum scaling with MetagenomeSeq \citep{paulson2013metagenomeseq}. 
+We limited study of 
 microbiome-derived traits to those that we detected in at least 20\% 
 of subjects. The \emph{Turicibacter} abundance trait is one element 
 of the resulting core measurable microbiota. 
 
 
-As Kreznar et al. (forthcoming) describe, we collected
+We collected
 plasma from each mouse at time of sacrifice. After removing soluble 
-proteins, we analyzed each mouse's sample by mass spectrometry. 
-Specifically, we performed liquid chromatography - mass spectrometry 
-under conditions specified by Kreznar et al. to measure abundances 
+proteins, we analyzed each mouse's sample by mass spectrometry to measure abundances 
 of pre-specified bile acids. We processed and normalized plasma bile 
-acid measurements to obtain the phenotypes for QTL analysis.
+acid measurements to obtain phenotypes for QTL analysis.
 
 
 We inferred 36-state genotype probabilities for every (autosomal) 
@@ -1563,14 +1561,14 @@ We calculated founder allele dosages by summing the appropriate
 genotype probabilities. 
 
 
-We then performed univariate QTL analyses for both microbiome-related 
+We then performed univariate QTL analyses for microbiome-related 
 traits. 
 For each marker and each univariate phenotype we fitted a linear mixed effects model (with a polygenic random effect), as implemented in the R package \texttt{qtl2} \citep{broman2019rqtl2}. We treated founder allele effects as additive and neglected possible interactions. We incorporated four covariates into the model: sex and three binary indicators for wave number. 
 
 
 
-We then calculated LOD values comparing the univariate models' base
--10 log-likelihoods  at each marker to the base-10 log-likelihood of 
+We then calculated LOD values comparing the univariate models' 
+log-likelihoods at each marker to the log-likelihood of 
 the model without founder allele dosages, \emph{i.e.}, the model 
 with a single column of $1$'s replacing the eight columns of founder 
 allele dosages. In summarizing LOD peak results, we identified a 
@@ -1579,7 +1577,7 @@ small region on Chromosome 8 that contains LOD peaks for both
 
 
 
-We estimated founder allele effects using the above linear mixed effects model. 
+We estimated founder allele effects at Chromosome 8 markers using the univariate linear mixed effects model. 
 
 We then performed a test of pleiotropy vs. separate QTL for our two traits, \emph{Turicibacter} abundance and plasma cholic acid levels, with the methods of Chapter 2. To calibrate our test statistic, we performed a parametric bootstrap analysis to acquire 1000 bootstrap samples. 
 
@@ -1643,11 +1641,20 @@ plasma cholic acid &   1 & 91.61 & 5.37 \\
 %\caption{}
 \end{figure}
 
-Univariate LOD plots for the two traits reveal broad LOD peaks on Chromosome 8 (Figure~\ref{fig:3c-effects}). Plasma cholic acid's peak starts about 4 Mb and extends to approximately 6.5 Mb. \emph{Turicibacter} abundance has an even broader peak, starting about 4 Mb and extending to at least 7.5 Mb. Although the two traits' peak position point estimates differ by 1.4 Mb, the univariate LOD plots demonstrate highly similar patterns for the two traits.
+Univariate LOD plots for the two traits reveal broad LOD peaks on Chromosome 8 (Figure~\ref{fig:3c-effects}). Plasma cholic acid's peak starts about 4 Mb and extends to approximately 6.5 Mb. \emph{Turicibacter} abundance has an even broader peak, starting about 4 Mb and extending to 7.5 Mb. Although the two traits' peak position point estimates differ by 1.4 Mb, the univariate LOD plots demonstrate highly similar patterns for the two traits.
 
-It is unclear from the univariate LOD plots whether there are two nearby QTLs that both affect \emph{Turicibacter} abundance. 
+It is unclear from the univariate LOD plots whether there are two 
+nearby QTLs 
+that both affect \emph{Turicibacter} abundance (Figure~\ref{fig:3c-effects}). 
+Consistent with the possibility of two peaks is the observation that the
+\emph{Turicibacter} peak extends further to the right than does the plasma 
+cholic acid peak. 
 
-Founder allele effects plots for the two traits demonstrate similarities in the relative magnitudes of the eight effects. Specifically, the plasma cholic acid founder allele effects, at 5Mb, has AJ, NZO, CAST, and 129 above average, while WSB is well below average. Similarly, \emph{Turicibacter} abundance has founder allele effects at 5Mb with AJ, 129 above average and WSB below average.
+Founder allele effects plots for the two traits demonstrate 
+similarities in the relative magnitudes of the eight effects. 
+Specifically, the plasma cholic acid founder allele effects, at 5Mb, 
+has AJ, NZO, CAST, and 129 above average, while WSB is well below average. 
+Similarly, \emph{Turicibacter} abundance has founder allele effects at 5Mb with AJ and 129 above average and WSB below average.
 
 %\subsection{Profile LOD plot}
 
@@ -1656,21 +1663,39 @@ Founder allele effects plots for the two traits demonstrate similarities in the 
 \caption{Profile LODs for \emph{Turicibacter} abundance and plasma cholic acid levels.}\label{fig:3c-profile}
 \end{figure}
 
-The profile LOD plot over our two-dimensional scan region reveals broad peaks for both traits' profile LODs (Figure~\ref{fig:3c-profile}). Plasma cholic acid has a peak that begins about 4 Mb and extends to approximately 6.5 Mb. \emph{Turicibacter} abundance has a broader peak, with endpoints near 4 Mb and 7.5 Mb. Here, but not in the univariate LOD plots, one sees a second peak in the \emph{Turicibacter} abundance phenotype that begins near 7.5 Mb and ends near 8.7 Mb. 
+The profile LOD plot over our two-dimensional scan region reveals broad 
+for both traits' profile LODs (Figure~\ref{fig:3c-profile}). Plasma 
+cholic acid has a peak that begins about 4 Mb and extends to 
+approximately 6.5 Mb. \emph{Turicibacter} abundance has a broader peak, 
+with endpoints near 4 Mb and 7.5 Mb. Here, but not in the univariate 
+LOD plots, one sees a second peak in the \emph{Turicibacter} 
+abundance phenotype that begins near 7.5 Mb and ends near 8.7 Mb. 
 
 
 %\subsection{Calculating the likelihood ratio test statistic and bootstrap-based p-value}
 
-We used the R package \texttt{qtl2pleio} \citep{qtl2pleio} to calculate the likelihood ratio test statistic, $\Lambda = 0.45$. We determined the bootstrap p-value to be $0.531$ with 1000 bootstrap samples. Thus, we failed to reject the null hypothesis of pleiotropy.
+We used the R package \texttt{qtl2pleio} \citep{qtl2pleio} to 
+calculate the likelihood ratio test statistic, $\Lambda = 0.45$. We 
+determined the bootstrap p-value to be $0.531$ with 1000 bootstrap 
+samples. Thus, we failed to reject the null hypothesis of pleiotropy.
 
 
 \subsection{Discussion}
 
-We've illustrated another scientific application of our pleiotropy test. We plan to perform additional statistical analyses, including mediation studies, with these data. Our pleiotropy test tells us that the data are consistent with presence of a single QTL affecting both \emph{Turicibacter} abundance and plasma cholic acid levels, but it doesn't provide information about the possibilities that plasma cholic acid levels affect \emph{Turicibacter} abundance or that \emph{Turicibacter} abundance affects plasma cholic acid levels. Both of these possibilities are biologically plausible. Future mediation analyses may clarify these issues.
+We've illustrated another scientific application of our pleiotropy test. 
+We plan to perform additional statistical analyses, including 
+mediation studies, with these data. Our pleiotropy test tells us that 
+the data are consistent with presence of a single QTL affecting both
+\emph{Turicibacter} abundance and plasma cholic acid levels, but it 
+doesn't provide information about the possibilities that plasma cholic 
+acid levels affect \emph{Turicibacter} abundance or that 
+\emph{Turicibacter} abundance affects plasma cholic acid levels. 
+Both of these possibilities are biologically plausible. 
+Future mediation analyses may clarify these issues.
 
 
 
-\todo{incorporate what is known about cholic acid biology here. Is cholic acid absorbed from the distal gut? What is needed for cholic acid synthesis? What is the chemical structure of cholic acid? Look at Julia's ms}
+\todo{incorporate what is known about cholic acid biology here. Is cholic acid absorbed from the distal gut? What is needed for cholic acid synthesis? Look at Julia's ms}
 
 %%%% end 3C
 
@@ -1945,7 +1970,7 @@ matrix.
 \end{Shaded}
 
 \hypertarget{perform-two-dimensional-scan-as-first-step-in-pleiotropy-v-separate-qtl-hypothesis-test}{%
-\section{Perform two-dimensional scan as first step in pleiotropy v
+\subsection{Perform two-dimensional scan as first step in pleiotropy v
 separate QTL hypothesis
 test}\label{perform-two-dimensional-scan-as-first-step-in-pleiotropy-v-separate-qtl-hypothesis-test}}
 
