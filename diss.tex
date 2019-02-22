@@ -19,6 +19,8 @@
 ]{biblatex}
 \addbibresource{research.bib}
 \usepackage{graphicx}
+\usepackage{color, colortbl}
+\definecolor{LightCyan}{rgb}{0.88,1,1}
 \usepackage{subcaption}
 \usepackage{array}
 \usepackage{amssymb}
@@ -1141,7 +1143,7 @@ We performed these analyses with the R package \texttt{qtl2pleio} \citep{qtl2ple
 
 For each QTL scan, we fitted a collection of bivariate models for all 180 * 180 = 32,400 ordered pairs of markers. 
 Throughout our analyses, we treated the founder allele dosages as known, despite the fact that they are inferred through hidden Markov model methods \citep{broman2012genotype, broman2012haplotype, broman2019rqtl2}. 
-For each ordered pair of markers, we fitted a multivariate linear mixed effects model with the methods of Chapter 2.
+For each ordered pair of markers, we fitted a multivariate linear mixed effects model using the methods of Chapter 2.
 
 %\subsubsection{Mediation analyses}
 
@@ -1563,14 +1565,14 @@ We share our analysis \texttt{R} code \citep{r} as a \texttt{git} repository at 
 
 Recent technological innovations have fueled exploration of ecological relationships between gut microbiota and their hosts. 
 Advances in mass spectrometry experimental methods have enabled high-throughput quantification of lipid levels and protein concentrations. 
-These developments, when coupled with experiments to quantify the gut microbiome, have the potential to uncover new microbiome-host interactions. 
+These developments, when coupled with experiments to quantify gut microbiota, have the potential to uncover new microbiome-host interactions. 
 Such discoveries would lead to a more nuanced understanding of organismal biology and health implications of the gut microbiome. 
 
-Previous research demonstrated that hosts and gut microbiome communicate with each other via small molecule metabolites, including bile acids. 
+Previous research demonstrated that hosts and gut microbiota communicate with each other via small molecule metabolites, including bile acids. 
 The liver uses cholesterol to synthesize an array of bile acids. 
 These bile acids are secreted into the gut, where bacteria chemically transform some bile acids. 
 One function of bile acids is to aid digestion by emulsification of dietary fats. 
-While some bile acids are lost in the feces, much of the secreted bile acids is reabsorbed in the distal gut. 
+While a portion of bile acids are lost in the feces, much of the secreted bile acids is reabsorbed in the distal gut. 
 Finally, reabsorbed bile acids are transported via the circulatory system back to the liver.
 
 
@@ -1608,7 +1610,23 @@ We also obtained blood plasma from every mouse at the time of sacrifice.
 Tail clippings provided DNA for host genotyping.
 
 
-Processing of fecal samples to obtain microbial taxa counts 
+Data preparation and processing involves two parallel sets of procedures. In one set of procedures, we obtain genotype probabilities for all markers for all mice. In the other set of procedures, we obtain phenotypes. Obtaining phenotypes in this study involves processing both fecal samples and blood samples. 
+
+As the first ordered step in inferring genotype probabilities, we extracted DNA from tail clippings and subjected it to SNP genotyping with the GigaMUGA microarray \citep{morgan2015mouse}. 
+We inferred 36-state genotype probabilities from SNP genotype calls for every (autosomal) 
+marker and every mouse. 
+We used a hidden Markov model strategy developed by 
+\citet{broman2012genotype, broman2012haplotype} and implemented in 
+the R package \texttt{qtl2} \citep{broman2019rqtl2}. 
+We treated these inferred 
+genotype probabilities as known quantities in the analyses below. 
+Lastly, we calculated founder allele dosages by summing the appropriate 
+genotype probabilities. 
+
+
+
+
+Phenotype processing proceeds in parallel by separately processing fecal samples and blood samples. Processing of fecal samples to obtain microbial taxa counts 
 involves multiple experimental and computational steps. 
 We extracted microbiome DNA from fecal 
 samples and subjected it to 16S ribosomal RNA gene sequencing to infer 
@@ -1627,13 +1645,13 @@ Greengenes OTUs reference sequences \citep{desantis2006greengenes}.
 We normalized sequencing data 
 with cumulative sum scaling with MetagenomeSeq \citep{paulson2013metagenomeseq}. 
 We limited study of 
-microbiome-derived traits to those that we detected in at least 20\% 
+microbiota-derived traits to those that we detected in at least 20\% 
 of subjects. 
 The \emph{Turicibacter} abundance trait is one element 
 of the resulting core measurable microbiota. 
 
 
-We subjected plasma samples to multiple experimental and computational steps to obtain traits for QTL mapping. 
+Contemporaneously with the fecal sample processing, we subjected plasma samples to multiple experimental and computational steps to obtain traits for QTL mapping. 
 After removing soluble 
 proteins from each plasma sample, we analyzed each sample by mass spectrometry to 
 measure abundances 
@@ -1642,19 +1660,10 @@ Finally, we processed and normalized plasma bile
 acid measurements to obtain QTL analysis traits.
 
 
-We extracted DNA from tail clippings and subjected it to SNP genotyping with the GigaMUGA microarray \citep{morgan2015mouse}. 
-We inferred 36-state genotype probabilities for every (autosomal) 
-marker and every mouse. 
-We used a hidden Markov model strategy developed by 
-\citet{broman2012genotype, broman2012haplotype} and implemented in 
-the R package \texttt{qtl2} \citep{broman2019rqtl2}. 
-We treated these inferred 
-genotype probabilities as known quantities in the analyses below. 
-Lastly, we calculated founder allele dosages by summing the appropriate 
-genotype probabilities. 
 
 
-We then performed univariate QTL analyses for microbiome-related 
+We then had the needed inputs for QTL mapping. 
+We performed univariate QTL analyses for our microbiome-related 
 traits. 
 For each marker and each univariate phenotype we fitted a linear mixed effects model (with a polygenic random effect), 
 as implemented in the R package \texttt{qtl2} \citep{broman2019rqtl2}. 
@@ -1678,20 +1687,18 @@ the univariate linear mixed effects model.
 
 
 
-We then had the inputs needed for our pleiotropy test: founder allele probabilities for each mouse at every marker and two traits that map to a single genomic region. 
+We then had the inputs needed for our pleiotropy test: 
+founder allele probabilities for each mouse at every 
+marker and two traits that map to a single genomic region. 
 We performed a test of pleiotropy vs. separate QTL for our two traits, 
-\emph{Turicibacter} abundance and plasma cholic acid levels, with the methods of Chapter 2. 
+\emph{Turicibacter} abundance and plasma cholic acid levels, 
+using the methods of Chapter 2. 
 To determine statistical significance, we performed a 
 parametric bootstrap analysis to acquire 1000 bootstrap samples. 
 With the collection of 1000 bootstrap test statistic values, we calculated a 
-bootstrap p-value as the proportion of the 1000 tests, 
-denoted by $\Lambda_i$, with $i$ ranging from 1 to 1000, 
-that were at least as extreme as the true test statistic $\Lambda$ (Equation \ref{eq:bootp}). This calculation of a bootstrap p-value is the last step in our hypothesis test for pleiotropy vs. separate QTL.
-
-\begin{equation}
-\text{bootstrap p-value} = \frac{\#(\Lambda_i \geq \Lambda)}{1000}
-\label{eq:bootp}
-\end{equation}
+bootstrap p-value as the proportion of the 1000 test statistics
+that were at least as large as the true test statistic. 
+Calculation of a bootstrap p-value is the last step in our hypothesis test for pleiotropy vs. separate QTL.
 
 
 
@@ -1709,10 +1716,12 @@ phenotype & chromosome & position & LOD \\
 \multirow{5}{*}{plasma cholic acid} &   1 & 91.61 & 5.37 \\ 
    &   3 & 40.53 & 5.80 \\ 
    &   7 & 122.19 & 6.83 \\ 
-   &   8 & 4.32 & 6.52 \\ 
+       
+&   \cellcolor{LightCyan}8 & \cellcolor{LightCyan}4.32 & \cellcolor{LightCyan}6.52 \\ 
    &  12 & 16.60 & 5.24 \\ 
+   \hline
  \multirow{3}{*}{\emph{Turicibacter} abundance} &   2 & 17.20 & 5.40 \\ 
-  &   8 & 5.68 & 7.22 \\ 
+  &   \cellcolor{LightCyan}8 & \cellcolor{LightCyan}5.68 & \cellcolor{LightCyan}7.22 \\ 
   &  12 & 76.34 & 5.17 \\ 
    \hline
 \end{tabular}
@@ -1720,10 +1729,6 @@ phenotype & chromosome & position & LOD \\
 \end{table}
 
 Both plasma cholic acid and \emph{Turicibacter} abundance demonstrate multiple univariate QTL across the genome. Each trait also maps to a 1.4-Mb region on Chromosome 8. Because these two traits map to a single genomic region, we elected to study them further. 
-
-
-
-
 
 
 
@@ -1739,10 +1744,13 @@ Both plasma cholic acid and \emph{Turicibacter} abundance demonstrate multiple u
 \includegraphics[height = 3.5in]{../kemis-do-analysis/Rmd/Turc_effects.pdf}
 \subcaption{\emph{Turicibacter} abundance founder allele effects over the scan interval.}
 \end{subfigure}
-\caption{Allele effects and LOD plots for our two traits.}\label{fig:3c-effects}
+\caption{Founder allele effects and LOD plots for our two traits over the Chromosome 8 region. Both traits demonstrate QTL peaks between 4 and 8 Mb and similar patterns of founder allele effects.}\label{fig:3c-effects}
 \end{figure}
 
-Univariate LOD plots for the two traits reveal broad LOD peaks on Chromosome 8 (Figure~\ref{fig:3c-effects}). Plasma cholic acid's peak starts about 4 Mb and extends to approximately 6.5 Mb. \emph{Turicibacter} abundance has an even broader peak, starting about 4 Mb and extending to 7.5 Mb. Although the two traits' peak position point estimates differ by 1.4 Mb, the univariate LOD plots demonstrate highly similar patterns for the two traits.
+Univariate LOD plots for the two traits reveal broad LOD peaks on Chromosome 8 (Figure~\ref{fig:3c-effects}). 
+Plasma cholic acid's peak starts about 4 Mb and extends to approximately 6.5 Mb. 
+\emph{Turicibacter} abundance has an even broader peak, starting about 4 Mb and extending to 7.5 Mb. 
+Although the two traits' peak position point estimates differ by 1.4 Mb, the univariate LOD plots demonstrate highly similar patterns for the two traits.
 
 It is unclear from the univariate LOD plots whether there are two 
 nearby QTLs 
@@ -1764,7 +1772,11 @@ Similarly, \emph{Turicibacter} abundance has founder allele effects at 5Mb with 
 \caption{Scatter plot of plasma cholic acid levels against \emph{Turicibacter} abundance}\label{fig:3c-scatter}
 \end{figure}
 
-To examine relationships between the two traits, we created a scatter plot. The scatter plot of plasma cholic acid levels and \emph{Turicibacter} abundance levels demonstrates modest correlation between the two traits (Pearson correlation coefficient = 0.5) (Figure~\ref{fig:3c-scatter}). \emph{Turicibacter} was unobserved in fecal samples from 192 of 384 mice.
+To explore relationships between the two traits, we created a scatter plot. 
+The scatter plot of plasma cholic acid levels and \emph{Turicibacter} abundance levels 
+demonstrates modest correlation (Pearson correlation coefficient = 0.5) 
+(Figure~\ref{fig:3c-scatter}). 
+\emph{Turicibacter} was unobserved in fecal samples from 192 of 384 mice.
 
 
 
@@ -1798,29 +1810,49 @@ samples. Thus, we failed to reject the null hypothesis of pleiotropy.
 
 \subsection{Discussion}
 
-Results from our analyses above, including the pleiotropy test, are consistent with a single pleiotropic QTL affecting both \emph{Turicibacter} abundance and plasma cholic acid levels. The similarity of founder allele effects patterns (Figure~\ref{fig:3c-effects}) is also consistent with a single pleiotropic QTL \citep{king2012genetic,macdonald2007joint}. 
+Results from our analyses above, including the pleiotropy test, are consistent with a 
+single pleiotropic QTL affecting both \emph{Turicibacter} abundance and plasma cholic acid levels. 
+The similarity of founder allele effects patterns (Figure~\ref{fig:3c-effects}) is 
+also consistent with a single pleiotropic QTL \citep{king2012genetic,macdonald2007joint}. 
 
-While our results indicate presence of a single pleiotropic QTL, they leave many questions unanswered. For example, 
+While our results indicate presence of a single pleiotropic QTL, 
+they leave many questions unanswered. For example, 
 it would be interesting to know if one trait mediates the effects of the QTL on the other trait. 
-Statistical mediation analyses \citep{chick2016defining}, like those discussed in an earlier section, may clarify this issue.
-Both possibilities, 1. that plasma cholic acid levels affect \emph{Turicibacter} abundance and 
-2. that \emph{Turicibacter} abundance affects plasma cholic acid levels, are biologically plausible. 
-Plasma cholic acid levels, which are related to absorption rates of cholic acid from the distal gut, may result from lower cholic acid production rates in the liver. 
+Statistical mediation analyses \citep{chick2016defining}, 
+like those discussed earlier in Chapter 3, may clarify this issue.
+Both possibilities, 1. that plasma cholic acid levels affect \emph{Turicibacter} abundance
+and 
+2. that \emph{Turicibacter} abundance affects plasma cholic 
+acid levels, are biologically plausible. 
+A consideration of cholic acid biology illuminates the biological plausibility. 
+Plasma cholic acid levels, which are related to 
+absorption rates of cholic acid from the distal gut, 
+may be influenced by cholic acid production rates in the liver. 
 This, in turn, might affect gut colonization by \emph{Turicibacter}. 
-Alternatively, \emph{Turicibacter} may affect plasma cholic acid levels by chemically transforming cholic acid while it's in the gut. 
-Mediation analyses and causal model selection tests \citep{neto2013modeling} may clarify the biological interactions that affect plasma cholic acid levels and \emph{Turicibacter} abundance in the distal gut.
+Perhaps higher levels of cholic acid in the gut promotes \emph{Turicibacter} colonization.
+Alternatively, the second possibility above is also biologically plausible, because, for example, 
+\emph{Turicibacter} may affect plasma cholic acid levels by chemically transforming cholic acid while it's in the gut. 
+Mediation analyses and causal model selection tests \citep{neto2013modeling} may clarify 
+the biological interactions that affect plasma cholic 
+acid levels and \emph{Turicibacter} abundance in the distal gut.
 
-A second issue that arose in our analysis is the possibility of two nearby peaks for the \emph{Turicibacter} abundance trait. 
-While the univariate LOD plots don't indicate two \emph{Turicibacter} peaks, the profile LOD plot suggests that there is a second \emph{Turicibacter} abundance peak from approximately 8 to 8.7 Mb. 
-We might clarify this possibility by examining statistical models that explicitly incorporate two QTL peaks for 
-\emph{Turicibacter} while constraining plasma cholic acid levels to a single QTL \citep{schadt2005integrative}.
+A second issue that arose in our analysis is the possibility of two nearby peaks 
+for the \emph{Turicibacter} abundance trait. 
+While the univariate LOD plots don't indicate two \emph{Turicibacter} peaks, 
+the profile LOD plot suggests that there is a second \emph{Turicibacter} abundance 
+peak from approximately 8 to 8.7 Mb. 
+We might clarify this possibility by examining statistical models that 
+explicitly incorporate two QTL peaks for 
+\emph{Turicibacter} while constraining plasma cholic acid levels to 
+a single QTL \citep{schadt2005integrative}.
 
 In this microbiome study, we've illustrated another scientific application of our pleiotropy test. 
 We plan to perform additional analyses, including 
 mediation studies and causal model selection tests, with these data. 
 Our pleiotropy test tells us that 
 the data are consistent with presence of a single QTL affecting both
-\emph{Turicibacter} abundance and plasma cholic acid levels. This insight serves as a starting point for follow-up studies into causal relationships between plasma cholic acid and \emph{Turicibacter} abundance.
+\emph{Turicibacter} abundance and plasma cholic acid levels. 
+This insight serves as a starting point for follow-up studies into causal relationships between plasma cholic acid and \emph{Turicibacter} abundance.
 
 
 
