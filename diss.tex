@@ -844,33 +844,36 @@ A central goal of systems genetics studies is to identify causal relationships b
 Recent work by \citet{chick2016defining}, which builds on research from \citet{baron1986moderator}, has popularized linear regression-based methods, such as mediation analysis, for causal inference in genetics. 
 Because of the great successes of mediation analysis in systems genetics \citep{chick2016defining,keller2018genetic}, we need to clarify a role for our pleiotropy test. 
 We argue below that our pleiotropy test complements mediation analysis in two ways. 
-First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. This is reasonable because it's unlikely that one trait mediates a relationship between a genetic variant and a second trait unless the two traits share a pleiotropic QTL. 
-Second, when regression-based mediation analysis fails to identify a mediator, our pleiotropy test still provides information on the number of QTL, which may aid biological understanding and inform subsequent studies.
-
-Below, we first review the needed molecular biology, including the ``central dogma'', before discussing in some detail regression-based mediation analysis. 
+First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. 
+This is reasonable because it's unlikely that one trait mediates a relationship between a genetic variant and a second trait unless the two traits share a pleiotropic QTL. 
+Second, when regression-based mediation analysis fails to identify a mediator, our pleiotropy test still provides information on the number of QTL, which may aid biological understanding and inform subsequent studies. Below, we first review the prerequisite molecular biology, including the ``central dogma'', before discussing in some detail regression-based mediation analysis in the systems genetics context. 
 
 \citet{crick1958protein} articulated a pathway for transmission of biological information that is now known as the central dogma of molecular biology (Figure~\ref{fig:dogma}) \citep{crick1970central}. 
 In it, he argued that information encoded in DNA sequence is transmitted via transcription to 
-RNA molecules, which, in turn, transfer the information to proteins via translation. The process of transcription uses DNA as a template for creating a RNA molecule that conveys the information encoded in DNA. In this sense, every gene leads to a unique RNA molecule. Translation is the molecular biology process by which a RNA molecule's information is transferred to a protein. As in transcription, the nucleic acid (DNA in transcription and RNA in translation) serves as a template for synthesis of the product (RNA in transcription and protein in translation). Thus, every RNA molecule leads to a unique protein. 
+RNA molecules, which, in turn, transfer the information to proteins via translation. 
+The process of transcription uses DNA as a template for creating a RNA molecule that conveys the information encoded in DNA. 
+In this sense, every gene leads to a unique RNA molecule. 
+Translation is the molecular biology process by which a RNA molecule's information is transferred to a protein. 
+As in transcription, the nucleic acid (DNA in transcription and RNA in translation) serves as a template for synthesis of the product (RNA in transcription and protein in translation). 
+Thus, RNA molecules from distinct genes lead to different proteins.
 
 This sequence of information transfer, from DNA to RNA to protein, provides a natural 
 setting by which to examine mediation analysis. If a DNA variant affects protein 
-concentrations only through its RNA transcripts, then conditioning on RNA transcript 
+concentrations only through its gene's RNA transcripts, then conditioning on RNA transcript 
 levels would greatly reduce the strength of association between DNA variant and protein 
-concentration. In the example above, a DNA variant in the \emph{Dhtkd1} gene affects its 
-transcript levels, which then affect DHTKD1 protein levels (Figure~\ref{fig:Dhtkd1}).
-
+concentration. Before we continue our discussion, we define key terms and discuss an example below. 
 
 We continue by stating what it means for one trait to mediate a relationship between a 
 DNA variant and another trait. To clarify our discussion, we refer to an example from 
 \citet{chick2016defining} (Figure~\ref{fig:Dhtkd1}). \citet{chick2016defining}, in 
 studying livers of 192 Diversity Outbred mice, found evidence that \emph{Dhtkd1} 
-transcript levels associated with a local marker on Chromosome 2. They also found that 
-the same marker affected DHTKD1 protein concentrations. 
+transcript levels associated with a Chromosome 2 marker near the \emph{Dhtkd1} gene. 
+They also found that 
+the same marker affected DHTKD1 protein concentrations. (Note that DHTKD1 protein is the product of translation of \emph{Dhtkd1} transcripts.)
 As anticipated, mediation analysis, in which the DHTKD1 protein concentrations are
 regressed on founder allele dosages (at the Chromosome 2 marker) demonstrated that
 \emph{Dhtkd1} transcript levels act as a mediator between DHTKD1 protein concentrations 
-and the founder allele dosages. In fact, the extent of the reduction in association 
+and founder allele dosages. In fact, the extent of the reduction in association 
 strength indicates that the primary pathway by which the genetic marker affects DHTKD1 
 protein concentrations is through \emph{Dhtkd1} transcript levels.
 
@@ -896,7 +899,7 @@ protein concentrations is through \emph{Dhtkd1} transcript levels.
 
 
 
-Following \citet{keller2018genetic}, we generalize this setting to the case where a DNA variant affects a local transcript level, which then affects a nonlocal transcript level. 
+In our studies below, we follow \citet{keller2018genetic} by generalizing this setting to the case where a DNA variant affects a local transcript level, which then affects a nonlocal transcript level. 
 We term a transcript ``local'' to a marker when its gene is near that marker. 
 We use a threshold of no more than 2 Mb to restrict the 
 number of local transcripts for a given marker. 
@@ -906,12 +909,12 @@ It is highly plausible that concentration variations in one transcript may
 affect abundances of a second transcript. 
 For example, the first transcript may encode a transcription factor protein. 
 In this case, the transcription factor protein may influence expression 
-patterns of the second transcript (and perhaps other transcripts). 
+patterns of the second transcript (and perhaps other transcripts, too). 
 
 
 To determine whether a local transcript level mediates the relationship between 
 a nonlocal transcript level and a DNA variant, we perform a series of regression analyses, 
-which we detail below (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}). 
+which we detail below (Frame~\ref{frame3}). 
 In brief, we regress the nonlocal transcript levels on founder allele dosages at the DNA 
 variant, with and without conditioning on the candidate mediator (the local transcript levels). 
 If the LOD score diminishes sufficiently upon conditioning on a candidate, 
@@ -924,14 +927,13 @@ At the other extreme, if the DNA variant affects nonlocal transcript levels sole
 through mechanisms that don't involve the local transcript levels, then conditioning 
 on local transcript levels would not affect the association between the DNA variant and nonlocal transcript levels.
 
-One role for our pleiotropy test is to limit the set of candidate mediators that require study.
+As we stated above, one role for our pleiotropy test is to limit the set of candidate mediators that require study.
 For example, if local transcript levels and nonlocal transcript levels map to separate QTL, 
 then it would be unlikely that local transcript levels affect the nonlocal transcript levels (or vice versa). 
-On the other hand, if we believe that a single pleiotropic locus affects both local transcript levels and nonlocal transcript levels, 
-then a mediation analysis is particularly useful in efforts to clarify the relationship between the local transcript levels and nonlocal transcript levels. 
-In this setting, where a single pleiotropic locus affects both local transcipt levels and nonlocal transcript levels, and we seek to identify the intermediate, 
-we would perform two mediation analyses, one with local transcript levels as candidate intermediate between DNA variant and nonlocal transcript levels, 
-and a second analysis with nonlocal transcript levels as a candidate intermediate between DNA variant and local transcript levels.
+On the other hand, if a single pleiotropic locus affects both local transcript levels and nonlocal transcript levels, 
+then a mediation analysis is particularly useful in efforts to clarify whether local transcript levels mediate the relationship between genetic variant and nonlocal transcript levels. 
+
+
 
 %\subsection{Regression-based mediation methods}
 
@@ -972,6 +974,7 @@ Y = XB + WC + M\beta + E
 %\end{equ}
 \end{frameenv}
 
+We now consider the procedures needed for a mediation analysis in systems genetics.
 In the four linear regression models (Frame~\ref{frame3}), $X$ is a $n$ by $8$ matrix of 
 founder allele dosages at a single marker, $B$ is a $8$ by $1$ matrix of founder allele 
 effects, $E$ is a $n$ by $1$ matrix of random errors, $b$ is an number, $1$ is 
@@ -982,7 +985,7 @@ We denote the coefficient of the mediator by $\beta$.
 
 We assume that the vector $E$ is (multivariate) normally distributed with zero vector as mean and covariance matrix $\Sigma = \sigma^2I_n$, where $I_n$ is the $n$ by $n$ identity matrix.
 
-With the above models, the log-likelihoods are easily calculated. For example, in Equation \ref{model1}, the vector $Y$ follows a multivariate normal distribution with mean $(b1 + WC)$ and covariance $\Sigma = \sigma^2I$. Thus, we can write the likelihood for Model \ref{model1} as:
+With the above models with normally distributed random errors, the log-likelihoods are easily calculated. For example, in Equation \ref{model1}, the vector $Y$ follows a multivariate normal distribution with mean $(b1 + WC)$ and covariance $\Sigma = \sigma^2I$. Thus, we can write the likelihood for Model \ref{model1} as:
 
 \begin{equation}
     L(b, C, \sigma^2| Y, W) = (2\pi)^{- \frac{n}{2}}\exp{ \left(- \frac{1}{2}(Y - b1 - WC)^T\Sigma^{-1}(Y - b1 - WC)\right)}
@@ -995,7 +998,9 @@ We thus have the following equation (~\ref{eq:ll} for the log-likelihood for Mod
 \end{equation}
 
 
-\citet{chick2016defining} calculated the log$_{10}$ likelihoods for all four models before determining two LOD scores:
+\citet{chick2016defining} calculated the log$_{10}$ likelihoods for all four models before determining two LOD scores (Equations~\ref{eq:lod1} and~\ref{eq:lod2}).
+
+
 \begin{equation}
 LOD_1 = log_{10}(\text{Model~\ref{model2} likelihood}) - log_{10}(\text{Model~\ref{model1} likelihood})\label{eq:lod1}
 \end{equation}
@@ -1004,22 +1009,26 @@ LOD_1 = log_{10}(\text{Model~\ref{model2} likelihood}) - log_{10}(\text{Model~\r
 LOD_2 = log_{10}(\text{Model~\ref{model4} likelihood}) - log_{10}(\text{Model~\ref{model3} likelihood})\label{eq:lod2}
 \end{equation}
 
-And, finally, \citet{chick2016defining} calculated the statistic:
+And, finally, \citet{chick2016defining} calculated the LOD difference statistic (Equation~\ref{eq:lod-diff}).
 
 \begin{equation}
 \text{LOD difference} = LOD_1 - LOD_2\label{eq:lod-diff}
 \end{equation}
 
-LOD difference need not be positive. For example, in the setting where the putative mediator is not a true mediator, $LOD_1$ and $LOD_2$ values may lead to a negative LOD difference statistic. In our analyses in this section, we truncated these negative LOD difference values to zero.
+LOD difference need not be positive. 
+For example, in the setting where the putative mediator is not a true mediator, $LOD_1$ and $LOD_2$ values may lead to a negative LOD difference statistic. 
 
-For each mediation analysis, we consider the LOD difference proportion, which we define below (Equation \ref{eq:lod-diff-prop}).
+In our analyses below, we consider the LOD difference proportion (Equation~\ref{eq:lod-diff-prop}).
 
 \begin{equation}
 \text{LOD difference proportion} = \frac{(LOD_1 - LOD_2)}{LOD_1}
 \label{eq:lod-diff-prop}
 \end{equation}
 
-In other words, we consider what proportion of the association strength, on the LOD scale, is diminished by conditioning on a putative mediator. This statistic differs from the LOD difference statistic in that it scales the LOD difference by LOD$_1$ value. We do this in efforts to accommodate the diversity of LODs in our data. While a value of 5 for LOD difference may be important for a trait with a LOD$_1$ of 12, another trait with a LOD$_1$ of 120 that has a LOD$_2$ of 115, suggests that nearly all of the signal remains transmitted when conditioning on the putative mediator.
+In other words, we consider what proportion of the association strength, on the LOD scale, is diminished by conditioning on a putative mediator. 
+This statistic differs from the LOD difference statistic in that it scales the LOD difference by LOD$_1$ value. 
+We do this in efforts to accommodate the diversity of LODs in our data. For example, a LOD difference statistic of 5 may be relevant when a trait has a LOD$_1$ of 10, but unimportant if the trait's LOD$_1$ is 100.
+
 
 
 
@@ -1029,7 +1038,7 @@ In other words, we consider what proportion of the association strength, on the 
 
 %\subsection{Four assumptions for causal inference}
 
-To claim that the LOD difference statistic reflects a causal relationship, four assumptions about confounding are needed \citep{vanderweele2015explanation}.
+To claim that the LOD difference statistic reflects a causal relationship, four assumptions about confounding are needed (Frame~\ref{frame1}) \citep{vanderweele2015explanation}.
 
 
 %\begin{mdframed}
@@ -1054,8 +1063,10 @@ To claim that the LOD difference statistic reflects a causal relationship, four 
 \end{frameenv}
 
 
+It is often difficult or impossible to recognize unmeasured confounders. 
+In studies of Diversity Outbred mice, relatedness is a possible confounder, yet the linear models (Equations~\ref{model1},~\ref{model2},~\ref{model3},~\ref{model4} in Frame~\ref{frame3}) fail to account for the complex relatedness patterns among Diversity Outbred mice. In fact, the only covariates in the models are for wave membership and sex. Other sources of confounding, such as batch effects in the phenotyping, may be unmeasured.
 
-It is often difficult to recognize unmeasured confounders. In studies of Diversity Outbred mice, relatedness is a possible confounder, yet the linear models (Equations~\ref{model1},~\ref{model2},~\ref{model3},~\ref{model4}) fail to account for the complex relatedness patterns among Diversity Outbred mice. Scientists have developed a suite of sensitivity analysis tools to assess possible impacts of unmeasured confounders in mediation analysis. While a discussion of sensitivity analysis is beyond the scope of this thesis, it may be useful in future studies to assess robustness of mediation analysis results in the presence of unmeasured confounders. \citet{vanderweele2015explanation} discusses sensitivity analysis in detail. 
+In efforts to quantify potential unmeasured confounding, scientists have developed a suite of sensitivity analysis tools for use in regression-based mediation analysis. While a discussion of sensitivity analysis is beyond the scope of this thesis, sensitivity analysis may be useful in future studies to assess robustness of mediation analysis results in the presence of unmeasured confounders. \citet{vanderweele2015explanation} discusses sensitivity analysis in detail. 
 
 
 
@@ -1065,21 +1076,36 @@ It is often difficult to recognize unmeasured confounders. In studies of Diversi
 
 %\subsection{Declaring mediators}
 
-Another statistical challenge in mediation analysis is assessing significance of the LOD difference statistic. Multiple research teams have proposed strategies for assessing its statistical significance. \citet{chick2016defining} used individual transcript levels as sham mediators and tabulated their LOD difference statistics. They then compared the observed LOD difference statistics for putative mediators to the empirical distribution of LOD difference statistics obtained from the collection of sham mediators. \citet{keller2018genetic}, on the other hand, in their study of pancreatic islet cell biology, declared mediators those local transcripts that diminished the LOD score of nonlocal transcripts by at least 1.5 \citep{keller2018genetic}. While significance threshold determination remains an active area of research, we proceed below by examining all 147 nonlocal transcript levels that \citet{keller2018genetic} identified as mapping to the Chromosome 2 hotspot.
+Besides accounting for confounding, an additional statistical challenge in mediation analysis is assessing significance of the LOD difference statistic. 
+\citet{chick2016defining} used individual transcript levels as sham mediators and tabulated their LOD difference statistics. 
+They then compared the observed LOD difference statistics for putative mediators to the empirical distribution of LOD difference statistics obtained from the collection of sham mediators. 
+\citet{keller2018genetic}, on the other hand, in their study of pancreatic islet cell biology, declared mediators those local transcripts that diminished the LOD score of nonlocal transcripts by at least 1.5 \citep{keller2018genetic}. 
+While significance threshold determination remains an active area of research, we proceed below by examining all 147 nonlocal transcript levels that \citet{keller2018genetic} identified as mapping to the Chromosome 2 hotspot.
 
 
 
 \subsection{Methods}
 
-We examined the potential that the two methods - 1. pleiotropy vs. separate QTL testing and 2. mediation analysis - could play complementary roles in efforts to dissect gene expression trait hotspots. After describing our data below, we explain our statistical analyses involving 13 local gene expression traits and 147 nonlocal gene expression traits, all of which map to a 4-Mb hotspot on Chromosome 2.
+We examined the potential that the two methods, 1. pleiotropy vs. separate QTL testing and 2. mediation analysis, play complementary roles in efforts to dissect gene expression trait hotspots. We use the term ``hotspot'' to refer to a contiguous genomic region, typically no more than 5 Mb in length, that affects many expression traits.
+After describing our data below, we detail our statistical analyses involving 13 local gene expression traits and 147 nonlocal gene expression traits, all of which map to a 4-Mb hotspot on Chromosome 2.
 
 %\subsection{Data description}
 
-We analyzed data from 378 Diversity Outbred mice \citep{keller2018genetic}. \citet{keller2018genetic} genotyped tail biopsies with the GigaMUGA microarray \citep{morgan2015mouse}. They also used RNA sequencing to measure genome-wide pancreatic islet cell gene expression for each mouse at the time of sacrifice \citep{keller2018genetic}. They shared these data, together with inferred founder allele probabilities, on the Data Dryad site (\url{https://datadryad.org/resource/doi:10.5061/dryad.pj105}).
+We analyzed data from 378 Diversity Outbred mice \citep{keller2018genetic}. 
+\citet{keller2018genetic} genotyped tail biopsies with the GigaMUGA microarray \citep{morgan2015mouse}. 
+They also used RNA sequencing to measure genome-wide pancreatic islet cell gene expression 
+for each mouse at the time of sacrifice \citep{keller2018genetic}. 
 
-We examined the Chromosome 2 pancreatic islet cell expression trait hotspot that \citet{keller2018genetic} identified. \citet{keller2018genetic} found that 147 nonlocal traits map to the 4-Mb region centered at 165.5 Mb on Chromosome 2. The 147 nonlocal traits all exceeded the genome-wide LOD significance threshold, 7.18 \citep{keller2018genetic}. With regression-based mediation analyses, they identified transcript levels of local gene \emph{Hnf4a} as a mediator of 88 of these 147 nonlocal traits.
+We examined the Chromosome 2 pancreatic islet cell expression trait hotspot that \citet{keller2018genetic} identified. 
+\citet{keller2018genetic} found that 147 nonlocal traits map to the 4-Mb region centered at 165.5 Mb on Chromosome 2. 
+The 147 nonlocal traits all exceeded the genome-wide LOD significance threshold, 7.18 \citep{keller2018genetic}. 
+With regression-based mediation analyses, they identified transcript levels of local gene \emph{Hnf4a} as a mediator of 88 of these 147 nonlocal traits.
 
-Because \citet{keller2018genetic} reported that some nonlocal traits that map to the Chromosome 2 hotspot did not demonstrate evidence of mediation by \emph{Hnf4a} expression levels, we elected to study a collection of local gene expression traits, rather than \emph{Hnf4a} alone. This strategy enabled us to ask whether one of twelve other local traits mediates those nonlocal hotspot traits that are not mediated by \emph{Hnf4a}. Our set of local gene expression traits includes \emph{Hnf4a} and 12 other local genes (Table \ref{tab:annot}). Our 13 local genes are the only genes that met all of the following criteria:
+We designed a study to examine the roles for mediation analysis and pleiotropy testing. 
+Because \citet{keller2018genetic} reported that some nonlocal traits that map to the Chromosome 2 hotspot did not demonstrate evidence of mediation by \emph{Hnf4a} expression levels, we elected to study a collection of local gene expression traits, rather than \emph{Hnf4a} alone.
+This strategy enabled us to ask whether one of twelve other local traits mediates those nonlocal hotspot traits that are not mediated by \emph{Hnf4a}. 
+Our set of local gene expression traits includes \emph{Hnf4a} and 12 other local genes (Table \ref{tab:annot}). 
+Our 13 local genes are the only genes that met three criteria (Frame~\ref{frame2}).
 
 \begin{frameenv}{Local gene inclusion criteria}\label{frame2}
 
@@ -1096,24 +1122,37 @@ The 147 nonlocal traits that we studied all had LOD peak heights above 7.18 and 
 
 %\subsection{Statistical analyses}
 
-We used both univariate and bivariate QTL scans. In the univariate scans, we identified LOD peaks for each of 160 (147 nonlocal and 13 local) expression traits that mapped to within 2 Mb of the center of the Chromosome 2 expression trait hotspot. \citet{keller2018genetic} provided univariate QTL mapping results, so we didn't repeat the univariate QTL scans. For a given univariate phenotype, \citet{keller2018genetic} fitted a linear mixed effects model (with polygenic random effect) at every marker across the genome. \citet{keller2018genetic} performed calculations with the \texttt{qtl2} R package \citep{broman2019rqtl2}.
+We used both univariate and bivariate QTL scans. 
+In the univariate scans, we identified LOD peaks for each of 160 (147 nonlocal and 13 local) expression traits that mapped to within 2 Mb of the center of the Chromosome 2 expression trait hotspot. 
+\citet{keller2018genetic} provided univariate QTL mapping results, so we didn't repeat the univariate QTL scans. 
+For a given univariate phenotype, \citet{keller2018genetic} fitted a linear mixed effects model (with polygenic random effect) at every marker across the genome. 
+\citet{keller2018genetic} performed calculations with the \texttt{qtl2} R package \citep{broman2019rqtl2}.
 
 
 
 %\subsubsection{Bivariate QTL scans}
 
-Our analyses involved 13 local expression traits and 147 nonlocal expression traits. We described above (Frame~\ref{frame2}) the criteria for choosing these expression traits.
+Our analyses involved 13 local expression traits and 147 nonlocal expression traits. 
+We described above (Frame~\ref{frame2}) the criteria for choosing these expression traits.
 
-We performed a series of two-dimensional QTL scans in which we paired each local gene's transcript levels with each nonlocal gene's transcript levels, for a total of 13 * 147 = 1,911 two-dimensional scans. Each scan examined the same set of 180 markers, which spanned the interval from 163.1 Mb to 167.8 Mb and included univariate peaks for all 13 + 147 = 160 expression traits. We performed these analyses with the R package \texttt{qtl2pleio} \citep{qtl2pleio}.
+We performed a series of two-dimensional QTL scans in which we paired each local gene's transcript levels with each nonlocal gene's transcript levels, for a total of 13 * 147 = 1,911 two-dimensional scans. 
+Each scan examined the same set of 180 markers, which spanned the interval from 163.1 Mb to 167.8 Mb and included univariate peaks for all 13 + 147 = 160 expression traits. 
+We performed these analyses with the R package \texttt{qtl2pleio} \citep{qtl2pleio}.
 
-For each QTL scan, we fitted a collection of bivariate models for all 180 * 180 = 32,400 ordered pairs of markers. Throughout our analyses, we treated the founder allele dosages as known, despite the fact that they are inferred through hidden Markov model methods \citep{broman2012genotype, broman2012haplotype, broman2019rqtl2}. 
+For each QTL scan, we fitted a collection of bivariate models for all 180 * 180 = 32,400 ordered pairs of markers. 
+Throughout our analyses, we treated the founder allele dosages as known, despite the fact that they are inferred through hidden Markov model methods \citep{broman2012genotype, broman2012haplotype, broman2019rqtl2}. 
 For each ordered pair of markers, we fitted a multivariate linear mixed effects model with the methods of Chapter 2.
 
 %\subsubsection{Mediation analyses}
 
-We performed linear regression-based mediation analyses for all 1,911 local-nonlocal trait pairs. We probed the extent to which each nonlocal trait's association strength diminished upon conditioning on transcript levels of a putative mediator. Each of the 13 local expression traits, considered one at a time, served as putative mediators. We thus fitted the four linear regression models that we describe above (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}).
+We performed linear regression-based mediation analyses for all 1,911 local-nonlocal trait pairs. 
+We probed the extent to which each nonlocal trait's association strength diminished upon conditioning on transcript levels of a putative mediator. 
+Each of the 13 local expression traits, considered one at a time, served as putative mediators. 
+We thus fitted the four linear regression models that we describe above (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}).
 
-One question that needs clarification is the choice of genetic marker for each mediation analysis. We elected to use the founder allele dosages at the marker that demonstrated the univariate LOD peak for the putative mediator. Alternative analyses, in which one uses the founder allele dosages at which the nonlocal trait has its univariate peak, are also possible.
+One question that needs clarification is the choice of genetic marker for each mediation analysis. 
+We elected to use the founder allele dosages at the marker that demonstrated the univariate LOD peak for the putative mediator. 
+Alternative analyses, in which one uses the founder allele dosages at which the nonlocal trait has its univariate peak, are also possible.
 
 
 
@@ -1150,18 +1189,26 @@ Pkig & 163.66 & 163.73 & 163.52 & 51.68 \\
 
 %\subsubsection{Nonlocal gene analyses}
 
-We also examined the 1,911 pairs from the per-nonlocal gene perspective. For each of the 147 nonlocal genes, we plotted LOD difference proportion against pleiotropy test statistic values. We present below (Figure \ref{fig:4nonlocal}) examples that illustrate some of the observed patterns between pleiotropy test statistics and LOD difference proportion values.
+We also examined the 1,911 pairs from the per-nonlocal gene perspective. 
+For each of the 147 nonlocal genes, we plotted LOD difference proportion against pleiotropy test statistic values. 
+We present below (Figure \ref{fig:4nonlocal}) examples that illustrate some of the observed patterns between pleiotropy test statistics and LOD difference proportion values.
 
 
 \subsection{Results}
 
 %\subsection{Scatter plot for all 1911 pairs}
 
-We present below our scatter plot for all 147 * 13 = 1,911 pairs of traits (Figure \ref{fig:lod-diff-prop-v-lrt-all}). Each pair contains one local expression trait and one nonlocal expression trait. Each point in the figure represents a single pair. We see that points with high values of LOD difference proportion tend to have small values of pleiotropy test statistic, and those points with high values of the pleiotropy test statistic tend to have small values of LOD difference proportion. 
+We present below our scatter plot for all 147 * 13 = 1,911 pairs of traits (Figure \ref{fig:lod-diff-prop-v-lrt-all}). 
+Each pair contains one local expression trait and one nonlocal expression trait. Each point in the figure represents a single pair. 
+We see that points with high values of LOD difference proportion tend to have small values of pleiotropy test statistic, and those points with high values of the pleiotropy test statistic tend to have small values of LOD difference proportion. 
 
-Some points demonstrate large values of pleiotropy test statistic (\emph{eg.}, $>$ 10), yet still have sizeable LOD difference proportion statistics (Figure~\ref{fig:lod-diff-prop-v-lrt-all}. One possible explanation for such points is that the univariate LOD (LOD$_1$) value is small, so that even a modest LOD difference gives rise to a sizeable LOD difference proportion value. A second possible explanation is that the phenotype variances for both phenotypes in the pair are large enough to skew the null distribution of the test statistic towards larger values. To distinguish between these two, we would examine the LOD difference statistics and obtain bootstrap p-values.
+Some points demonstrate large values of pleiotropy test statistic (\emph{eg.}, $>$ 10), yet still have sizeable LOD difference proportion statistics (Figure~\ref{fig:lod-diff-prop-v-lrt-all}. 
+One possible explanation for such points is that the univariate LOD (LOD$_1$) value is small, so that even a modest LOD difference gives rise to a sizeable LOD difference proportion value. 
+A second possible explanation is that the phenotype variances for both phenotypes in the pair are large enough to skew the null distribution of the test statistic towards larger values. 
+To distinguish between these two, we would examine the LOD difference statistics and obtain bootstrap p-values.
 
-In Figure~\ref{fig:lod-diff-prop-v-lrt-all}, we colored blue the points that involve \emph{Hnf4a}; points with other local genes are red. The most striking feature of the coloring is that many blue points have small values of the pleiotropy test statistics and very high values of LOD difference proportion.
+In Figure~\ref{fig:lod-diff-prop-v-lrt-all}, we colored blue the points that involve \emph{Hnf4a}; points with other local genes are red. 
+The most striking feature of the coloring is that many blue points have small values of the pleiotropy test statistics and very high values of LOD difference proportion.
 
 
 
@@ -1174,9 +1221,18 @@ In Figure~\ref{fig:lod-diff-prop-v-lrt-all}, we colored blue the points that inv
 
 %\subsection{Local gene analyses}
 
-To more thoroughly examine the relationships across the 13 local genes, we created 13 plots of LOD difference proportion against pleiotropy test statistic (Figures~\ref{fig:hnf4a} and~\ref{fig:nothnf4a-12}). They reveal common patterns. First, we see no points in the upper right quadrant of each plot (Figure~\ref{fig:nothnf4a-12}). This tells us that those nonlocal genes with high values of pleiotropy test statistic (when paired with the specified local gene) have low values of LOD difference proportion. Similarly, those nonlocal genes with high values of LOD difference proportion tend to have small values of the pleiotropy test statistic. Finally, some trait pairs demonstrate low values of both the LOD difference proportion and pleiotropy test statistic. This observation suggests that, for a given local expression trait, the nonlocal trait is not mediated by the local expression trait yet it shares a pleiotropic locus. Low power to resolve multiple nearby QTL may give rise to such findings.
+To more thoroughly examine the relationships across the 13 local genes, we created 13 plots of LOD difference proportion against pleiotropy test statistic (Figures~\ref{fig:hnf4a} and~\ref{fig:nothnf4a-12}). 
+They reveal common patterns. 
+First, we see no points in the upper right quadrant of each plot (Figure~\ref{fig:nothnf4a-12}). 
+This tells us that those nonlocal genes with high values of pleiotropy test statistic (when paired with the specified local gene) have low values of LOD difference proportion. 
+Similarly, those nonlocal genes with high values of LOD difference proportion tend to have small values of the pleiotropy test statistic. 
+Finally, some trait pairs demonstrate low values of both the LOD difference proportion and pleiotropy test statistic. 
+This observation suggests that, for a given local expression trait, the nonlocal trait is not mediated by the local expression trait yet it shares a pleiotropic locus. 
+Low power to resolve multiple nearby QTL may give rise to such findings.
 
-In comparing the \emph{Hnf4a} plot (Figure \ref{fig:hnf4a}) with the other 12 plots (Figure \ref{fig:nothnf4a-12}), we see that none of the 12 plots in Figure \ref{fig:nothnf4a-12} closely resembles Figure \ref{fig:hnf4a}. \emph{Serinc3}, \emph{Stk4}, \emph{Neurl2}, and \emph{Cdh22} are closest in appearance to the plot of \emph{Hnf4a}. However, each of \emph{Serinc3}, \emph{Stk4}, \emph{Neurl2}, and \emph{Cdh22} has very few points with LOD difference proportion above 0.5, while \emph{Hnf4a} has many points with LOD difference proportion above 0.5.
+In comparing the \emph{Hnf4a} plot (Figure \ref{fig:hnf4a}) with the other 12 plots (Figure \ref{fig:nothnf4a-12}), we see that none of the 12 plots in Figure \ref{fig:nothnf4a-12} closely resembles Figure \ref{fig:hnf4a}. 
+\emph{Serinc3}, \emph{Stk4}, \emph{Neurl2}, and \emph{Cdh22} are closest in appearance to the plot of \emph{Hnf4a}. 
+However, each of \emph{Serinc3}, \emph{Stk4}, \emph{Neurl2}, and \emph{Cdh22} has very few points with LOD difference proportion above 0.5, while \emph{Hnf4a} has many points with LOD difference proportion above 0.5.
 
 \begin{figure}
     \centering
@@ -1197,32 +1253,6 @@ In comparing the \emph{Hnf4a} plot (Figure \ref{fig:hnf4a}) with the other 12 pl
 
 
 
-% latex table generated in R 3.5.1 by xtable 1.8-3 package
-% Wed Dec 19 10:50:32 2018
-\begin{table}[ht]
-\centering
-\begin{tabular}{lc}
-  \hline
- Local gene & Number of nonlocal gene expression traits \\
-  \hline
-2810408M09Rik &   3 \\
-  Cdh22 &   4 \\
-  Eya2 &   4 \\
-  Gm14291 &   5 \\
-  Hnf4a &  89 \\
-  Neurl2 &  15 \\
-  Pabpc1l &   4 \\
-  Pkig &   2 \\
-  Prex1 &   5 \\
-  Ptgis &   3 \\
-  Serinc3 &   7 \\
-  Slpi &   1 \\
-  Stk4 &   5 \\
-   \hline
-\end{tabular}
-\caption{Number of nonlocal gene expression traits for which each local gene expression trait is the strongest mediator.}
-\label{tab:med-count}
-\end{table}
 
 %\subsection{Nonlocal gene analyses}
 
