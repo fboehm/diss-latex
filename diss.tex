@@ -1561,12 +1561,24 @@ We share our analysis \texttt{R} code \citep{r} as a \texttt{git} repository at 
 \section{Microbiome case study}
 \subsection{Introduction}
 
-Recent technological innovations have fueled exploration of ecological relationships between gut microbiota and their hosts. Advances in mass spectrometry experimental methods have enabled high-throughput quantification of lipid levels and protein concentrations. These developments, when coupled with experiments to quantify the gut microbiome, have the potential to uncover new microbiome-host interactions. Such discoveries would lead to a more nuanced understanding of organismal biology and health implications of the gut microbiome. 
+Recent technological innovations have fueled exploration of ecological relationships between gut microbiota and their hosts. 
+Advances in mass spectrometry experimental methods have enabled high-throughput quantification of lipid levels and protein concentrations. 
+These developments, when coupled with experiments to quantify the gut microbiome, have the potential to uncover new microbiome-host interactions. 
+Such discoveries would lead to a more nuanced understanding of organismal biology and health implications of the gut microbiome. 
 
-Previous research demonstrated that hosts and gut microbiome communicate with each other via small molecule metabolites, including bile acids. The liver uses cholesterol to synthesize an array of bile acids. These bile acids are secreted into the gut, where bacteria chemically transform some bile acids. One function of bile acids is to aid digestion by emulsification of dietary fats. While some bile acids are lost in the feces, much of the secreted bile acids is reabsorbed in the distal gut. Finally, reabsorbed bile acids are transported via the circulatory system back to the liver.
+Previous research demonstrated that hosts and gut microbiome communicate with each other via small molecule metabolites, including bile acids. 
+The liver uses cholesterol to synthesize an array of bile acids. 
+These bile acids are secreted into the gut, where bacteria chemically transform some bile acids. 
+One function of bile acids is to aid digestion by emulsification of dietary fats. 
+While some bile acids are lost in the feces, much of the secreted bile acids is reabsorbed in the distal gut. 
+Finally, reabsorbed bile acids are transported via the circulatory system back to the liver.
 
 
-Below, we use our pleiotropy test to identify a pleiotropic QTL that affects both the abundance level of a group of bacteria in the distal gut and plasma cholic acid levels in the host. While many questions remain after our investigation, our identification of a single pleiotropic locus that affects these two phenotypes is an important preliminary step for further investigations.
+Below, we use our pleiotropy test to identify a pleiotropic QTL that affects both the 
+abundance level of a group of bacteria in the distal gut and plasma cholic acid levels in the host. 
+While many questions remain after our investigation, 
+our identification of a single pleiotropic locus that affects these two phenotypes 
+is an important preliminary step for further investigations.
 
 \begin{figure}
 \centering
@@ -1578,42 +1590,65 @@ Below, we use our pleiotropy test to identify a pleiotropic QTL that affects bot
 
 \subsection{Methods}
 
-Our methods proceed in three ordered steps. First, we collect the biological samples. Then, we prepare and process the data. Finally, we perform our pleiotropy test.
+As we describe in \citet{kemis2019genetic}, we analyzed data from 384 Diversity Outbred mice.
+\citet{keller2018genetic} analyzed data from many of these same mice. 
+Specifically, we examined two microbiome-related phenotypes, 1. plasma cholic acid and 
+2. \emph{Turicibacter} abundance in the distal gut. 
+Both traits map to Chromosome 8 (4.3 Mb and 5.7 Mb, respectively) in 
+univariate QTL scans (Table \ref{tab:3c-lod-peaks}).
+Our methods proceed in three ordered steps. 
+First, we collect the biological samples. 
+Then, we prepare and process the data. 
+Finally, we perform our pleiotropy test.
 
-As we describe in \citet{kemis2019genetic}, we analyzed data from 384 Diversity Outbred mice. \citet{keller2018genetic} analyzed data from many of these same mice. Specifically, we examined two microbiome-related phenotypes, 1. plasma cholic acid and 2. \emph{Turicibacter} abundance in the distal gut. Both traits map to Chromosome 8 (4.3 Mb and 5.7 Mb, respectively) in univariate QTL scans (Table \ref{tab:3c-lod-peaks}).
+Our sample collection involves three steps, all of which are done at the time of sacrifice (at age 22 weeks). 
+We obtained fecal samples from all mice immediately 
+after a four-hour fast. 
+We also obtained blood plasma from every mouse at the time of sacrifice. 
+Tail clippings provided DNA for host genotyping.
 
-Our sample collection involves three steps, all of which are done at the time of sacrifice (at age 22 weeks). We obtained fecal samples from all mice immediately 
-after a four-hour fast. We also obtained blood plasma from every mouse at the time of sacrifice. Tail clippings provided DNA for host genotyping.
 
-
-Processing of fecal samples to obtain microbial taxa counts involves multiple experimental and computational steps. 
+Processing of fecal samples to obtain microbial taxa counts 
+involves multiple experimental and computational steps. 
 We extracted microbiome DNA from fecal 
 samples and subjected it to 16S ribosomal RNA gene sequencing to infer 
-abundances of microbial taxa. Demultiplexed, 
-paired-end FASTQ files resulted from the sequencing. We used the 
+abundances of microbial taxa. 
+Demultiplexed, 
+paired-end FASTQ files resulted from the sequencing. 
+We used the 
 QIIME2 (version 2018.4) software package \citep{bolyen2018qiime} for quality control and 
-processing of sequence data. We applied the DADA2 software package \citep{callahan2016dada2} to denoise sequencing reads and to identify de novo sub-operational 
+processing of sequence data. 
+We applied the DADA2 software package \citep{callahan2016dada2} to denoise sequencing reads and to identify de novo sub-operational 
 taxonomic units. We aligned sequence variants with the software 
-package mafft \citep{katoh2013mafft}. After FastTree-based phylogeny reconstruction \citep{price2010fasttree}, we 
+package mafft \citep{katoh2013mafft}. 
+After FastTree-based phylogeny reconstruction \citep{price2010fasttree}, we 
 assigned taxonomic classifications with classify-sklearn against the 
-Greengenes OTUs reference sequences \citep{desantis2006greengenes}. We normalized sequencing data 
+Greengenes OTUs reference sequences \citep{desantis2006greengenes}. 
+We normalized sequencing data 
 with cumulative sum scaling with MetagenomeSeq \citep{paulson2013metagenomeseq}. 
 We limited study of 
 microbiome-derived traits to those that we detected in at least 20\% 
-of subjects. The \emph{Turicibacter} abundance trait is one element 
+of subjects. 
+The \emph{Turicibacter} abundance trait is one element 
 of the resulting core measurable microbiota. 
 
 
-We subjected plasma samples to multiple experimental and computational steps to obtain traits for QTL mapping. After removing soluble 
-proteins from each plasma sample, we analyzed each sample by mass spectrometry to measure abundances 
-of pre-specified bile acids. Finally, we processed and normalized plasma bile 
+We subjected plasma samples to multiple experimental and computational steps to obtain traits for QTL mapping. 
+After removing soluble 
+proteins from each plasma sample, we analyzed each sample by mass spectrometry to 
+measure abundances 
+of pre-specified bile acids. 
+Finally, we processed and normalized plasma bile 
 acid measurements to obtain QTL analysis traits.
 
 
-We extracted DNA from tail clippings and subjected it to SNP genotyping with the GigaMUGA microarray \citep{morgan2015mouse}. We inferred 36-state genotype probabilities for every (autosomal) 
-marker and every mouse. We used a hidden Markov model strategy developed by 
+We extracted DNA from tail clippings and subjected it to SNP genotyping with the GigaMUGA microarray \citep{morgan2015mouse}. 
+We inferred 36-state genotype probabilities for every (autosomal) 
+marker and every mouse. 
+We used a hidden Markov model strategy developed by 
 \citet{broman2012genotype, broman2012haplotype} and implemented in 
-the R package \texttt{qtl2} \citep{broman2019rqtl2}. We treated these inferred 
+the R package \texttt{qtl2} \citep{broman2019rqtl2}. 
+We treated these inferred 
 genotype probabilities as known quantities in the analyses below. 
 Lastly, we calculated founder allele dosages by summing the appropriate 
 genotype probabilities. 
@@ -1630,18 +1665,28 @@ We incorporated four covariates into the model: sex and three binary indicators 
 
 We then calculated LOD values comparing the univariate models' 
 log-likelihoods at each marker to the log-likelihood of 
-the model without founder allele dosages. In summarizing LOD peak results, we identified a 
+the model without founder allele dosages. 
+In summarizing LOD peak results, we identified a 
 small region on Chromosome 8 that contains LOD peaks for both 
 \emph{Turicibacter} abundance and plasma cholic acid levels.
 
 
 
-We use the R package \texttt{qtl2} to estimate founder allele effects at Chromosome 8 markers with
+We use the R package \texttt{qtl2} to estimate founder allele effects 
+at Chromosome 8 markers with
 the univariate linear mixed effects model. 
 
 
 
-We then had the inputs needed for our pleiotropy test: founder allele probabilities for each mouse at every marker and two traits that map to a single genomic region. We performed a test of pleiotropy vs. separate QTL for our two traits, \emph{Turicibacter} abundance and plasma cholic acid levels, with the methods of Chapter 2. To determine statistical significance, we performed a parametric bootstrap analysis to acquire 1000 bootstrap samples. With the collection of 1000 bootstrap test statistic values, we calculated a bootstrap p-value as the proportion of the 1000 tests, denoted by $\Lambda_i$, with $i$ ranging from 1 to 1000, that were at least as extreme as the true test statistic $\Lambda$ (Equation \ref{eq:bootp}).
+We then had the inputs needed for our pleiotropy test: founder allele probabilities for each mouse at every marker and two traits that map to a single genomic region. 
+We performed a test of pleiotropy vs. separate QTL for our two traits, 
+\emph{Turicibacter} abundance and plasma cholic acid levels, with the methods of Chapter 2. 
+To determine statistical significance, we performed a 
+parametric bootstrap analysis to acquire 1000 bootstrap samples. 
+With the collection of 1000 bootstrap test statistic values, we calculated a 
+bootstrap p-value as the proportion of the 1000 tests, 
+denoted by $\Lambda_i$, with $i$ ranging from 1 to 1000, 
+that were at least as extreme as the true test statistic $\Lambda$ (Equation \ref{eq:bootp}). This calculation of a bootstrap p-value is the last step in our hypothesis test for pleiotropy vs. separate QTL.
 
 \begin{equation}
 \text{bootstrap p-value} = \frac{\#(\Lambda_i \geq \Lambda)}{1000}
