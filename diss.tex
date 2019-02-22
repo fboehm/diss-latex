@@ -841,14 +841,27 @@ Department of Energy's Office of Science.
 \subsection{Introduction}
 
 A central goal of systems genetics studies is to identify causal relationships between biomolecules. 
-Recent work by \citet{chick2016defining}, which builds on research from \citet{baron1986moderator}, has popularized linear regression-based methods for causal inference in genetics. 
-This development motivates our goal of clarifying a role for our pleiotropy test. 
-We argue that our pleiotropy test complements mediation analysis in two ways. 
-First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. 
-Second, when regression-based mediation analysis fails to identify a mediator, our pleiotropy test still provides information on the number of QTL, which may provide clues to aid biological understanding.
+Recent work by \citet{chick2016defining}, which builds on research from \citet{baron1986moderator}, has popularized linear regression-based methods, such as mediation analysis, for causal inference in genetics. 
+Because of the great successes of mediation analysis in systems genetics \citep{chick2016defining,keller2018genetic}, we need to clarify a role for our pleiotropy test. 
+We argue below that our pleiotropy test complements mediation analysis in two ways. 
+First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. This is reasonable because it's unlikely that one trait mediates a relationship between a genetic variant and a second trait unless the two traits share a pleiotropic QTL. 
+Second, when regression-based mediation analysis fails to identify a mediator, our pleiotropy test still provides information on the number of QTL, which may aid biological understanding and inform subsequent studies.
+
+Below, we first review the needed molecular biology, including the ``central dogma'', before discussing in some detail regression-based mediation analysis. 
+
+\citet{crick1958protein} articulated a pathway for transmission of biological information that is now known as the central dogma of molecular biology (Figure~\ref{fig:dogma}) \citep{crick1970central}. 
+In it, he argued that information encoded in DNA sequence is transmitted via transcription to 
+RNA molecules, which, in turn, transfer the information to proteins via translation. The process of transcription uses DNA as a template for creating a RNA molecule that conveys the information encoded in DNA. In this sense, every gene leads to a unique RNA molecule. Translation is the molecular biology process by which a RNA molecule's information is transferred to a protein. As in transcription, the nucleic acid (DNA in transcription and RNA in translation) serves as a template for synthesis of the product (RNA in transcription and protein in translation). Thus, every RNA molecule leads to a unique protein. 
+
+This sequence of information transfer, from DNA to RNA to protein, provides a natural 
+setting by which to examine mediation analysis. If a DNA variant affects protein 
+concentrations only through its RNA transcripts, then conditioning on RNA transcript 
+levels would greatly reduce the strength of association between DNA variant and protein 
+concentration. In the example above, a DNA variant in the \emph{Dhtkd1} gene affects its 
+transcript levels, which then affect DHTKD1 protein levels (Figure~\ref{fig:Dhtkd1}).
 
 
-We begin by discussing what it means for one trait to mediate a relationship between a 
+We continue by stating what it means for one trait to mediate a relationship between a 
 DNA variant and another trait. To clarify our discussion, we refer to an example from 
 \citet{chick2016defining} (Figure~\ref{fig:Dhtkd1}). \citet{chick2016defining}, in 
 studying livers of 192 Diversity Outbred mice, found evidence that \emph{Dhtkd1} 
@@ -863,6 +876,13 @@ protein concentrations is through \emph{Dhtkd1} transcript levels.
 
 \begin{figure}
   \centering
+  \includegraphics[width = 0.7\textwidth]{../QTLfigs/Figs/central_dogma.pdf}
+  \caption{Biological information is encoded in DNA. This information is passed, via transcription, to sequence-specific RNA molecules. The process of translation transmits the information to sequence-specific proteins.}\label{fig:dogma}
+\end{figure}
+
+
+\begin{figure}
+  \centering
   \includegraphics[width = 0.7\textwidth]{../QTLfigs/Figs/central_dogma-Dhtkd1.pdf}
   \caption{A DNA variant in the \emph{Dhtkd1} gene affects \emph{Dhtkd1} transcript abundances which, in turn, affect DHTKD1 protein concentrations.}\label{fig:Dhtkd1}
 \end{figure}
@@ -870,22 +890,6 @@ protein concentrations is through \emph{Dhtkd1} transcript levels.
 
 
 
-\citet{crick1958protein} articulated a pathway for transmission of biological information that is now known as the central dogma of molecular biology (Figure~\ref{fig:dogma}). 
-In it, he argued that information encoded in DNA sequence is transmitted via transcription to RNA molecules, which, in turn, transfer the information to proteins via translation. This sequence of information transfer, from DNA to RNA to protein, provides a natural 
-setting by which to examine mediation analysis. If a DNA variant affects protein 
-concentrations only through its RNA transcripts, then conditioning on RNA transcript 
-levels would greatly reduce the strength of association between DNA variant and protein 
-concentration. In the example above, a DNA variant in the \emph{Dhtkd1} gene affects its 
-transcript levels, which then affect DHTKD1 protein levels (Figure~\ref{fig:Dhtkd1}).
-
-
-
-
-\begin{figure}
-  \centering
-  \includegraphics[width = 0.7\textwidth]{../QTLfigs/Figs/central_dogma.pdf}
-  \caption{Biological information is encoded in DNA. This information is passed, via transcription, to RNA molecules. The process of translation transmits the information to proteins.}\label{fig:dogma}
-\end{figure}
 
 
 
@@ -893,29 +897,44 @@ transcript levels, which then affect DHTKD1 protein levels (Figure~\ref{fig:Dhtk
 
 
 Following \citet{keller2018genetic}, we generalize this setting to the case where a DNA variant affects a local transcript level, which then affects a nonlocal transcript level. 
-We term a transcript ``local'' to a marker when its DNA is near that marker. 
-Typically, we use a threshold of no more than 2 Mb to restrict the 
+We term a transcript ``local'' to a marker when its gene is near that marker. 
+We use a threshold of no more than 2 Mb to restrict the 
 number of local transcripts for a given marker. 
 A nonlocal transcript, then, is either one that arises from a gene on another chromosome or from a distant gene on the same chromosome as the marker.
 
-It is highly plausible that concentration variations in one transcript may affect abundances of a second transcript. 
+It is highly plausible that concentration variations in one transcript may 
+affect abundances of a second transcript. 
 For example, the first transcript may encode a transcription factor protein. 
-In this case, the transcription factor protein may influence expression patterns of the second transcript (and perhaps other transcripts). 
-Alternatively, the first transcript may act directly to enhance expression of a second transcript, possibly by interacting with a complex of biomolecules in the nucleus.
+In this case, the transcription factor protein may influence expression 
+patterns of the second transcript (and perhaps other transcripts). 
 
 
+To determine whether a local transcript level mediates the relationship between 
+a nonlocal transcript level and a DNA variant, we perform a series of regression analyses, 
+which we detail below (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}). 
+In brief, we regress the nonlocal transcript levels on founder allele dosages at the DNA 
+variant, with and without conditioning on the candidate mediator (the local transcript levels). 
+If the LOD score diminishes sufficiently upon conditioning on a candidate, 
+then we declare the candidate a mediator.
 
+The rationale behind this strategy follows. 
+If the DNA variant affects the nonlocal transcript levels solely by way of local 
+transcript levels, then conditioning on the local transcript levels would nullify the relationship between DNA variant and the nonlocal transcript levels. 
+At the other extreme, if the DNA variant affects nonlocal transcript levels solely 
+through mechanisms that don't involve the local transcript levels, then conditioning 
+on local transcript levels would not affect the association between the DNA variant and nonlocal transcript levels.
 
-
-To determine whether a local transcript level mediates the relationship between a nonlocal transcript level and a DNA variant, we perform a series of regression analyses, which we detail below (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}). In brief, we regress the nonlocal transcript levels on founder allele dosages at the DNA variant, with and without conditioning on the candidate mediator (the local transcript levels). If the LOD score diminishes sufficiently upon conditioning on a candidate, then we declare the candidate a mediator.
-
-The rationale behind this strategy is as follows. If the DNA variant affects the nonlocal transcript levels solely by way of local transcript levels, then conditioning on the local transcript levels would nullify the relationship between DNA variant and the nonlocal transcript levels. At the other extreme, if the DNA variant affects nonlocal transcript levels solely through mechanisms that don't involve the local transcript levels, then conditioning on local transcript levels would not affect the association between the DNA variant and nonlocal transcript levels.
-
-One role for our pleiotropy test is to potentially limit the set of candidate mediators that require study. For example, if local transcript levels and nonlocal transcript levels map to separate QTL, then it would be unlikely that local transcript levels affect the nonlocal transcript levels (or vice versa). On the other hand, if we believe that a single pleiotropic locus affects both local transcript levels and nonlocal transcript levels, then a mediation analysis is particularly useful in efforts to clarify the relationship between the local transcript levels and nonlocal transcript levels. In this setting, where a single pleiotropic locus affects both local transcipt levels and nonlocal transcript levels, and we seek to identify the intermediate, we would perform two mediation analyses, one with local transcript levels as candidate intermediate between DNA variant and nonlocal transcript levels, and a second analysis with nonlocal transcript levels as a candidate intermediate between DNA variant and local transcript levels.
+One role for our pleiotropy test is to limit the set of candidate mediators that require study.
+For example, if local transcript levels and nonlocal transcript levels map to separate QTL, 
+then it would be unlikely that local transcript levels affect the nonlocal transcript levels (or vice versa). 
+On the other hand, if we believe that a single pleiotropic locus affects both local transcript levels and nonlocal transcript levels, 
+then a mediation analysis is particularly useful in efforts to clarify the relationship between the local transcript levels and nonlocal transcript levels. 
+In this setting, where a single pleiotropic locus affects both local transcipt levels and nonlocal transcript levels, and we seek to identify the intermediate, 
+we would perform two mediation analyses, one with local transcript levels as candidate intermediate between DNA variant and nonlocal transcript levels, 
+and a second analysis with nonlocal transcript levels as a candidate intermediate between DNA variant and local transcript levels.
 
 %\subsection{Regression-based mediation methods}
 
-%Frequently one uses regression-based methods to identify causal intermediates from among multiple measured variables \citep{baron1986moderator}. For example, \citet{chick2016defining} measured 16,921 gene transcript levels and 6,756 protein concentrations in liver tissue from 192 mice. After identifying QTL for gene transcript levels and protein concentrations, they performed regression-based mediation analyses. For each candidate mediator, they fitted four linear models:
 
 \begin{frameenv}{Four regressions for a single mediation analysis}\label{frame3}
 
@@ -953,7 +972,13 @@ Y = XB + WC + M\beta + E
 %\end{equ}
 \end{frameenv}
 
-In the four linear regression models (Frame~\ref{frame3}), $X$ is a $n$ by $8$ matrix of founder allele dosages at a single marker, $B$ is a $8$ by $1$ matrix of founder allele effects, $E$ is a $n$ by $1$ matrix of random errors, $b$ is an number, $1$ is a $n$ by $1$ matrix with all entries set to $1$, $Y$ is a $n$ by $1$ matrix of phenotype values (for a single trait), and $M$ is a $n$ by $1$ matrix of values for a putative mediator. $C$ is a matrix of covariate effects, and $W$ is a matrix of covariates. We denote the coefficient of the mediator by $\beta$.
+In the four linear regression models (Frame~\ref{frame3}), $X$ is a $n$ by $8$ matrix of 
+founder allele dosages at a single marker, $B$ is a $8$ by $1$ matrix of founder allele 
+effects, $E$ is a $n$ by $1$ matrix of random errors, $b$ is an number, $1$ is 
+a $n$ by $1$ matrix with all entries set to $1$, $Y$ is a $n$ by $1$ matrix of 
+phenotype values (for a single trait), and $M$ is a $n$ by $1$ matrix of values for a putative mediator. 
+$C$ is a matrix of covariate effects, and $W$ is a matrix of covariates. 
+We denote the coefficient of the mediator by $\beta$.
 
 We assume that the vector $E$ is (multivariate) normally distributed with zero vector as mean and covariance matrix $\Sigma = \sigma^2I_n$, where $I_n$ is the $n$ by $n$ identity matrix.
 
@@ -1566,8 +1591,10 @@ genotype probabilities.
 
 We then performed univariate QTL analyses for microbiome-related 
 traits. 
-For each marker and each univariate phenotype we fitted a linear mixed effects model (with a polygenic random effect), as implemented in the R package \texttt{qtl2} \citep{broman2019rqtl2}. 
-We treated founder allele effects as additive and neglected possible interactions. We incorporated four covariates into the model: sex and three binary indicators for wave number. 
+For each marker and each univariate phenotype we fitted a linear mixed effects model (with a polygenic random effect), 
+as implemented in the R package \texttt{qtl2} \citep{broman2019rqtl2}. 
+We treated founder allele effects as additive and neglected possible interactions. 
+We incorporated four covariates into the model: sex and three binary indicators for wave number. 
 
 
 
@@ -1635,9 +1662,9 @@ Both plasma cholic acid and \emph{Turicibacter} abundance demonstrate multiple u
 \begin{subfigure}[b]{\textwidth}
 \centering
 \includegraphics[height = 3.5in]{../kemis-do-analysis/Rmd/Turc_effects.pdf}
-\subcaption{\emph{Turicibacter} abundance founder allele effects over the scan interval.}\label{fig:3c-effects}
+\subcaption{\emph{Turicibacter} abundance founder allele effects over the scan interval.}
 \end{subfigure}
-%\caption{}
+\caption{Allele effects and LOD plots for our two traits.}\label{fig:3c-effects}
 \end{figure}
 
 Univariate LOD plots for the two traits reveal broad LOD peaks on Chromosome 8 (Figure~\ref{fig:3c-effects}). Plasma cholic acid's peak starts about 4 Mb and extends to approximately 6.5 Mb. \emph{Turicibacter} abundance has an even broader peak, starting about 4 Mb and extending to 7.5 Mb. Although the two traits' peak position point estimates differ by 1.4 Mb, the univariate LOD plots demonstrate highly similar patterns for the two traits.
@@ -1703,23 +1730,26 @@ it would be interesting to know if one trait mediates the effects of the QTL on 
 Statistical mediation analyses \citep{chick2016defining}, like those discussed in an earlier section, may clarify this issue.
 Both possibilities, 1. that plasma cholic acid levels affect \emph{Turicibacter} abundance and 
 2. that \emph{Turicibacter} abundance affects plasma cholic acid levels, are biologically plausible. 
-Plasma cholic acid levels, which are related to absorption rates of cholic acid from the distal gut, may result from lower cholic acid production rates in the liver. This, in turn, might affect gut colonization by \emph{Turicibacter}. Alternatively, \emph{Turicibacter} may affect plasma cholic acid levels by chemically transforming cholic acid while it's in the gut. Mediation analyses and causal model selection tests \citep{neto2013modeling} may clarify the biological interactions that affect plasma cholic acid levels and \emph{Turicibacter} abundance in the distal gut.
+Plasma cholic acid levels, which are related to absorption rates of cholic acid from the distal gut, may result from lower cholic acid production rates in the liver. 
+This, in turn, might affect gut colonization by \emph{Turicibacter}. 
+Alternatively, \emph{Turicibacter} may affect plasma cholic acid levels by chemically transforming cholic acid while it's in the gut. 
+Mediation analyses and causal model selection tests \citep{neto2013modeling} may clarify the biological interactions that affect plasma cholic acid levels and \emph{Turicibacter} abundance in the distal gut.
 
+A second issue that arose in our analysis is the possibility of two nearby peaks for the \emph{Turicibacter} abundance trait. 
+While the univariate LOD plots don't indicate two \emph{Turicibacter} peaks, the profile LOD plot suggests that there is a second \emph{Turicibacter} abundance peak from approximately 8 to 8.7 Mb. 
+We might clarify this possibility by examining statistical models that explicitly incorporate two QTL peaks for 
+\emph{Turicibacter} while constraining plasma cholic acid levels to a single QTL \citep{schadt2005integrative}.
 
-
-We've illustrated another scientific application of our pleiotropy test. 
+In this microbiome study, we've illustrated another scientific application of our pleiotropy test. 
 We plan to perform additional analyses, including 
 mediation studies and causal model selection tests, with these data. 
 Our pleiotropy test tells us that 
 the data are consistent with presence of a single QTL affecting both
-\emph{Turicibacter} abundance and plasma cholic acid levels, but it 
-doesn't provide information about the possibilities that plasma cholic 
-acid levels affect \emph{Turicibacter} abundance or that 
-\emph{Turicibacter} abundance affects plasma cholic acid levels. 
+\emph{Turicibacter} abundance and plasma cholic acid levels. This insight serves as a starting point for follow-up studies into causal relationships between plasma cholic acid and \emph{Turicibacter} abundance.
 
 
 
-\todo{incorporate what is known about cholic acid biology here. Is cholic acid absorbed from the distal gut? What is needed for cholic acid synthesis? Look at Julia's ms}
+%\todo{incorporate what is known about cholic acid biology here. Is cholic acid absorbed from the distal gut? What is needed for cholic acid synthesis? Look at Julia's ms}
 
 %%%% end 3C
 
