@@ -1884,7 +1884,7 @@ To explore relationships between the two traits, we created a scatter plot.
 The scatter plot of plasma cholic acid levels and \emph{Turicibacter} abundance levels 
 demonstrates modest correlation (Pearson correlation coefficient = 0.5) 
 (Figure~\ref{fig:3c-scatter}). 
-\emph{Turicibacter} was unobserved in fecal samples from 192 of 384 mice.
+\emph{Turicibacter} was unobserved in fecal samples from 192 of 384 mice. After our data processing steps (described above), these 192 mice all have the smallest possible value of the \emph{Turicibacter} abundance trait. Because these 192 mice possess a range of plasma cholic acid values, they appear as a vertical ``line'' on the left-hand side of the scatter plot.
 
 
 
@@ -1898,13 +1898,16 @@ demonstrates modest correlation (Pearson correlation coefficient = 0.5)
 \caption{Profile LODs for \emph{Turicibacter} abundance and plasma cholic acid levels.}\label{fig:3c-profile}
 \end{figure}
 
-We then performed a bivariate QTL scan over a 180-marker region on Chromosome 8. 
+Once we examined the univariate QTL scan results, 
+we had the needed inputs for a bivariate scan; namely, two traits that map to a single 
+genomic region and genotype probabilities for all mice and all markers. 
+We performed a bivariate QTL scan over a 180-marker region on Chromosome 8. 
 The profile LOD plot over our two-dimensional scan region reveals broad peaks
 for both traits' profile LODs (Figure~\ref{fig:3c-profile}). Plasma 
 cholic acid has a peak that begins about 4 Mb and extends to 
 approximately 6.5 Mb. \emph{Turicibacter} abundance has a broader peak, 
 with endpoints near 4 Mb and 7.5 Mb. Here, but not in the univariate 
-LOD plots, one sees a second peak in the \emph{Turicibacter} 
+LOD plots, one sees what appears to be a second peak in the \emph{Turicibacter} 
 abundance phenotype that begins near 7.5 Mb and ends near 8.7 Mb. 
 
 
@@ -1919,7 +1922,8 @@ samples. Thus, we failed to reject the null hypothesis of pleiotropy.
 \subsection{Discussion}
 
 Results from our analyses above, including the pleiotropy test, are consistent with a 
-single pleiotropic QTL affecting both \emph{Turicibacter} abundance and plasma cholic acid levels. 
+single pleiotropic QTL affecting both \emph{Turicibacter} abundance 
+and plasma cholic acid levels. 
 The similarity of founder allele effects patterns (Figure~\ref{fig:3c-effects}) is 
 also consistent with a single pleiotropic QTL \citep{king2012genetic,macdonald2007joint}. 
 
@@ -1928,31 +1932,33 @@ they leave many questions unanswered. For example,
 it would be interesting to know if one trait mediates the effects of the QTL on the other trait. 
 Statistical mediation analyses \citep{chick2016defining}, 
 like those discussed earlier in Chapter 3, may clarify this issue.
-Both possibilities, 1. that plasma cholic acid levels affect \emph{Turicibacter} abundance
+Both possibilities are biologically plausible: 1. that plasma cholic acid levels affect \emph{Turicibacter} abundance
 and 
 2. that \emph{Turicibacter} abundance affects plasma cholic 
-acid levels, are biologically plausible. 
-A consideration of cholic acid biology illuminates the biological plausibility. 
+acid levels.
+
+A consideration of cholic acid biology illuminates this biological plausibility. 
 Plasma cholic acid levels, which are related to 
 absorption rates of cholic acid from the distal gut, 
 may be influenced by cholic acid production rates in the liver. 
 This, in turn, might affect gut colonization by \emph{Turicibacter}. 
-Perhaps higher levels of cholic acid in the gut promotes \emph{Turicibacter} colonization.
-Alternatively, the second possibility above is also biologically plausible, because, for example, 
-\emph{Turicibacter} may affect plasma cholic acid levels by chemically transforming cholic acid while it's in the gut. 
+Alternatively, the second possibility above is also 
+biologically plausible, because, for example, 
+\emph{Turicibacter} may affect plasma cholic acid levels by 
+chemically transforming cholic acid while it's in the gut. 
 Mediation analyses and causal model selection tests \citep{neto2013modeling} may clarify 
 the biological interactions that affect plasma cholic 
 acid levels and \emph{Turicibacter} abundance in the distal gut.
 
 A second issue that arose in our analysis is the possibility of two nearby peaks 
 for the \emph{Turicibacter} abundance trait. 
-While the univariate LOD plots don't indicate two \emph{Turicibacter} peaks, 
+While the univariate LOD plot doesn't indicate two \emph{Turicibacter} peaks (Figure~\ref{fig:3c-effects}), 
 the profile LOD plot suggests that there is a second \emph{Turicibacter} abundance 
 peak from approximately 8 to 8.7 Mb. 
 We might clarify this possibility by examining statistical models that 
-explicitly incorporate two QTL peaks for 
+explicitly incorporate two QTL for 
 \emph{Turicibacter} while constraining plasma cholic acid levels to 
-a single QTL \citep{schadt2005integrative}.
+a single QTL \citep{schadt2005integrative}. Distinguishing whether there are two QTL that affect \emph{Turicibacter} abundance offers insights into the trait's genetic architecture and, by suggesting candidate causal genes, may inform subsequent experiments.
 
 In this microbiome study, we've illustrated another scientific application of our pleiotropy test. 
 We plan to perform additional analyses, including 
@@ -1960,11 +1966,10 @@ mediation studies and causal model selection tests, with these data.
 Our pleiotropy test tells us that 
 the data are consistent with presence of a single QTL affecting both
 \emph{Turicibacter} abundance and plasma cholic acid levels. 
-This insight serves as a starting point for follow-up studies into causal relationships between plasma cholic acid and \emph{Turicibacter} abundance.
+This insight serves as a starting point for follow-up studies into the directions of 
+intertwined causal relationships between plasma cholic acid and \emph{Turicibacter} abundance.
 
 
-
-%\todo{incorporate what is known about cholic acid biology here. Is cholic acid absorbed from the distal gut? What is needed for cholic acid synthesis? Look at Julia's ms}
 
 %%%% end 3C
 
