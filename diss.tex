@@ -1106,7 +1106,7 @@ for each mouse at the time of sacrifice \citep{keller2018genetic}.
 
 We examined the Chromosome 2 pancreatic islet cell expression trait hotspot that \citet{keller2018genetic} identified. 
 \citet{keller2018genetic} found that 147 nonlocal traits map to the 4-Mb region 
-centered at 165.5 Mb on Chromosome 2. 
+centered at 165.5 Mb on Chromosome 2.
 The 147 nonlocal traits all exceeded the genome-wide LOD significance threshold, 
 7.18 \citep{keller2018genetic}. 
 With regression-based mediation analyses, they identified transcript levels of local gene \emph{Hnf4a} as a mediator of 88 of these 147 nonlocal traits.
@@ -1121,9 +1121,11 @@ nonlocal hotspot traits that are not mediated by \emph{Hnf4a}.
 Our set of local gene expression traits includes \emph{Hnf4a} and 12 
 other local genes (Table \ref{tab:annot}). 
 Our 13 local genes are the only genes that met three criteria (Frame~\ref{frame2}).
+The 147 nonlocal traits that we studied all had LOD peak heights above 7.18 and QTL positions within 2 Mb of the center of the hotspot (at 165.5 Mb).
+
+
 
 \begin{frameenv}{Local gene inclusion criteria}\label{frame2}
-
 \begin{enumerate}
     \item QTL peak with LOD $>$ 40
     \item QTL peak position within 2 Mb of hotspot center (165.5 Mb)
@@ -1131,25 +1133,15 @@ Our 13 local genes are the only genes that met three criteria (Frame~\ref{frame2
 \end{enumerate}
 \end{frameenv}
 
-The 147 nonlocal traits that we studied all had LOD peak heights above 7.18 and LOD peak positions within 2 Mb of the center of the hotspot (at 165.5 Mb).
-
 
 
 %\subsection{Statistical analyses}
 
 We now describe our statistical analyses. 
-After univariate QTL mapping to identify expression traits that map to the Chromosome 2 hotspot, 
-we perform both bivariate QTL scans and mediation analyses of all 13 * 147 = 1911 pairs
+After univariate QTL mapping to identify expression traits that 
+map to the Chromosome 2 hotspot, 
+we performed both bivariate QTL scans and mediation analyses of all 13 * 147 = 1911 pairs
 involving one local expression trait and one nonlocal expression trait.
-
-We used both univariate and bivariate QTL scans. 
-In the univariate scans, we identified LOD peaks for each of 160 (147 nonlocal and 13 local)
-expression traits that mapped to within 2 Mb of the center of the 
-Chromosome 2 expression trait hotspot. 
-For a given univariate phenotype, we fitted a linear mixed effects model 
-(with polygenic random effect) at every marker across the genome. 
-\citet{keller2018genetic} performed calculations with 
-the \texttt{qtl2} R package \citep{broman2019rqtl2}.
 
 
 
@@ -1160,24 +1152,25 @@ We described above (Frame~\ref{frame2}) the criteria for choosing these expressi
 
 We performed a series of two-dimensional QTL scans in which we paired each local gene's
 transcript levels with each nonlocal gene's transcript levels, 
-for a total of 13 * 147 = 1,911 two-dimensional scans. 
+for a total of 13 x 147 = 1,911 two-dimensional scans. 
 Each scan examined the same set of 180 markers, which spanned the interval from 163.1 Mb to 167.8 Mb and included univariate peaks for all 13 + 147 = 160 expression traits. 
 We performed these analyses with the R package \texttt{qtl2pleio} \citep{qtl2pleio}.
 
 For each bivariate QTL scan, we fitted a collection of bivariate models for 
 all 180 * 180 = 32,400 ordered pairs of markers. 
-For each ordered pair of markers, we fitted a bivariate linear mixed effects model using the methods of Chapter 2.
+For each ordered pair of markers, we fitted a bivariate linear mixed
+effects model using the methods of Chapter 2.
 
 %\subsubsection{Mediation analyses}
 
 We performed mediation analyses for 
-all 1,911 local-nonlocal trait pairs. 
-
-We probed the extent to which each nonlocal trait's association 
+all 1,911 local-nonlocal trait pairs in which
+we probed the extent to which each nonlocal trait's association 
 strength diminished upon conditioning on transcript levels of a putative mediator.
 
 Each of the 13 local expression traits, considered one at a time, served as putative mediators. 
-We thus fitted the four linear regression models that we describe above (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}).
+We thus fitted the four linear regression models that we describe
+above (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}).
 
 One question that needs clarification is the choice of genetic marker 
 for each mediation analysis. 
@@ -1190,7 +1183,9 @@ nonlocal trait has its univariate peak, are also possible.
 
 %\subsubsection{Local gene analyses}
 
-To visualize the summary statistics for our two methods, we plotted, for each local gene, a scatterplot of LOD difference proportion values against pleiotropy test statistics.
+To visualize the summary statistics for our two methods, we plotted, 
+for each local gene, a scatterplot of LOD difference proportion values 
+against pleiotropy test statistics.
 
 % latex table generated in R 3.5.1 by xtable 1.8-3 package
 % Mon Dec 17 10:04:32 2018
@@ -1239,7 +1234,7 @@ After examining a plot involving all tested pairs, we take two distinct perspect
 In these, we visualize results from the perspective of every local gene expression trait 
 before taking the complementary perspective with visualizations from the 
 perspective of every nonlocal gene expression trait.
-We present below our scatter plot for all 147 * 13 = 1,911 
+We present below our scatter plot for all 147 x 13 = 1,911 
 pairs of traits (Figure \ref{fig:lod-diff-prop-v-lrt-all}). 
 Each pair contains one local expression trait and one nonlocal expression trait. 
 Each point in the figure represents a single pair. 
@@ -1278,7 +1273,8 @@ values of the pleiotropy test statistics and very high values of LOD difference 
 
 %\subsection{Local gene analyses}
 
-To more thoroughly examine the relationships across the 13 local genes, 
+To more thoroughly examine the pleiotropy test and mediation analysis 
+relationships across the 13 local genes, 
 we created 13 plots of LOD difference proportion against pleiotropy test 
 statistic (Figures~\ref{fig:hnf4a} and~\ref{fig:nothnf4a-12}). 
 They reveal common patterns. 
@@ -1479,45 +1475,26 @@ Asah2 & 31.98 & 32.06 & 32.14 & 101.20 \\
 
 
 
-For each Chromosome 19 marker, we estimated founder allele and covariate effects. We calculated:
-
-\begin{equation}\label{eq:uni-Bhat}
-\widehat {(B:C)} = \left((X:W)^T\hat\Gamma^{-1}(X:W)\right)^{-1}(X:W)^T\hat\Gamma^{-1}Y
-\end{equation}
-
-\noindent where $B:C$ denotes the concatenation of $B$ and $C$, and $X:W$ refers to the $n$ by $12$ matrix resulting from appending the columns of $W$ to the $X$ matrix. $\hat\Gamma$ is the covariance matrix defined by Equation \ref{eq:Sigma}.
-
-\begin{equation}\label{eq:Sigma}
-\hat \Gamma = \hat\sigma_g^2 K + \hat \sigma_e^2 I_n
-\end{equation}
-
-\noindent We denote the restricted maximum likelihood estimates of the variance components by $\hat \sigma_g^2$ and $\hat \sigma_e^2$.
-
-
-For each of the 80 expression traits, we calculated fitted values for each subject with the estimated founder allele and covariate effects (Equation \ref{eq:uni-Bhat}). 
+We estimated founder allele and covariate effects for every trait on Chromosome 19. 
+For each of the 80 expression traits, we calculated fitted values for each subject with these estimated founder allele and covariate effects. 
 We then calculated correlations between fitted values for pairs of traits. 
-Each pairing involved one anchor gene expression trait and one other gene expression trait.
-
+Our motivation for working with the fitted values vectors 
+(instead of the estimated founder allele effects vectors) is that the fitted values approximately weight the allele effects by allele frequency. 
 We anticipated that more similar two traits' founder allele effects would correspond, on average, to smaller pleiotropy test statistics. 
-We base this expectation on findings from \citet{macdonald2007joint} and \citet{king2012genetic}. 
-\citet{macdonald2007joint} and \citet{king2012genetic} found that two traits that associate with a single pleiotropic QTL tended to have similar founder allele effects patterns for biallelic markers.
+We base this expectation on findings from \citet{macdonald2007joint} and 
+\citet{king2012genetic}, who found that two traits that associate with a single 
+pleiotropic QTL tended to have similar founder allele effects patterns for biallelic markers. 
+
 
 We performed two-dimensional QTL scans for $4 * 76 + \binom{4}{2} = 310$ pairs. 
-Each pair included one of the four anchor gene expression traits and either one of 76 non-anchor gene expression traits or one of the remaining three anchor gene expression traits.
-
-Our two-dimensional QTL scan encompassed a 1000 by 1000 marker grid from 18.1 Mb to 42.5 Mb on Chromosome 19. Each scan involved fitting 1000 x 1000 = 1,000,000 models via generalized least squares. 
-For a given ordered pair of markers, we used the bivariate linear mixed effects model and methods defined in Chapter 2. 
+Each pair included one of the four anchor gene expression traits and 
+either one of 76 non-anchor gene expression traits or one of 
+the remaining three anchor gene expression traits.
+Our two-dimensional QTL scan encompassed a 1000 by 1000 marker grid from 18.1 Mb to 42.5 Mb on Chromosome 19. 
+Each scan involved fitting 1000 x 1000 = 1,000,000 models via generalized least squares. 
+For a given ordered pair of markers, we used the bivariate linear mixed effects model and methods of Chapter 2. 
 These methods are implemented in the R package \texttt{qtl2pleio} \citep{qtl2pleio}.
 
-For each of the 80 expression traits, we used the fitted founder allele and covariate effects ($\widehat{B:C}$ in Equation~\ref{eq:uni-Bhat}) to 
-obtain fitted values vectors for every subject and all 80 traits (Equation~\ref{eq:fitted}). 
-For each of the 310 pairings of traits, we calculated correlations among the fitted values vectors. 
-Our motivation for working with the fitted values vectors (instead of the $\hat B$ estimated founder allele effects vectors) is that the fitted values approximately weight the allele effects by allele frequency. 
-An alternative analysis might neglect the covariates when calculating fitted values.
-
-\begin{equation}\label{eq:fitted}
-\hat Y = X\hat B + W \hat C
-\end{equation}
 
 
 \subsection{Results}
@@ -1618,12 +1595,15 @@ In comparing the plot for \emph{Asah2} with those of \emph{Lipo1}, \emph{Lipo2},
     \label{fig:lod}
 \end{figure}
 
-Analyses for all four anchor gene expression traits demonstrate that greater univariate LOD scores tend to correspond to greater values of the pleiotropy test statistic (Figure~\ref{fig:lod}). 
+Analyses for all four anchor gene expression traits demonstrate that greater univariate LOD
+scores tend to correspond to greater values of the pleiotropy test statistic (Figure~\ref{fig:lod}). 
 The coloring of points reflects interlocus distance from the anchor gene. 
 All four panels reveal a common pattern in the coloring of points.
-For a given univariate LOD value, those genes with greater interlocus distance tend to have greater values of the pleiotropy test statistic. 
+For a given univariate LOD value, those genes with greater interlocus distance 
+tend to have greater values of the pleiotropy test statistic. 
 Anchor gene 4933413C19Rik, due to its position on Chromosome 19, has multiple light blue points. 
-Nearly all of these light blue points have large pleiotropy test statistics relative to their univariate LOD scores.
+Nearly all of these light blue points have large pleiotropy test
+statistics relative to their univariate LOD scores.
 
 
 
@@ -1645,23 +1625,58 @@ Nearly all of these light blue points have large pleiotropy test statistics rela
     \label{fig:cor}
 \end{figure}
 
-Figure \ref{fig:cor} features four panels, one for each anchor gene. Each point corresponds to a pairing between the specified anchor and one of the 79 other gene expression traits. None of the four panels reveals a strong relationship between fitted values correlation and pleiotropy test statistics. There may be weak evidence for a downward trend in pleiotropy test statistics at larger values of fitted values correlation, as demonstrated by \emph{Asah2}, \emph{Lipo1}, and \emph{Lipo2}. 
+Figure \ref{fig:cor} features four panels, one for each anchor gene. 
+Each point corresponds to a pairing between the specified anchor and one of the 79 other gene expression traits. 
+None of the four panels reveals a strong relationship between fitted values correlation and pleiotropy test statistics. 
+There may be weak evidence for a downward trend in pleiotropy
+test statistics at larger values of fitted values correlation, as 
+demonstrated by \emph{Asah2}, \emph{Lipo1}, and \emph{Lipo2}. 
 
 
 
 \subsection{Discussion}
 
-Our goal for this study was to characterize the impacts of univariate LOD score, inter-locus distance, and founder allele effects pattern similarities on pleiotropy test statistic values. Our study design, in which we examined 310 pairs of local gene expression traits on Chromosome 19, allowed us to interrogate both the effects of univariate association strength and the effects of inter-locus distance. We found that stronger univariate associations and greater inter-locus distances correspond to greater pleiotropy test statistic values (Figures \ref{fig:middle} and \ref{fig:lod}). We expected these trends based on our simulation studies in Chapter 2.
+Our goal for this study was to characterize the impacts of univariate LOD score, 
+inter-locus distance, and founder allele effects pattern similarities on pleiotropy test
+statistic values. 
+Our study design, in which we examined 310 pairs of local gene expression traits on Chromosome
+19, allowed us to interrogate both the effects of univariate association strength and the
+effects of inter-locus distance. 
+We found that stronger univariate associations and greater inter-locus distances
+correspond to greater pleiotropy test statistic values (Figures \ref{fig:middle} 
+and \ref{fig:lod}). 
+We expected these trends based on our simulation studies in Chapter 2.
 
-Figure \ref{fig:cor} revealed no strong relationship between fitted values correlations and pleiotropy test statistics. However, close examination of Figure \ref{fig:cor} reveals the possibility that there is an interaction between 1) fitted values correlations and 2) univariate LOD scores. In every panel, those expression traits with stronger univariate associations tend to have steeper slopes between the conditional mean pleiotropy test statistic values and fitted values correlations. The plots weakly suggest that, at greater univariate LOD values, there is a greater (negative) relationship between fitted values correlation and pleiotropy test statistic value.
+Figure \ref{fig:cor} revealed no strong relationship between fitted values 
+correlations and pleiotropy test statistics. 
+However, close examination of Figure \ref{fig:cor} reveals the possibility that there is an interaction between 1) fitted values correlations and 2) univariate LOD scores. 
+In every panel, those expression traits with stronger univariate associations
+tend to have steeper slopes between the conditional mean pleiotropy
+test statistic values and fitted values correlations. 
+The plots weakly suggest that, at greater univariate LOD values, 
+there is a greater (negative) relationship between fitted values 
+correlation and pleiotropy test statistic value.
 
-We anticipated that more similar founder allele effects patterns would correspond to smaller values for the pleiotropy test statistic, when holding other factors constant. As we stated above, \citet{macdonald2007joint} and \citet{king2012genetic} argued that, for biallelic markers, two pleiotropic traits should have similar founder allele effects patterns. In our setting, it's unclear whether the markers are biallelic in the collection of eight founder lines.
+We anticipated that more similar founder allele effects patterns would correspond to 
+smaller values for the pleiotropy test statistic, when holding other factors constant.
+As we stated above, \citet{macdonald2007joint} and \citet{king2012genetic} argued that,
+for biallelic markers, two pleiotropic traits should have similar founder allele effects patterns. 
+In our setting, it's unclear whether the markers are biallelic in the collection of eight founder lines.
 
-We've demonstrated strong evidence in support of the roles of 1) univariate QTL LOD scores and 2) interlocus distances impacting pleiotropy test statistic values. Greater univariate QTL scores and greater interlocus distance lead to greater pleiotropy test statistics. Future research may clarify the impoact of founder allele effects patterns on pleiotropy test statistics. The fact that all four anchor traits had strong PWK effects (Table~\ref{tab:effects}) limited our ability to fully define the impact of allele effects patterns on our test statistics.
+We've demonstrated strong evidence in support of the roles of 1) univariate QTL LOD scores and
+2) interlocus distances impacting pleiotropy test statistic values. 
+Greater univariate QTL scores and greater interlocus distance lead to greater pleiotropy test statistics. 
+Future research may clarify the impoact of founder allele effects patterns on pleiotropy test statistics. 
+The fact that all four anchor traits had strong PWK effects (Table~\ref{tab:effects}) limited
+our ability to fully define the impact of allele effects patterns on our test statistics.
 
-Throughout this study, we elected to use test statistic values rather than p-values as our measure of evidence supporting the separate QTL hypothesis. The primary reason for doing this is to avoid the computationally costly bootstrap sampling and two-dimensional QTL scans that we would need to get bootstrap p-values.
+Throughout this study, we elected to use test statistic values rather than p-values as 
+our measure of evidence supporting the separate QTL hypothesis.
+The primary reason for doing this is to avoid the computationally costly bootstrap
+sampling and two-dimensional QTL scans that we would need to get bootstrap p-values.
 
-We share our analysis \texttt{R} code \citep{r} as a \texttt{git} repository at this URL: \url{https://github.com/fboehm/keller-2018-chr19-power}.
+We share our analysis \texttt{R} code \citep{r} as a \texttt{git}
+repository at this URL: \url{https://github.com/fboehm/keller-2018-chr19-power}.
 
 
 
@@ -1676,7 +1691,8 @@ Advances in mass spectrometry experimental methods have enabled high-throughput 
 These developments, when coupled with experiments to quantify gut microbiota, have the potential to uncover new microbiome-host interactions. 
 Such discoveries would lead to a more nuanced understanding of organismal biology and health implications of the gut microbiome. 
 
-Previous research demonstrated that hosts and gut microbiota communicate with each other via small molecule metabolites, including bile acids. 
+Previous research demonstrated that hosts and gut microbiota communicate 
+with each other via small molecule metabolites, including bile acids. 
 The liver uses cholesterol to synthesize an array of bile acids. 
 These bile acids are secreted into the gut, where bacteria chemically transform some bile acids. 
 One function of bile acids is to aid digestion by emulsification of dietary fats. 
