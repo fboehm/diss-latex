@@ -1,4 +1,54 @@
-\documentclass[oneside]{book}
+\documentclass[oneside]{book}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[utf8]{inputenc}
 \usepackage{setspace}
@@ -29,7 +79,7 @@
 \usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{longtable}
-\usepackage[outdir=./]{epstopdf}
+\usepackage[outdir=./figs/.]{epstopdf}
 \usepackage{fancyhdr}
 \setlength{\headheight}{15.2pt}
 \pagestyle{fancyplain}
@@ -68,11 +118,13 @@
 \title{Testing Pleiotropy vs. Separate QTL in Multiparental Populations}
 \author{Frederick Boehm}
 \date{\today}
-
-
-
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 \frontmatter % use roman numerals for page numbering of first pages
+
+
+
+
 \doublespacing
 \maketitle
 \tableofcontents
@@ -84,7 +136,542 @@
 
 \chapter{Introduction to quantitative trait locus mapping}
 
+Quantitative trait locus (QTL) studies in model organisms like mice can identify 
+genomic regions that affect complex traits, such as systolic blood pressure and body weight.
+A genome-wide QTL ``scan'' discovers
+associations between genotypes and phenotypes by considering every position, one at a time, as a candidate QTL for the trait of interest.
+A region with strong evidence of association, then, defines a QTL. Because nearby markers have correlated
+genotypes, a QTL in a two-parent cross often spans multiple megabases in length and may contain more than a hundred genes.
+Identification of the causal gene from among those genes near the QTL is challenging and may require costly and time-consuming experiments. 
+Growing needs for greater QTL mapping resolution fueled development, over the
+last two decades, of model organism multiparental populations for high-resolution QTL mapping.
+I argue below for the need for a pleiotropy test in multiparental populations. 
+Before we discuss multiparental populations, I first motivate the study of
+pleiotropy by discussing the biology of the \emph{Agouti} gene. I then review designs for two-parent crosses, QTL mapping in
+two-parent crosses, and pleiotropy testing in two-parent crosses.
+A discussion of multiparental populations and experimental design, QTL mapping
+in multiparental populations, and the need for a pleiotropy test in
+multiparental populations concludes Chapter 1.
 
+
+
+
+\subsection{\emph{Agouti} biology \& pleiotropy}
+% funnel
+Pleiotropy is the biological phenomenon in which a QTL affects multiple traits. 
+Identifying a gene that affects multiple traits may inform scientific understanding of
+interactions between biomolecules and ultimately contribute insights that aid development
+of new therapeutics. 
+%pleiotropy
+For example, mouse studies identified multiple biological roles for the protein product of 
+the \emph{Agouti} gene. Mutations in the \emph{Agouti} gene may lead to both 
+yellow hair (in mice that are typically black) and obesity \citep{attie2017how}.
+Subsequent investigations uncovered two related biological roles for the Agouti protein.
+It antagonizes the action of $\alpha$-melanocyte-stimulating hormone both to
+prevent melanocyte-based melanin production and to disrupt melanocortin-4
+receptor signaling in the brain.
+The former leads to yellow hair, while the latter causes weight gain.
+Later research identified altered signaling by the melanocortin-4 receptor in
+the brain as a leading cause of inherited obesity in humans.
+Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently being studied.
+
+
+\begin{figure}
+\includegraphics[height=6cm]{figs/Agouti.jpg}
+\caption{\emph{Agouti} viable-yellow mutant mouse has yellow hair and is obese in comparison to a wild-type mouse. \tiny{(https://upload.wikimedia.org/wikipedia/commons/4/4d/Agouti\_Mice.jpg)}}
+\label{fig:agouti}
+\end{figure}
+
+
+
+%two-parent designs: intercross & backcross
+
+
+
+
+%mapping populations
+
+
+%mice
+
+
+
+
+
+
+% genotype data & hmm to infer 36-state genotype probabilities
+
+
+
+
+
+%mapping genetic markers to measurable traits in MPP
+
+
+
+
+
+
+%complex traits
+
+
+
+
+
+
+
+
+
+
+
+%my test
+
+
+
+
+
+%roadmap
+
+
+\subsection{Designs for two-parent crosses}
+
+Two widely used two-parent crosses are the ``backcross'' and the ``intercross''. We first discuss the backcross design (Figure~\ref{fig:backcross}). A backcross starts with mating between members of two inbred lines. The offspring of this mating event, termed the ``F$_1$'', or ``first filial'', generation then mate with members of one of the two parent lines. The experiment designers decide which line the female is chosen from and which line the F$_1$ mate with. Thus, there are a total of four possible backcrosses for any pair of inbred lines. 
+
+As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation ``BC'') have, for any locus, only two possible genotypes: heterozygote (AB) and homozygote (AA in the figure). 
+
+The F$_1$ generation is heterozygous everywhere (Figure~\ref{fig:backcross}).
+While meiotic crossovers occur in the founder generation, the crossover events are
+undetectable because the animals are inbred and, thus, have two identical copies
+of DNA at every locus. This causes the F$_1$ subjects to be heterozygous everywhere
+when genotyping with regards to the founder lines.
+In fact, the F$_1$ may have identical single nucleotide marker alleles at some
+positions, but, because one allele is inherited from each parent (and each inbred
+founder line), we still call them ``heterozygous'' because, in terms of founder allele genotypes, they have the ``AB'' heterozygote genotype.
+
+The meiotic crossovers that occur as the F$_1$ animals produce gametes often
+are detectable because they result in ``BC'' generation animals that have individual
+chromosomes that contain DNA from both founder lines. Due to the limited number
+of crossovers in a single meiosis, the resulting ``BC'' generation subjects have
+poor QTL mapping resolution. This poor mapping resolution corresponds to the relatively large segments of contiguous DNA, on average, that are inherited from, ultimately, the founder lines.
+
+
+
+
+
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in file(filename, "{}r"{}, encoding = encoding): cannot open the connection}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in create.par(100, c(1, 2)): could not find function "{}create.par"{}}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in cross(f1, f1, m = 10, obl = TRUE): could not find function "{}cross"{}}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in 2:ncol(f2p): argument of length 0}}\end{kframe}\begin{figure}
+\includegraphics[width=\maxwidth]{figure/backcross-1} \caption[Breeding scheme for a backcross]{Breeding scheme for a backcross. Each pair of autosomes represents a single subject.}\label{fig:backcross}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in create.par(100, c(1, 2)): could not find function "{}create.par"{}}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in cross(f1, f1, m = 10, obl = TRUE): could not find function "{}cross"{}}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in 2:ncol(f2m): argument of length 0}}\end{kframe}\begin{figure}
+\includegraphics[width=\maxwidth]{figure/intercross-1} \caption[Breeding scheme for an intercross]{Breeding scheme for an intercross. Each pair of autosomes represents a single subject.}\label{fig:intercross}
+\end{figure}
+
+
+\end{knitrout}
+
+
+\subsection{QTL mapping in two-parent crosses}
+
+QTL mapping is a systematic, statistical approach to identifying genetic
+loci where genetic variation affects phenotypic variation in a measured trait.
+We use the term ``locus'' to refer to a small, contiguous genomic region, often
+several megabases in length. Standard inputs are genome-wide marker genotypes for a collection of study subjects and a set of trait measurements on the same subjects.
+
+% QTL scan (univariate)
+A univariate QTL scan is a procedure to interrogate the entire genome for genetic
+variants that affect a specified trait of interest.
+It requires as inputs genome-wide marker genotypes (or, equivalently,
+genotype probabilities) and trait measurements for a collection of subjects.
+One specifies a statistical model and calculates the
+likelihood of the model parameters given the observed (trait and marker) data at every marker. In current studies with dense marker sets, 
+it may suffice to calculate likelihoods only at the markers. However, for
+studies with fewer markers, investigators often benefit from inferring 
+genotype probabilities at inter-marker positions.
+
+
+After obtaining likelihoods for all markers, likelihood ratio test statistics are calculated
+at every marker. The inputs for these calculations are the likelihoods from the model fits at
+every marker and the likelihood for the null model, which contains no genotype data.
+The resulting likelihood ratios compare, for every marker, the null hypothesis that there is no 
+QTL (at that marker) against the alternative that there is a QTL (at the specified marker).
+In other words, one performs a likelihood ratio test for every marker across the genome.
+Often this amounts to thousands of (statistically dependent) hypothesis tests.
+One then uses a permutation test to determine a genome-wide critical value
+for the likelihood ratio test statistic \citep{churchill1994empirical}.
+Those loci for which the likelihood ratio test statistic is sufficiently large are declared QTL. 
+
+
+Modern QTL studies have their origins in the work of \citet{sax1923association}.
+\citet{sax1923association}, working 30 years before \citet{watson1953molecular} reported
+the molecular structure of DNA, studied seed color and weight in the common bean
+(\emph{Phaseolus vulgaris}). He used seed color to partition beans into genetic
+marker classes and identified an association between marker class and bean weight. Implicitly, \citet{sax1923association} leveraged the association between marker genotype class and seed color to assign beans to genetic marker classes without having explicit genotype data.
+
+
+
+\citet{lander1989mapping}, in a landmark methodology report, presented
+interval mapping as a strategy to identify QTL. 
+In interval mapping, they used the correlations between nearby genetic positions
+to infer genotype probabilities between markers.
+They then use an expectation maximization algorithm \citep{dempster1977maximum, lander1987construction}
+to fit a statistical mixture model with a normally distributed component for each of three genotype classes. 
+They summarized the evidence for a QTL at each position with the log odds (LOD) score statistic.
+The LOD score is the base 10 log likelihood ratio test statistic for
+the competing hypotheses of the presence of a QTL at the candidate position
+against the null hypothesis of no QTL at the candidate position.
+The work of \citet{lander1989mapping} ignited interest in QTL mapping from
+both biologists and statisticians.
+Many of the open questions that \citet{lander1989mapping} present, including approaches
+for defining QTL endpoints, accounting for multiple hypothesis tests, and
+allowing for genotyping errors when inferring genotype probabilities,
+are active areas of research 30 years after their publication.
+
+
+%statistical challenges in QTL mapping
+Two major statistical challenges are what \citet{broman2009guide} call 
+the ``missing data'' problem and the ``model selection'' problem. 
+The ``missing data'' problem arises in QTL studies because genotypes are obtained
+at only select markers. In this sense, genotypes at positions between
+markers are ``missing'' because they aren't explicitly measured. \todo[inline]{insert Karls figure showing inter-marker position \& only marker genotypes}
+A flexible framework for resolving the ``missing data'' problem involves use of a
+hidden Markov model \citep{broman2009guide, broman2006use}. 
+In this hidden Markov model, marker genotypes are observed random variables, 
+while genotypes at intervening bases are unobserved random variables \citep{broman2009guide,broman2006use}. 
+Two sets of recursive equations, termed ``forward'' and ``backward'' equations,
+enable efficient calculation of genotype probabilities
+(conditional on the observed marker genotypes) \citep{baum1970maximization}. We discuss inference methods for genotype probabilities in Appendix 2.
+
+
+
+
+% model form - linear regression
+A QTL analysis involves choosing a statistical model to be fitted at every marker. 
+As in any statistical modeling, there is not one best model selection procedure.
+One needs to decide which main effects and interactions are needed.
+Also, one often transforms the trait values to achieve approximate normality before performing the QTL scan. 
+
+Many investigators consider multiple models before performing a QTL scan.
+For simplicity, one may choose a linear model that contains additive effects for
+the  minor allele count (0, 1 or 2) at a given marker (Equation~\ref{eq:uni-2-parent}) \citep{martinez1992estimating,haley1992simple}.
+
+\begin{equation}
+\text{trait} = \text{mean for major allele homozygotes} + \text{(minor allele count)}\text{(minor allele effect)} + \text{random error}
+\label{eq:uni-2-parent}
+\end{equation}
+
+Assuming that the random errors are normally distributed (and independent with common
+variance $\sigma^2$), one may use the statistical technique called ``ordinary least squares''
+to fit the model and to solve for $\hat b$ and $\hat \sigma^2$.
+In ``ordinary least squares'', one solves for the set of parameter values that
+minimize the residual sum of squares. In the above equation, our two parameters are the minor allele effect and the random error variance. The residual sum of squares is an expression that tells us how far each observed data point is from its predicted value for a set of specified parameter values. Equation~\ref{eq:rss} defines residual sum of squares for a univariate QTL analysis.
+
+\begin{equation}
+\text{residual sum of squares} = \left(\text{fitted trait value} - \text{observed trait value}\right)^2\label{eq:rss}
+\end{equation}
+
+
+
+% QTL scan (multivariate) in 2-parent crosses
+
+In anticipation that multivariate mapping of correlated traits would enhance statistical
+power to detect QTL and would improve precision of QTL positions,
+both \citet{jiang1995multiple} and \citet{korol1995interval} developed
+multivariate interval mapping procedures. 
+
+
+
+
+\todo[inline]{say more here}
+
+In the context of multivariate QTL mapping, \citet{jiang1995multiple} 
+proposed and developed a statistical hypothesis test for distinguishing
+a single pleiotropic locus that affects multiple traits from two (or more)
+separate QTL.
+Their test applies to the setting in which multiple traits
+map to a single genomic region \citep{jiang1995multiple}. 
+That region, then, can be interrogated further by asking whether it
+harbors a single pleiotropic QTL or multiple separate QTL. 
+For simplicity, we focus on the case where two traits both map to a single genomic region,
+and we wish to determine whether the two traits share a single QTL or have two separate QTL. 
+
+\subsection{Testing pleiotropy in two-parent crosses}
+
+\citet{jiang1995multiple} developed a suite of methods for analyzing multivariate phenotypes in
+two-parent crosses.
+Among the novel methods in their article is a test of pleiotropy vs separate QTL.
+They explain that such a test is useful when two traits map to a single genomic region.
+The question then arises ``do the two traits associate with the same locus, or do they associate with separate loci''?
+
+If both traits associate with the same locus, then that locus is called ``pleiotropic''. If the two traits associate with separate loci, then we say that there are separate QTL (one for each trait). While ``pleiotropy'' has multiple related usages in the genetics literature, we use ``pleiotropy'' here to refer to the situation in which one genetic locus affects two or more traits. 
+
+In the development of their test of pleiotropy v separate QTL, \citet{jiang1995multiple} model
+the multivariate phenotype as the sum of a linear function of the genotypes and a random error term. They assume that the phenotypes matrix is related to the genotypes data (for a single marker) through the following equation:
+
+
+\begin{equation}
+Y = XB + E
+\end{equation}
+
+
+\noindent Where Y is a n by 2 matrix of phenotype values (with each row being one subject and each column being one trait)
+, X is a n by 1 matrix of genotypes and B is a 1 by 2 matrix of allele effects.
+The random error is assumed to follow a normal distribution with mean zero and a positive variance.
+\citet{jiang1995multiple} also incorporate additional terms to model dominant effects and to
+control for residual genetic variation.
+We forego inclusion of dominant terms and additional markers for controlling residual
+genetic variation, although, in our linear mixed effects model, we do include polygenic random
+effects. 
+Extensions of our model and software to accommodate dominance effects are straightforward.
+
+
+\citet{jiang1995multiple} use a mixture model to relate genotypes to phenotypes. 
+They observe that the there are 9 possible ordered pairs of genotypes for two markers in a F2 population, since each marker has one of three genotypes (AA, AB, BB).
+They thus approach the problem as one with a 9-state mixture model. 
+They provide the equations needed for an expectation-conditional maximization
+(ECM) algorithm for fitting the mixture model.
+They use a chi-square distribution with one degree of freedom as the
+null distribution of the test statistic. 
+
+Further investigations by \citet{jiang1995multiple} with simulations revealed
+reasonable behavior of the hypothesis test under the specified conditions. 
+They learned that dense marker coverage tends to aid in distinguishing pleiotropy
+from separate QTL. \todo[inline]{IS THIS TRUE?? look back at JZ 1995's simulations. How did they examine power and type I error rates? Do they examine univariate LOD strength when considering power? What about interlocus distance?}
+
+
+
+
+
+
+
+
+
+
+They use a computational algorithm called ``expectation - conditional maximization'' to find these values. 
+ECM is an iterative algorithm. 
+The user inputs starting values for the parameters and the algorithm changes them one at a
+time until the change in log likelihood between successive iterations is sufficiently small.
+The algorithm is then said to have ``converged''. 
+The final iteration’s parameter values are treated as those that maximize the likelihood.
+
+
+\citet{jiang1995multiple}, in the context of their multivariate QTL mapping methods, 
+describe a test of pleiotropy vs. separate QTL. 
+They formulate a test in which the null hypothesis
+is pleiotropy while the the alternative hypothesis is separate QTL.
+In other words, they consider the case in which the two traits map to the same locus
+(pleiotropy) as a special case of the more general setting (separate QTL)
+in which the two traits may or may not map to the same locus.
+
+In statistical terminology, one would say that the parameter space is restricted under the null hypothesis. Here, the parameter space is the collection of ordered pairs of markers in the genomic region of interest. The restriction of that collection under pleiotropy corresponds to limiting consideration to only those ordered pairs that have both traits mapping to a single locus. 
+
+We illustrate these ideas in a drawing of a two-dimensional grid (Figure~\ref{fig:encircle}). Each point in the grid corresponds to an ordered pair of markers. Along the horizontal axis are the markers for the first component of the ordered pair; the second component of the ordered pair is indicated by the vertical axis. The red points correspond to those that are considered under the pleiotropy hypothesis. Under the alternative hypothesis, all grid points are considered. 
+
+
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\includegraphics[width=6in,height=4in]{figure/encircle-1} \caption[Two-dimensional grid of ordered pairs of markers]{Two-dimensional grid of ordered pairs of markers.}\label{fig:encircle}
+\end{figure}
+
+
+\end{knitrout}
+
+
+
+\citet{jiang1995multiple} then calculate the likelihoods of the two models
+(that under the hypothesis of pleiotropy and that under the hypothesis of separate QTL)
+at each ordered pair of putative loci in the genomic region of interest.
+The likelihood ratio test statistic is the logarithm of the ratio of the maximum
+of the likelihoods under pleiotropy to the maximum of the likelihoods under
+the separate QTL hypothesis. 
+
+\citet{jiang1995multiple} determined p-values for their test statistics by comparing
+them to a chi-squared distribution with 1 degree of freedom. 
+
+
+
+
+
+\subsection{Multiparental populations and Diversity Outbred mice}
+
+Near the turn of the century, geneticists sought a mammalian gene mapping resource 
+that could be used for study of a wide variety of quantitative traits. 
+The magnitude of such an undertaking required a collaborative, community-supported
+approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred (DO)
+mouse population as such a high-resolution gene mapping resource.
+They elected to seed the population with partially inbred progenitors of the
+Collaborative Cross lines. The Collaborative Cross mating design started with
+mice from eight inbred lines: A/J, C57BL/6J, 129S1/SvImJ,
+NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ. Three of these lines, CAST/EiJ, PWK/PhJ, and WSB/EiJ, are wild-derived. Together, the three wild-derived lines contribute 
+
+The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to generate
+mice with DNA from all eight founder lines over the course of 3 generations.
+The term ``funnel'' refers to the design for the first 3 mating generations in which the
+DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders.
+For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H in the first generation (Figure~\ref{fig:ri8}).
+AB offspring would then mate with CD offspring and EF offspring would mate with GH mice.
+Finally, the ABCD mice would mate with the EFGH mice to create a generation of mice that
+contain genetic material from all eight inbred founder lines.
+Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in create.par(100, c(2 * i - 1, 2 * i)): could not find function "{}create.par"{}}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f2a' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f2a' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f2a' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f2b' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f2b' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f3a' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f3a' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f3b' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f3b' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f4a' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f4a' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f4b' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'f4b' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(temp): object 'temp' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'fa' not found}}\end{kframe}\begin{figure}
+\includegraphics[width=\maxwidth]{figure/ri8-1} \caption[Schematic for a single funnel in the Collaborative Cross breeding design]{Schematic for a single funnel in the Collaborative Cross breeding design.}\label{fig:ri8}
+\end{figure}
+
+\begin{kframe}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'fa' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in ncol(fa\$mat): object 'fa' not found}}\end{kframe}
+\end{knitrout}
+
+
+
+
+The designers of the Diversity Outbred population started with \todo[inline]{get number of mice and from which generations}
+
+Due to the breeding scheme, each Diversity Outbred mouse is a highly heterozygous mosaic of 
+founders' DNA (Figure)\todo{add figure with mosaics over multiple generations here}. 
+With each generation, the Diversity Outbred mice accumulate meiotic recombinations. 
+This is because each mouse inherits DNA from its parents, and each meiosis provides opportunities for recombinations. \todo[inline]{need to explain this better. How does Andrew explain it in his thesis?}
+
+The cumulative effect of recombinations over many generations of outbreeding is to create mice whose DNA mosaic contains smaller and smaller contiguous pieces from each founder line. 
+
+The Diversity Outbred mice enable high-resolution QTL mapping \citep{gatti2014quantitative}. One factor that contributes to high-resolution mapping is the ability to infer the founder line from which each marker's DNA arose. 
+
+
+
+
+\subsection{QTL mapping in DO mice}
+
+QTL mapping in Diversity Outbred mice, like that in mice from two-parent crosses, is a multi-step procedure: 1. data acquisition, 2. inference of missing genotypes, and 3. modeling phenotypes as a function of genotypes. Data acquisition involves measurement of phenotypes and, at specified genetic markers, termed ``single nucleotide polymorphism'' or SNP markers, measurement of two-allele genotypes. Often, the SNP marker genotypes are obtained by use of a microarray, such as the GigaMUGA SNP microarray \citep{morgan2015mouse}. 
+
+The next step, missing genotypes inference, is needed because of the ``missing data problem'' \citep{broman2009guide}. It takes as input the two-allele genotypes at the measured SNP markers. An expectation maximization algorithm \citep{dempster1977maximum} for a hidden Markov model, developed by \citet{broman2012haplotype} and \citet{broman2012genotype} and implemented in the \texttt{qtl2} R package \citep{broman2019rqtl2}, outputs 36-state genotype probabilities for all nuclear autosomal markers and pseudomarkers. Pseudomarkers, as we use the term, are arbitrary nucleotide bases at which the researcher wants 36-state genotype probabilities. Finally, we collapse the 36-state genotype probabilities to eight founder allele dosages at each marker. This last step is optional, but often helpful, because the simplified models require specification of fewer parameters. We then treat the founder allele dosages as known quantities in subsequent steps. 
+
+% model form - connecting genotype to phenotype
+
+After inferring founder allele dosages, we address the second major statistical challenge of 
+QTL mapping: the ``model selection'' problem \citep{broman2009guide}.
+Linear regression is widely used because of its ease of implementation,
+computational speed, and interpretability of results.
+A genetically ``additive'' linear model, in which we assume a linear relationship between
+a trait's values and each founder allele's dosage, is the default model.
+\citep{gatti2014quantitative,broman2019rqtl2}.
+The R package \texttt{qtl2} provides a straightforward user
+interface to include covariates and interaction terms in the linear model \citep{broman2019rqtl2}.
+
+
+
+
+% model form - random effects incorporation & relatedness
+% First, relatedness
+Relatedness is one issue that arises in the Diversity Outbred mice that is not a major concern in 
+two-parent crosses. Due to the complexity of the breeding design, Diversity Outbred mice
+have 
+complicated pairwise relationships. A given study cohort may include pairs of first
+cousins, parent-offspring pairs, grandparent-grandchild pairs, second cousin pairs, and others.
+Contrasting this with the two-parent backcross (Figure~\ref{fig:backcross}) and
+intercross (Figure~\ref{fig:intercross}) designs, we see in the backcross that
+average relatedness between any two members of the BC generation is equal to the same, shared value.
+One measure of relatedness is the probability of identity by state, \emph{i.e.}, the
+probability that a randomly chosen allele from one subject is identical to a randomly chosen
+allele of the second subject. Measured in terms of the probability that a randomly chosen allele
+from one subject is identical to a randomly chosen allele of a second subject, we note that
+this probability of identity by state is $\frac{5}{8}$ in the backcross. F$_2$ subject pairs in an intercross, likewise, have a single, shared average relatedness, with an identity by state probability of $\frac{1}{2}$.
+
+Because relatedness can confound genotype-phenotype associations \citep{yang2014advantages}, researchers have developed methods to account for relatedness in their statistical models. One popular approach involves use of a polygenic random effect in the statistical model \citep{kang2008efficient}. The addition of a random effect to a model with fixed (\emph{i.e.}, nonrandom) effects results in what statisticians call a ``linear mixed effects model''. 
+
+
+
+
+
+
+
+
+%%% CHAPTER 1 End
+%%%%%%%%%%%%%%%%%
 %%% chapter 2 start
 \chapter{Methods development}
 

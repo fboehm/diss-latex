@@ -29,7 +29,7 @@
 \usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{longtable}
-\usepackage[outdir=./]{epstopdf}
+\usepackage[outdir=./figs/.]{epstopdf}
 \usepackage{fancyhdr}
 \setlength{\headheight}{15.2pt}
 \pagestyle{fancyplain}
