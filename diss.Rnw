@@ -73,6 +73,15 @@
 
 \begin{document}
 \frontmatter % use roman numerals for page numbering of first pages
+
+<<include=FALSE>>=
+library(knitr)
+opts_chunk$set(
+concordance=TRUE, echo = FALSE, fig.lp = "fig:", warning = FALSE, message = FALSE
+)
+@
+
+
 \doublespacing
 \maketitle
 \tableofcontents
@@ -84,7 +93,840 @@
 
 \chapter{Introduction to quantitative trait locus mapping}
 
+Quantitative trait locus (QTL) studies in model organisms like mice can identify 
+genomic regions that affect complex traits, such as systolic blood pressure and body weight.
+A genome-wide QTL ``scan'' discovers
+associations between genotypes and phenotypes by considering every position, one at a time, as a candidate QTL for the trait of interest.
+A region with strong evidence of association, then, defines a QTL. Because nearby markers have correlated
+genotypes, a QTL in a two-parent cross often spans multiple megabases in length and may contain more than a hundred genes.
+Identification of the causal gene from among those genes near the QTL is challenging and may require costly and time-consuming experiments. 
+Growing needs for greater QTL mapping resolution fueled development, over the
+last two decades, of model organism multiparental populations for high-resolution QTL mapping.
+I argue below for the need for a pleiotropy test in multiparental populations. 
+Before we discuss multiparental populations, I first motivate the study of
+pleiotropy by discussing the biology of the \emph{Agouti} gene. I then review designs for two-parent crosses, QTL mapping in
+two-parent crosses, and pleiotropy testing in two-parent crosses.
+A discussion of multiparental populations and experimental design, QTL mapping
+in multiparental populations, and the need for a pleiotropy test in
+multiparental populations concludes Chapter 1.
 
+<<pkgs>>=
+library(qtl)
+library(knitr)
+@
+
+
+\subsection{\emph{Agouti} biology \& pleiotropy}
+% funnel
+Pleiotropy is the biological phenomenon in which a QTL affects multiple traits. 
+Identifying a gene that affects multiple traits may inform scientific understanding of
+interactions between biomolecules and ultimately contribute insights that aid development
+of new therapeutics. 
+%pleiotropy
+For example, mouse studies identified multiple biological roles for the protein product of 
+the \emph{Agouti} gene. Mutations in the \emph{Agouti} gene may lead to both 
+yellow hair (in mice that are typically black) and obesity \citep{attie2017how}.
+Subsequent investigations uncovered two related biological roles for the Agouti protein.
+It antagonizes the action of $\alpha$-melanocyte-stimulating hormone both to
+prevent melanocyte-based melanin production and to disrupt melanocortin-4
+receptor signaling in the brain.
+The former leads to yellow hair, while the latter causes weight gain.
+Later research identified altered signaling by the melanocortin-4 receptor in
+the brain as a leading cause of inherited obesity in humans.
+Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently being studied.
+
+
+\begin{figure}
+\includegraphics[height=6cm]{figs/Agouti.jpg}
+\caption{\emph{Agouti} viable-yellow mutant mouse has yellow hair and is obese in comparison to a wild-type mouse. \tiny{(https://upload.wikimedia.org/wikipedia/commons/4/4d/Agouti\_Mice.jpg)}}
+\label{fig:agouti}
+\end{figure}
+
+
+
+%two-parent designs: intercross & backcross
+
+
+
+
+%mapping populations
+
+
+%mice
+
+
+
+
+
+
+% genotype data & hmm to infer 36-state genotype probabilities
+
+
+
+
+
+%mapping genetic markers to measurable traits in MPP
+
+
+
+
+
+
+%complex traits
+
+
+
+
+
+
+
+
+
+
+
+%my test
+
+
+
+
+
+%roadmap
+
+
+\subsection{Designs for two-parent crosses}
+
+Two widely used two-parent crosses are the ``backcross'' and the ``intercross''. We first discuss the backcross design (Figure~\ref{fig:backcross}). A backcross starts with mating between members of two inbred lines. The offspring of this mating event, termed the ``F$_1$'', or ``first filial'', generation then mate with members of one of the two parent lines. The experiment designers decide which line the female is chosen from and which line the F$_1$ mate with. Thus, there are a total of four possible backcrosses for any pair of inbred lines. 
+
+As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation ``BC'') have, for any locus, only two possible genotypes: heterozygote (AB) and homozygote (AA in the figure). 
+
+The F$_1$ generation is heterozygous everywhere (Figure~\ref{fig:backcross}).
+While meiotic crossovers occur in the founder generation, the crossover events are
+undetectable because the animals are inbred and, thus, have two identical copies
+of DNA at every locus. This causes the F$_1$ subjects to be heterozygous everywhere
+when genotyping with regards to the founder lines.
+In fact, the F$_1$ may have identical single nucleotide marker alleles at some
+positions, but, because one allele is inherited from each parent (and each inbred
+founder line), we still call them ``heterozygous'' because, in terms of founder allele genotypes, they have the ``AB'' heterozygote genotype.
+
+The meiotic crossovers that occur as the F$_1$ animals produce gametes often
+are detectable because they result in ``BC'' generation animals that have individual
+chromosomes that contain DNA from both founder lines. Due to the limited number
+of crossovers in a single meiosis, the resulting ``BC'' generation subjects have
+poor QTL mapping resolution. This poor mapping resolution corresponds to the relatively large segments of contiguous DNA, on average, that are inherited from, ultimately, the founder lines.
+
+
+
+
+
+
+
+
+<<backcross, fig.cap = "Breeding scheme for a backcross. Each pair of autosomes represents a single subject.", fig.lp="fig:">>=
+# load utility functions
+source("meiosis_func.R")
+
+lightblue <- "blue"
+pink <- "red"
+
+par(mar=rep(0.1,4),bty="n")
+plot(0,0,xlim=c(-15,864),ylim=c(0,480),xaxt="n",yaxt="n",xlab="",ylab="",type="n")
+xd <- 2
+rect(c(300-xd+25,328-xd+25),c(480,480),c(310+xd+25,338+xd+25),c(385,385), lend=1, ljoin=1,
+     col=lightblue)
+rect(c(526-xd-25,554-xd-25),c(480,480),c(536+xd-25,564+xd-25),c(385,385),
+     col=pink, lend=1, ljoin=1)
+
+points(432,440,pch=4,cex=1.5)
+#segments(432,400,432,340)
+#segments(432,400,432,340)
+#segments(319,340,545,340)
+#arrows(c(319,545),c(340,340),c(319,545),c(300,300),len=0.1)
+arrows(432, 400, 432, 300, len=0.1)
+
+text(300,(480+385)/2,"A",cex=1.5,adj=c(1,0.5))
+text(564,(480+385)/2,"B",cex=1.5,adj=c(0,0.5))
+
+rect(413-xd,287,423+xd,192, lend=1, ljoin=1, col=lightblue)
+rect(441-xd,287,451+xd,192, col=pink, lend=1, ljoin=1)
+
+rect(413-176-xd,287,423-176+xd,192, lend=1, ljoin=1, col=lightblue)
+rect(441-176-xd,287,451-176+xd,192, lend=1, ljoin=1, col=lightblue)
+
+
+points(344,247,pch=4,cex=1.5)
+segments(344,207,344,147)
+segments(57,147,849,147)
+arrows(seq(57,849,by=88),rep(147,10),seq(57,849,by=88),rep(107,10),len=0.1)
+
+text(451+25,(287+192)/2,expression(F[1]),cex=1.5,adj=c(0,0.5))
+text(413-176-25,(287+192)/2,"A",cex=1.5,adj=c(1,0.5))
+
+f1 <- create.par(100,c(1,2))
+set.seed(99019)
+f2 <- vector("list",10)
+for(i in 1:10) f2[[i]] <- cross(f1,f1,m=10,obl=TRUE)
+
+xloc <- 38
+mult <- 95/f2[[1]]$mat[1,ncol(f2[[1]]$mat)]
+for(i in 1:10) {
+  rect(xloc-xd,0,xloc+10+xd,95, lend=1, ljoin=1, col=lightblue)
+  rect(xloc+28-xd,0,xloc+38+xd,95, lend=1, ljoin=1, col=lightblue)
+
+#  f2m <- f2[[i]]$mat
+#  for(j in 2:ncol(f2m)) {
+#    if(f2m[2,j]==2)
+#      rect(xloc-xd,f2m[1,j]*mult,xloc+10+xd,f2m[1,j-1]*mult,
+#           density=20,angle=45, lend=1, ljoin=1)
+#  }
+  f2p <- f2[[i]]$pat
+  for(j in 2:ncol(f2p)) {
+    if(f2p[2,j]==2)
+      rect(xloc+28-xd,f2p[1,j]*mult,xloc+38+xd,f2p[1,j-1]*mult,
+           col=pink, lend=1, ljoin=1)
+  }
+  xloc <- xloc+38+50
+}
+text(38-25,95/2,"BC",cex=1.5,adj=c(1,0.5))
+@
+
+
+<<intercross, fig.cap = "Breeding scheme for an intercross. Each pair of autosomes represents a single subject.", fig.lp="fig:">>=
+par(mar=rep(0.1,4), bty="n")
+plot(0,0,xlim=c(-15,864),ylim=c(0,480),xaxt="n",yaxt="n",xlab="",ylab="",type="n")
+xd <- 2
+rect(c(300-xd,328-xd)+25,c(480,480),c(310+xd,338+xd)+25,c(385,385), lend=1, ljoin=1,
+     col=lightblue)
+rect(c(526-xd,554-xd)-25,c(480,480),c(536+xd,564+xd)-25,c(385,385),
+     col=pink, lend=1, ljoin=1)
+
+points(432,440,pch=4,cex=1.5)
+segments(432,400,432,340)
+segments(319+25,340,545-25,340)
+arrows(c(319+25,545-25),c(340,340),c(319+25,545-25),c(300,300),len=0.1)
+
+text(300,(480+385)/2,"A",cex=1.5,adj=c(1,0.5))
+text(564,(480+385)/2,"B",cex=1.5,adj=c(0,0.5))
+
+rect(300-xd+25,287,310+xd+25,192, lend=1, ljoin=1, col=lightblue)
+rect(328-xd+25,287,338+xd+25,192, col=pink, lend=1, ljoin=1)
+rect(526-xd-25,287,536+xd-25,192, lend=1, ljoin=1, col=lightblue)
+rect(554-xd-25,287,564+xd-25,192, col=pink, lend=1, ljoin=1)
+
+points(432,247,pch=4,cex=1.5)
+segments(432,207,432,147)
+segments(57,147,849,147)
+arrows(seq(57,849,by=88),rep(147,10),seq(57,849,by=88),rep(107,10),len=0.1)
+
+text(300,(287+192)/2,expression(F[1]),cex=1.5,adj=c(1,0.5))
+text(564,(287+192)/2,expression(F[1]),cex=1.5,adj=c(0,0.5))
+
+f1 <- create.par(100,c(1,2))
+set.seed(999)
+f2 <- vector("list",10)
+for(i in 1:10) f2[[i]] <- cross(f1,f1,m=10,obl=TRUE)
+
+xloc <- 38
+mult <- 95/f2[[1]]$mat[1,ncol(f2[[1]]$mat)]
+for(i in 1:10) {
+  rect(xloc-xd,0,xloc+10+xd,95, lend=1, ljoin=1, col=lightblue)
+  rect(xloc+28-xd,0,xloc+38+xd,95, lend=1, ljoin=1, col=lightblue)
+
+  f2m <- f2[[i]]$mat
+  for(j in 2:ncol(f2m)) {
+    if(f2m[2,j]==2)
+      rect(xloc-xd,f2m[1,j]*mult,xloc+10+xd,f2m[1,j-1]*mult,
+            col=pink, lend=1, ljoin=1)
+  }
+  f2p <- f2[[i]]$pat
+  for(j in 2:ncol(f2p)) {
+    if(f2p[2,j]==2)
+      rect(xloc+28-xd,f2p[1,j]*mult,xloc+38+xd,f2p[1,j-1]*mult,
+            col=pink, lend=1, ljoin=1)
+  }
+  xloc <- xloc+38+50
+}
+text(38-25,95/2,expression(F[2]),cex=1.5,adj=c(1,0.5))
+
+@
+
+
+\subsection{QTL mapping in two-parent crosses}
+
+QTL mapping is a systematic, statistical approach to identifying genetic
+loci where genetic variation affects phenotypic variation in a measured trait.
+We use the term ``locus'' to refer to a small, contiguous genomic region, often
+several megabases in length. Standard inputs are genome-wide marker genotypes for a collection of study subjects and a set of trait measurements on the same subjects.
+
+% QTL scan (univariate)
+A univariate QTL scan is a procedure to interrogate the entire genome for genetic
+variants that affect a specified trait of interest.
+It requires as inputs genome-wide marker genotypes (or, equivalently,
+genotype probabilities) and trait measurements for a collection of subjects.
+One specifies a statistical model and calculates the
+likelihood of the model parameters given the observed (trait and marker) data at every marker. In current studies with dense marker sets, 
+it may suffice to calculate likelihoods only at the markers. However, for
+studies with fewer markers, investigators often benefit from inferring 
+genotype probabilities at inter-marker positions.
+
+
+After obtaining likelihoods for all markers, likelihood ratio test statistics are calculated
+at every marker. The inputs for these calculations are the likelihoods from the model fits at
+every marker and the likelihood for the null model, which contains no genotype data.
+The resulting likelihood ratios compare, for every marker, the null hypothesis that there is no 
+QTL (at that marker) against the alternative that there is a QTL (at the specified marker).
+In other words, one performs a likelihood ratio test for every marker across the genome.
+Often this amounts to thousands of (statistically dependent) hypothesis tests.
+One then uses a permutation test to determine a genome-wide critical value
+for the likelihood ratio test statistic \citep{churchill1994empirical}.
+Those loci for which the likelihood ratio test statistic is sufficiently large are declared QTL. 
+
+
+Modern QTL studies have their origins in the work of \citet{sax1923association}.
+\citet{sax1923association}, working 30 years before \citet{watson1953molecular} reported
+the molecular structure of DNA, studied seed color and weight in the common bean
+(\emph{Phaseolus vulgaris}). He used seed color to partition beans into genetic
+marker classes and identified an association between marker class and bean weight. Implicitly, \citet{sax1923association} leveraged the association between marker genotype class and seed color to assign beans to genetic marker classes without having explicit genotype data.
+
+
+
+\citet{lander1989mapping}, in a landmark methodology report, presented
+interval mapping as a strategy to identify QTL. 
+In interval mapping, they used the correlations between nearby genetic positions
+to infer genotype probabilities between markers.
+They then use an expectation maximization algorithm \citep{dempster1977maximum, lander1987construction}
+to fit a statistical mixture model with a normally distributed component for each of three genotype classes. 
+They summarized the evidence for a QTL at each position with the log odds (LOD) score statistic.
+The LOD score is the base 10 log likelihood ratio test statistic for
+the competing hypotheses of the presence of a QTL at the candidate position
+against the null hypothesis of no QTL at the candidate position.
+The work of \citet{lander1989mapping} ignited interest in QTL mapping from
+both biologists and statisticians.
+Many of the open questions that \citet{lander1989mapping} present, including approaches
+for defining QTL endpoints, accounting for multiple hypothesis tests, and
+allowing for genotyping errors when inferring genotype probabilities,
+are active areas of research 30 years after their publication.
+
+
+%statistical challenges in QTL mapping
+Two major statistical challenges are what \citet{broman2009guide} call 
+the ``missing data'' problem and the ``model selection'' problem. 
+The ``missing data'' problem arises in QTL studies because genotypes are obtained
+at only select markers. In this sense, genotypes at positions between
+markers are ``missing'' because they aren't explicitly measured. \todo[inline]{insert Karls figure showing inter-marker position \& only marker genotypes}
+A flexible framework for resolving the ``missing data'' problem involves use of a
+hidden Markov model \citep{broman2009guide, broman2006use}. 
+In this hidden Markov model, marker genotypes are observed random variables, 
+while genotypes at intervening bases are unobserved random variables \citep{broman2009guide,broman2006use}. 
+Two sets of recursive equations, termed ``forward'' and ``backward'' equations,
+enable efficient calculation of genotype probabilities
+(conditional on the observed marker genotypes) \citep{baum1970maximization}. We discuss inference methods for genotype probabilities in Appendix 2.
+
+
+
+
+% model form - linear regression
+A QTL analysis involves choosing a statistical model to be fitted at every marker. 
+As in any statistical modeling, there is not one best model selection procedure.
+One needs to decide which main effects and interactions are needed.
+Also, one often transforms the trait values to achieve approximate normality before performing the QTL scan. 
+
+Many investigators consider multiple models before performing a QTL scan.
+For simplicity, one may choose a linear model that contains additive effects for
+the  minor allele count (0, 1 or 2) at a given marker (Equation~\ref{eq:uni-2-parent}) \citep{martinez1992estimating,haley1992simple}.
+
+\begin{equation}
+\text{trait} = \text{mean for major allele homozygotes} + \text{(minor allele count)}\text{(minor allele effect)} + \text{random error}
+\label{eq:uni-2-parent}
+\end{equation}
+
+Assuming that the random errors are normally distributed (and independent with common
+variance $\sigma^2$), one may use the statistical technique called ``ordinary least squares''
+to fit the model and to solve for $\hat b$ and $\hat \sigma^2$.
+In ``ordinary least squares'', one solves for the set of parameter values that
+minimize the residual sum of squares. In the above equation, our two parameters are the minor allele effect and the random error variance. The residual sum of squares is an expression that tells us how far each observed data point is from its predicted value for a set of specified parameter values. Equation~\ref{eq:rss} defines residual sum of squares for a univariate QTL analysis.
+
+\begin{equation}
+\text{residual sum of squares} = \left(\text{fitted trait value} - \text{observed trait value}\right)^2\label{eq:rss}
+\end{equation}
+
+
+
+% QTL scan (multivariate) in 2-parent crosses
+
+In anticipation that multivariate mapping of correlated traits would enhance statistical
+power to detect QTL and would improve precision of QTL positions,
+both \citet{jiang1995multiple} and \citet{korol1995interval} developed
+multivariate interval mapping procedures. 
+
+
+
+
+\todo[inline]{say more here}
+
+In the context of multivariate QTL mapping, \citet{jiang1995multiple} 
+proposed and developed a statistical hypothesis test for distinguishing
+a single pleiotropic locus that affects multiple traits from two (or more)
+separate QTL.
+Their test applies to the setting in which multiple traits
+map to a single genomic region \citep{jiang1995multiple}. 
+That region, then, can be interrogated further by asking whether it
+harbors a single pleiotropic QTL or multiple separate QTL. 
+For simplicity, we focus on the case where two traits both map to a single genomic region,
+and we wish to determine whether the two traits share a single QTL or have two separate QTL. 
+
+\subsection{Testing pleiotropy in two-parent crosses}
+
+\citet{jiang1995multiple} developed a suite of methods for analyzing multivariate phenotypes in
+two-parent crosses.
+Among the novel methods in their article is a test of pleiotropy vs separate QTL.
+They explain that such a test is useful when two traits map to a single genomic region.
+The question then arises ``do the two traits associate with the same locus, or do they associate with separate loci''?
+
+If both traits associate with the same locus, then that locus is called ``pleiotropic''. If the two traits associate with separate loci, then we say that there are separate QTL (one for each trait). While ``pleiotropy'' has multiple related usages in the genetics literature, we use ``pleiotropy'' here to refer to the situation in which one genetic locus affects two or more traits. 
+
+In the development of their test of pleiotropy v separate QTL, \citet{jiang1995multiple} model
+the multivariate phenotype as the sum of a linear function of the genotypes and a random error term. They assume that the phenotypes matrix is related to the genotypes data (for a single marker) through the following equation:
+
+
+\begin{equation}
+Y = XB + E
+\end{equation}
+
+
+\noindent Where Y is a n by 2 matrix of phenotype values (with each row being one subject and each column being one trait)
+, X is a n by 1 matrix of genotypes and B is a 1 by 2 matrix of allele effects.
+The random error is assumed to follow a normal distribution with mean zero and a positive variance.
+\citet{jiang1995multiple} also incorporate additional terms to model dominant effects and to
+control for residual genetic variation.
+We forego inclusion of dominant terms and additional markers for controlling residual
+genetic variation, although, in our linear mixed effects model, we do include polygenic random
+effects. 
+Extensions of our model and software to accommodate dominance effects are straightforward.
+
+
+\citet{jiang1995multiple} use a mixture model to relate genotypes to phenotypes. 
+They observe that the there are 9 possible ordered pairs of genotypes for two markers in a F2 population, since each marker has one of three genotypes (AA, AB, BB).
+They thus approach the problem as one with a 9-state mixture model. 
+They provide the equations needed for an expectation-conditional maximization
+(ECM) algorithm for fitting the mixture model.
+They use a chi-square distribution with one degree of freedom as the
+null distribution of the test statistic. 
+
+Further investigations by \citet{jiang1995multiple} with simulations revealed
+reasonable behavior of the hypothesis test under the specified conditions. 
+They learned that dense marker coverage tends to aid in distinguishing pleiotropy
+from separate QTL. \todo[inline]{IS THIS TRUE?? look back at JZ 1995's simulations. How did they examine power and type I error rates? Do they examine univariate LOD strength when considering power? What about interlocus distance?}
+
+
+
+
+
+
+
+
+
+
+They use a computational algorithm called ``expectation - conditional maximization'' to find these values. 
+ECM is an iterative algorithm. 
+The user inputs starting values for the parameters and the algorithm changes them one at a
+time until the change in log likelihood between successive iterations is sufficiently small.
+The algorithm is then said to have ``converged''. 
+The final iteration’s parameter values are treated as those that maximize the likelihood.
+
+
+\citet{jiang1995multiple}, in the context of their multivariate QTL mapping methods, 
+describe a test of pleiotropy vs. separate QTL. 
+They formulate a test in which the null hypothesis
+is pleiotropy while the the alternative hypothesis is separate QTL.
+In other words, they consider the case in which the two traits map to the same locus
+(pleiotropy) as a special case of the more general setting (separate QTL)
+in which the two traits may or may not map to the same locus.
+
+In statistical terminology, one would say that the parameter space is restricted under the null hypothesis. Here, the parameter space is the collection of ordered pairs of markers in the genomic region of interest. The restriction of that collection under pleiotropy corresponds to limiting consideration to only those ordered pairs that have both traits mapping to a single locus. 
+
+We illustrate these ideas in a drawing of a two-dimensional grid (Figure~\ref{fig:encircle}). Each point in the grid corresponds to an ordered pair of markers. Along the horizontal axis are the markers for the first component of the ordered pair; the second component of the ordered pair is indicated by the vertical axis. The red points correspond to those that are considered under the pleiotropy hypothesis. Under the alternative hypothesis, all grid points are considered. 
+
+
+<<ggalt>>=
+suppressPackageStartupMessages(library(tidyverse))
+library(ggalt) #contains geom_encircle
+@
+
+<<encircle, out.height = '4in', out.width='6in', fig.cap = "Two-dimensional grid of ordered pairs of markers.", fig.lp="fig:">>=
+# two-dimensional grid for pleiotropy testing
+c1 <- c(rep(1:5, each = 5), 1:5)
+c2 <- c(rep(1:5, times = 5), 1:5)
+foo <- c(rep(2, 25), rep(1, 5))
+tibble(c1, c2, foo = as.factor(foo)) %>%
+  ggplot() + geom_encircle(aes(x = c1, 
+                               y = c2, 
+                               color = foo, 
+                               #fill = foo, 
+                               #alpha = 0.1
+                               ), 
+                           s_shape = 0, spread = 0.01, expand = 0.05
+                           ) + 
+  geom_point(aes(x = c1, y = c2, color = foo)) + 
+  xlim(c(0, 6)) + ylim(c(0, 6)) + xlab("trait1 position") + 
+  ylab("trait2 position") + 
+  theme(legend.position = "none") + 
+  theme(axis.text.x = element_text(face="bold",  
+                           size=14),
+          axis.text.y = element_text(face="bold",
+                           size=14), 
+        axis.title = element_text(face = "bold", size = 16)
+        )
+@
+
+
+
+\citet{jiang1995multiple} then calculate the likelihoods of the two models
+(that under the hypothesis of pleiotropy and that under the hypothesis of separate QTL)
+at each ordered pair of putative loci in the genomic region of interest.
+The likelihood ratio test statistic is the logarithm of the ratio of the maximum
+of the likelihoods under pleiotropy to the maximum of the likelihoods under
+the separate QTL hypothesis. 
+
+\citet{jiang1995multiple} determined p-values for their test statistics by comparing
+them to a chi-squared distribution with 1 degree of freedom. 
+
+
+
+
+
+\subsection{Multiparental populations and Diversity Outbred mice}
+
+Near the turn of the century, geneticists sought a mammalian gene mapping resource 
+that could be used for study of a wide variety of quantitative traits. 
+The magnitude of such an undertaking required a collaborative, community-supported
+approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred (DO)
+mouse population as such a high-resolution gene mapping resource.
+They elected to seed the population with partially inbred progenitors of the
+Collaborative Cross lines. The Collaborative Cross mating design started with
+mice from eight inbred lines: A/J, C57BL/6J, 129S1/SvImJ,
+NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ. Three of these lines, CAST/EiJ, PWK/PhJ, and WSB/EiJ, are wild-derived. Together, the three wild-derived lines contribute 
+
+The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to generate
+mice with DNA from all eight founder lines over the course of 3 generations.
+The term ``funnel'' refers to the design for the first 3 mating generations in which the
+DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders.
+For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H in the first generation (Figure~\ref{fig:ri8}).
+AB offspring would then mate with CD offspring and EF offspring would mate with GH mice.
+Finally, the ABCD mice would mate with the EFGH mice to create a generation of mice that
+contain genetic material from all eight inbred founder lines.
+Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross.
+
+<<ri8, fig.lp="fig:", fig.cap="Schematic for a single funnel in the Collaborative Cross breeding design.">>=
+color <- c(rgb(102,203,254,maxColorValue=255), # light blue
+           rgb(254,  0,128,maxColorValue=255), # dark pink
+           rgb(102,254,102,maxColorValue=255), # light green
+           rgb(128,  0,128,maxColorValue=255), # dark purple
+           rgb(203,102,254,maxColorValue=255), # light purple
+           rgb(254,203,102,maxColorValue=255), # yellow/gold
+           rgb(  0,128,128,maxColorValue=255), # dark green
+           rgb(102,102,102,maxColorValue=255)) # gray
+
+#bgcolor <- rgb(0, 0, 80, maxColorValue=255)
+#bgcolor <- rgb(37, 37, 37, maxColorValue = 255)
+bgcolor <- rgb(24, 24, 24, maxColorValue = 255)
+#bgcolor <- "white"
+
+# text
+color2 <- c(rgb(255, 255, 102, maxColorValue=255), # yellow
+            rgb(102, 204, 255, maxColorValue=255), # light blue
+            rgb(255, 102, 255, maxColorValue=255)) # pink
+
+CCcolor <- c(rgb(240,240,  0,maxColorValue=255), # yellow
+           rgb(128,128,128,maxColorValue=255),   # gray
+           rgb(240,128,128,maxColorValue=255),   # salmon
+           rgb( 16, 16,240,maxColorValue=255),   # dark blue
+           rgb(  0,160,240,maxColorValue=255),   # light blue
+           rgb(  0,160,  0,maxColorValue=255),   # green
+           rgb(240,  0,  0,maxColorValue=255),   # red/pink
+           rgb(144,  0,224,maxColorValue=255))   # purple
+
+hetcolor <- rgb(0, 200, 0, maxColorValue=255)    # green
+f2color <- c(CCcolor[1], hetcolor, CCcolor[5])   # yellow, green, cyan
+sexcolor <- c(rgb(255,80,80, maxColorValue=255), # pink, blue
+              CCcolor[5])
+
+textcolor <- c(yellow=rgb(1, 1, 0.7),
+               blue=rgb(0.4,0.8,1),
+               darkblue=rgb(0, 0.25, 0.5),
+               pink=rgb(1,0.7,1),
+               hotpink=rgb(1,0,0.6))
+
+##############################
+# RI lines
+##############################
+color <- c(rgb(102,203,254,maxColorValue=255),
+#           rgb(254,102,254,maxColorValue=255),
+           rgb(254,  0,128,maxColorValue=255),
+           rgb(102,254,102,maxColorValue=255),
+           rgb(128,  0,128,maxColorValue=255),
+           rgb(203,102,254,maxColorValue=255),
+           rgb(254,203,102,maxColorValue=255),
+           rgb(  0,128,128,maxColorValue=255),
+           rgb(102,102,102,maxColorValue=255))
+
+#bitmap(file="../Figs/ri8.bmp", width=9, height=5, res=288,
+#       pointsize=14)
+par(mar=rep(0.1,4),las=1,fg="white",col="white",col.axis="white",col.lab="white",
+    bg=bgcolor,bty="n")
+plot(0,0,xlim=c(0,864),ylim=c(25,480),xaxt="n",yaxt="n",xlab="",ylab="",type="n")
+
+u <- par("usr")
+text(u[1],460,expression(G[0]),adj=c(0,0.5))
+
+xloc <- 10
+for(i in 1:8) {
+  rect(xloc,480,xloc+10,440,col=color[i],border=color[i], lend=1, ljoin=1)
+  rect(xloc+28,480,xloc+38,440,col=color[i],border=color[i], lend=1, ljoin=1)
+  text(xloc+19,430,LETTERS[i],adj=c(0.5,1))
+
+  if((i %% 2)==0) {
+    points(xloc-27.5,460,pch=4,cex=1.3)
+    arrows(xloc-27.5,445,xloc-27.5,410,len=0.1)
+  }
+
+  xloc <- xloc+38+55
+  if((i %% 2)==0) xloc <- xloc+50
+}
+
+xloc <- 10+38+55-27.5
+xxloc <- NULL
+for(i in 1:4) {
+  xxloc <- c(xxloc,xloc)
+  rect(xloc-19,400,xloc- 9,360,col=color[2*i-1],border=color[2*i-1], lend=1, ljoin=1)
+  rect(xloc+ 9,400,xloc+19,360,col=color[2*i],border=color[2*i], lend=1, ljoin=1)
+#  text(xloc,350,paste(LETTERS[2*i-1],LETTERS[2*i],sep=""),adj=c(0.5,1))
+  text(xloc-14,350,LETTERS[2*i-1],adj=c(0.5,1))
+  text(xloc+14,350,LETTERS[2*i],adj=c(0.5,1))
+
+  xloc <- xloc+(38+55)*2+50
+}
+xxloc <- c(mean(xxloc[1:2]),mean(xxloc[3:4]))
+points(xxloc[1],380,pch=4,cex=1.3)
+arrows(xxloc[1],365,xxloc[1],330,len=0.1)
+points(xxloc[2],380,pch=4,cex=1.3)
+arrows(xxloc[2],365,xxloc[2],330,len=0.1)
+text(u[1],380,expression(G[1]),adj=c(0,0.5))
+
+file <- "_cache/for_ri8_fig.RData"
+if(file.exists(file)) {
+    load(file)
+} else {
+    f1 <- vector("list",4)
+    for(i in 1:4) f1[[i]] <- create.par(100,c(2*i-1,2*i))
+    set.seed(112099)
+    f2a <- cross(f1[[1]],f1[[2]],m=10,obl=TRUE)
+    f2b <- cross(f1[[3]],f1[[4]],m=10,obl=TRUE)
+    f3a <- cross(f2a,f2b,m=10,obl=TRUE)
+    f3b <- cross(f2a,f2b,m=10,obl=TRUE)
+    f4a <- cross(f3a,f3b,m=10,obl=TRUE)
+    f4b <- cross(f3a,f3b,m=10,obl=TRUE)
+    temp <- list(f4a,f4b)
+    for(i in 1:30) {
+        fa <- cross(temp[[1]],temp[[2]],m=10,obl=TRUE)
+        fb <- cross(temp[[1]],temp[[2]],m=10,obl=TRUE)
+        temp <- list(fa,fb)
+    }
+    save(f1,f2a,f2b,f3a,f3b,f4a,f4b,fa,file=file)
+}
+
+rect(xxloc[1]-19,320,xxloc[1]- 9,280,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc[1]+ 9,320,xxloc[1]+19,280,col=color[3],border=color[3], lend=1, ljoin=1)
+rect(xxloc[2]-19,320,xxloc[2]- 9,280,col=color[5],border=color[5], lend=1, ljoin=1)
+rect(xxloc[2]+ 9,320,xxloc[2]+19,280,col=color[7],border=color[7], lend=1, ljoin=1)
+
+mult <- 40/f2a$mat[1,ncol(f2a$mat)]
+temp <- f2a$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]==2)
+    rect(xxloc[1]-19,280+temp[1,j]*mult,xxloc[1]-9,280+temp[1,j-1]*mult,
+         col=color[2],border=color[2], lend=1, ljoin=1)
+}
+temp <- f2a$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]==4)
+    rect(xxloc[1]+ 9,280+temp[1,j]*mult,xxloc[1]+19,280+temp[1,j-1]*mult,
+         col=color[4],border=color[4], lend=1, ljoin=1)
+}
+temp <- f2b$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]==6)
+    rect(xxloc[2]-19,280+temp[1,j]*mult,xxloc[2]-9,280+temp[1,j-1]*mult,
+         col=color[6],border=color[6], lend=1, ljoin=1)
+}
+temp <- f2b$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]==8)
+    rect(xxloc[2]+9,280+temp[1,j]*mult,xxloc[2]+19,280+temp[1,j-1]*mult,
+         col=color[8],border=color[8], lend=1, ljoin=1)
+}
+
+text(u[1],300,expression(G[2]),adj=c(0,0.5))
+#text(xxloc,270,c("ABCD","EFGH"),adj=c(0.5,1))
+text(xxloc[1]-14,270,"AB",adj=c(0.5,1))
+text(xxloc[1]+14,270,"CD",adj=c(0.5,1))
+text(xxloc[2]-14,270,"EF",adj=c(0.5,1))
+text(xxloc[2]+14,270,"GH",adj=c(0.5,1))
+xxloc <- mean(xxloc)
+points(xxloc,300,pch=4,cex=1.3)
+segments(xxloc,285,xxloc,265)
+segments(xxloc-39,265,xxloc+39,265)
+arrows(xxloc+39*c(-1,1),265,xxloc+39*c(-1,1),245,len=0.1)
+
+
+rect(xxloc-58,235,xxloc-48,195,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc-30,235,xxloc-20,195,col=color[5],border=color[5], lend=1, ljoin=1)
+rect(xxloc+20,235,xxloc+30,195,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc+48,235,xxloc+58,195,col=color[5],border=color[5], lend=1, ljoin=1)
+
+temp <- f3a$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc-58,195+temp[1,j]*mult,xxloc-48,195+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f3a$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=5)
+    rect(xxloc-30,195+temp[1,j]*mult,xxloc-20,195+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f3b$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc+20,195+temp[1,j]*mult,xxloc+30,195+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f3b$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=5)
+    rect(xxloc+48,195+temp[1,j]*mult,xxloc+58,195+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+text(u[1],215,expression(G[3]),adj=c(0,0.5))
+points(xxloc,215,pch=4,cex=1.3)
+segments(xxloc,200,xxloc,180)
+segments(xxloc-39,180,xxloc+39,180)
+arrows(xxloc+39*c(-1,1),180,xxloc+39*c(-1,1),160,len=0.1)
+
+
+rect(xxloc-58,150,xxloc-48,110,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc-30,150,xxloc-20,110,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc+20,150,xxloc+30,110,col=color[1],border=color[1], lend=1, ljoin=1)
+rect(xxloc+48,150,xxloc+58,110,col=color[1],border=color[1], lend=1, ljoin=1)
+
+temp <- f4a$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc-58,110+temp[1,j]*mult,xxloc-48,110+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f4a$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc-30,110+temp[1,j]*mult,xxloc-20,110+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f4b$mat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc+20,110+temp[1,j]*mult,xxloc+30,110+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+temp <- f4b$pat
+for(j in 2:ncol(temp)) {
+  if(temp[2,j]!=1)
+    rect(xxloc+48,110+temp[1,j]*mult,xxloc+58,110+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+text(u[1],130,expression(G[4]),adj=c(0,0.5))
+points(xxloc,130,pch=4,cex=1.3)
+arrows(xxloc,80,xxloc,75,len=0.1)
+arrows(xxloc,115,xxloc,75,len=0.1,lty=3)
+
+points(rep(u[1]+10,3),c(-8,0,8)+mean(c(130,65/2)),pch=16,cex=0.4)
+a <- 65-40
+text(u[1],(65+a)/2,expression(G[infinity]),adj=c(0,0.5))
+mult <- (65-a)/fa$mat[1,ncol(fa$mat)]
+rect(xxloc+19*c(-1,1),rep(65,2),xxloc+9*c(-1,1),rep(a,2),col=color[1],border=color[1], lend=1, ljoin=1)
+temp <- fa$mat
+for(j in 2:ncol(fa$mat)) {
+  if(temp[2,j]!=1)
+    rect(xxloc+19*c(-1,1),rep(a,2)+temp[1,j]*mult,xxloc+9*c(-1,1),rep(a,2)+temp[1,j-1]*mult,
+         col=color[temp[2,j]],border=color[temp[2,j]], lend=1, ljoin=1)
+}
+
+@
+
+
+
+
+The designers of the Diversity Outbred population started with \todo[inline]{get number of mice and from which generations}
+
+Due to the breeding scheme, each Diversity Outbred mouse is a highly heterozygous mosaic of 
+founders' DNA (Figure)\todo{add figure with mosaics over multiple generations here}. 
+With each generation, the Diversity Outbred mice accumulate meiotic recombinations. 
+This is because each mouse inherits DNA from its parents, and each meiosis provides opportunities for recombinations. \todo[inline]{need to explain this better. How does Andrew explain it in his thesis?}
+
+The cumulative effect of recombinations over many generations of outbreeding is to create mice whose DNA mosaic contains smaller and smaller contiguous pieces from each founder line. 
+
+The Diversity Outbred mice enable high-resolution QTL mapping \citep{gatti2014quantitative}. One factor that contributes to high-resolution mapping is the ability to infer the founder line from which each marker's DNA arose. 
+
+
+
+
+\subsection{QTL mapping in DO mice}
+
+QTL mapping in Diversity Outbred mice, like that in mice from two-parent crosses, is a multi-step procedure: 1. data acquisition, 2. inference of missing genotypes, and 3. modeling phenotypes as a function of genotypes. Data acquisition involves measurement of phenotypes and, at specified genetic markers, termed ``single nucleotide polymorphism'' or SNP markers, measurement of two-allele genotypes. Often, the SNP marker genotypes are obtained by use of a microarray, such as the GigaMUGA SNP microarray \citep{morgan2015mouse}. 
+
+The next step, missing genotypes inference, is needed because of the ``missing data problem'' \citep{broman2009guide}. It takes as input the two-allele genotypes at the measured SNP markers. An expectation maximization algorithm \citep{dempster1977maximum} for a hidden Markov model, developed by \citet{broman2012haplotype} and \citet{broman2012genotype} and implemented in the \texttt{qtl2} R package \citep{broman2019rqtl2}, outputs 36-state genotype probabilities for all nuclear autosomal markers and pseudomarkers. Pseudomarkers, as we use the term, are arbitrary nucleotide bases at which the researcher wants 36-state genotype probabilities. Finally, we collapse the 36-state genotype probabilities to eight founder allele dosages at each marker. This last step is optional, but often helpful, because the simplified models require specification of fewer parameters. We then treat the founder allele dosages as known quantities in subsequent steps. 
+
+% model form - connecting genotype to phenotype
+
+After inferring founder allele dosages, we address the second major statistical challenge of 
+QTL mapping: the ``model selection'' problem \citep{broman2009guide}.
+Linear regression is widely used because of its ease of implementation,
+computational speed, and interpretability of results.
+A genetically ``additive'' linear model, in which we assume a linear relationship between
+a trait's values and each founder allele's dosage, is the default model.
+\citep{gatti2014quantitative,broman2019rqtl2}.
+The R package \texttt{qtl2} provides a straightforward user
+interface to include covariates and interaction terms in the linear model \citep{broman2019rqtl2}.
+
+
+
+
+% model form - random effects incorporation & relatedness
+% First, relatedness
+Relatedness is one issue that arises in the Diversity Outbred mice that is not a major concern in 
+two-parent crosses. Due to the complexity of the breeding design, Diversity Outbred mice
+have 
+complicated pairwise relationships. A given study cohort may include pairs of first
+cousins, parent-offspring pairs, grandparent-grandchild pairs, second cousin pairs, and others.
+Contrasting this with the two-parent backcross (Figure~\ref{fig:backcross}) and
+intercross (Figure~\ref{fig:intercross}) designs, we see in the backcross that
+average relatedness between any two members of the BC generation is equal to the same, shared value.
+One measure of relatedness is the probability of identity by state, \emph{i.e.}, the
+probability that a randomly chosen allele from one subject is identical to a randomly chosen
+allele of the second subject. Measured in terms of the probability that a randomly chosen allele
+from one subject is identical to a randomly chosen allele of a second subject, we note that
+this probability of identity by state is $\frac{5}{8}$ in the backcross. F$_2$ subject pairs in an intercross, likewise, have a single, shared average relatedness, with an identity by state probability of $\frac{1}{2}$.
+
+Because relatedness can confound genotype-phenotype associations \citep{yang2014advantages}, researchers have developed methods to account for relatedness in their statistical models. One popular approach involves use of a polygenic random effect in the statistical model \citep{kang2008efficient}. The addition of a random effect to a model with fixed (\emph{i.e.}, nonrandom) effects results in what statisticians call a ``linear mixed effects model''. 
+
+
+
+
+
+
+
+
+%%% CHAPTER 1 End
+%%%%%%%%%%%%%%%%%
 %%% chapter 2 start
 \chapter{Methods development}
 
