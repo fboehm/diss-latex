@@ -37,7 +37,7 @@ all: $(PROJNAME).pdf
 # -interactive=nonstopmode keeps the pdflatex backend from stopping at a
 # missing file reference and interactively asking you for an alternative.
 
-$(PROJNAME).tex: $(PROJNAME).Rnw
+$(PROJNAME).tex: $(PROJNAME).Rnw meiosis_func.R
 	Rscript -e "knitr::knit('$<')"
 
 $(PROJNAME).pdf: $(PROJNAME).tex 
