@@ -95,8 +95,9 @@ concordance=TRUE, echo = FALSE, fig.lp = "fig:", warning = FALSE, message = FALS
 
 Quantitative trait locus (QTL) studies in model organisms like mice can identify 
 genomic regions that affect complex traits, such as systolic blood pressure and body weight.
-A genome-wide QTL ``scan'' discovers
-associations between genotypes and phenotypes by considering every position, one at a time, as a candidate QTL for the trait of interest.
+A genome-wide QTL ``scan'' reveals
+associations between genotypes and phenotypes by considering every position,
+one at a time, as a candidate QTL for the trait of interest.
 A region with strong evidence of association, then, defines a QTL. Because nearby markers have correlated
 genotypes, a QTL in a two-parent cross often spans multiple megabases in length and may contain more than a hundred genes.
 Identification of the causal gene from among those genes near the QTL is challenging and may require costly and time-consuming experiments. 
@@ -129,11 +130,11 @@ yellow hair (in mice that are typically black) and obesity \citep{attie2017how}.
 Subsequent investigations uncovered two related biological roles for the Agouti protein.
 It antagonizes the action of $\alpha$-melanocyte-stimulating hormone both to
 prevent melanocyte-based melanin production and to disrupt melanocortin-4
-receptor signaling in the brain.
+receptor signaling in the brain \citep{lu1994agouti,klebig1995ectopic,huszar1997targeted}.
 The former leads to yellow hair, while the latter causes weight gain.
 Later research identified altered signaling by the melanocortin-4 receptor in
-the brain as a leading cause of inherited obesity in humans.
-Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently being studied.
+the brain as a leading cause of inherited obesity in humans \citep{farooqi2003clinical,vaisse2000melanocortin}.
+Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently being studied \citep{macneil2002role}. 
 
 
 \begin{figure}
@@ -142,59 +143,21 @@ Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently be
 \label{fig:agouti}
 \end{figure}
 
+The case of pleiotropic \emph{Agouti} variants illustrates the potential value of examining pleiotropy in QTL studies. We next consider designs for and QTL mapping in two-parent crosses. We then discuss a pleiotropy test in two-parent crosses before turning attention to multiparental populations.
+
 
 
 %two-parent designs: intercross & backcross
-
-
-
-
 %mapping populations
-
-
 %mice
-
-
-
-
-
-
 % genotype data & hmm to infer 36-state genotype probabilities
-
-
-
-
-
 %mapping genetic markers to measurable traits in MPP
-
-
-
-
-
-
 %complex traits
-
-
-
-
-
-
-
-
-
-
-
 %my test
-
-
-
-
-
-
 %roadmap
 
 
-\section{Designs for two-parent crosses}
+\section{Designs for two-parent crosses}\label{sec:two-parent-designs}
 
 Two widely used two-parent crosses are the ``backcross'' and the ``intercross''. We first discuss the backcross design (Figure~\ref{fig:backcross}). A backcross starts with mating between members of two inbred lines. The offspring of this mating event, termed the ``F$_1$'', or ``first filial'', generation then mate with members of one of the two parent lines. The experiment designers decide which line the female is chosen from and which line the F$_1$ mate with. Thus, there are a total of four possible backcrosses for any pair of inbred lines. 
 
@@ -213,7 +176,9 @@ The meiotic crossovers that occur as the F$_1$ animals produce gametes often
 are detectable because they result in ``BC'' generation animals that have individual
 chromosomes that contain DNA from both founder lines. Due to the limited number
 of crossovers in a single meiosis, the resulting ``BC'' generation subjects have
-poor QTL mapping resolution. This poor mapping resolution corresponds to the relatively large segments of contiguous DNA, on average, that are inherited from, ultimately, the founder lines.
+poor QTL mapping resolution.
+This poor mapping resolution corresponds to the relatively large segments
+of contiguous DNA, on average, that are inherited from, ultimately, the founder lines.
 
 
 
@@ -351,7 +316,7 @@ text(38-25,95/2,expression(F[2]),cex=1.5,adj=c(1,0.5))
 @
 
 
-\section{QTL mapping in two-parent crosses}
+\section{QTL mapping in two-parent crosses}\label{sec:qtl-two-parent}
 
 QTL mapping is a systematic, statistical approach to identifying genetic
 loci where genetic variation affects phenotypic variation in a measured trait.
@@ -470,7 +435,7 @@ while genotypes at intervening bases are unobserved random variables.
 Two sets of recursive equations, termed ``forward'' and ``backward'' equations,
 enable efficient calculation of genotype probabilities
 (conditional on the observed marker genotypes) \citep{baum1970maximization}.
-We discuss inference methods for genotype probabilities in Appendix~\ref{sec:appendix:hmm}.
+We discuss inference methods for genotype probabilities in Appendix~\ref{sec:stat-primer}.
 
 
 
@@ -494,64 +459,52 @@ Assuming that the random errors are normally distributed (and independent with c
 variance $\sigma^2$), one may use the statistical technique called ``ordinary least squares''
 to fit the model and to solve for $\hat b$ and $\hat \sigma^2$.
 In ``ordinary least squares'', one solves for the set of parameter values that
-minimize the residual sum of squares. In the above equation, our two parameters are the minor allele effect and the random error variance. The residual sum of squares is an expression that tells us how far each observed data point is from its predicted value for a set of specified parameter values. Equation~\ref{eq:rss} defines residual sum of squares for a univariate QTL analysis.
+minimize the residual sum of squares.
+In the above equation, our two parameters are the minor allele effect and
+the random error variance. The residual sum of squares is an expression that
+tells us how far each observed data point is from its predicted value for a
+set of specified parameter values. Equation~\ref{eq:rss} defines residual
+sum of squares for a univariate QTL analysis.
 
 \begin{equation}
-\text{residual sum of squares} = \left(\text{fitted trait value} - \text{observed trait value}\right)^2\label{eq:rss}
+\text{residual sum of squares} = \sum_{\text{subjects}}\left(\text{fitted trait value} - \text{observed trait value}\right)^2\label{eq:rss}
 \end{equation}
 
+\todo{show least squares solutions - and maybe their derivation??}
 
 
-% QTL scan (multivariate) in 2-parent crosses
+
+
+
+
+\section{Testing pleiotropy in two-parent crosses}
 
 In anticipation that multivariate mapping of correlated traits would enhance statistical
 power to detect QTL and would improve precision of QTL positions,
 both \citet{jiang1995multiple} and \citet{korol1995interval} developed
-multivariate interval mapping procedures. 
-
-
-
-
-\todo[inline]{say more here}
-
-In the context of multivariate QTL mapping, \citet{jiang1995multiple} 
-proposed and developed a statistical hypothesis test for distinguishing
-a single pleiotropic locus that affects multiple traits from two (or more)
-separate QTL.
-Their test applies to the setting in which multiple traits
-map to a single genomic region \citep{jiang1995multiple}. 
-That region, then, can be interrogated further by asking whether it
-harbors a single pleiotropic QTL or multiple separate QTL. 
-For simplicity, we focus on the case where two traits both map to a single genomic region,
-and we wish to determine whether the two traits share a single QTL or have two separate QTL. 
-
-\section{Testing pleiotropy in two-parent crosses}
-
-\citet{jiang1995multiple} developed a suite of methods for analyzing multivariate phenotypes in
-two-parent crosses.
-Among the novel methods in their article is a test of pleiotropy vs separate QTL.
+multivariate interval mapping procedures for two-parent crosses. 
+Among the novel methods from \citet{jiang1995multiple} is a test of pleiotropy vs separate QTL.
 They explain that such a test is useful when two traits map to a single genomic region.
 The question then arises ``do the two traits associate with the same locus, or do they associate with separate loci''?
 
-If both traits associate with the same locus, then that locus is called ``pleiotropic''. If the two traits associate with separate loci, then we say that there are separate QTL (one for each trait). While ``pleiotropy'' has multiple related usages in the genetics literature, we use ``pleiotropy'' here to refer to the situation in which one genetic locus affects two or more traits. 
-
+If both traits associate with the same locus, then that locus is called ``pleiotropic''. If the two traits associate with separate loci, then we say that there are separate QTL (one for each trait). 
 In the development of their test of pleiotropy v separate QTL, \citet{jiang1995multiple} model
-the multivariate phenotype as the sum of a linear function of the genotypes and a random error term. They assume that the phenotypes matrix is related to the genotypes data (for a single marker) through the following equation:
+the multivariate trait as the sum of a linear function of the genotypes and a random error term. They assume that the traits matrix is related to the genotype data through Equation~\ref{eq:jz95}.
 
 
 \begin{equation}
-Y = XB + E
+vec(Y) = Xvec(B) + vec(E)\label{eq:jz95}
 \end{equation}
 
 
-\noindent Where $Y$ is a $n$ by $2$ matrix of phenotype values (with each row being one subject and each column being one trait)
-, $X$ is a $n$ by $1$ matrix of genotypes and $B$ is a $1$ by $2$ matrix of allele effects.
+In Equation~\ref{eq:jz95}, $Y$ is a $n$ by $2$ matrix of trait values (with each row being one subject and each column being one trait)
+, $X$ is a $2n$ by $4$ block-diagonal matrix containing genotype data for two positions, and $B$ is a $4$ by $1$ matrix of allele effects.
 The random error is assumed to follow a normal distribution with mean zero and a positive variance.
 \citet{jiang1995multiple} also incorporate additional terms to model dominant effects and to
 control for residual genetic variation.
-We forego inclusion of dominant terms and additional markers for controlling residual
-genetic variation, although, in our linear mixed effects model, we do include polygenic random
-effects. 
+To simplify model specification, we forego inclusion of dominant terms
+and additional markers for controlling residual
+genetic variation.
 Extensions of our model and software to accommodate dominance effects are straightforward.
 
 
@@ -566,7 +519,7 @@ null distribution of the test statistic.
 Further investigations by \citet{jiang1995multiple} with simulations revealed
 reasonable behavior of the hypothesis test under the specified conditions. 
 They learned that dense marker coverage tends to aid in distinguishing pleiotropy
-from separate QTL. \todo[inline]{IS THIS TRUE?? look back at JZ 1995's simulations. How did they examine power and type I error rates? Do they examine univariate LOD strength when considering power? What about interlocus distance?}
+from separate QTL. \todo[inline]{IS THIS TRUE?? look back at JZ 1995's simulations. How did they examine power and type I error rates? Do they examine univariate LOD strength when considering power? What about interlocus distance? AND KAO 2000}
 
 
 
@@ -2787,13 +2740,44 @@ intertwined causal relationships between plasma cholic acid and \emph{Turicibact
 %\noappendicestocpagenum
 %\addappheadtotoc
 
-\chapter{Molecular biology primer}
+\chapter{Molecular biology primer}\label{sec:bio-primer}
+
+\section{DNA structure}\label{sec:dna-structure}
+\section{Cell division}\label{sec:cell-division}
+
+\section{Central dogma of molecular biology}\label{sec:central-dogma}
 
 
-\chapter{Statistical inference primer}
+
+\chapter{Statistical inference primer}\label{sec:stat-primer}
 
 
-\chapter{Supplementary materials for Chapter 2}
+
+
+\section{Genotype inference with expectation-maximization}\label{sec:genotypes-em}
+% lander & botstein's 1989 plus lander & green 1987 EM after Dempster et al 1977
+% Give the equations and discuss what they're doing. What is the E step? the M step?
+% see karl's intro slides, too. He has the E and M equations in the slides, too. 
+
+
+
+
+
+
+
+
+\section{Genotype inference with hidden Markov models}\label{sec:genotypes-hmm}
+
+% explain why we might use a hmm instead of LB89 EM methods
+% follow KB & SS 2009 appendix D explanations of HMM
+% Add something about extra challenges when extending to multiparentals, and specifically DO
+
+
+
+
+
+
+\chapter{Supplementary materials for Chapter 2}\label{sec:ch2-supp}
 
 %\renewcommand{\thetable}{\textbf{S\arabic{table}}}
 %\setcounter{table}{0}
@@ -2883,8 +2867,12 @@ percent time in light & 8 & 55.28 & 5.27 \\
 % Tue Dec 18 18:18:00 2018
 {\tiny
 \begin{longtable}{lrr}
-\caption{LOD peak positions and peak heights for 147 expression traits that map to the Chromosome 2 expression trait hotspot. We see that some transcript levels have LOD scores below the 7.18 genome-wide threshold. We believe that this is due to variations in statistical modeling between our analyses and those of \citet{keller2018genetic}.}\\ 
+\caption{LOD peak positions and peak heights for 147 expression traits that map to the Chromosome 2 expression trait hotspot. We see that some transcript levels have LOD scores below the 7.18 genome-wide threshold. \todo{fix this!!}We believe that this is due to variations in statistical modeling between our analyses and those of \citet{keller2018genetic}.}\label{tab:chr2-hot}
+\\ 
 % perhaps inclusion or exclusion of an intercept term.
+% Also, are these the LOD scores at the LOD peaks? Or at a specific marker?
+% need to double-check this!!
+% or inclusion/exclusion of random effects in the models?
 \hline \\
 %\begingroup\tiny
 
