@@ -116,7 +116,7 @@ library(knitr)
 @
 
 
-\subsection{\emph{Agouti} biology \& pleiotropy}
+\section{\emph{Agouti} biology \& pleiotropy}
 % funnel
 Pleiotropy is the biological phenomenon in which a QTL affects multiple traits. 
 Identifying a gene that affects multiple traits may inform scientific understanding of
@@ -193,7 +193,7 @@ Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently be
 %roadmap
 
 
-\subsection{Designs for two-parent crosses}
+\section{Designs for two-parent crosses}
 
 Two widely used two-parent crosses are the ``backcross'' and the ``intercross''. We first discuss the backcross design (Figure~\ref{fig:backcross}). A backcross starts with mating between members of two inbred lines. The offspring of this mating event, termed the ``F$_1$'', or ``first filial'', generation then mate with members of one of the two parent lines. The experiment designers decide which line the female is chosen from and which line the F$_1$ mate with. Thus, there are a total of four possible backcrosses for any pair of inbred lines. 
 
@@ -350,7 +350,7 @@ text(38-25,95/2,expression(F[2]),cex=1.5,adj=c(1,0.5))
 @
 
 
-\subsection{QTL mapping in two-parent crosses}
+\section{QTL mapping in two-parent crosses}
 
 QTL mapping is a systematic, statistical approach to identifying genetic
 loci where genetic variation affects phenotypic variation in a measured trait.
@@ -412,7 +412,51 @@ Two major statistical challenges are what \citet{broman2009guide} call
 the ``missing data'' problem and the ``model selection'' problem. 
 The ``missing data'' problem arises in QTL studies because genotypes are obtained
 at only select markers. In this sense, genotypes at positions between
-markers are ``missing'' because they aren't explicitly measured. \todo[inline]{insert Karls figure showing inter-marker position \& only marker genotypes}
+markers are ``missing'' because they aren't explicitly measured (Figure~\ref{fig:genoprobs}). 
+
+<<genoprobs>>=
+bw <- FALSE
+if(bw) source("colors_bw.R") else source("colors.R")
+
+if(bw) {
+  #pdf(file="../Figs/genoprob1_bw.pdf", width=9.5, height=2, pointsize=16, onefile=TRUE)
+  par(fg="black",col="black",col.axis="black",col.lab="black",
+      bg=bgcolor)
+} else {
+  #pdf(file="../Figs/genoprob1.pdf", width=9.5, height=2, pointsize=16, onefile=TRUE)
+  par(fg="white",col="white",col.axis="white",col.lab="white",
+      bg=bgcolor)
+}
+
+par(mar=rep(0.1,4), bty="n")
+plot(0,0,type="n", xlab="", ylab="", xaxt="n", yaxt="n",
+     xlim=c(0,100), ylim=c(60,110), xaxs="i", yaxs="i")
+segments(5,95,95,95, lwd=2)
+data(hyper)
+m <- hyper$geno[[8]]$map
+m[3] <- m[3]-5
+m[4] <- m[4]+5
+x <- (m-min(m))/diff(range(m))*90+5
+segments(5,95,95,95, lwd=2)
+segments(x, 92, x, 98, lwd=2)
+text(x, 85, c("A","A","A","A","A","B"))
+x2 <- 48
+if(!bw) {
+  points(x2, 100, col=color[2], lwd=2, pch=6, cex=1.3)
+  arrows(x2, 70, x2, 80, len=0.1, lwd=2, col=color[2])
+  text(x2, 68, "?", col=color[2], adj=c(0.5,1), cex=1.2)
+} else {
+  points(x2, 100, col=color[1], lwd=2, pch=6, cex=1.3)
+  arrows(x2, 70, x2, 80, len=0.1, lwd=2, col=color[1])
+  text(x2, 68, "?", col=color[1], adj=c(0.5,1), cex=1.2)
+}
+
+@
+
+
+
+
+
 A flexible framework for resolving the ``missing data'' problem involves use of a
 hidden Markov model \citep{broman2009guide, broman2006use}. 
 In this hidden Markov model, marker genotypes are observed random variables, 
@@ -474,7 +518,7 @@ harbors a single pleiotropic QTL or multiple separate QTL.
 For simplicity, we focus on the case where two traits both map to a single genomic region,
 and we wish to determine whether the two traits share a single QTL or have two separate QTL. 
 
-\subsection{Testing pleiotropy in two-parent crosses}
+\section{Testing pleiotropy in two-parent crosses}
 
 \citet{jiang1995multiple} developed a suite of methods for analyzing multivariate phenotypes in
 two-parent crosses.
@@ -493,8 +537,8 @@ Y = XB + E
 \end{equation}
 
 
-\noindent Where Y is a n by 2 matrix of phenotype values (with each row being one subject and each column being one trait)
-, X is a n by 1 matrix of genotypes and B is a 1 by 2 matrix of allele effects.
+\noindent Where $Y$ is a $n$ by $2$ matrix of phenotype values (with each row being one subject and each column being one trait)
+, $X$ is a $n$ by $1$ matrix of genotypes and $B$ is a $1$ by $2$ matrix of allele effects.
 The random error is assumed to follow a normal distribution with mean zero and a positive variance.
 \citet{jiang1995multiple} also incorporate additional terms to model dominant effects and to
 control for residual genetic variation.
@@ -505,7 +549,7 @@ Extensions of our model and software to accommodate dominance effects are straig
 
 
 \citet{jiang1995multiple} use a mixture model to relate genotypes to phenotypes. 
-They observe that the there are 9 possible ordered pairs of genotypes for two markers in a F2 population, since each marker has one of three genotypes (AA, AB, BB).
+They observe that the there are 9 possible ordered pairs of genotypes for two markers in a F$_2$ population, since each marker has one of three genotypes (AA, AB, BB).
 They thus approach the problem as one with a 9-state mixture model. 
 They provide the equations needed for an expectation-conditional maximization
 (ECM) algorithm for fitting the mixture model.
@@ -594,7 +638,7 @@ them to a chi-squared distribution with 1 degree of freedom.
 
 
 
-\subsection{Multiparental populations and Diversity Outbred mice}
+\section{Multiparental populations and Diversity Outbred mice}
 
 Near the turn of the century, geneticists sought a mammalian gene mapping resource 
 that could be used for study of a wide variety of quantitative traits. 
@@ -879,7 +923,7 @@ The Diversity Outbred mice enable high-resolution QTL mapping \citep{gatti2014qu
 
 
 
-\subsection{QTL mapping in DO mice}
+\section{QTL mapping in DO mice}
 
 QTL mapping in Diversity Outbred mice, like that in mice from two-parent crosses, is a multi-step procedure: 1. data acquisition, 2. inference of missing genotypes, and 3. modeling phenotypes as a function of genotypes. Data acquisition involves measurement of phenotypes and, at specified genetic markers, termed ``single nucleotide polymorphism'' or SNP markers, measurement of two-allele genotypes. Often, the SNP marker genotypes are obtained by use of a microarray, such as the GigaMUGA SNP microarray \citep{morgan2015mouse}. 
 
@@ -1012,7 +1056,7 @@ distinct. The logarithm of the ratio of the two likelihoods is our
 test statistic. We calibrate this test statistic with a parametric
 bootstrap.
 
-\subsection{Data structures}
+\section{Data structures}
 
 The data consist of three objects. The first is an $n$ by $k$ by $m$
 array of allele probabilities for $n$ subjects with $k$ alleles and
