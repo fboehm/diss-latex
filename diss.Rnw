@@ -2867,8 +2867,7 @@ percent time in light & 8 & 55.28 & 5.27 \\
 % Tue Dec 18 18:18:00 2018
 {\tiny
 \begin{longtable}{lrr}
-\caption{LOD peak positions and peak heights for 147 expression traits that map to the Chromosome 2 expression trait hotspot. We see that some transcript levels have LOD scores below the 7.18 genome-wide threshold. \todo{fix this!!}We believe that this is due to variations in statistical modeling between our analyses and those of \citet{keller2018genetic}.}\label{tab:chr2-hot}
-\\ 
+\caption{LOD peak positions and peak heights for 147 expression traits that map to the Chromosome 2 expression trait hotspot. We see that some transcript levels have LOD scores, per our calculations, below the 7.18 genome-wide threshold. We believe that this is due to differences in statistical modeling between our analyses and those of \citet{keller2018genetic}.}\label{tab:chr2-hot}\\ 
 % perhaps inclusion or exclusion of an intercept term.
 % Also, are these the LOD scores at the LOD peaks? Or at a specific marker?
 % need to double-check this!!
