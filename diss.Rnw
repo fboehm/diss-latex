@@ -29,7 +29,7 @@
 \usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{longtable}
-\usepackage[outdir=./figs/.]{epstopdf}
+\usepackage[outdir=./figs/]{epstopdf}
 \usepackage{fancyhdr}
 \setlength{\headheight}{15.2pt}
 \pagestyle{fancyplain}
@@ -466,10 +466,10 @@ if(!bw) {
 A flexible framework for resolving the ``missing data'' problem involves use of a
 hidden Markov model \citep{broman2009guide, broman2006use}. 
 In this hidden Markov model, marker genotypes are observed random variables, 
-while genotypes at intervening bases are unobserved random variables \citep{broman2009guide,broman2006use}. 
+while genotypes at intervening bases are unobserved random variables. 
 Two sets of recursive equations, termed ``forward'' and ``backward'' equations,
 enable efficient calculation of genotype probabilities
-(conditional on the observed marker genotypes) \citep{baum1970maximization}. We discuss inference methods for genotype probabilities in Appendix 2.
+(conditional on the observed marker genotypes) \citep{baum1970maximization}. We discuss inference methods for genotype probabilities in Appendix~\ref{sec:appendix:hmm}.
 
 
 
