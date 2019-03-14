@@ -230,6 +230,7 @@ Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently be
 
 
 
+
 %roadmap
 
 
@@ -341,7 +342,19 @@ Two major statistical challenges are what \citet{broman2009guide} call
 the ``missing data'' problem and the ``model selection'' problem. 
 The ``missing data'' problem arises in QTL studies because genotypes are obtained
 at only select markers. In this sense, genotypes at positions between
-markers are ``missing'' because they aren't explicitly measured. \todo[inline]{insert Karls figure showing inter-marker position \& only marker genotypes}
+markers are ``missing'' because they aren't explicitly measured (Figure~\ref{fig:genoprob1}). 
+
+\begin{figure}
+\includegraphics[width = \textwidth]{figs/genoprob1.pdf}
+\caption{Inferring genotypes at an intermarker position.}\label{fig:genoprob1}
+\end{figure}
+
+
+
+
+
+
+
 A flexible framework for resolving the ``missing data'' problem involves use of a
 hidden Markov model \citep{broman2009guide, broman2006use}. 
 In this hidden Markov model, marker genotypes are observed random variables, 
@@ -422,8 +435,8 @@ Y = XB + E
 \end{equation}
 
 
-\noindent Where Y is a n by 2 matrix of phenotype values (with each row being one subject and each column being one trait)
-, X is a n by 1 matrix of genotypes and B is a 1 by 2 matrix of allele effects.
+\noindent Where $Y$ is a $n$ by $2$ matrix of phenotype values (with each row being one subject and each column being one trait)
+, $X$ is a $n$ by $1$ matrix of genotypes and $B$ is a $1$ by $2$ matrix of allele effects.
 The random error is assumed to follow a normal distribution with mean zero and a positive variance.
 \citet{jiang1995multiple} also incorporate additional terms to model dominant effects and to
 control for residual genetic variation.
@@ -434,7 +447,7 @@ Extensions of our model and software to accommodate dominance effects are straig
 
 
 \citet{jiang1995multiple} use a mixture model to relate genotypes to phenotypes. 
-They observe that the there are 9 possible ordered pairs of genotypes for two markers in a F2 population, since each marker has one of three genotypes (AA, AB, BB).
+They observe that the there are 9 possible ordered pairs of genotypes for two markers in a F$_2$ population, since each marker has one of three genotypes (AA, AB, BB).
 They thus approach the problem as one with a 9-state mixture model. 
 They provide the equations needed for an expectation-conditional maximization
 (ECM) algorithm for fitting the mixture model.

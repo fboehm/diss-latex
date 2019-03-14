@@ -190,6 +190,7 @@ Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently be
 
 
 
+
 %roadmap
 
 
@@ -412,9 +413,14 @@ Two major statistical challenges are what \citet{broman2009guide} call
 the ``missing data'' problem and the ``model selection'' problem. 
 The ``missing data'' problem arises in QTL studies because genotypes are obtained
 at only select markers. In this sense, genotypes at positions between
-markers are ``missing'' because they aren't explicitly measured (Figure~\ref{fig:genoprobs}). 
+markers are ``missing'' because they aren't explicitly measured (Figure~\ref{fig:genoprob1}). 
 
-<<genoprobs>>=
+\begin{figure}
+\includegraphics[width = \textwidth]{figs/genoprob1.pdf}
+\caption{Inferring genotypes at an intermarker position.}\label{fig:genoprob1}
+\end{figure}
+
+<<genoprobs, out.height="2in", eval = FALSE>>=
 bw <- FALSE
 if(bw) source("colors_bw.R") else source("colors.R")
 
