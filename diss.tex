@@ -331,9 +331,8 @@ the competing hypotheses of the presence of a QTL at the candidate position
 against the null hypothesis of no QTL at the candidate position.
 The work of \citet{lander1989mapping} ignited interest in QTL mapping from
 both biologists and statisticians.
-Many of the open questions that \citet{lander1989mapping} present, including approaches
-for defining QTL endpoints, accounting for multiple hypothesis tests, and
-allowing for genotyping errors when inferring genotype probabilities,
+Many of the questions that \citet{lander1989mapping} present, including approaches
+for defining QTL endpoints and accounting for multiple (correlated) hypothesis tests,
 are active areas of research 30 years after their publication.
 
 
@@ -342,15 +341,16 @@ Two major statistical challenges are what \citet{broman2009guide} call
 the ``missing data'' problem and the ``model selection'' problem. 
 The ``missing data'' problem arises in QTL studies because genotypes are obtained
 at only select markers. In this sense, genotypes at positions between
-markers are ``missing'' because they aren't explicitly measured (Figure~\ref{fig:genoprob1}). 
+markers are ``missing'' because they aren't explicitly measured
+(Figure~\ref{fig:genoprob1}). Figure~\ref{fig:genoprob1} presents, for
+one subject, a chromosome with genotyped markers at the tick marks.
+The triangle represents a position at which we wish to know the genotype.
+We now consider a strategy for inference of genotypes at intermarker positions.
 
 \begin{figure}
 \includegraphics[width = \textwidth]{figs/genoprob1.pdf}
 \caption{Inferring genotypes at an intermarker position.}\label{fig:genoprob1}
 \end{figure}
-
-
-
 
 
 
@@ -361,7 +361,8 @@ In this hidden Markov model, marker genotypes are observed random variables,
 while genotypes at intervening bases are unobserved random variables. 
 Two sets of recursive equations, termed ``forward'' and ``backward'' equations,
 enable efficient calculation of genotype probabilities
-(conditional on the observed marker genotypes) \citep{baum1970maximization}. We discuss inference methods for genotype probabilities in Appendix~\ref{sec:appendix:hmm}.
+(conditional on the observed marker genotypes) \citep{baum1970maximization}.
+We discuss inference methods for genotype probabilities in Appendix~\ref{sec:appendix:hmm}.
 
 
 
@@ -2416,13 +2417,19 @@ intertwined causal relationships between plasma cholic acid and \emph{Turicibact
 \newpage
 \begin{appendices}
 \appendixpage
-\noappendicestocpagenum
-\addappheadtotoc
+%\noappendicestocpagenum
+%\addappheadtotoc
+
+\chapter{Molecular biology primer}
+
+
+\chapter{Statistical inference primer}
+
 
 \chapter{Supplementary materials for Chapter 2}
 
-\renewcommand{\thetable}{\textbf{S\arabic{table}}}
-\setcounter{table}{0}
+%\renewcommand{\thetable}{\textbf{S\arabic{table}}}
+%\setcounter{table}{0}
 
 % supplemental tables
 
@@ -2484,8 +2491,8 @@ percent time in light & 8 & 55.28 & 5.27 \\
 
 
 % supplemental figures
-\renewcommand{\thefigure}{\textbf{S\arabic{figure}}}
-\setcounter{figure}{0}
+%\renewcommand{\thefigure}{\textbf{S\arabic{figure}}}
+%\setcounter{figure}{0}
 
 \begin{figure}
 \includegraphics[width = \textwidth]{../qtl2pleio-manuscript/Rmd/scatter.eps}
