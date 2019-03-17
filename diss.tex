@@ -495,7 +495,10 @@ contain genetic material from all eight inbred founder lines.
 Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross.
 
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in gzfile(file, "{}wb"{}): cannot open the connection}}\end{kframe}\begin{figure}
 \includegraphics[width=\maxwidth]{figure/ri8-1} \caption[Schematic for a single funnel in the Collaborative Cross breeding design]{Schematic for a single funnel in the Collaborative Cross breeding design.}\label{fig:ri8}
 \end{figure}
 
@@ -2367,6 +2370,32 @@ intertwined causal relationships between plasma cholic acid and \emph{Turicibact
 
 %%%%% END Recla analysis vignette
 
+%%% Start Ch5
+
+I've successfully developed a pleiotropy test for multiparental populations.
+I discussed our new methods in Chapter 2.
+In Chapter 3, we illustrated the test's use in three vignettes.
+The first vignette compared pleiotropy testing with mediation analysis
+in the dissection of expression trait QTL hotspots.
+I learned that the pleiotropy test provides information about the
+number of underlying QTL even when mediation analyses don't identify intermediates. 
+The second vignette examined my test's power to detect separate QTL
+in pairs of local expression traits.
+I learned that both interlocus distance and univariate LOD scores
+impact test statistic values. 
+In the last vignette, I applied my test to two gut microbiome-related traits.
+From this analysis, I learned that the two traits share a pleiotropic QTL and, thus,
+it is reasonable to conduct further causal modeling studies for these two traits.
+Chapter 4 demonstrates features of the `qtl2pleio` R package.
+This package implements my pleiotropy test and uses the data structures in the R package `qtl2` \citep{broman2019rqtl2}.
+
+
+
+
+
+
+
+%%%% END Ch5
 
 \printbibliography
 

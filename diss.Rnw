@@ -2738,7 +2738,7 @@ intertwined causal relationships between plasma cholic acid and \emph{Turicibact
 
 I've successfully developed a pleiotropy test for multiparental populations.
 I discussed our new methods in Chapter 2.
-In Chapter 3, we illustrated its use in three vignettes.
+In Chapter 3, we illustrated the test's use in three vignettes.
 The first vignette compared pleiotropy testing with mediation analysis
 in the dissection of expression trait QTL hotspots.
 I learned that the pleiotropy test provides information about the
@@ -2748,8 +2748,13 @@ in pairs of local expression traits.
 I learned that both interlocus distance and univariate LOD scores
 impact test statistic values. 
 In the last vignette, I applied my test to two gut microbiome-related traits.
-From this analysis, I learned that the two traits shared a pleiotropic QTL and, thus,
-it was reasonable to conduct further causal modeling studies for these two traits.
+From this analysis, I learned that the two traits share a pleiotropic QTL and, thus,
+it is reasonable to conduct further causal modeling studies for these two traits.
+Chapter 4 demonstrates features of the `qtl2pleio` R package.
+This package implements my pleiotropy test and uses the data structures in the R package `qtl2` \citep{broman2019rqtl2}.
+
+
+
 
 
 
