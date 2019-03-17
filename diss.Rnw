@@ -2734,6 +2734,27 @@ intertwined causal relationships between plasma cholic acid and \emph{Turicibact
 
 %%%%% END Recla analysis vignette
 
+%%% Start Ch5
+
+I've successfully developed a pleiotropy test for multiparental populations.
+I discussed our new methods in Chapter 2.
+In Chapter 3, we illustrated its use in three vignettes.
+The first vignette compared pleiotropy testing with mediation analysis
+in the dissection of expression trait QTL hotspots.
+I learned that the pleiotropy test provides information about the
+number of underlying QTL even when mediation analyses don't identify intermediates. 
+The second vignette examined my test's power to detect separate QTL
+in pairs of local expression traits.
+I learned that both interlocus distance and univariate LOD scores
+impact test statistic values. 
+In the last vignette, I applied my test to two gut microbiome-related traits.
+From this analysis, I learned that the two traits shared a pleiotropic QTL and, thus,
+it was reasonable to conduct further causal modeling studies for these two traits.
+
+
+
+
+%%%% END Ch5
 
 \printbibliography
 
