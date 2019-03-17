@@ -57,18 +57,20 @@
 \usepackage[framemethod=TikZ]{mdframed}
 \usepackage{newfloat}
 \usepackage{multicol}
+%\usepackage[lite]{mtpro2} %contains \widetilde
 \usepackage[titletoc]{appendix}
 \usepackage{amsmath}
 \usepackage[
     backend=biber,
-    maxbibnames=10,
-    style=authoryear,
+    maxbibnames=1000,
+    style=apa,
     natbib=true,
     url=true, 
     doi=true,
     eprint=true,
     backref=true
 ]{biblatex}
+\DeclareLanguageMapping{english}{english-apa}
 \addbibresource{research.bib}
 \usepackage{graphicx}
 \usepackage{color, colortbl}
@@ -134,25 +136,28 @@
 %\markright{\hfill}
 \mainmatter % use arabic numerals for body of text
 
-\chapter{Introduction to quantitative trait locus mapping}
+\chapter{Introduction}
 
 Quantitative trait locus (QTL) studies in model organisms like mice can identify 
 genomic regions that affect complex traits, such as systolic blood pressure and body weight.
 A genome-wide QTL ``scan'' reveals
-associations between genotypes and phenotypes by considering every position,
+associations between genotypes and phenotypes by considering each position,
 one at a time, as a candidate QTL for the trait of interest.
 A region with strong evidence of association, then, defines a QTL. Because nearby markers have correlated
 genotypes, a QTL in a two-parent cross often spans multiple megabases in length and may contain more than a hundred genes.
 Identification of the causal gene from among those genes near the QTL is challenging and may require costly and time-consuming experiments. 
-Growing needs for greater QTL mapping resolution fueled development, over the
-last two decades, of model organism multiparental populations for high-resolution QTL mapping.
-I argue below for the need for a pleiotropy test in multiparental populations. 
-Before we discuss multiparental populations, I first motivate the study of
-pleiotropy by discussing the biology of the \emph{Agouti} gene. I then review designs for two-parent crosses, QTL mapping in
-two-parent crosses, and pleiotropy testing in two-parent crosses.
-A discussion of multiparental populations and experimental design, QTL mapping
-in multiparental populations, and the need for a pleiotropy test in
-multiparental populations concludes Chapter 1.
+The growing need for greater QTL mapping resolution fueled development over the
+last two decades of model organism multiparental populations for high-resolution QTL mapping.
+In this thesis, I develop a test of pleiotropy vs. separate QTL in multiparental populations. I study its statistical properties and demonstrate its usefulness with real experimental data. 
+
+I use the first chapter to introduce statistical methods in QTL mapping studies and to argue for the need to develop a pleiotropy test in multiparental populations. Existing pleiotropy tests for two-parent crosses don't directly apply to multiparental populations because of the multi-allelic genotype data and complex relatedness patterns. A pleiotropy test for multiparental populations with high-dimensional phenotypes would enable dissection of QTL hotspots (\emph{i.e.}, small genomic regions that affect many traits) and would complement newly developed methods in causal inference for systems genetics.
+
+
+I begin Chapter 1 by motivating the study of
+pleiotropy with a case study of the pleiotropic \emph{Agouti} gene.
+I then consider two-parent crosses, with emphases on experimental design, QTL mapping methods, and pleiotropy testing. 
+I then turn to multiparental populations, where I describe experimental design and QTL mapping
+methods. I conclude Chapter 1 by reiterating the need to develop a test of pleiotropy vs. separate QTL in multiparental populations.
 
 
 
@@ -174,16 +179,21 @@ receptor signaling in the brain \citep{lu1994agouti,klebig1995ectopic,huszar1997
 The former leads to yellow hair, while the latter causes weight gain.
 Later research identified altered signaling by the melanocortin-4 receptor in
 the brain as a leading cause of inherited obesity in humans \citep{farooqi2003clinical,vaisse2000melanocortin}.
-Therapeutics to mitigate the effects of \emph{Agouti} mutations are currently being studied \citep{macneil2002role}. 
+Therapeutics to mitigate the effects of disruptions in melanocortin receptor signaling are
+currently being developed \citep{macneil2002role,fani2014melanocortin}.
+The case of pleiotropic \emph{Agouti} variants illustrates the potential value of examining pleiotropy in QTL studies.
+We next consider designs for and QTL mapping in two-parent crosses (Sections~\ref{sec:two-parent-designs} and~\ref{sec:qtl-two-parent}).
+We then discuss a pleiotropy test in two-parent crosses (Section~\ref{sec:pleiotropy-two-parent}) before
+turning attention to multiparental populations (Sections~\ref{sec:mpp-designs}, \ref{sec:do-qtl}, and \ref{sec:pleiotropy}).
+
 
 
 \begin{figure}
-\includegraphics[height=6cm]{figs/Agouti.jpg}
-\caption{\emph{Agouti} viable-yellow mutant mouse has yellow hair and is obese in comparison to a wild-type mouse. \tiny{(https://upload.wikimedia.org/wikipedia/commons/4/4d/Agouti\_Mice.jpg)}}
+\includegraphics[height=8cm]{figs/Agouti.jpg}
+\caption{\emph{Agouti} viable-yellow mutant mouse has yellow hair and is obese in comparison to a wild-type mouse. (https://upload.wikimedia.org/wikipedia/commons/4/4d/Agouti\_Mice.jpg)}
 \label{fig:agouti}
 \end{figure}
 
-The case of pleiotropic \emph{Agouti} variants illustrates the potential value of examining pleiotropy in QTL studies. We next consider designs for and QTL mapping in two-parent crosses. We then discuss a pleiotropy test in two-parent crosses before turning attention to multiparental populations.
 
 
 
@@ -201,13 +211,13 @@ The case of pleiotropic \emph{Agouti} variants illustrates the potential value o
 
 Two widely used two-parent crosses are the ``backcross'' and the ``intercross''. We first discuss the backcross design (Figure~\ref{fig:backcross}). A backcross starts with mating between members of two inbred lines. The offspring of this mating event, termed the ``F$_1$'', or ``first filial'', generation then mate with members of one of the two parent lines. The experiment designers decide which line the female is chosen from and which line the F$_1$ mate with. Thus, there are a total of four possible backcrosses for any pair of inbred lines. 
 
-As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation ``BC'') have, for any locus, only two possible genotypes: heterozygote (AB) and homozygote (AA in the figure). 
-
-The F$_1$ generation is heterozygous everywhere (Figure~\ref{fig:backcross}).
-While meiotic crossovers occur in the founder generation, the crossover events are
+As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation ``BC'') have, for any locus, only two possible genotypes: heterozygote (AB) and homozygote (AA in the figure).
+The F$_1$ generation is heterozygous at all loci (Figure~\ref{fig:backcross}) because 
+they inherited one chromosome (of each pair) from each parent.
+While meiotic crossovers may occur in the founder generation, these crossover events are
 undetectable because the animals are inbred and, thus, have two identical copies
-of DNA at every locus. This causes the F$_1$ subjects to be heterozygous everywhere
-when genotyping with regards to the founder lines.
+of DNA at every locus. This causes the F$_1$ subjects to be heterozygous at all positions
+when genotyping with respect to the founder lines.
 In fact, the F$_1$ may have identical single nucleotide marker alleles at some
 positions, but, because one allele is inherited from each parent (and each inbred
 founder line), we still call them ``heterozygous'' because, in terms of founder allele genotypes, they have the ``AB'' heterozygote genotype.
@@ -229,7 +239,7 @@ of contiguous DNA, on average, that are inherited from, ultimately, the founder 
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\maxwidth]{figure/backcross-1} \caption[Breeding scheme for a backcross]{Breeding scheme for a backcross. Each pair of autosomes represents a single subject.}\label{fig:backcross}
+\includegraphics[width=\maxwidth,height=5in]{figure/backcross-1} \caption[Breeding scheme for a backcross]{Breeding scheme for a backcross. Each pair of autosomes represents a single subject.}\label{fig:backcross}
 \end{figure}
 
 
@@ -238,7 +248,7 @@ of contiguous DNA, on average, that are inherited from, ultimately, the founder 
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\maxwidth]{figure/intercross-1} \caption[Breeding scheme for an intercross]{Breeding scheme for an intercross. Each pair of autosomes represents a single subject.}\label{fig:intercross}
+\includegraphics[width=\maxwidth,height=5in]{figure/intercross-1} \caption[Breeding scheme for an intercross]{Breeding scheme for an intercross. Each pair of autosomes represents a single subject.}\label{fig:intercross}
 \end{figure}
 
 
@@ -248,25 +258,19 @@ of contiguous DNA, on average, that are inherited from, ultimately, the founder 
 \section{QTL mapping in two-parent crosses}\label{sec:qtl-two-parent}
 
 QTL mapping is a systematic, statistical approach to identifying genetic
-loci where genetic variation affects phenotypic variation in a measured trait.
+loci where genetic variation affects variation in a measured trait.
 We use the term ``locus'' to refer to a small, contiguous genomic region, often
-several megabases in length. Standard inputs are genome-wide marker genotypes for a collection of study subjects and a set of trait measurements on the same subjects.
+several megabases in length. Standard inputs are genome-wide marker genotypes
+for a collection of study subjects and a set of trait measurements on the same subjects.
 
 % QTL scan (univariate)
 A univariate QTL scan is a procedure to interrogate the entire genome for genetic
 variants that affect a specified trait of interest.
-It requires as inputs genome-wide marker genotypes (or, equivalently,
-genotype probabilities) and trait measurements for a collection of subjects.
 One specifies a statistical model and calculates the
-likelihood of the model parameters given the observed (trait and marker) data at every marker. In current studies with dense marker sets, 
-it may suffice to calculate likelihoods only at the markers. However, for
-studies with fewer markers, investigators often benefit from inferring 
-genotype probabilities at inter-marker positions.
-
-
+likelihood of the model parameters given the observed (trait and marker) data at each genomic position. 
 After obtaining likelihoods for all markers, likelihood ratio test statistics are calculated
-at every marker. The inputs for these calculations are the likelihoods from the model fits at
-every marker and the likelihood for the null model, which contains no genotype data.
+at every marker. The inputs for these calculations are the likelihoods from the model fits 
+and the likelihood for the null model, which contains no genotype data.
 The resulting likelihood ratios compare, for every marker, the null hypothesis that there is no 
 QTL (at that marker) against the alternative that there is a QTL (at the specified marker).
 In other words, one performs a likelihood ratio test for every marker across the genome.
@@ -276,29 +280,25 @@ for the likelihood ratio test statistic \citep{churchill1994empirical}.
 Those loci for which the likelihood ratio test statistic is sufficiently large are declared QTL. 
 
 
-Modern QTL studies have their origins in the work of \citet{sax1923association}.
-\citet{sax1923association}, working 30 years before \citet{watson1953molecular} reported
-the molecular structure of DNA, studied seed color and weight in the common bean
-(\emph{Phaseolus vulgaris}). He used seed color to partition beans into genetic
-marker classes and identified an association between marker class and bean weight. Implicitly, \citet{sax1923association} leveraged the association between marker genotype class and seed color to assign beans to genetic marker classes without having explicit genotype data.
+
+In studies with sparse marker sets, one may use a strategy called ``interval mapping'' 
+to combat what \citet{broman2009guide} call the ``missing data'' problem. 
+The missing data problem refers to the fact that explicit genotyping occurs at
+only a subset of genomic positions, \emph{i.e.}, those positions
+occupied by the markers. In this sense, genotype data at all other
+positions is ``missing''. As genotyping technologies have improved and
+associated costs have decreased, dense marker sets are now available for
+some multiparental populations. For example, the GigaMUGA single
+nucleotide polymorphism (SNP) genotyping microarray \citep{morgan2015mouse} 
+offers a dense marker set for studies of Diversity Outbred and 
+Collaborative Cross mice.
 
 
 
-\citet{lander1989mapping}, in a landmark methodology report, presented
-interval mapping as a strategy to identify QTL. 
-In interval mapping, they used the correlations between nearby genetic positions
-to infer genotype probabilities between markers.
-They then use an expectation maximization algorithm \citep{dempster1977maximum, lander1987construction}
-to fit a statistical mixture model with a normally distributed component for each of three genotype classes. 
-They summarized the evidence for a QTL at each position with the log odds (LOD) score statistic.
-The LOD score is the base 10 log likelihood ratio test statistic for
-the competing hypotheses of the presence of a QTL at the candidate position
-against the null hypothesis of no QTL at the candidate position.
-The work of \citet{lander1989mapping} ignited interest in QTL mapping from
-both biologists and statisticians.
-Many of the questions that \citet{lander1989mapping} present, including approaches
-for defining QTL endpoints and accounting for multiple (correlated) hypothesis tests,
-are active areas of research 30 years after their publication.
+
+
+
+
 
 
 %statistical challenges in QTL mapping
@@ -359,17 +359,20 @@ set of specified parameter values. Equation~\ref{eq:rss} defines residual
 sum of squares for a univariate QTL analysis.
 
 \begin{equation}
-\text{residual sum of squares} = \sum_{\text{subjects}}\left(\text{fitted trait value} - \text{observed trait value}\right)^2\label{eq:rss}
+\text{residual sum of squares} = \sum_{\text{subjects}}\left(\text{observed trait value} - \text{fitted trait value}\right)^2\label{eq:rss}
 \end{equation}
 
-\todo{show least squares solutions - and maybe their derivation??}
+I define the fitted trait value, $\hat y$, for a single subject with Equation~\ref{eq:fitted-values}. 
+The character tilde above a quantity denotes its least squares estimate. 
+
+\begin{equation}
+\tilde y = \tilde{\text{(fitted trait value)}} = 
+\label{eq:fitted-values}
+\end{equation}
 
 
 
-
-
-
-\section{Testing pleiotropy in two-parent crosses}
+\section{Testing pleiotropy in two-parent crosses}\label{sec:pleiotropy-two-parent}
 
 In anticipation that multivariate mapping of correlated traits would enhance statistical
 power to detect QTL and would improve precision of QTL positions,
@@ -447,7 +450,7 @@ We illustrate these ideas in a drawing of a two-dimensional grid (Figure~\ref{fi
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=6in,height=4in]{figure/encircle-1} \caption[Two-dimensional grid of ordered pairs of markers]{Two-dimensional grid of ordered pairs of markers.}\label{fig:encircle}
+\includegraphics[width=4in,height=4in]{figure/encircle-1} \caption[Two-dimensional grid of ordered pairs of markers]{Two-dimensional grid of ordered pairs of markers.}\label{fig:encircle}
 \end{figure}
 
 
@@ -469,7 +472,7 @@ them to a chi-squared distribution with 1 degree of freedom.
 
 
 
-\section{Multiparental populations and Diversity Outbred mice}
+\section{Designs for multiparental populations and Diversity Outbred mice}\label{sec:mpp-designs}
 
 Near the turn of the century, geneticists sought a mammalian gene mapping resource 
 that could be used for study of a wide variety of quantitative traits. 
@@ -516,7 +519,7 @@ The Diversity Outbred mice enable high-resolution QTL mapping \citep{gatti2014qu
 
 
 
-\section{QTL mapping in DO mice}
+\section{QTL mapping in Diversity Outbred mice}\label{sec:do-qtl}
 
 QTL mapping in Diversity Outbred mice, like that in mice from two-parent crosses, is a multi-step procedure: 1. data acquisition, 2. inference of missing genotypes, and 3. modeling phenotypes as a function of genotypes. Data acquisition involves measurement of phenotypes and, at specified genetic markers, termed ``single nucleotide polymorphism'' or SNP markers, measurement of two-allele genotypes. Often, the SNP marker genotypes are obtained by use of a microarray, such as the GigaMUGA SNP microarray \citep{morgan2015mouse}. 
 
@@ -554,6 +557,8 @@ from one subject is identical to a randomly chosen allele of a second subject, w
 this probability of identity by state is $\frac{5}{8}$ in the backcross. F$_2$ subject pairs in an intercross, likewise, have a single, shared average relatedness, with an identity by state probability of $\frac{1}{2}$.
 
 Because relatedness can confound genotype-phenotype associations \citep{yang2014advantages}, researchers have developed methods to account for relatedness in their statistical models. One popular approach involves use of a polygenic random effect in the statistical model \citep{kang2008efficient}. The addition of a random effect to a model with fixed (\emph{i.e.}, nonrandom) effects results in what statisticians call a ``linear mixed effects model''. 
+
+\section{Benefits of a pleiotropy test in multiparental populations}\label{sec:mpp-pleiotropy}
 
 
 

@@ -41,7 +41,7 @@ $(PROJNAME).tex: $(PROJNAME).Rnw meiosis_func.R
 	Rscript -e "knitr::knit('$<')"
 
 $(PROJNAME).pdf: $(PROJNAME).tex 
-	$(LATEXMK) -pdf -use-make $<
+	$(LATEXMK) -pdf $<
 
 cleanall:
 	$(LATEXMK) -C
