@@ -120,6 +120,60 @@
 \title{Testing Pleiotropy vs. Separate QTL in Multiparental Populations}
 \author{Frederick Boehm}
 \date{\today}
+
+%% from vignette tex file
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+%% end from vignette tex file
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 \frontmatter % use roman numerals for page numbering of first pages
@@ -184,7 +238,7 @@ currently being developed \citep{macneil2002role,fani2014melanocortin}.
 The case of pleiotropic \emph{Agouti} variants illustrates the potential value of examining pleiotropy in QTL studies.
 We next consider designs for and QTL mapping in two-parent crosses (Sections~\ref{sec:two-parent-designs} and~\ref{sec:qtl-two-parent}).
 We then discuss a pleiotropy test in two-parent crosses (Section~\ref{sec:pleiotropy-two-parent}) before
-turning attention to multiparental populations (Sections~\ref{sec:mpp-designs}, \ref{sec:do-qtl}, and \ref{sec:pleiotropy}).
+turning attention to multiparental populations (Sections~\ref{sec:mpp-designs}, \ref{sec:do-qtl}, and \ref{sec:pleiotropy-mpp}).
 
 
 
@@ -561,7 +615,7 @@ this probability of identity by state is $\frac{5}{8}$ in the backcross. F$_2$ s
 
 Because relatedness can confound genotype-phenotype associations \citep{yang2014advantages}, researchers have developed methods to account for relatedness in their statistical models. One popular approach involves use of a polygenic random effect in the statistical model \citep{kang2008efficient}. The addition of a random effect to a model with fixed (\emph{i.e.}, nonrandom) effects results in what statisticians call a ``linear mixed effects model''. 
 
-\section{Benefits of a pleiotropy test in multiparental populations}\label{sec:mpp-pleiotropy}
+\section{Benefits of a pleiotropy test in multiparental populations}\label{sec:pleiotropy-mpp}
 
 
 
@@ -2365,10 +2419,725 @@ intertwined causal relationships between plasma cholic acid and \emph{Turicibact
 \chapter{Computing vignettes}
 
 
-\section{Pleiotropy testing vignette}
+\section{Pleiotropy testing}
 
+
+Our setting involves a pair of traits, \(Y_1\) and \(Y_2\), each of
+which individually (univariately) maps to a single genomic region.
+\(Y_1\) and \(Y_2\) are both measured on the same subjects. The exact
+definition of a genomic region is imprecise; in practice, it may be as
+large as 4 or 5 Mb. We seek to distinguish whether \(Y_1\) and \(Y_2\)
+associations (in the genomic region of interest) arise due to a single
+QTL or whether there are two two distinct loci, each of which associates
+with exactly one of the two traits. We recognize that more complicated
+association patterns are possible, but we neglect them in this test.
+
+\hypertarget{installing-qtl2pleio}{%
+\subsection{\texorpdfstring{Installing
+\texttt{qtl2pleio}}{Installing qtl2pleio}}\label{installing-qtl2pleio}}
+
+We install \texttt{qtl2pleio} from github via the \texttt{devtools} R
+package, which is available from CRAN.
+
+To install qtl2pleio, use \texttt{install\_github()} from the
+\href{https://devtools.r-lib.org}{devtools} package.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{install.packages}\NormalTok{(}\StringTok{"devtools"}\NormalTok{)}
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{install_github}\NormalTok{(}\StringTok{"fboehm/qtl2pleio"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+You may also wish to install \href{https://kbroman.org/qtl2}{R/qtl2} and
+the \href{https://github.com/rqtl/qtl2convert}{\texttt{qtl2convert}}
+package. We will use both below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{install.packages}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"qtl2"}\NormalTok{), }\DataTypeTok{repos =} \StringTok{"http://rqtl.org/qtl2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The above line only needs to be run once on a given computer (unless you
+wish to install a newer version of the package).
+
+We then load the library into our R session with the \texttt{library}
+command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(qtl2pleio)}
+\end{Highlighting}
+\end{Shaded}
+
+We also load the \texttt{qtl2} package with the \texttt{library}
+command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(qtl2)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{reading-data-from-qtl2data-repository-on-github}{%
+\subsection{\texorpdfstring{Reading data from \texttt{qtl2data}
+repository on
+github}{Reading data from qtl2data repository on github}}\label{reading-data-from-qtl2data-repository-on-github}}
+
+We'll consider the
+\href{https://github.com/rqtl/qtl2data/tree/master/DOex}{\texttt{DOex}}
+data in the \href{https://github.com/rqtl/qtl2data}{\texttt{qtl2data}}
+repository. We'll download the DOex.zip file before calculating founder
+allele dosages.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{file <-}\StringTok{ }\KeywordTok{paste0}\NormalTok{(}\StringTok{"https://raw.githubusercontent.com/rqtl/"}\NormalTok{, }\StringTok{"qtl2data/master/DOex/DOex.zip"}\NormalTok{)}
+\NormalTok{DOex <-}\StringTok{ }\KeywordTok{read_cross2}\NormalTok{(file)}
+\end{Highlighting}
+\end{Shaded}
+
+Let's calculate the founder allele dosages from the 36-state genotype
+probabilities.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{probs <-}\StringTok{ }\KeywordTok{calc_genoprob}\NormalTok{(DOex)}
+\NormalTok{pr <-}\StringTok{ }\KeywordTok{genoprob_to_alleleprob}\NormalTok{(probs)}
+\end{Highlighting}
+\end{Shaded}
+
+We now have an allele probabilities object stored in \texttt{pr}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{names}\NormalTok{(pr)}
+\CommentTok{#> [1] "2" "3" "X"}
+\KeywordTok{dim}\NormalTok{(pr}\OperatorTok{$}\StringTok{`}\DataTypeTok{3}\StringTok{`}\NormalTok{)}
+\CommentTok{#> [1] 261   8 102}
+\end{Highlighting}
+\end{Shaded}
+
+We see that \texttt{pr} is a list of 3 three-dimensional arrays - one
+array for each of 3 chromosomes.
+
+We now have an allele probabilities object stored in \texttt{pr}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{names}\NormalTok{(pr)}
+\CommentTok{#> [1] "2" "3" "X"}
+\KeywordTok{dim}\NormalTok{(pr}\OperatorTok{$}\StringTok{`}\DataTypeTok{3}\StringTok{`}\NormalTok{)}
+\CommentTok{#> [1] 261   8 102}
+\end{Highlighting}
+\end{Shaded}
+
+We see that \texttt{pr} is a list of 3 three-dimensional arrays - one
+array for each of 3 chromosomes.
+
+\hypertarget{kinship-calculations}{%
+\subsection{Kinship calculations}\label{kinship-calculations}}
+
+For our statistical model, we need a kinship matrix. Although we don't
+have genome-wide data - since we have allele probabilities for only 3
+chromosomes - let's calculate a kinship matrix using
+``leave-one-chromosome-out''. In practice, one would want to use allele
+probabilities from a full genome-wide set of markers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kinship <-}\StringTok{ }\KeywordTok{calc_kinship}\NormalTok{(}\DataTypeTok{probs =}\NormalTok{ pr, }\DataTypeTok{type =} \StringTok{"loco"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(kinship)}
+\CommentTok{#> List of 3}
+\CommentTok{#>  $ 2: num [1:261, 1:261] 0.6934 0.0705 0.2356 0.0558 0.0513 ...}
+\CommentTok{#>   ..- attr(*, "n_pos")= int 195}
+\CommentTok{#>   ..- attr(*, "dimnames")=List of 2}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\CommentTok{#>  $ 3: num [1:261, 1:261] 0.6662 0.0647 0.2024 0.1129 0.0772 ...}
+\CommentTok{#>   ..- attr(*, "n_pos")= int 220}
+\CommentTok{#>   ..- attr(*, "dimnames")=List of 2}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\CommentTok{#>  $ X: num [1:261, 1:261] 0.4871 0.0831 0.1953 0.1043 0.1125 ...}
+\CommentTok{#>   ..- attr(*, "n_pos")= int 229}
+\CommentTok{#>   ..- attr(*, "dimnames")=List of 2}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\CommentTok{#>   .. ..$ : chr [1:261] "1" "4" "5" "6" ...}
+\end{Highlighting}
+\end{Shaded}
+
+We see that \texttt{kinship} is a list containing 3 matrices. Each
+matrix is 261 by 261 - where the number of subjects is 261 - and
+symmetric.
+
+\hypertarget{statistical-model}{%
+\subsection{Statistical model}\label{statistical-model}}
+
+Before we simulate phenotype data, we first specify our statistical
+model.
+
+We use the model:
+
+\[vec(Y) = X vec(B) + vec(G) + vec(E)\]
+
+where \(Y\) is a \(n\) by \(2\) matrix, where each row is one subject
+and each column is one quantitative trait. \(X\) is a \(2n\) by \(2f\)
+design matrix containing \(n\) by \(f\) allele probabilities matrices
+for each of two (possibly identical) markers. Thus, \(X\) is a
+block-diagonal matrix, with exactly two \(n\) by \(f\) blocks on the
+diagonal. \(B\) is a \(f\) by 2 matrix. ``vec'' refers to the
+vectorization operator. ``vec(B)'', where \(B\) is a \(f\) by \(2\)
+matrix, is, thus, a (column) vector of length \(2f\) that is formed by
+stacking the second column of \(B\) beneath the first column of \(B\).
+
+\(G\) is a matrix of random effects. We specify its distribution as
+matrix-variate normal with mean being a \(n\) by \(2\) matrix of zeros,
+covariance among row vectors a \(n\) by \(n\) kinship matrix, \(K\), and
+covariance among column vectors a \(2\) by \(2\) genetic covariance
+matrix, \(V_g\).
+
+In mathematical notation, we write:
+
+\[G \sim MN_{\text{n by 2}}(0, K, V_g)\]
+
+We also need to specify the distribution of the \(E\) matrix, which
+contains the random errors. \(E\) is a random \(n\) by \(2\) matrix that
+is distributed as a matrix-variate normal distribution with mean being
+the \(n\) by \(2\) zero matrix, covariance among row vectors \(I_n\),
+the \(n\) by \(n\) identity matrix, and covariance among columns the
+\(2\) by \(2\) matrix \(V_e\).
+
+\[E \sim MN_{\text{n by 2}}(0, I_n, V_e)\]
+
+In practice, we typically measure the phenotype matrix \(Y\). We also
+treat as known the design matrix \(X\) and the kinship matrix \(K\). We
+then infer the values of \(B\), \(V_g\), and \(V_e\).
+
+\hypertarget{simulating-phenotypes-with-qtl2pleiosim1}{%
+\subsection{\texorpdfstring{Simulating phenotypes with
+\texttt{qtl2pleio::sim1}}{Simulating phenotypes with qtl2pleio::sim1}}\label{simulating-phenotypes-with-qtl2pleiosim1}}
+
+The function to simulate phenotypes in \texttt{qtl2pleio} is
+\texttt{sim1}. By examining its help page, we see that it takes five
+arguments. The help page also gives the dimensions of the inputs.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# set up the design matrix, X}
+\NormalTok{pp <-}\StringTok{ }\NormalTok{pr[[}\DecValTok{2}\NormalTok{]]  }\CommentTok{#we'll work with Chr 3's genotype data}
+\KeywordTok{dim}\NormalTok{(pp)}
+\CommentTok{#> [1] 261   8 102}
+\end{Highlighting}
+\end{Shaded}
+
+We prepare a block-diagonal design matrix X that contains two nonzero
+blocks on the diagonal, one for each trait. We use here a function from
+the \texttt{gemma2} R package to set up the needed matrix.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Next, we prepare a design matrix X}
+\NormalTok{X <-}\StringTok{ }\NormalTok{gemma2}\OperatorTok{::}\KeywordTok{stagger_mats}\NormalTok{(pp[, , }\DecValTok{50}\NormalTok{], pp[, , }\DecValTok{50}\NormalTok{])}
+\KeywordTok{dim}\NormalTok{(X)}
+\CommentTok{#> [1] 522  16}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# assemble B matrix of allele effects}
+\NormalTok{B <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\DataTypeTok{data =} \KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }\DecValTok{-1}\NormalTok{, }
+    \DecValTok{-1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{), }\DataTypeTok{nrow =} \DecValTok{8}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{, }\DataTypeTok{byrow =} \OtherTok{FALSE}\NormalTok{)}
+\CommentTok{# verify that B is what we want:}
+\NormalTok{B}
+\CommentTok{#>      [,1] [,2]}
+\CommentTok{#> [1,]   -1   -1}
+\CommentTok{#> [2,]   -1   -1}
+\CommentTok{#> [3,]   -1   -1}
+\CommentTok{#> [4,]   -1   -1}
+\CommentTok{#> [5,]    1    1}
+\CommentTok{#> [6,]    1    1}
+\CommentTok{#> [7,]    1    1}
+\CommentTok{#> [8,]    1    1}
+\CommentTok{# set.seed to ensure reproducibility}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{2018} \OperatorTok{-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\DecValTok{30}\NormalTok{)}
+\CommentTok{# call to sim1}
+\NormalTok{Ypre <-}\StringTok{ }\KeywordTok{sim1}\NormalTok{(}\DataTypeTok{X =}\NormalTok{ X, }\DataTypeTok{B =}\NormalTok{ B, }\DataTypeTok{Vg =} \KeywordTok{diag}\NormalTok{(}\DecValTok{2}\NormalTok{), }\DataTypeTok{Ve =} \KeywordTok{diag}\NormalTok{(}\DecValTok{2}\NormalTok{), }\DataTypeTok{kinship =}\NormalTok{ kinship[[}\DecValTok{2}\NormalTok{]])}
+\NormalTok{Y <-}\StringTok{ }\KeywordTok{matrix}\NormalTok{(Ypre, }\DataTypeTok{nrow =} \DecValTok{261}\NormalTok{, }\DataTypeTok{ncol =} \DecValTok{2}\NormalTok{, }\DataTypeTok{byrow =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(Y) <-}\StringTok{ }\KeywordTok{rownames}\NormalTok{(pp)}
+\KeywordTok{colnames}\NormalTok{(Y) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"tr1"}\NormalTok{, }\StringTok{"tr2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Let's perform univariate QTL mapping for each of the two traits in the Y
+matrix.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{s1 <-}\StringTok{ }\KeywordTok{scan1}\NormalTok{(}\DataTypeTok{genoprobs =}\NormalTok{ pr, }\DataTypeTok{pheno =}\NormalTok{ Y, }\DataTypeTok{kinship =}\NormalTok{ kinship)}
+\end{Highlighting}
+\end{Shaded}
+
+Here is a plot of the results.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(s1, DOex}\OperatorTok{$}\NormalTok{pmap}\OperatorTok{$}\StringTok{`}\DataTypeTok{3}\StringTok{`}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(s1, DOex}\OperatorTok{$}\NormalTok{pmap}\OperatorTok{$}\StringTok{`}\DataTypeTok{3}\StringTok{`}\NormalTok{, }\DataTypeTok{lod =} \DecValTok{2}\NormalTok{, }\DataTypeTok{col =} \StringTok{"violetred"}\NormalTok{, }\DataTypeTok{add =} \OtherTok{TRUE}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\KeywordTok{colnames}\NormalTok{(s1), }\DataTypeTok{lwd =} \DecValTok{2}\NormalTok{, }\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"darkslateblue"}\NormalTok{, }
+    \StringTok{"violetred"}\NormalTok{), }\DataTypeTok{bg =} \StringTok{"gray92"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{../../Rpkgs/qtl2pleio/vignettes/testing-pleiotropy-vs-separate-qtl_files/figure-latex/1d-lod-plots-1.pdf}
+
+We see that the two traits share a peak on Chr 3.
+
+And here are the observed QTL peaks with LOD \textgreater{} 8. In
+practice, we could do a permutation test to determine a threshold for
+family-wise error rate control.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{find_peaks}\NormalTok{(s1, }\DataTypeTok{map =}\NormalTok{ DOex}\OperatorTok{$}\NormalTok{pmap, }\DataTypeTok{threshold =} \DecValTok{8}\NormalTok{)}
+\CommentTok{#>   lodindex lodcolumn chr       pos      lod}
+\CommentTok{#> 1        1       tr1   3  82.77806 16.19704}
+\CommentTok{#> 2        2       tr2   3  82.77806 18.26406}
+\CommentTok{#> 3        2       tr2   X 103.79061 16.19708}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{perform-two-dimensional-scan-as-first-step-in-pleiotropy-vs.-separate-qtl-hypothesis-test}{%
+\subsection{Perform two-dimensional scan as first step in pleiotropy vs.
+separate QTL hypothesis
+test}\label{perform-two-dimensional-scan-as-first-step-in-pleiotropy-vs.-separate-qtl-hypothesis-test}}
+
+We now have the inputs that we need to do a pleiotropy vs.~separate QTL
+test. We have the founder allele dosages for one chromosome,
+\emph{i.e.}, Chr 3, in the R object \texttt{pp}, the matrix of two trait
+measurements in \texttt{Y}, and a LOCO-derived kinship matrix. We also
+specify, via the \texttt{start\_snp} argument, the starting point for
+the two-dimensional scan within the array of founder allele dosages.
+Here, we choose the 38th marker in the array as the starting point. Via
+the \texttt{n\_snp} argument, we specify the number of markers to
+include in the two-dimensional scan. Here, we input 25, so that we fit
+the bivariate linear mixed effects model at 25*25 = 625 ordered pairs of
+markers. In practice, we usually use between 100 and 300 markers for
+most two-dimensional scans.
+
+Lastly, we specify the number of cores to use, with the
+\texttt{n\_cores} argument. We set it to 1 here, to ensure that the
+vignette can be run by CRAN. However, in practice, you may wish to
+increase the number of cores to accelerate computing.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{out <-}\StringTok{ }\KeywordTok{scan_pvl}\NormalTok{(}\DataTypeTok{probs =}\NormalTok{ pp, }\DataTypeTok{pheno =}\NormalTok{ Y, }\DataTypeTok{kinship =}\NormalTok{ kinship}\OperatorTok{$}\StringTok{`}\DataTypeTok{3}\StringTok{`}\NormalTok{, }
+    \DataTypeTok{start_snp =} \DecValTok{38}\NormalTok{, }\DataTypeTok{n_snp =} \DecValTok{25}\NormalTok{, }\DataTypeTok{n_cores =} \DecValTok{1}\NormalTok{)}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\end{Highlighting}
+\end{Shaded}
+
+The number of cores available will vary by computer. For example, on my
+Macbook pro computer, with 16GB RAM, I have access to 8 cores. If I use
+all 8, I can't do other computing tasks, so I often set
+\texttt{n\_cores} to 7.
+
+To check how many cores are available on your computer, run this code.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{parallel}\OperatorTok{::}\KeywordTok{detectCores}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{create-a-profile-lod-plot-to-visualize-results-of-two-dimensional-scan}{%
+\paragraph{Create a profile LOD plot to visualize results of
+two-dimensional
+scan}\label{create-a-profile-lod-plot-to-visualize-results-of-two-dimensional-scan}}
+
+To visualize results from our two-dimensional scan, we calculate profile
+LOD for each trait. The code below makes use of the R package
+\texttt{ggplot2} to plot profile LODs over the scan region.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{out}
+\CommentTok{#> # A tibble: 625 x 3}
+\CommentTok{#>    Var1               Var2        loglik}
+\CommentTok{#>    <chr>              <chr>        <dbl>}
+\CommentTok{#>  1 JAX00108034        JAX00108034  -866.}
+\CommentTok{#>  2 backupUNC031096286 JAX00108034  -863.}
+\CommentTok{#>  3 JAX00525579        JAX00108034  -865.}
+\CommentTok{#>  4 JAX00525718        JAX00108034  -865.}
+\CommentTok{#>  5 UNC030088171       JAX00108034  -864.}
+\CommentTok{#>  6 backupUNC030474070 JAX00108034  -864.}
+\CommentTok{#>  7 backupUNC030474244 JAX00108034  -863.}
+\CommentTok{#>  8 UNC030103315       JAX00108034  -862.}
+\CommentTok{#>  9 UNC030107226       JAX00108034  -861.}
+\CommentTok{#> 10 JAX00527615        JAX00108034  -861.}
+\CommentTok{#> # ... with 615 more rows}
+\end{Highlighting}
+\end{Shaded}
+
+We see that \texttt{out} is a 625 by 3 tibble, as expected. The first
+two columns contain the marker ids for each ordered pair of markers. The
+third column contains the log-likelihood values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dplyr)}
+\CommentTok{#> }
+\CommentTok{#> Attaching package: 'dplyr'}
+\CommentTok{#> The following objects are masked from 'package:stats':}
+\CommentTok{#> }
+\CommentTok{#>     filter, lag}
+\CommentTok{#> The following objects are masked from 'package:base':}
+\CommentTok{#> }
+\CommentTok{#>     intersect, setdiff, setequal, union}
+\NormalTok{out }\OperatorTok{%>%}\StringTok{ }\KeywordTok{tidy_scan_pvl}\NormalTok{(DOex}\OperatorTok{$}\NormalTok{pmap}\OperatorTok{$}\StringTok{`}\DataTypeTok{3}\StringTok{`}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{add_intercepts}\NormalTok{(}\DataTypeTok{intercepts_univariate =} \KeywordTok{c}\NormalTok{(}\FloatTok{82.8}\NormalTok{, }
+    \FloatTok{82.8}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{plot_pvl}\NormalTok{(}\DataTypeTok{phenames =} \KeywordTok{c}\NormalTok{(}\StringTok{"tr1"}\NormalTok{, }\StringTok{"tr2"}\NormalTok{))}
+\CommentTok{#> Warning: Removed 49 rows containing missing values (geom_path).}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{../../Rpkgs/qtl2pleio/vignettes/testing-pleiotropy-vs-separate-qtl_files/figure-latex/profile-plot-1.pdf}
+
+We first pass the \texttt{scan\_pvl} output, \emph{i.e.}, \texttt{out},
+to the function \texttt{tidy\_scan\_pvl} to add the physical map
+coordinates to the \texttt{out} tibble. We pipe that output to the
+\texttt{add\_intercepts} function. This function adds columns for the
+univariate peak positions. Note that we need to specify the univariate
+peak positions by hand. In the current case, the two traits have
+identical peak positions.
+
+Finally, the output of \texttt{add\_intercepts} is piped to
+\texttt{plot\_pvl}. This function uses \texttt{ggplot2} functions to
+create a profile LOD plot with three ``traces'': one for each trait and
+a third for all ordered pairs under the pleiotropy hypothesis.
+
+\hypertarget{calculate-the-likelihood-ratio-test-statistic-for-pleiotropy-v-separate-qtl}{%
+\paragraph{Calculate the likelihood ratio test statistic for pleiotropy
+v separate
+QTL}\label{calculate-the-likelihood-ratio-test-statistic-for-pleiotropy-v-separate-qtl}}
+
+We use the function \texttt{calc\_lrt\_tib} to calculate the likelihood
+ratio test statistic value for the specified traits and specified
+genomic region.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(lrt <-}\StringTok{ }\KeywordTok{calc_lrt_tib}\NormalTok{(out))}
+\CommentTok{#> [1] 0}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{bootstrap-analysis-to-get-p-values}{%
+\subsubsection{Bootstrap analysis to get
+p-values}\label{bootstrap-analysis-to-get-p-values}}
+
+The calibration of test statistic values to get p-values uses bootstrap
+methods because we don't know the theoretical distribution of the test
+statistic under the null hypothesis. Thus, we use a bootstrap approach
+to obtain an empirical distribution of test statistic values under the
+null hypothesis of the presence of one pleiotropic locus.
+
+We will use the function \texttt{boot\_pvl} from our package
+\texttt{qtl2pleio}.
+
+We use a parametric bootstrap strategy in which we first use the studied
+phenotypes to infer the values of model parameters. Once we have the
+inferred values of the model parameters, we simulate phenotypes from the
+pleiotropy model (with the inferred parameter values).
+
+A natural question that arises is ``which marker's allele probabilities
+do we use when simulating phenotypes?'' We use the marker that, under
+the null hypothesis, \emph{i.e.}, under the pleiotropy constraint,
+yields the greatest value of the log-likelihood.
+
+Before we call \texttt{boot\_pvl}, we need to identify the index (on the
+chromosome under study) of the marker that maximizes the likelihood
+under the pleiotropy constraint. To do this, we use the
+\texttt{qtl2pleio} function \texttt{find\_pleio\_peak\_tib}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(pleio_index <-}\StringTok{ }\KeywordTok{find_pleio_peak_tib}\NormalTok{(out, }\DataTypeTok{start_snp =} \DecValTok{38}\NormalTok{))}
+\CommentTok{#> loglik13 }
+\CommentTok{#>       50}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{2018} \OperatorTok{-}\StringTok{ }\DecValTok{11} \OperatorTok{-}\StringTok{ }\DecValTok{25}\NormalTok{)}
+\KeywordTok{system.time}\NormalTok{(b_out <-}\StringTok{ }\KeywordTok{boot_pvl}\NormalTok{(}\DataTypeTok{probs =}\NormalTok{ pp, }\DataTypeTok{pheno =}\NormalTok{ Y, }\DataTypeTok{pleio_peak_index =}\NormalTok{ pleio_index, }
+    \DataTypeTok{kinship =}\NormalTok{ kinship}\OperatorTok{$}\StringTok{`}\DataTypeTok{3}\StringTok{`}\NormalTok{, }\DataTypeTok{nboot_per_job =} \DecValTok{10}\NormalTok{, }\DataTypeTok{start_snp =} \DecValTok{38}\NormalTok{, }
+    \DataTypeTok{n_snp =} \DecValTok{25}\NormalTok{))}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#> starting covariance matrices estimation with data from 261 subjects.}
+\CommentTok{#> covariance matrices estimation completed.}
+\CommentTok{#>    user  system elapsed }
+\CommentTok{#>  80.916   4.184  85.332}
+\end{Highlighting}
+\end{Shaded}
+
+The argument \texttt{nboot\_per\_job} indicates the number of bootstrap
+samples that will be created and analyzed. Here, we set
+\texttt{nboot\_per\_job\ =\ 10}, so we expect to see returned a numeric
+vector of length 10, where each entry is a LRT statistic value from a
+distinct bootstrap sample.
+
+Finally, we determine a bootstrap p-value in the usual method. We treat
+the bootstrap samples' test statistics as an empirical distribution of
+the test statistic under the null hypothesis of pleiotropy. Thus, to get
+a p-value, we want to ask ``What is the probability, under the null
+hypothesis, of observing a test statistic value that is at least as
+extreme as that which we observed?''
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{b_out}
+\CommentTok{#>  [1] 2.8881948 0.0000000 0.9943472 0.0000000 1.1553322 0.6764714 0.0000000}
+\CommentTok{#>  [8] 1.1446433 0.0000000 1.0460109}
+\NormalTok{(pvalue <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(b_out }\OperatorTok{>=}\StringTok{ }\NormalTok{lrt))}
+\CommentTok{#> [1] 1}
+\end{Highlighting}
+\end{Shaded}
+
+In practice, one would want to use many more bootstrap samples to
+achieve an empirical distribution that is closer to the theoretical
+distribution of the test statistic under the null hypothesis.
+
+However, if one wants to perform analyses with a reasonable number - say
+400 - bootstrap samples, this will take a very long time - many days -
+on a single laptop computer. We have used a series of computer clusters
+that are coordinated by the University of Wisconsin-Madison's Center for
+High-throughput Computing (\url{http://chtc.cs.wisc.edu}). We typically
+are able to analyze 1000 bootstrap samples in less than 24 hours with
+this service.
+
+\hypertarget{session-info}{%
+\subsection{Session info}\label{session-info}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{devtools}\OperatorTok{::}\KeywordTok{session_info}\NormalTok{()}
+\CommentTok{#> - Session info ----------------------------------------------------------}
+\CommentTok{#>  setting  value                       }
+\CommentTok{#>  version  R version 3.5.3 (2019-03-11)}
+\CommentTok{#>  os       macOS Mojave 10.14.3        }
+\CommentTok{#>  system   x86_64, darwin15.6.0        }
+\CommentTok{#>  ui       RStudio                     }
+\CommentTok{#>  language (EN)                        }
+\CommentTok{#>  collate  en_US.UTF-8                 }
+\CommentTok{#>  ctype    en_US.UTF-8                 }
+\CommentTok{#>  tz       America/Chicago             }
+\CommentTok{#>  date     2019-03-17                  }
+\CommentTok{#> }
+\CommentTok{#> - Packages --------------------------------------------------------------}
+\CommentTok{#>  ! package        * version    date       lib}
+\CommentTok{#>    assertthat       0.2.0      2017-04-11 [1]}
+\CommentTok{#>    backports        1.1.3      2018-12-14 [1]}
+\CommentTok{#>    bit              1.1-14     2018-05-29 [1]}
+\CommentTok{#>    bit64            0.9-7      2017-05-08 [1]}
+\CommentTok{#>    blob             1.1.1      2018-03-25 [1]}
+\CommentTok{#>    broman           0.68-2     2018-07-25 [1]}
+\CommentTok{#>    callr            3.2.0      2019-03-15 [1]}
+\CommentTok{#>    cli              1.0.1      2018-09-25 [1]}
+\CommentTok{#>    colorspace       1.4-0      2019-01-13 [1]}
+\CommentTok{#>    commonmark       1.7        2018-12-01 [1]}
+\CommentTok{#>    crayon           1.3.4      2017-09-16 [1]}
+\CommentTok{#>    curl             3.3        2019-01-10 [1]}
+\CommentTok{#>    data.table       1.12.0     2019-01-13 [1]}
+\CommentTok{#>    DBI              1.0.0      2018-05-02 [1]}
+\CommentTok{#>    desc             1.2.0      2018-05-01 [1]}
+\CommentTok{#>    devtools       * 2.0.1      2018-10-26 [1]}
+\CommentTok{#>    digest           0.6.18     2018-10-10 [1]}
+\CommentTok{#>    dplyr          * 0.8.0.1    2019-02-15 [1]}
+\CommentTok{#>    evaluate         0.13       2019-02-12 [1]}
+\CommentTok{#>    fansi            0.4.0      2018-10-05 [1]}
+\CommentTok{#>    formatR          1.6        2019-03-05 [1]}
+\CommentTok{#>    fs               1.2.6      2018-08-23 [1]}
+\CommentTok{#>    gemma2           0.0.1.1    2019-03-13 [1]}
+\CommentTok{#>    ggplot2          3.1.0      2018-10-25 [1]}
+\CommentTok{#>    glue             1.3.1      2019-03-12 [1]}
+\CommentTok{#>    gtable           0.2.0      2016-02-26 [1]}
+\CommentTok{#>    hms              0.4.2      2018-03-10 [1]}
+\CommentTok{#>    htmltools        0.3.6      2017-04-28 [1]}
+\CommentTok{#>    jsonlite         1.6        2018-12-07 [1]}
+\CommentTok{#>    knitr            1.22       2019-03-08 [1]}
+\CommentTok{#>    labeling         0.3        2014-08-23 [1]}
+\CommentTok{#>    lattice          0.20-38    2018-11-04 [1]}
+\CommentTok{#>    lazyeval         0.2.2      2019-03-15 [1]}
+\CommentTok{#>    magrittr         1.5        2014-11-22 [1]}
+\CommentTok{#>    MASS             7.3-51.1   2018-11-01 [1]}
+\CommentTok{#>    Matrix           1.2-15     2018-11-01 [1]}
+\CommentTok{#>    memoise          1.1.0      2017-04-21 [1]}
+\CommentTok{#>    microbenchmark   1.4-6      2018-10-18 [1]}
+\CommentTok{#>    munsell          0.5.0      2018-06-12 [1]}
+\CommentTok{#>    mvtnorm          1.0-10     2019-03-05 [1]}
+\CommentTok{#>    packrat          0.5.0      2018-11-14 [1]}
+\CommentTok{#>    pillar           1.3.1      2018-12-15 [1]}
+\CommentTok{#>    pkgbuild         1.0.2      2018-10-16 [1]}
+\CommentTok{#>    pkgconfig        2.0.2      2018-08-16 [1]}
+\CommentTok{#>    pkgload          1.0.2      2018-10-29 [1]}
+\CommentTok{#>    plyr             1.8.4      2016-06-08 [1]}
+\CommentTok{#>    prettyunits      1.0.2      2015-07-13 [1]}
+\CommentTok{#>    processx         3.3.0      2019-03-10 [1]}
+\CommentTok{#>    progress         1.2.0      2018-06-14 [1]}
+\CommentTok{#>    ps               1.3.0      2018-12-21 [1]}
+\CommentTok{#>    purrr            0.3.2      2019-03-15 [1]}
+\CommentTok{#>    qtl2           * 0.19-7     2019-03-17 [1]}
+\CommentTok{#>  P qtl2pleio      * 0.1.2.9001 2019-03-17 [?]}
+\CommentTok{#>    R6               2.4.0      2019-02-14 [1]}
+\CommentTok{#>    rcmdcheck        1.3.2      2018-11-10 [1]}
+\CommentTok{#>  V Rcpp             1.0.0.3    2019-03-17 [1]}
+\CommentTok{#>    RcppEigen        0.3.3.5.0  2019-03-08 [1]}
+\CommentTok{#>    readr            1.3.1      2018-12-21 [1]}
+\CommentTok{#>    remotes          2.0.2      2018-10-30 [1]}
+\CommentTok{#>    rlang            0.3.1      2019-01-08 [1]}
+\CommentTok{#>    rmarkdown      * 1.11       2018-12-08 [1]}
+\CommentTok{#>    roxygen2         6.1.1      2018-11-07 [1]}
+\CommentTok{#>    rprojroot        1.3-2      2018-01-03 [1]}
+\CommentTok{#>    RSQLite          2.1.1      2018-05-06 [1]}
+\CommentTok{#>    rstudioapi       0.9.0      2019-01-09 [1]}
+\CommentTok{#>    scales           1.0.0      2018-08-09 [1]}
+\CommentTok{#>    sessioninfo      1.1.1      2018-11-05 [1]}
+\CommentTok{#>    stringi          1.4.3      2019-03-12 [1]}
+\CommentTok{#>    stringr          1.4.0      2019-02-10 [1]}
+\CommentTok{#>    testthat         2.0.1      2018-10-13 [1]}
+\CommentTok{#>    tibble           2.1.1      2019-03-16 [1]}
+\CommentTok{#>    tidyselect       0.2.5      2018-10-11 [1]}
+\CommentTok{#>    usethis        * 1.4.0      2018-08-14 [1]}
+\CommentTok{#>    utf8             1.1.4      2018-05-24 [1]}
+\CommentTok{#>    withr            2.1.2      2018-03-15 [1]}
+\CommentTok{#>    xfun             0.5        2019-02-20 [1]}
+\CommentTok{#>    xml2             1.2.0      2018-01-24 [1]}
+\CommentTok{#>    xopen            1.0.0      2018-09-17 [1]}
+\CommentTok{#>    yaml             2.2.0      2018-07-25 [1]}
+\CommentTok{#>  source                             }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.3)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  Github (fboehm/gemma2@25fb644)     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.3)                     }
+\CommentTok{#>  CRAN (R 3.5.3)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.3)                     }
+\CommentTok{#>  CRAN (R 3.5.3)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.3)                     }
+\CommentTok{#>  Github (rqtl/qtl2@3ccd775)         }
+\CommentTok{#>  local                              }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  Github (RcppCore/Rcpp@0837b35)     }
+\CommentTok{#>  Github (RcppCore/RcppEigen@ca305c8)}
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.3)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.2)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#>  CRAN (R 3.5.0)                     }
+\CommentTok{#> }
+\CommentTok{#> [1] /Library/Frameworks/R.framework/Versions/3.5/Resources/library}
+\CommentTok{#> }
+\CommentTok{#>  V -- Loaded and on-disk version mismatch.}
+\CommentTok{#>  P -- Loaded and on-disk path mismatch.}
+\end{Highlighting}
+\end{Shaded}
+
+
+
+
+\section{Recla analysis}
 
 %%%%% END Recla analysis vignette
+\section{Cluster computing for bootstrap test}
+
+
 
 %%% Start Ch5
 
