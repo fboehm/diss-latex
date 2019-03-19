@@ -1,4 +1,5 @@
 .Rproj.user
+*.aux
 vignette-stuff
 .Rhistory
 .RData

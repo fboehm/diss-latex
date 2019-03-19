@@ -193,6 +193,10 @@ The dissertation is approved by the following members of the Final Oral Committe
  % ----------------------------------------------------------------
 \end{titlepage}
 
+\include{acknowledgement}
+%\include{abstract}
+\include{dedication}
+
 
 \setcounter{page}{1} % needed if pages are to be continuously numbered
 \tableofcontents
@@ -216,7 +220,15 @@ The growing need for greater QTL mapping resolution fueled development over the
 last two decades of model organism multiparental populations for high-resolution QTL mapping.
 In this thesis, I develop a test of pleiotropy vs. separate QTL in multiparental populations. I study its statistical properties and demonstrate its usefulness with real experimental data. 
 
-I use the first chapter to introduce statistical methods in QTL mapping studies and to argue for the need to develop a pleiotropy test in multiparental populations. Existing pleiotropy tests for two-parent crosses don't directly apply to multiparental populations because of the multi-allelic genotype data and complex relatedness patterns. A pleiotropy test for multiparental populations with high-dimensional phenotypes would enable dissection of QTL hotspots (\emph{i.e.}, small genomic regions that affect many traits) and would complement newly developed methods in causal inference for systems genetics.
+I use the first chapter to introduce statistical methods in QTL 
+mapping studies and to argue for the need to develop a pleiotropy test
+in multiparental populations. Existing pleiotropy tests for two-parent
+crosses don't directly apply to multiparental populations because of the
+multi-allelic genotype data and complex relatedness patterns.
+A pleiotropy test for multiparental populations with high-dimensional
+phenotypes would enable dissection of QTL hotspots (\emph{i.e.}, small 
+genomic regions that affect many traits) and would complement newly 
+developed methods in causal inference for systems genetics.
 
 
 I begin Chapter 1 by motivating the study of
@@ -278,9 +290,19 @@ turning attention to multiparental populations (Sections~\ref{sec:mpp-designs}, 
 
 \section{Designs for two-parent crosses}\label{sec:two-parent-designs}
 
-Two widely used two-parent crosses are the ``backcross'' and the ``intercross''. We first discuss the backcross design (Figure~\ref{fig:backcross}). A backcross starts with mating between members of two inbred lines. The offspring of this mating event, termed the ``F$_1$'', or ``first filial'', generation then mate with members of one of the two parent lines. The experiment designers decide which line the female is chosen from and which line the F$_1$ mate with. Thus, there are a total of four possible backcrosses for any pair of inbred lines. 
+Two widely used two-parent crosses are the ``backcross'' and the
+``intercross''. We first discuss the backcross design
+(Figure~\ref{fig:backcross}). A backcross starts with mating between
+members of two inbred lines. The offspring of this mating event,
+termed the ``F$_1$'', or ``first filial'', generation then mate
+with members of one of the two parent lines. The experiment designers
+decide which line the female is chosen from and which line the F$_1$ mate
+with. Thus, there are a total of four possible backcrosses for any pair
+of inbred lines. 
 
-As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation ``BC'') have, for any locus, only two possible genotypes: heterozygote (AB) and homozygote (AA in the figure).
+As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation
+``BC'') have, for any locus, only two possible genotypes: heterozygote (AB)
+and homozygote (AA in the figure).
 The F$_1$ generation is heterozygous at all loci (Figure~\ref{fig:backcross}) because 
 they inherited one chromosome (of each pair) from each parent.
 While meiotic crossovers may occur in the founder generation, these crossover events are
@@ -466,8 +488,8 @@ to combat what \citet{broman2009guide} call the ``missing data'' problem.
 The missing data problem refers to the fact that explicit genotyping occurs at
 only a subset of genomic positions, \emph{i.e.}, those positions
 occupied by the markers. In this sense, genotype data at all other
-positions is ``missing''. As genotyping technologies have improved and
-associated costs have decreased, dense marker sets are now available for
+positions is ``missing''. As genotyping technologies improved and
+associated costs decreased, dense marker sets became available for
 some multiparental populations. For example, the GigaMUGA single
 nucleotide polymorphism (SNP) genotyping microarray \citep{morgan2015mouse} 
 offers a dense marker set for studies of Diversity Outbred and 
@@ -579,14 +601,42 @@ sum of squares for a univariate QTL analysis.
 \text{residual sum of squares} = \sum_{\text{subjects}}\left(\text{observed trait value} - \text{fitted trait value}\right)^2\label{eq:rss}
 \end{equation}
 
-I define the fitted trait value, $\hat y$, for a single subject with Equation~\ref{eq:fitted-values}. 
-The character tilde above a quantity denotes its least squares estimate. 
+I define the fitted trait value, $\hat y_i$, for the $i^{th}$ subject with Equation~\ref{eq:fitted-values}. 
 
 \begin{equation}
-\tilde y = \tilde{\text{(fitted trait value)}} = 
+\hat y_i = \text{(fitted trait value)} = x_i\hat b
 \label{eq:fitted-values}
 \end{equation}
 
+where $x$ is the vector of founder allele dosages for subject $i$ and $\hat b$ is the ordinary least squares estimate of $b$. 
+
+To obtain a formula for $\hat b$, I substitute Equation~\ref{eq:fitted-values} into Equation~\ref{eq:rss} to express the residual sum of squares in Equation~\ref{eq:rss-2}. Note that I remove the ``hat'' from $b$ in Equation~\ref{eq:rss-2} to emphasize that $b$ is a variable. 
+
+\begin{equation}
+\text{residual sum of squares}(b) = \sum_i(y_i - x_ib)^2
+\label{eq:rss-2}
+\end{equation}
+
+The ``best fit'' line is that which minimizes the residual sum of squares. 
+Thus, we need to solve for $\hat b$, \emph{i.e.}, the value of $b$
+that minimizes the residual sum of squares.
+We first recognize that we've written the residual sum of squares as
+a function of $b$.
+We draw on results from calculus, by which we know that we can
+differentiate (with respect to $b$) the continuous and differentiable
+residual sum of squares function.
+Setting the derivative equal to zero, we then solve for $\hat b$. 
+
+
+\begin{eqnarray}
+0 &=& \frac{\partial}{\partial b}\left(\text{residual sum of squares} \right) \\
+&=& \frac{\partial}{\partial b}\left(\sum_i(y_i - x_ib)^2\right)\\
+&=& -2\sum_i x_i(y_i - x_ib)\\
+&\implies& \\
+\sum_i x_iy_i &=& b\sum_i x_i^2\\
+&\implies& \\
+b &=& \frac{\sum_i x_iy_i}{\sum_i x_i^2} = \hat b
+\end{eqnarray}
 
 
 \section{Testing pleiotropy in two-parent crosses}\label{sec:pleiotropy-two-parent}
@@ -599,9 +649,13 @@ Among the novel methods from \citet{jiang1995multiple} is a test of pleiotropy v
 They explain that such a test is useful when two traits map to a single genomic region.
 The question then arises ``do the two traits associate with the same locus, or do they associate with separate loci''?
 
-If both traits associate with the same locus, then that locus is called ``pleiotropic''. If the two traits associate with separate loci, then we say that there are separate QTL (one for each trait). 
+If both traits associate with the same locus, then that locus is called ``pleiotropic''.
+If the two traits associate with separate loci, then we say that
+there are separate QTL (one for each trait). 
 In the development of their test of pleiotropy v separate QTL, \citet{jiang1995multiple} model
-the multivariate trait as the sum of a linear function of the genotypes and a random error term. They assume that the traits matrix is related to the genotype data through Equation~\ref{eq:jz95}.
+the multivariate trait as the sum of a linear function of the genotypes and
+a random error term. They assume that the traits matrix is related to the
+genotype data through Equation~\ref{eq:jz95}.
 
 
 \begin{equation}
@@ -3559,6 +3613,7 @@ this service.
 
 
 %%% Start Ch5
+\chapter{Conclusions}
 
 I've successfully developed a pleiotropy test for multiparental populations.
 I discussed our new methods in Chapter 2.
@@ -3577,9 +3632,11 @@ it is reasonable to conduct further causal modeling studies for these two traits
 Chapter 4 demonstrates features of the `qtl2pleio` R package.
 This package implements my pleiotropy test and uses the data structures in the R package `qtl2` \citep{broman2019rqtl2}.
 
+\section{A multivariate pleiotropy test}
 
+Pleiotropy tests for two traits at a time have a valuable role in complex trait genetics. However, to fully use the tens of thousands of experimentally measured traits, we need to consider testing more than two traits at a time. Suppose that five traits map to a single region spanned by 100 markers. One might perform a series of $\binom{5}{2} = 10$ bivariate QTL scans and 10 pairwise tests for pleiotropy. Each bivariate scan would require $100^2 = 10,000$ model fits by generalized least squares. Alternatively, one could perform a d-variate QTL scan, with $d=5$ in this case. With the results of the d-variate scan, a variety of statistical hypotheses could be tested. For example, one could formulate a test for the null hypothesis that all five traits share a pleiotropic QTL against the alternative that the first two traits share a single QTL and the last three traits share a distinct, pleiotropic QTL. The d-variate scan over the 100-marker region, would require $100^d = 100^5 = 10$ billion model fits via generalized least squares. With distributed computing resources, including the resources at the University of Wisconsin's Center for High-throughput Computing, this is not an unreasonable volume of computing. The use of C++ for generalized least squares calculations decreases the computing time for each model fit. 
 
-
+\section{Sensitivity analysis for unmeasured confounding in mediation analysis}
 
 
 
