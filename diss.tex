@@ -519,8 +519,12 @@ for the competing hypotheses:
 
 \begin{eqnarray}
 H_1: \text{A QTL is present at a specified marker}\\
-H_0: \text{No QTL is present at a specified marker}
+H_0: \text{No QTL is present at a specified marker}\label{eq:qtl-hypotheses}
 \end{eqnarray}
+
+These hypotheses (Equation~\ref{eq:qtl-hypotheses}) are equivalent to stating that, under $H_0$, 
+$\beta = 0$ while under $H_1$, $\beta$ can be any number. That is, under the null hypothesis, those with genotype AB have the same mean value as those with genotype AA, while under the alternative hypothesis, the means for the two genotype classes may differ. 
+Those with backgrounds in statistics may recognize that the likelihood ratio test for presence of a QTL in a two-parent backcross is equivalent to a t-test. 
 
 
 
