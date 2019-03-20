@@ -488,9 +488,9 @@ L(\text{AA mean}, \text{B allele effect}, \text{random error variance}| \text{ge
 \label{eq:lik-bc}
 \end{equation}
 
-The symbol $\prod$ denotes a product of multiple terms.
-The indices for the terms are given above and below the $\prod$ symbol. Here, $n$ is our sample size.
-In Equation~\ref{eq:lik-bc}, our three parameters are ``AA mean'' 
+The symbol $\prod$ denotes a product of indexed terms.
+The index range for the terms are given above and below the $\prod$ symbol. Here, $n$ is our sample size.
+In Equation~\ref{eq:lik-bc}, our three parameters are ``AA mean trait value'' 
 ($\mu_{AA}$), ``B allele effect'' ($\beta$), and the random error
 variance, which we denote $\sigma^2$. We use maximum likelihood
 methods to estimate parameter values. The maximum likelihood estimates
@@ -503,7 +503,8 @@ $\widehat\sigma^2$ (Equation~\ref{eq:pooled-var})
 \widehat\sigma^2 = \frac{RSS_1}{n}
 \label{eq:pooled-var}
 \end{equation}
-The residual sum of squares ``RSS$_1$'' is an expression that
+The residual sum of squares ``RSS$_1$'', which is central to the
+calculation of the pooled variance estimate, is an expression that
 tells us how far each observed trait measurement is
 from its predicted value for a
 set of specified parameter values. Equation~\ref{eq:rss1} defines residual
@@ -518,15 +519,22 @@ We ultimately want to calculate a likelihood ratio test statistic
 for the competing hypotheses:
 
 \begin{eqnarray}
-H_1: \text{A QTL is present at a specified marker}\\
+H_1: \text{A QTL is present at a specified marker}\nonumber \\
 H_0: \text{No QTL is present at a specified marker}\label{eq:qtl-hypotheses}
 \end{eqnarray}
 
-These hypotheses (Equation~\ref{eq:qtl-hypotheses}) are equivalent to stating that, under $H_0$, 
-$\beta = 0$ while under $H_1$, $\beta$ can be any number. That is, under the null hypothesis, those with genotype AB have the same mean value as those with genotype AA, while under the alternative hypothesis, the means for the two genotype classes may differ. 
-Those with backgrounds in statistics may recognize that the likelihood ratio test for presence of a QTL in a two-parent backcross is equivalent to a t-test. 
+These hypotheses (Equation~\ref{eq:qtl-hypotheses}) are equivalent
+to stating that, under $H_0$, 
+$\beta = 0$ while under $H_1$, $\beta$ can be nonzero.
+In other words, under the null hypothesis, those with genotype AB 
+have the same
+mean trait value as those with genotype AA, while under the alternative hypothesis,
+the mean trait values for the two genotype classes may differ. 
+Those readers with backgrounds in statistics may recognize that the likelihood ratio
+test for presence of a QTL in a two-parent backcross is equivalent to a t-test. 
 
-
+After calculating the likelihood ratio test statistic at every marker,
+]I need to obtain p-values for every test. Because I'm performing many tests (\emph{i.e.}, one per marker), I wish to 
 
 
 
@@ -3299,7 +3307,7 @@ Pleiotropy tests for two traits at a time have a valuable role in complex trait 
 
 \chapter{Statistical inference primer}\label{sec:stat-primer}
 
-
+\include{stats-primer}
 
 
 \section{Genotype inference with expectation-maximization}\label{sec:genotypes-em}
