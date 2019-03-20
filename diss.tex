@@ -304,8 +304,6 @@ Therapeutics to mitigate the effects of disruptions in melanocortin receptor sig
 currently being developed \citep{macneil2002role,fani2014melanocortin}.
 The case of pleiotropic \emph{Agouti} variants illustrates the potential value of examining pleiotropy in QTL studies.
 We next consider designs for and QTL mapping in two-parent crosses (Sections~\ref{sec:two-parent-designs} and~\ref{sec:qtl-two-parent}).
-We then discuss a pleiotropy test in two-parent crosses (Section~\ref{sec:pleiotropy-two-parent}) before
-turning attention to multiparental populations (Sections~\ref{sec:mpp-designs}, \ref{sec:do-qtl}, and \ref{sec:pleiotropy-mpp}).
 
 
 
@@ -440,7 +438,7 @@ at only select markers. In this sense, genotypes at positions between
 markers are ``missing'' because they aren't explicitly measured
 (Figure~\ref{fig:genoprob1}). Figure~\ref{fig:genoprob1} presents, for
 one subject, a chromosome with genotyped markers at the tick marks.
-The triangle represents a position at which we wish to know the genotype.
+The triangle represents a position at which we wish to know the allele's identity.
 We now consider a strategy for inference of genotypes at intermarker positions.
 
 \begin{figure}
@@ -453,8 +451,8 @@ We now consider a strategy for inference of genotypes at intermarker positions.
 
 A flexible framework for resolving the ``missing data'' problem involves use of a
 hidden Markov model \citep{broman2009guide, broman2006use}. 
-In this hidden Markov model, marker genotypes are observed random variables, 
-while genotypes at intervening bases are unobserved random variables. 
+In this hidden Markov model, marker genotypes are ``observed random variables'', 
+while genotypes at intervening bases are ``unobserved random variables''. 
 Two sets of recursive equations, termed ``forward'' and ``backward'' equations,
 enable efficient calculation of genotype probabilities
 (conditional on the observed marker genotypes) \citep{baum1970maximization}.
@@ -464,73 +462,71 @@ We discuss inference methods for genotype probabilities in Appendix~\ref{sec:sta
 
 
 % model form - linear regression
-A QTL analysis involves choosing a statistical model to be fitted at every marker. 
+A QTL analysis involves choosing a statistical model to be fitted at every marker. This is the ``model selection'' problem \citep{broman2009guide}.
 As in any statistical modeling, there is not one best model selection procedure.
 One needs to decide which main effects and interactions are needed.
 Also, one often transforms the trait values to achieve approximate normality before performing the QTL scan. 
 
-Many investigators consider multiple models before performing a QTL scan.
-For simplicity, one may choose a linear model that contains additive effects for
-the  minor allele count (0, 1 or 2) at a given marker (Equation~\ref{eq:uni-2-parent}) \citep{martinez1992estimating,haley1992simple}.
+In a two-parent backcross, only two genotypes are possible in 
+generation ``BC'' subjects (Figure~\ref{fig:backcross}). 
+Thus, one may choose a linear model that contains 
+the B allele count (1 or 0) at a specified marker
+(Equation~\ref{eq:uni-2-parent}, Figure~\ref{fig:backcross}).
 
 \begin{equation}
-\text{trait} = \text{mean for major allele homozygotes} + \text{(minor allele count)}\text{(minor allele effect)} + \text{random error}
+\text{trait} = \text{mean for AA genotype} + \text{(B allele count)}\text{(B allele effect)} + \text{random error}
 \label{eq:uni-2-parent}
 \end{equation}
 
 Assuming that the random errors are normally distributed (and independent with common
-variance $\sigma^2$), one may use the statistical technique called ``ordinary least squares''
-to fit the model and to solve for $\hat b$ and $\hat \sigma^2$.
-In ``ordinary least squares'', one solves for the set of parameter values that
-minimize the residual sum of squares.
-In the above equation, our two parameters are the minor allele effect and
-the random error variance. The residual sum of squares is an expression that
-tells us how far each observed data point is from its predicted value for a
-set of specified parameter values. Equation~\ref{eq:rss} defines residual
+variance $\sigma^2$) for all subjects, we write the likelihood as
+a function of the parameters conditional on the observed
+data (Equation~\ref{eq:lik-bc}).
+
+\begin{equation}
+L(\text{AA mean}, \text{B allele effect}, \text{random error variance}| \text{genotypes}, \text{measured trait values}) = \prod_{i=1}^n \phi(y_i; \mu_{AA}, \beta, \sigma^2)
+\label{eq:lik-bc}
+\end{equation}
+
+The symbol $\prod$ denotes a product of multiple terms.
+The indices for the terms are given above and below the $\prod$ symbol. Here, $n$ is our sample size.
+In Equation~\ref{eq:lik-bc}, our three parameters are ``AA mean'' 
+($\mu_{AA}$), ``B allele effect'' ($\beta$), and the random error
+variance, which we denote $\sigma^2$. We use maximum likelihood
+methods to estimate parameter values. The maximum likelihood estimates
+for three parameters are the sample mean of trait values for those with
+AA genotype, the difference in sample mean between those with AA
+genotype and those with AB genotype, and the pooled variance estimate,
+$\widehat\sigma^2$ (Equation~\ref{eq:pooled-var})
+
+\begin{equation}
+\widehat\sigma^2 = \frac{RSS_1}{n}
+\label{eq:pooled-var}
+\end{equation}
+The residual sum of squares ``RSS$_1$'' is an expression that
+tells us how far each observed trait measurement is
+from its predicted value for a
+set of specified parameter values. Equation~\ref{eq:rss1} defines residual
 sum of squares for a univariate QTL analysis.
 
 \begin{equation}
-\text{residual sum of squares} = \sum_{\text{subjects}}\left(\text{observed trait value} - \text{fitted trait value}\right)^2\label{eq:rss}
+RSS_1 = \sum_{i=1}^n(y_i - \mu_{AA} - \beta \text{(B allele count)})^2
+\label{eq:rss1}
 \end{equation}
 
-I define the fitted trait value, $\hat y_i$, for the $i^{th}$ subject with Equation~\ref{eq:fitted-values}. 
-
-\begin{equation}
-\hat y_i = \text{(fitted trait value)} = x_i\hat b
-\label{eq:fitted-values}
-\end{equation}
-
-where $x$ is the vector of founder allele dosages for subject $i$ and $\hat b$ is the ordinary least squares estimate of $b$. 
-
-To obtain a formula for $\hat b$, I substitute Equation~\ref{eq:fitted-values} into Equation~\ref{eq:rss} to express the residual sum of squares in Equation~\ref{eq:rss-2}. Note that I remove the ``hat'' from $b$ in Equation~\ref{eq:rss-2} to emphasize that $b$ is a variable. 
-
-\begin{equation}
-\text{residual sum of squares}(b) = \sum_i(y_i - x_ib)^2
-\label{eq:rss-2}
-\end{equation}
-
-The ``best fit'' line is that which minimizes the residual sum of squares. 
-Thus, we need to solve for $\hat b$, \emph{i.e.}, the value of $b$
-that minimizes the residual sum of squares.
-We first recognize that we've written the residual sum of squares as
-a function of $b$.
-We draw on results from calculus, by which we know that we can
-differentiate (with respect to $b$) the continuous and differentiable
-residual sum of squares function.
-Setting the derivative equal to zero, we then solve for $\hat b$. 
-
+We ultimately want to calculate a likelihood ratio test statistic
+for the competing hypotheses:
 
 \begin{eqnarray}
-0 &=& \frac{\partial}{\partial b}\left(\text{residual sum of squares} \right) \\
-&=& \frac{\partial}{\partial b}\left(\sum_i(y_i - x_ib)^2\right)\\
-&=& -2\sum_i x_i(y_i - x_ib)\\
-&\implies& \\
-\sum_i x_iy_i &=& b\sum_i x_i^2\\
-&\implies& \\
-b &=& \frac{\sum_i x_iy_i}{\sum_i x_i^2} = \hat b
+H_1: \text{A QTL is present at a specified marker}\\
+H_0: \text{No QTL is present at a specified marker}
 \end{eqnarray}
 
 
+
+
+
+%%%%%%% pleio test in 2-parent crosses
 \section{Testing pleiotropy in two-parent crosses}\label{sec:pleiotropy-two-parent}
 
 In anticipation that multivariate mapping of correlated traits would enhance statistical

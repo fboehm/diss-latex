@@ -472,7 +472,7 @@ After obtaining likelihoods for all markers, likelihood ratio test statistics ar
 at every marker. The inputs for these calculations are the likelihoods from the model fits 
 and the likelihood for the null model, which contains no genotype data.
 The resulting likelihood ratios compare, for every marker, the null hypothesis that there is no 
-QTL (in the genome) against the alternative that there is a QTL (at the specified marker).
+QTL (at that marker) against the alternative that there is a QTL (at the specified marker).
 In other words, one performs a likelihood ratio test for every marker across the genome.
 Often this amounts to thousands of (statistically dependent) hypothesis tests.
 One then uses a permutation test to determine a genome-wide critical value
@@ -589,7 +589,7 @@ the B allele count (1 or 0) at a specified marker
 Assuming that the random errors are normally distributed (and independent with common
 variance $\sigma^2$) for all subjects, we write the likelihood as
 a function of the parameters conditional on the observed
-data (Equation~\ref{eq:lik}).
+data (Equation~\ref{eq:lik-bc}).
 
 \begin{equation}
 L(\text{AA mean}, \text{B allele effect}, \text{random error variance}| \text{genotypes}, \text{measured trait values}) = \prod_{i=1}^n \phi(y_i; \mu_{AA}, \beta, \sigma^2)
@@ -611,7 +611,7 @@ $\widehat\sigma^2$ (Equation~\ref{eq:pooled-var})
 \widehat\sigma^2 = \frac{RSS_1}{n}
 \label{eq:pooled-var}
 \end{equation}
-The residual sum of squares ``RSS_1'' is an expression that
+The residual sum of squares ``RSS$_1$'' is an expression that
 tells us how far each observed trait measurement is
 from its predicted value for a
 set of specified parameter values. Equation~\ref{eq:rss1} defines residual
