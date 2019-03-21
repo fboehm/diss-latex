@@ -10,14 +10,23 @@
 %\usepackage[lite]{mtpro2} %contains \widetilde
 \usepackage[titletoc]{appendix}
 \usepackage{amsmath}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+%            pdftitle={Chapter 1},
+%            pdfauthor={Frederick Boehm},
+%            pdfborder={0 0 0},
+            colorlinks=true,
+            breaklinks=true}
+
 \usepackage[
     backend=biber,
-    maxbibnames=1000,
-    style=apa,
-    natbib=true,
+    style=authoryear,
+    citestyle=authoryear,
+    natbib=true, %citet and citep
     url=true, 
     doi=true,
     eprint=true,
+    maxbibnames=10,
     backref=true
 ]{biblatex}
 \DeclareLanguageMapping{english}{english-apa}
@@ -54,10 +63,6 @@
 
 
 
-\usepackage{hyperref}
-\hypersetup{
-    colorlinks=true
-}
 \DeclareFloatingEnvironment[fileext=frm,placement={!ht},name=Frame]{myfloat}
 \captionsetup[myfloat]{labelfont=bf}
 \newenvironment{frameenv}[1]
@@ -1106,7 +1111,33 @@ The addition of a random effect to a model with fixed (\emph{i.e.}, nonrandom)
 effects results in what statisticians call a ``linear mixed effects model''. 
 
 
-\section{Benefits of a pleiotropy test in multiparental populations}\label{sec:pleiotropy-mpp}
+\section{Potential benefits of a pleiotropy test in multiparental populations}\label{sec:pleiotropy-mpp}
+
+The complex traits genetics community needs a pleiotropy test for
+multiparental populations. Having such a test, when experimentalists are
+measuring tens of thousands of traits on subjects from multiparental populations,
+would enable our community to address new and interesting biological questions.
+For example, we can dissect an expression trait QTL hotspot by asking how many
+separate QTL are present within the hotspot. Additionally, we can inform experimental
+validation studies by addressing whether a pair of putatively related traits share a
+pleiotropic QTL.
+
+I present in Chapter 2 a pleiotropy test for multiparental populations. I discuss in 
+detail our statistical methods before studying the test's statistical properties,
+including type I error rate and power. I then apply the test to data from Diversity
+Outbred mice. In Chapter 3, I study the test through three vignettes. I first examine
+its contributions relative to mediation analysis in the dissection of expression QTL
+hotspots. I then examine statistical power to distinguish local expression trait QTLs.
+I conclude Chapter 3 by applying the pleiotropy test to two microbiome-related traits,
+where we obtain a result consistent with a pleiotropic QTL that affects both traits.
+Chapter 4 consists of a user guide to the R software package `qtl2pleio`, which is
+available on Github (\url{https://github.com/fboehm/qtl2pleio}, 
+\url{https://fboehm.us/static/software/qtl2pleio/}). The Github repository also
+features integration with the Binder software project. Thus, a user may explore the
+code in an interactive R session. 
+
+
+
 
 
 
@@ -3795,7 +3826,7 @@ percent time in light & 8 & 55.28 & 5.27 \\
 
 % latex table generated in R 3.5.1 by xtable 1.8-3 package
 % Tue Dec 18 18:18:00 2018
-{\tiny
+{\small
 \begin{longtable}{lrr}
 \caption{LOD peak positions and peak heights for 147 expression traits that map to the Chromosome 2 expression trait hotspot. We see that some transcript levels have LOD scores, per our calculations, below the 7.18 genome-wide threshold. We believe that this is due to differences in statistical modeling between our analyses and those of \citet{keller2018genetic}.}\label{tab:chr2-hot}\\ 
 % perhaps inclusion or exclusion of an intercept term.
@@ -3963,12 +3994,10 @@ Mtfp1 & 163.52 & 17.79 \\
 }
 % latex table generated in R 3.5.2 by xtable 1.8-3 package
 % Thu Jan  3 16:43:33 2019
-\begin{table}[ht]
-\caption{Annotations for 76 non-anchor genes on Chromosome 19.}\label{tab:ann76}
-\centering
-\begingroup\tiny
-\begin{tabular}{>{\em}lrrrr}
-  \hline
+{\small
+\begin{longtable}{lrrrr}
+\caption{Annotations for 76 non-anchor genes on Chromosome 19.}\label{tab:ann76}\\
+\hline \\
 Gene & Start & End & Peak position & LOD \\
   \hline
 C030046E11Rik & 29.52 & 29.61 & 29.55 & 95.58 \\
@@ -4048,9 +4077,8 @@ C030046E11Rik & 29.52 & 29.61 & 29.55 & 95.58 \\
   Ubtd1 & 41.98 & 42.03 & 41.71 & 10.25 \\
   Lipk & 34.01 & 34.05 & 34.29 & 10.23 \\
    \hline
-\end{tabular}
-\endgroup
-\end{table}
+\end{longtable}
+}
 
 
 \end{appendices}
