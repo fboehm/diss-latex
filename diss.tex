@@ -534,8 +534,16 @@ Those readers with backgrounds in statistics may recognize that the likelihood r
 test for presence of a QTL in a two-parent backcross is equivalent to a t-test. 
 
 After calculating the likelihood ratio test statistic at every marker,
-]I need to obtain p-values for every test. Because I'm performing many tests (\emph{i.e.}, one per marker), I wish to 
-
+one needs to obtain p-values for every test. Because a statistician performs many
+tests (\emph{i.e.}, one per marker) in a genome-wide QTL scan, one should perform
+a permutation test to determine adjusted p-values. In this permutation test, one
+shuffles or randomizes subjects' trait values to get a ``permuted phenotype''. One
+does this many times to obtain, say, 1000 permuted phenotypes. Each permuted phenotype
+is then analyzed with a univariate QTL scan. The statistician records, for
+each permuted phenotype, the maximum observed LOD score from the genome-wide scan to
+obtain an empirical distribution of ``max LOD score'' statistics. One then
+determines the $95^{th}$ percentile of the empirical distribution and uses it as 
+a critical value. 
 
 
 %%%%%%% pleio test in 2-parent crosses
@@ -574,47 +582,31 @@ genetic variation.
 Extensions of our model and software to accommodate dominance effects are straightforward.
 
 
-\citet{jiang1995multiple} use a mixture model to relate genotypes to phenotypes. 
-They observe that the there are 9 possible ordered pairs of genotypes for two markers in a F$_2$ population, since each marker has one of three genotypes (AA, AB, BB).
-They thus approach the problem as one with a 9-state mixture model. 
-They provide the equations needed for an expectation-conditional maximization
-(ECM) algorithm for fitting the mixture model.
+\citet{jiang1995multiple} use a statistical ``mixture model'' to relate genotypes to phenotypes. 
+They observe that the there are 9 possible ordered pairs of genotypes for two
+markers in a F$_2$ population, since each marker has
+one of three genotypes (AA, AB, BB).
+They thus approach the problem as one with a 9-component mixture model, with one 
+component for each ordered pair of genotypes. 
+They provide the equations needed for an
+expectation-conditional maximization algorithm, a variant of the expectation maximization algorithm, to find a local maximum in the likelihood surface \citep{dempster1977maximum,meng1993maximum}. 
 They use a chi-square distribution with one degree of freedom as the
 null distribution of the test statistic. 
 
-Further investigations by \citet{jiang1995multiple} with simulations revealed
-reasonable behavior of the hypothesis test under the specified conditions. 
-They learned that dense marker coverage tends to aid in distinguishing pleiotropy
-from separate QTL. \todo[inline]{IS THIS TRUE?? look back at JZ 1995's simulations. How did they examine power and type I error rates? Do they examine univariate LOD strength when considering power? What about interlocus distance? AND KAO 2000}
 
+In statistical terminology, one would say that the parameter space is restricted
+under the null hypothesis. Here, the parameter space is the collection of ordered
+pairs of markers in the genomic region of interest. The restriction of that collection
+under pleiotropy corresponds to limiting consideration to only those ordered pairs
+that have both traits mapping to a single locus. 
 
+We illustrate these ideas in a drawing of a two-dimensional grid
+(Figure~\ref{fig:encircle}). Each point in the grid corresponds to an ordered pair of
+markers. Along the horizontal axis are the markers for the first component of the
+ordered pair; the second component of the ordered pair is indicated by the vertical
+axis. The red points correspond to those that are considered under the pleiotropy
+hypothesis. Under the alternative hypothesis, all grid points are considered.
 
-
-
-
-
-
-
-
-They use a computational algorithm called ``expectation - conditional maximization'' to find these values. 
-ECM is an iterative algorithm. 
-The user inputs starting values for the parameters and the algorithm changes them one at a
-time until the change in log likelihood between successive iterations is sufficiently small.
-The algorithm is then said to have ``converged''. 
-The final iteration’s parameter values are treated as those that maximize the likelihood.
-
-
-\citet{jiang1995multiple}, in the context of their multivariate QTL mapping methods, 
-describe a test of pleiotropy vs. separate QTL. 
-They formulate a test in which the null hypothesis
-is pleiotropy while the the alternative hypothesis is separate QTL.
-In other words, they consider the case in which the two traits map to the same locus
-(pleiotropy) as a special case of the more general setting (separate QTL)
-in which the two traits may or may not map to the same locus.
-
-In statistical terminology, one would say that the parameter space is restricted under the null hypothesis. Here, the parameter space is the collection of ordered pairs of markers in the genomic region of interest. The restriction of that collection under pleiotropy corresponds to limiting consideration to only those ordered pairs that have both traits mapping to a single locus. 
-
-We illustrate these ideas in a drawing of a two-dimensional grid (Figure~\ref{fig:encircle}). Each point in the grid corresponds to an ordered pair of markers. Along the horizontal axis are the markers for the first component of the ordered pair; the second component of the ordered pair is indicated by the vertical axis. The red points correspond to those that are considered under the pleiotropy hypothesis. Under the alternative hypothesis, all grid points are considered. 
 
 
 
@@ -632,12 +624,13 @@ We illustrate these ideas in a drawing of a two-dimensional grid (Figure~\ref{fi
 \citet{jiang1995multiple} then calculate the likelihoods of the two models
 (that under the hypothesis of pleiotropy and that under the hypothesis of separate QTL)
 at each ordered pair of putative loci in the genomic region of interest.
-The likelihood ratio test statistic is the logarithm of the ratio of the maximum
+The likelihood ratio test statistic (for the pleiotropy test)
+is the ratio of the maximum
 of the likelihoods under pleiotropy to the maximum of the likelihoods under
-the separate QTL hypothesis. 
-
-\citet{jiang1995multiple} determined p-values for their test statistics by comparing
-them to a chi-squared distribution with 1 degree of freedom. 
+the separate QTL hypothesis. \citet{jiang1995multiple} determined
+p-values for their test statistics by comparing
+them, after logarithm transformation and multiplication by two,
+to a chi-squared distribution with 1 degree of freedom. 
 
 
 
@@ -648,15 +641,15 @@ them to a chi-squared distribution with 1 degree of freedom.
 Near the turn of the century, geneticists sought a mammalian gene mapping resource 
 that could be used for study of a wide variety of quantitative traits. 
 The magnitude of such an undertaking required a collaborative, community-supported
-approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred (DO)
-mouse population as such a high-resolution gene mapping resource.
+approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred
+mouse population as such a high-resolution gene mapping resource \citep{churchill2012diversity,svenson2012high}.
 They elected to seed the population with partially inbred progenitors of the
-Collaborative Cross lines. The Collaborative Cross mating design started with
+Collaborative Cross lines \citep{churchill2004collaborative}. The Collaborative Cross mating design started with
 mice from eight inbred lines: A/J, C57BL/6J, 129S1/SvImJ,
-NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ. Three of these lines, CAST/EiJ, PWK/PhJ, and WSB/EiJ, are wild-derived. Together, the three wild-derived lines contribute 
+NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ. Three of these lines, CAST/EiJ, PWK/PhJ, and WSB/EiJ, are wild-derived. Together, the three wild-derived lines contribute a high proportion of the genetic variants in the Diversity Outbred mice. 
 
 The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to generate
-mice with DNA from all eight founder lines over the course of 3 generations.
+mice with DNA from all eight founder lines over the course of 3 generations \citep{churchill2004collaborative}.
 The term ``funnel'' refers to the design for the first 3 mating generations in which the
 DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders.
 For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H in the first generation (Figure~\ref{fig:ri8}).
@@ -676,18 +669,26 @@ Subsequent generations of inbreeding resulted in multiple inbred lines for the C
 
 
 
-The designers of the Diversity Outbred population started with \todo[inline]{get number of mice and from which generations}
+The designers of the Diversity Outbred population started with 167 breeding pairs
+from Collaborative Cross generations F4 to F12 \citep{svenson2012high}. They since
+have maintained the Diversity Outbred mouse population with about 175 mating pairs.
+They produce three or four generations per year. Offspring from each mating are either
+used to create the next generation or shared with researchers around the world \citep{svenson2012high,chesler2016diversity}. 
 
-Due to the breeding scheme, each Diversity Outbred mouse is a highly heterozygous mosaic of 
-founders' DNA (Figure)\todo{add figure with mosaics over multiple generations here}. 
+Due to the breeding scheme, each Diversity Outbred mouse is a highly heterozygous and essentially unique mosaic of 
+founders' DNA \todo{add figure for one mouse's DNA?? like figure 5A in Svenson et al. 2012}
 With each generation, the Diversity Outbred mice accumulate meiotic recombinations. 
 This is because each mouse inherits DNA from its parents, and each meiosis provides opportunities for recombinations. \todo[inline]{need to explain this better. How does Andrew explain it in his thesis?}
 
-The cumulative effect of recombinations over many generations of outbreeding is to create mice whose DNA mosaic contains smaller and smaller contiguous pieces from each founder line. 
+ 
 
-The Diversity Outbred mice enable high-resolution QTL mapping \citep{gatti2014quantitative}. One factor that contributes to high-resolution mapping is the ability to infer the founder line from which each marker's DNA arose. 
-
-
+The Diversity Outbred mice enable high-resolution QTL mapping 
+\citep{gatti2014quantitative,broman2019rqtl2}. The cumulative effect of meiotic
+recombinations over many generations of outbreeding is to create mice whose DNA
+mosaics contain smaller and smaller contiguous pieces from each founder line. QTL
+mapping resolution improves as the total number of (detectable) meiotic recombinations
+increases. Thus, Diversity Outbred mice from later generations have greater mapping
+resolution.
 
 
 \section{QTL mapping in Diversity Outbred mice}\label{sec:do-qtl}
@@ -698,15 +699,18 @@ The next step, missing genotypes inference, is needed because of the ``missing d
 
 % model form - connecting genotype to phenotype
 
-After inferring founder allele dosages, we address the second major statistical challenge of 
+After inferring founder allele dosages, we address the
+second major statistical challenge of 
 QTL mapping: the ``model selection'' problem \citep{broman2009guide}.
 Linear regression is widely used because of its ease of implementation,
 computational speed, and interpretability of results.
-A genetically ``additive'' linear model, in which we assume a linear relationship between
-a trait's values and each founder allele's dosage, is the default model.
+A genetically ``additive'' linear model, in which
+we assume a linear relationship between
+a trait's values and each founder allele's dosage, is a popular default model.
 \citep{gatti2014quantitative,broman2019rqtl2}.
 The R package \texttt{qtl2} provides a straightforward user
-interface to include covariates and interaction terms in the linear model \citep{broman2019rqtl2}.
+interface to include covariates and interaction terms in the linear 
+model \citep{broman2019rqtl2}.
 
 
 
@@ -727,7 +731,13 @@ allele of the second subject. Measured in terms of the probability that a random
 from one subject is identical to a randomly chosen allele of a second subject, we note that
 this probability of identity by state is $\frac{5}{8}$ in the backcross. F$_2$ subject pairs in an intercross, likewise, have a single, shared average relatedness, with an identity by state probability of $\frac{1}{2}$.
 
-Because relatedness can confound genotype-phenotype associations \citep{yang2014advantages}, researchers have developed methods to account for relatedness in their statistical models. One popular approach involves use of a polygenic random effect in the statistical model \citep{kang2008efficient}. The addition of a random effect to a model with fixed (\emph{i.e.}, nonrandom) effects results in what statisticians call a ``linear mixed effects model''. 
+Because relatedness can confound genotype-phenotype associations 
+\citep{yang2014advantages}, researchers have developed methods to account 
+for relatedness in their statistical models. One popular approach involves 
+use of a polygenic random effect in the statistical model \citep{kang2008efficient}.
+The addition of a random effect to a model with fixed (\emph{i.e.}, nonrandom)
+effects results in what statisticians call a ``linear mixed effects model''. 
+
 
 \section{Benefits of a pleiotropy test in multiparental populations}\label{sec:pleiotropy-mpp}
 
