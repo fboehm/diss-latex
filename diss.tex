@@ -351,7 +351,9 @@ members of two inbred lines. The offspring of this mating event,
 termed the ``F$_1$'', or ``first filial'', generation then mate
 with members of one of the two parent lines. The experiment designers
 decide which line (A or B) mates with F$_1$ subjects
-with. The F$_1$ subjects mate with the specified founder line (A in Figure~\ref{fig:backcross}) to create generation ``BC'' subjects. Generation ``BC'' subjects are then genotyped and phenotyped for QTL mapping. 
+with. The F$_1$ subjects mate with the specified founder line 
+(A in Figure~\ref{fig:backcross}) to create generation ``BC'' subjects. 
+Generation BC subjects are then genotyped and phenotyped for QTL mapping. 
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
@@ -363,8 +365,8 @@ with. The F$_1$ subjects mate with the specified founder line (A in Figure~\ref{
 
 
 As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation
-``BC'') have, for any locus, only two possible genotypes: heterozygote (AB)
-and homozygote (AA in the figure).
+BC) have, for any locus, only two possible genotypes: heterozygote (AB)
+and homozygote (AA).
 The F$_1$ generation is heterozygous at all loci (Figure~\ref{fig:backcross}) because 
 they inherited one chromosome (of each pair) from each parent.
 While meiotic crossovers may occur in the founder generation, these crossover events are
@@ -384,6 +386,26 @@ This poor mapping resolution corresponds to the relatively large segments
 of contiguous DNA, on average, that are inherited from, ultimately, the founder lines.
 
 
+Figure~\ref{fig:bc-pheno} illustrates hypothetical values for a single phenotype
+in two founder lines (A and B), F$_1$ progeny, and a backcross population. 
+Mean phenotype values for each sample are indicated by blue vertical lines. 
+Each circle corresponds to a single subject.
+In practice, one might not phenotype F$_1$ subjects because the QTL mapping is performed in
+the BC subjects. 
+However, one often measures the most important phenotypes in founder line subjects before 
+the matings. This permits the experimenter to ensure that the two lines differ 
+sufficiently in phenotype values. Notice that the F$_1$ mean phenotype is intermediate
+between the two founder line means. The BC mean phenotype is between the F$_1$ mean and the
+AA founder line mean. It's also valuable to consider the range in the observations in each 
+of the four samples. The BC subjects' values are spread out much more than those of the 
+three other samples. This corresponds to the observation that BC subjects have either one 
+or two copies of the A allele at each marker (Figure~\ref{fig:backcross}). 
+The other three samples have an unambiguous
+number of A alleles at each marker: two for AA founder line, zero for BB founder line, and
+one for the F$_1$ subjects.
+
+
+
 
 
 
@@ -392,7 +414,7 @@ of contiguous DNA, on average, that are inherited from, ultimately, the founder 
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\maxwidth,height=5in]{figure/backcross-1} \caption[Breeding scheme for a backcross]{Breeding scheme for a backcross. Each pair of autosomes represents a single subject.}\label{fig:backcross}
+\includegraphics[width=\maxwidth,height=5in]{figure/backcross-1} \caption[Breeding scheme for a backcross]{Breeding scheme for a backcross. Each pair of autosomes represents a single subject. (From \citet{broman2009guide})}\label{fig:backcross}
 \end{figure}
 
 
@@ -401,7 +423,7 @@ of contiguous DNA, on average, that are inherited from, ultimately, the founder 
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\maxwidth,height=5in]{figure/intercross-1} \caption[Breeding scheme for an intercross]{Breeding scheme for an intercross. Each pair of autosomes represents a single subject.}\label{fig:intercross}
+\includegraphics[width=\maxwidth,height=5in]{figure/intercross-1} \caption[Breeding scheme for an intercross]{Breeding scheme for an intercross. Each pair of autosomes represents a single subject. (From \citet{broman2009guide})}\label{fig:intercross}
 \end{figure}
 
 
@@ -465,12 +487,18 @@ one subject, a chromosome with genotyped markers at the tick marks.
 The triangle represents a position at which we wish to know the allele's identity.
 We now consider a strategy for inference of genotypes at intermarker positions.
 
-\begin{figure}
-\includegraphics[width = \textwidth]{figs/genoprob1.pdf}
-\caption{Inferring genotypes at an intermarker position.}\label{fig:genoprob1}
+%\begin{figure}
+%\includegraphics[width = \textwidth]{figs/genoprob1.pdf}
+%\caption{Inferring genotypes at an intermarker position.}\label{fig:genoprob1}
+%\end{figure}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
+\includegraphics[width=\maxwidth,height=2in]{figure/genoprob1-1} \caption[Inferring genotypes at an intermarker position (from \citet{broman2009guide})]{Inferring genotypes at an intermarker position (from \citet{broman2009guide})}\label{fig:genoprob1}
 \end{figure}
 
 
+\end{knitrout}
 
 
 A flexible framework for resolving the ``missing data'' problem involves use of a

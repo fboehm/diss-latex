@@ -357,13 +357,33 @@ This poor mapping resolution corresponds to the relatively large segments
 of contiguous DNA, on average, that are inherited from, ultimately, the founder lines.
 
 
+Figure~\ref{fig:bc-pheno} illustrates hypothetical values for a single phenotype
+in two founder lines (A and B), F$_1$ progeny, and a backcross population. 
+Mean phenotype values for each sample are indicated by blue vertical lines. 
+Each circle corresponds to a single subject.
+In practice, one might not phenotype F$_1$ subjects because the QTL mapping is performed in
+the BC subjects. 
+However, one often measures the most important phenotypes in founder line subjects before 
+the matings. This permits the experimenter to ensure that the two lines differ 
+sufficiently in phenotype values. Notice that the F$_1$ mean phenotype is intermediate
+between the two founder line means. The BC mean phenotype is between the F$_1$ mean and the
+AA founder line mean. It's also valuable to consider the range in the observations in each 
+of the four samples. The BC subjects' values are spread out much more than those of the 
+three other samples. This corresponds to the observation that BC subjects have either one 
+or two copies of the A allele at each marker (Figure~\ref{fig:backcross}). 
+The other three samples have an unambiguous
+number of A alleles at each marker: two for AA founder line, zero for BB founder line, and
+one for the F$_1$ subjects.
 
 
 
 
 
 
-<<backcross, fig.cap = "Breeding scheme for a backcross. Each pair of autosomes represents a single subject.", fig.lp="fig:", out.height = "5in">>=
+
+
+
+<<backcross, fig.cap = "Breeding scheme for a backcross. Each pair of autosomes represents a single subject. (From \\citet{broman2009guide})", fig.lp="fig:", out.height = "5in">>=
 # load utility functions
 source("meiosis_func.R")
 
@@ -432,7 +452,7 @@ text(38-25,95/2,"BC",cex=1.5,adj=c(1,0.5))
 @
 
 
-<<intercross, fig.cap = "Breeding scheme for an intercross. Each pair of autosomes represents a single subject.", fig.lp="fig:", out.height="5in">>=
+<<intercross, fig.cap = "Breeding scheme for an intercross. Each pair of autosomes represents a single subject. (From \\citet{broman2009guide})", fig.lp="fig:", out.height="5in">>=
 par(mar=rep(0.1,4), bty="n")
 plot(0,0,xlim=c(-15,864),ylim=c(0,480),xaxt="n",yaxt="n",xlab="",ylab="",type="n")
 xd <- 2
@@ -549,24 +569,18 @@ one subject, a chromosome with genotyped markers at the tick marks.
 The triangle represents a position at which we wish to know the allele's identity.
 We now consider a strategy for inference of genotypes at intermarker positions.
 
-\begin{figure}
-\includegraphics[width = \textwidth]{figs/genoprob1.pdf}
-\caption{Inferring genotypes at an intermarker position.}\label{fig:genoprob1}
-\end{figure}
+%\begin{figure}
+%\includegraphics[width = \textwidth]{figs/genoprob1.pdf}
+%\caption{Inferring genotypes at an intermarker position.}\label{fig:genoprob1}
+%\end{figure}
 
-<<genoprobs, out.height="2in", eval = FALSE>>=
+<<genoprob1, fig.cap="Inferring genotypes at an intermarker position (from \\citet{broman2009guide})", out.height="2in", fig.height = 2, fig.width = 6.5, eval = TRUE>>=
 bw <- FALSE
-if(bw) source("colors_bw.R") else source("colors.R")
+source("colors.R")
 
-if(bw) {
-  #pdf(file="../Figs/genoprob1_bw.pdf", width=9.5, height=2, pointsize=16, onefile=TRUE)
-  par(fg="black",col="black",col.axis="black",col.lab="black",
+
+par(fg="white",col="white",col.axis="white",col.lab="white",
       bg=bgcolor)
-} else {
-  #pdf(file="../Figs/genoprob1.pdf", width=9.5, height=2, pointsize=16, onefile=TRUE)
-  par(fg="white",col="white",col.axis="white",col.lab="white",
-      bg=bgcolor)
-}
 
 par(mar=rep(0.1,4), bty="n")
 plot(0,0,type="n", xlab="", ylab="", xaxt="n", yaxt="n",
@@ -581,15 +595,9 @@ segments(5,95,95,95, lwd=2)
 segments(x, 92, x, 98, lwd=2)
 text(x, 85, c("A","A","A","A","A","B"))
 x2 <- 48
-if(!bw) {
   points(x2, 100, col=color[2], lwd=2, pch=6, cex=1.3)
   arrows(x2, 70, x2, 80, len=0.1, lwd=2, col=color[2])
   text(x2, 68, "?", col=color[2], adj=c(0.5,1), cex=1.2)
-} else {
-  points(x2, 100, col=color[1], lwd=2, pch=6, cex=1.3)
-  arrows(x2, 70, x2, 80, len=0.1, lwd=2, col=color[1])
-  text(x2, 68, "?", col=color[1], adj=c(0.5,1), cex=1.2)
-}
 
 @
 
@@ -629,15 +637,23 @@ a function of the parameters conditional on the observed
 data (Equation~\ref{eq:lik-bc}).
 
 \begin{equation}
-L(\text{AA mean}, \text{B allele effect}, \text{random error variance}| \text{genotypes}, \text{measured trait values}) = \prod_{i=1}^n \phi(y_i; \mu_{AA}, \beta, \sigma^2)
+L(\text{AA mean}, \text{B allele effect}, \text{random error variance}| \text{genotypes}, \text{phenotypes}) = \prod_{i=1}^n \phi(y_i; \mu_{AA}, \beta, \sigma^2)
 \label{eq:lik-bc}
 \end{equation}
 
 The symbol $\prod$ denotes a product of indexed terms.
-The index range for the terms are given above and below the $\prod$ symbol. Here, $n$ is our sample size.
-In Equation~\ref{eq:lik-bc}, our three parameters are ``AA mean trait value'' 
+The index range for the terms are given above and below the $\prod$ symbol. 
+Here, $n$ is the sample size.
+In Equation~\ref{eq:lik-bc}, the three parameters are ``AA mean trait value'' 
 ($\mu_{AA}$), ``B allele effect'' ($\beta$), and the random error
-variance, which we denote $\sigma^2$. We use maximum likelihood
+variance, which we denote $\sigma^2$. In other words, I am specifying the 
+mean phenotype values for the three genotype classes. Genotype class AA has 
+mean phenotype value of $\mu_{AA}$, genotype class AB has mean phenotype
+value of $\mu_{AA} + \beta$ and genotype class BB has mean 
+phenotype value of $\mu_{AA} + 2\beta$. I assume that the error variance, $\sigma^2$ 
+is the same for all three genotype classes.
+
+We use maximum likelihood
 methods to estimate parameter values. The maximum likelihood estimates
 for three parameters are the sample mean of trait values for those with
 AA genotype, the difference in sample mean between those with AA
@@ -650,8 +666,8 @@ $\widehat\sigma^2$ (Equation~\ref{eq:pooled-var})
 \end{equation}
 The residual sum of squares ``RSS$_1$'', which is central to the
 calculation of the pooled variance estimate, is an expression that
-tells us how far each observed trait measurement is
-from its predicted value for a
+tells us how far the observed trait measurements are
+from the predicted values, for a
 set of specified parameter values. Equation~\ref{eq:rss1} defines residual
 sum of squares for a univariate QTL analysis.
 
@@ -675,11 +691,9 @@ In other words, under the null hypothesis, those with genotype AB
 have the same
 mean trait value as those with genotype AA, while under the alternative hypothesis,
 the mean trait values for the two genotype classes may differ. 
-Those readers with backgrounds in statistics may recognize that the likelihood ratio
-test for presence of a QTL in a two-parent backcross is equivalent to a t-test. 
 
 After calculating the likelihood ratio test statistic at every marker,
-one needs to obtain p-values for every test. Because a statistician performs many
+one needs to obtain p-values for every test. Because a researcher performs many
 tests (\emph{i.e.}, one per marker) in a genome-wide QTL scan, one should perform
 a permutation test to determine adjusted p-values. In this permutation test, one
 shuffles or randomizes subjects' trait values to get a ``permuted phenotype''. One
@@ -688,7 +702,7 @@ is then analyzed with a univariate QTL scan. The statistician records, for
 each permuted phenotype, the maximum observed LOD score from the genome-wide scan to
 obtain an empirical distribution of ``max LOD score'' statistics. One then
 determines the $95^{th}$ percentile of the empirical distribution and uses it as 
-a critical value. 
+a critical value when assessing statistical significance of observed peaks.
 
 
 %%%%%%% pleio test in 2-parent crosses
