@@ -218,9 +218,12 @@ genomic regions that affect complex traits, such as systolic blood pressure and 
 A genome-wide QTL ``scan'' reveals
 associations between genotypes and phenotypes by considering each position,
 one at a time, as a candidate QTL for the trait of interest.
-A region with strong evidence of association, then, defines a QTL. Because nearby markers have correlated
-genotypes, a QTL in a two-parent cross often spans multiple megabases in length and may contain more than a hundred genes.
-Identification of the causal gene from among those genes near the QTL is challenging and may require costly and time-consuming experiments. 
+A region with strong evidence of association, then, defines a QTL. 
+Because nearby markers have correlated
+genotypes, a QTL in a two-parent cross often spans multiple megabases in length
+and may contain more than a hundred genes.
+Identification of the causal gene from among those genes near the QTL is
+challenging and may require costly and time-consuming experiments. 
 The growing need for greater QTL mapping resolution fueled development over the
 last two decades of model organism multiparental populations for high-resolution QTL mapping.
 With experimentalists now measuring tens of thousands of biomolecular traits 
@@ -232,6 +235,97 @@ complex trait genetics.
 In this thesis, I develop a test of pleiotropy vs. separate QTL in multiparental
 populations. I study its statistical properties and demonstrate its usefulness
 with real experimental data. 
+
+<<load-broman>>=
+library(broman)
+@
+
+
+<<pleiotropy-2traits, fig.height = 4, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "One pleiotropic QTL. Figure after code from https://github.com/kbroman/QTLFigs repository">>=
+bgcolor <- brocolors("bg")
+iArrows <- igraph:::igraph.Arrows
+
+par(fg="white",col="white",col.axis="white",col.lab="white",col.main="white",
+    bg=bgcolor, mar=rep(0.1, 4), bty="n")
+
+plot(0,0, xaxt="n", yaxt="n", xlab="", ylab="", type="n",
+     xlim=c(-16-2/3, 150), ylim=c(0, 100), xaxs="i", yaxs="i")
+x <- c(25, 75)
+xmid <- 50
+y <- seq(10, 90, len=5)
+text(x[1], y[3], expression(Q))
+
+text(x[2], y[2], expression(Y[2]))
+#text(x[2], y[3], expression(Y[2]))
+text(x[2], y[4], expression(Y[1]))
+
+arrowcol <- brocolors("crayons")["Cerulean"]
+xd <- 8
+yd <- 3.5
+arrowlwd <- 5
+arrowlen <- 0.3
+arrows(x[1]+xd, y[3] - yd, x[2] - xd, y[2] + yd, lwd=arrowlwd,
+      col=arrowcol, len=arrowlen)
+arrows(x[1]+xd, y[3] + yd, x[2] - xd, y[4] - yd, lwd=arrowlwd,
+      col=arrowcol, len=arrowlen)
+@
+
+
+
+<<separate-2traits, fig.height = 4, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "Two separate QTL. Figure after code from https://github.com/kbroman/QTLFigs repository">>=
+bgcolor <- brocolors("bg")
+iArrows <- igraph:::igraph.Arrows
+
+#pdf("Figs/pleiotropy_network.pdf", height=6, width=10, pointsize=32)
+par(fg="white",col="white",col.axis="white",col.lab="white",col.main="white",
+    bg=bgcolor, mar=rep(0.1, 4), bty="n")
+
+plot(0,0, xaxt="n", yaxt="n", xlab="", ylab="", type="n",
+     xlim=c(-16-2/3, 150), ylim=c(0, 100), xaxs="i", yaxs="i")
+x <- c(25, 75)
+y <- seq(10, 90, len=5)
+text(x[1], y[2], expression(Q[2]))
+text(x[1], y[4], expression(Q[1]))
+
+text(x[2], y[2], expression(Y[2]))
+#text(x[2], y[3], expression(Y[2]))
+text(x[2], y[4], expression(Y[1]))
+
+arrowcol <- brocolors("crayons")["Cerulean"]
+xd <- 8
+#yd <- 3.5
+yd <- 0
+arrowlwd <- 5
+arrowlen <- 0.3
+arrows(x[1]+xd, y[2], x[2]-xd, y[2], lwd=arrowlwd,
+      col=arrowcol, len=arrowlen)
+arrows(x[1]+xd, y[2]+yd, x[2]-xd, y[3]-yd, lwd=arrowlwd,
+      col=arrowcol, len=arrowlen)
+#arrows(x[1]+xd, y[4]-yd, x[2]-xd, y[3]+yd, lwd=arrowlwd,
+ #     col=arrowcol, len=arrowlen)
+arrows(x[1]+xd, y[4]+yd, x[2]-xd, y[4]-yd, lwd=arrowlwd,
+      col=arrowcol, len=arrowlen)
+
+arrowcol <- brocolors("crayons")["Tickle Me Pink"]
+yd2 <- 4
+xd2 <- 8
+iArrows(x[1]-xd2, y[2]+yd2, x[1]-xd2, y[4]-yd2,
+       h.lwd=arrowlwd, sh.lwd=arrowlwd,  sh.col=arrowcol,
+       curve=1, width=arrowlwd, size=0.3, code=0)
+# code=3 makes it double-headed
+# code=0 makes no heads
+
+# adding the heads "manually"
+xd3 <- 0.05
+yd3 <- 0.05
+arrows(x[1]-xd2-xd3, y[4]-yd2-yd3, x[1]-xd2, y[4]-yd2,
+       lwd=arrowlwd, col=arrowcol, len=arrowlen)
+arrows(x[1]-xd2-xd3, y[2]+yd2+yd3, x[1]-xd2, y[2]+yd2,
+       lwd=arrowlwd, col=arrowcol, len=arrowlen)
+@
+
+
+
 
 In the first chapter, I introduce statistical methods in QTL 
 mapping studies and argue for the need to develop a pleiotropy test
@@ -714,7 +808,8 @@ both \citet{jiang1995multiple} and \citet{korol1995interval} developed
 multivariate interval mapping procedures for two-parent crosses. 
 Among the novel methods from \citet{jiang1995multiple} is a test of pleiotropy vs separate QTL.
 They explain that such a test is useful when two traits map to a single genomic region.
-The question then arises ``do the two traits associate with the same locus, or do they associate with separate loci''?
+The question then arises ``do the two traits associate with the same locus, 
+or do they associate with separate loci''?
 
 If both traits associate with the same locus, then that locus is called ``pleiotropic''.
 If the two traits associate with separate loci, then we say that
@@ -730,9 +825,12 @@ vec(Y) = Xvec(B) + vec(E)\label{eq:jz95}
 \end{equation}
 
 
-In Equation~\ref{eq:jz95}, $Y$ is a $n$ by $2$ matrix of trait values (with each row being one subject and each column being one trait)
-, $X$ is a $2n$ by $4$ block-diagonal matrix containing genotype data for two positions, and $B$ is a $4$ by $1$ matrix of allele effects.
-The random error is assumed to follow a normal distribution with mean zero and a positive variance.
+In Equation~\ref{eq:jz95}, $Y$ is a $n$ by $2$ matrix of trait values (with each 
+row being one subject and each column being one trait)
+, $X$ is a $2n$ by $4$ block-diagonal matrix containing genotype data for two positions, 
+and $B$ is a $4$ by $1$ matrix of allele effects.
+The random error is assumed to follow a normal distribution with mean zero and a 
+positive variance.
 \citet{jiang1995multiple} also incorporate additional terms to model dominant effects and to
 control for residual genetic variation.
 To simplify model specification, we forego inclusion of dominant terms
@@ -748,7 +846,9 @@ one of three genotypes (AA, AB, BB).
 They thus approach the problem as one with a 9-component mixture model, with one 
 component for each ordered pair of genotypes. 
 They provide the equations needed for an
-expectation-conditional maximization algorithm, a variant of the expectation maximization algorithm, to find a local maximum in the likelihood surface \citep{dempster1977maximum,meng1993maximum}. 
+expectation-conditional maximization algorithm, a variant of the expectation maximization
+algorithm, to find a local maximum in the likelihood surface 
+\citep{dempster1977maximum,meng1993maximum}. 
 They use a chi-square distribution with one degree of freedom as the
 null distribution of the test statistic. 
 
@@ -822,17 +922,24 @@ Near the turn of the century, geneticists sought a mammalian gene mapping resour
 that could be used for study of a wide variety of quantitative traits. 
 The magnitude of such an undertaking required a collaborative, community-supported
 approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred
-mouse population as such a high-resolution gene mapping resource \citep{churchill2012diversity,svenson2012high}.
+mouse population as such a high-resolution gene mapping resource 
+\citep{churchill2012diversity,svenson2012high}.
 They elected to seed the population with partially inbred progenitors of the
-Collaborative Cross lines \citep{churchill2004collaborative}. The Collaborative Cross mating design started with
+Collaborative Cross lines \citep{churchill2004collaborative}. 
+The Collaborative Cross mating design started with
 mice from eight inbred lines: A/J, C57BL/6J, 129S1/SvImJ,
-NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ. Three of these lines, CAST/EiJ, PWK/PhJ, and WSB/EiJ, are wild-derived. Together, the three wild-derived lines contribute a high proportion of the genetic variants in the Diversity Outbred mice. 
+NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ. 
+Three of these lines, CAST/EiJ, PWK/PhJ, and WSB/EiJ, are wild-derived. 
+Together, the three wild-derived lines contribute a high proportion of 
+the genetic variants in the Diversity Outbred mice. 
 
 The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to generate
-mice with DNA from all eight founder lines over the course of 3 generations \citep{churchill2004collaborative}.
+mice with DNA from all eight founder lines over the course of 3 generations
+\citep{churchill2004collaborative}.
 The term ``funnel'' refers to the design for the first 3 mating generations in which the
 DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders.
-For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H in the first generation (Figure~\ref{fig:ri8}).
+For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H
+in the first generation (Figure~\ref{fig:ri8}).
 AB offspring would then mate with CD offspring and EF offspring would mate with GH mice.
 Finally, the ABCD mice would mate with the EFGH mice to create a generation of mice that
 contain genetic material from all eight inbred founder lines.
@@ -1091,12 +1198,15 @@ The designers of the Diversity Outbred population started with 167 breeding pair
 from Collaborative Cross generations F4 to F12 \citep{svenson2012high}. They since
 have maintained the Diversity Outbred mouse population with about 175 mating pairs.
 They produce three or four generations per year. Offspring from each mating are either
-used to create the next generation or shared with researchers around the world \citep{svenson2012high,chesler2016diversity}. 
+used to create the next generation or shared with researchers around the 
+world \citep{svenson2012high,chesler2016diversity}. 
 
-Due to the breeding scheme, each Diversity Outbred mouse is a highly heterozygous and essentially unique mosaic of 
+Due to the breeding scheme, each Diversity Outbred mouse is a highly 
+heterozygous and essentially unique mosaic of 
 founders' DNA \todo{add figure for one mouse's DNA?? like figure 5A in Svenson et al. 2012}
-With each generation, the Diversity Outbred mice accumulate meiotic recombinations. 
-This is because each mouse inherits DNA from its parents, and each meiosis provides opportunities for recombinations. \todo[inline]{need to explain this better. How does Andrew explain it in his thesis?}
+With each new generation, the Diversity Outbred mice accumulate meiotic recombinations. 
+This is because each mouse inherits DNA from its parents, and each meiosis provides
+opportunities for recombinations. \todo[inline]{need to explain this better. How does Andrew explain it in his thesis?}
 
  
 
