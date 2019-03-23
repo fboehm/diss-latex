@@ -214,7 +214,7 @@ The dissertation is approved by the following members of the Final Oral Committe
 \chapter{Introduction}
 
 Quantitative trait locus (QTL) studies in model organisms like mice can identify 
-genomic regions that affect complex traits, such as systolic blood pressure and body weight.
+genomic regions that affect complex traits, such as systolic blood pressure and body weight \citep{broman2009guide,jansen2007quantitative}.
 A genome-wide QTL ``scan'' reveals
 associations between genotypes and phenotypes by considering each position,
 one at a time, as a candidate QTL for the trait of interest.
@@ -223,24 +223,35 @@ genotypes, a QTL in a two-parent cross often spans multiple megabases in length 
 Identification of the causal gene from among those genes near the QTL is challenging and may require costly and time-consuming experiments. 
 The growing need for greater QTL mapping resolution fueled development over the
 last two decades of model organism multiparental populations for high-resolution QTL mapping.
-In this thesis, I develop a test of pleiotropy vs. separate QTL in multiparental populations. I study its statistical properties and demonstrate its usefulness with real experimental data. 
+With experimentalists now measuring tens of thousands of biomolecular traits 
+in multiparental populations, the systems genetics community needs multivariate
+statistical tools to fully examine the large volumes of data \citep{keller2018genetic}. 
+A test of pleiotropy
+vs. separate QTL is one multivariate statistical tool that will inform
+complex trait genetics.
+In this thesis, I develop a test of pleiotropy vs. separate QTL in multiparental
+populations. I study its statistical properties and demonstrate its usefulness
+with real experimental data. 
 
-I use the first chapter to introduce statistical methods in QTL 
-mapping studies and to argue for the need to develop a pleiotropy test
+In the first chapter, I introduce statistical methods in QTL 
+mapping studies and argue for the need to develop a pleiotropy test
 in multiparental populations. Existing pleiotropy tests for two-parent
 crosses don't directly apply to multiparental populations because of the
 multi-allelic genotype data and complex relatedness patterns.
 A pleiotropy test for multiparental populations with high-dimensional
-phenotypes would enable dissection of QTL hotspots (\emph{i.e.}, small 
+traits would enable dissection of QTL hotspots (\emph{i.e.}, small 
 genomic regions that affect many traits) and would complement newly 
 developed methods in causal inference for systems genetics.
 
 
 I begin Chapter 1 by motivating the study of
 pleiotropy with a case study of the pleiotropic \emph{Agouti} gene.
-I then consider two-parent crosses, with emphases on experimental design, QTL mapping methods, and pleiotropy testing. 
-I then turn to multiparental populations, where I describe experimental design and QTL mapping
-methods. I conclude Chapter 1 by reiterating the need to develop a test of pleiotropy vs. separate QTL in multiparental populations.
+I then consider two-parent crosses, with emphases on experimental design,
+QTL mapping methods, and pleiotropy testing. 
+I then turn to multiparental populations, where I describe experimental
+design and QTL mapping
+methods. I conclude Chapter 1 by reiterating the need to develop a
+test of pleiotropy vs. separate QTL in multiparental populations.
 
 <<pkgs>>=
 library(qtl)
@@ -268,7 +279,7 @@ the brain as a leading cause of inherited obesity in humans \citep{farooqi2003cl
 Therapeutics to mitigate the effects of disruptions in melanocortin receptor signaling are
 currently being developed \citep{macneil2002role,fani2014melanocortin}.
 The case of pleiotropic \emph{Agouti} variants illustrates the potential value of examining pleiotropy in QTL studies.
-We next consider designs for and QTL mapping in two-parent crosses (Sections~\ref{sec:two-parent-designs} and~\ref{sec:qtl-two-parent}).
+We next consider designs and QTL mapping in two-parent crosses (Sections~\ref{sec:two-parent-designs} and~\ref{sec:qtl-two-parent}).
 
 
 
@@ -299,9 +310,9 @@ Two widely used two-parent crosses are the ``backcross'' and the
 members of two inbred lines. The offspring of this mating event,
 termed the ``F$_1$'', or ``first filial'', generation then mate
 with members of one of the two parent lines. The experiment designers
-decide which line the female is chosen from and which line the F$_1$ mate
-with. Thus, there are a total of four possible backcrosses for any pair
-of inbred lines. 
+decide which line (A or B) mates with F$_1$ subjects
+with. 
+
 
 As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation
 ``BC'') have, for any locus, only two possible genotypes: heterozygote (AB)
@@ -3662,33 +3673,7 @@ this service.
 
 
 %%% Start Ch5
-\chapter{Conclusions}
-
-I've successfully developed a pleiotropy test for multiparental populations.
-I discussed our new methods in Chapter 2.
-In Chapter 3, we illustrated the test's use in three vignettes.
-The first vignette compared pleiotropy testing with mediation analysis
-in the dissection of expression trait QTL hotspots.
-I learned that the pleiotropy test provides information about the
-number of underlying QTL even when mediation analyses don't identify intermediates. 
-The second vignette examined my test's power to detect separate QTL
-in pairs of local expression traits.
-I learned that both interlocus distance and univariate LOD scores
-impact test statistic values. 
-In the last vignette, I applied my test to two gut microbiome-related traits.
-From this analysis, I learned that the two traits share a pleiotropic QTL and, thus,
-it is reasonable to conduct further causal modeling studies for these two traits.
-Chapter 4 demonstrates features of the `qtl2pleio` R package.
-This package implements my pleiotropy test and uses the data structures in the R package `qtl2` \citep{broman2019rqtl2}.
-
-\section{A multivariate pleiotropy test}
-
-Pleiotropy tests for two traits at a time have a valuable role in complex trait genetics. However, to fully use the tens of thousands of experimentally measured traits, we need to consider testing more than two traits at a time. Suppose that five traits map to a single region spanned by 100 markers. One might perform a series of $\binom{5}{2} = 10$ bivariate QTL scans and 10 pairwise tests for pleiotropy. Each bivariate scan would require $100^2 = 10,000$ model fits by generalized least squares. Alternatively, one could perform a d-variate QTL scan, with $d=5$ in this case. With the results of the d-variate scan, a variety of statistical hypotheses could be tested. For example, one could formulate a test for the null hypothesis that all five traits share a pleiotropic QTL against the alternative that the first two traits share a single QTL and the last three traits share a distinct, pleiotropic QTL. The d-variate scan over the 100-marker region, would require $100^d = 100^5 = 10$ billion model fits via generalized least squares. With distributed computing resources, including the resources at the University of Wisconsin's Center for High-throughput Computing, this is not an unreasonable volume of computing. The use of C++ for generalized least squares calculations decreases the computing time for each model fit. 
-
-\section{Sensitivity analysis for unmeasured confounding in mediation analysis}
-
-
-
+\include{ch5.tex}
 %%%% END Ch5
 
 \printbibliography
