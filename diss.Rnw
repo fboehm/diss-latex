@@ -144,7 +144,7 @@
 <<include=FALSE>>=
 library(knitr)
 opts_chunk$set(
-concordance=TRUE, echo = FALSE, fig.lp = "fig:", warning = FALSE, message = FALSE
+concordance=TRUE, echo = FALSE, fig.lp = "fig:", warning = FALSE, message = FALSE, results = "hide"
 )
 @
 
@@ -241,23 +241,23 @@ library(broman)
 @
 
 
-<<pleiotropy-2traits, fig.height = 4, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "One pleiotropic QTL. Figure after code from https://github.com/kbroman/QTLFigs repository">>=
+<<pleiotropy-2traits, fig.height = 3, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "One pleiotropic QTL. Figure after code from https://github.com/kbroman/QTLFigs repository.">>=
 bgcolor <- brocolors("bg")
 iArrows <- igraph:::igraph.Arrows
 
 par(fg="white",col="white",col.axis="white",col.lab="white",col.main="white",
-    bg=bgcolor, mar=rep(0.1, 4), bty="n")
+    bg=bgcolor, 
+    mar=rep(0.1, 4), bty="n")
 
 plot(0,0, xaxt="n", yaxt="n", xlab="", ylab="", type="n",
      xlim=c(-16-2/3, 150), ylim=c(0, 100), xaxs="i", yaxs="i")
 x <- c(25, 75)
-xmid <- 50
 y <- seq(10, 90, len=5)
-text(x[1], y[3], expression(Q))
+text(x[1], y[3], expression(Q), cex = 2)
 
-text(x[2], y[2], expression(Y[2]))
+text(x[2], y[2], expression(Y[2]), cex = 2)
 #text(x[2], y[3], expression(Y[2]))
-text(x[2], y[4], expression(Y[1]))
+text(x[2], y[4], expression(Y[1]), cex = 2)
 
 arrowcol <- brocolors("crayons")["Cerulean"]
 xd <- 8
@@ -272,11 +272,8 @@ arrows(x[1]+xd, y[3] + yd, x[2] - xd, y[4] - yd, lwd=arrowlwd,
 
 
 
-<<separate-2traits, fig.height = 4, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "Two separate QTL. Figure after code from https://github.com/kbroman/QTLFigs repository">>=
-bgcolor <- brocolors("bg")
-iArrows <- igraph:::igraph.Arrows
+<<separate-2traits, fig.height = 3, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "Two separate QTL. Figure after code from https://github.com/kbroman/QTLFigs repository.">>=
 
-#pdf("Figs/pleiotropy_network.pdf", height=6, width=10, pointsize=32)
 par(fg="white",col="white",col.axis="white",col.lab="white",col.main="white",
     bg=bgcolor, mar=rep(0.1, 4), bty="n")
 
@@ -284,12 +281,12 @@ plot(0,0, xaxt="n", yaxt="n", xlab="", ylab="", type="n",
      xlim=c(-16-2/3, 150), ylim=c(0, 100), xaxs="i", yaxs="i")
 x <- c(25, 75)
 y <- seq(10, 90, len=5)
-text(x[1], y[2], expression(Q[2]))
-text(x[1], y[4], expression(Q[1]))
+text(x[1], y[2], expression(Q[2]), cex = 2)
+text(x[1], y[4], expression(Q[1]), cex = 2)
 
-text(x[2], y[2], expression(Y[2]))
+text(x[2], y[2], expression(Y[2]), cex = 2)
 #text(x[2], y[3], expression(Y[2]))
-text(x[2], y[4], expression(Y[1]))
+text(x[2], y[4], expression(Y[1]), cex = 2)
 
 arrowcol <- brocolors("crayons")["Cerulean"]
 xd <- 8
@@ -299,8 +296,8 @@ arrowlwd <- 5
 arrowlen <- 0.3
 arrows(x[1]+xd, y[2], x[2]-xd, y[2], lwd=arrowlwd,
       col=arrowcol, len=arrowlen)
-arrows(x[1]+xd, y[2]+yd, x[2]-xd, y[3]-yd, lwd=arrowlwd,
-      col=arrowcol, len=arrowlen)
+#arrows(x[1]+xd, y[2]+yd, x[2]-xd, y[3]-yd, lwd=arrowlwd,
+#      col=arrowcol, len=arrowlen)
 #arrows(x[1]+xd, y[4]-yd, x[2]-xd, y[3]+yd, lwd=arrowlwd,
  #     col=arrowcol, len=arrowlen)
 arrows(x[1]+xd, y[4]+yd, x[2]-xd, y[4]-yd, lwd=arrowlwd,
