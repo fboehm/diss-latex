@@ -311,12 +311,33 @@ members of two inbred lines. The offspring of this mating event,
 termed the ``F$_1$'', or ``first filial'', generation then mate
 with members of one of the two parent lines. The experiment designers
 decide which line (A or B) mates with F$_1$ subjects
-with. 
+with. The F$_1$ subjects mate with the specified founder line 
+(A in Figure~\ref{fig:backcross}) to create generation ``BC'' subjects. 
+Generation BC subjects are then genotyped and phenotyped for QTL mapping. 
+
+<<bc-pheno, fig.cap="Simulated hypothetical phenotype data for two inbred lines, F$_1$ progeny, and a backcross population (Figure 1.4 from \\cite{broman2009guide})", fig.lp="fig:", fig.height = 3, fig.width = 6, out.width='\\textwidth'>>=
+# http://www.rqtl.org/book/RqtlBook_Code/fig01.R -- figure 1.4
+set.seed(4131972)
+data(map10)
+bc <- sim.cross(map10, type="bc", n.ind=50,
+                model=cbind(1:5, 50, 0.5))
+bc$pheno <- ((2*bc$qtlgeno - 3) %*% rep(1, 5)) + rnorm(50, 31.7*0.75+45*0.25, 2.5)
+
+x <- rev(list("A" = rnorm(15, 31.7, 2.5),
+          "B" = rnorm(15, 45.4, 2.5),
+          "F1" = rnorm(15, (31.7+45.4)/2,  2.5),
+          "BC" = bc$pheno[,1]))
+par(las=1, mar=c(4.1,2.1,0.1,0.1))
+stripchart(x, method="jitter", pch=1, xlab="Phenotype", cex.lab = 1.5)
+abline(h=1:4, lty=2)
+me <- sapply(x, mean)
+segments(me, 1:4-0.2, me, 1:4+0.2, lwd=3, col="blue")
+@
 
 
 As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation
-``BC'') have, for any locus, only two possible genotypes: heterozygote (AB)
-and homozygote (AA in the figure).
+BC) have, for any locus, only two possible genotypes: heterozygote (AB)
+and homozygote (AA).
 The F$_1$ generation is heterozygous at all loci (Figure~\ref{fig:backcross}) because 
 they inherited one chromosome (of each pair) from each parent.
 While meiotic crossovers may occur in the founder generation, these crossover events are
@@ -3673,7 +3694,7 @@ this service.
 
 
 %%% Start Ch5
-\include{ch5.tex}
+\include{ch5}
 %%%% END Ch5
 
 \printbibliography
