@@ -241,85 +241,6 @@ library(broman)
 @
 
 
-<<pleiotropy-2traits, fig.height = 3, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "One pleiotropic QTL. Figure after code from https://github.com/kbroman/QTLFigs repository.">>=
-bgcolor <- brocolors("bg")
-iArrows <- igraph:::igraph.Arrows
-
-par(fg="white",col="white",col.axis="white",col.lab="white",col.main="white",
-    bg=bgcolor, 
-    mar=rep(0.1, 4), bty="n")
-
-plot(0,0, xaxt="n", yaxt="n", xlab="", ylab="", type="n",
-     xlim=c(-16-2/3, 150), ylim=c(0, 100), xaxs="i", yaxs="i")
-x <- c(25, 75)
-y <- seq(10, 90, len=5)
-text(x[1], y[3], expression(Q), cex = 2)
-
-text(x[2], y[2], expression(Y[2]), cex = 2)
-#text(x[2], y[3], expression(Y[2]))
-text(x[2], y[4], expression(Y[1]), cex = 2)
-
-arrowcol <- brocolors("crayons")["Cerulean"]
-xd <- 8
-yd <- 3.5
-arrowlwd <- 5
-arrowlen <- 0.3
-arrows(x[1]+xd, y[3] - yd, x[2] - xd, y[2] + yd, lwd=arrowlwd,
-      col=arrowcol, len=arrowlen)
-arrows(x[1]+xd, y[3] + yd, x[2] - xd, y[4] - yd, lwd=arrowlwd,
-      col=arrowcol, len=arrowlen)
-@
-
-
-
-<<separate-2traits, fig.height = 3, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "Two separate QTL. Figure after code from https://github.com/kbroman/QTLFigs repository.">>=
-
-par(fg="white",col="white",col.axis="white",col.lab="white",col.main="white",
-    bg=bgcolor, mar=rep(0.1, 4), bty="n")
-
-plot(0,0, xaxt="n", yaxt="n", xlab="", ylab="", type="n",
-     xlim=c(-16-2/3, 150), ylim=c(0, 100), xaxs="i", yaxs="i")
-x <- c(25, 75)
-y <- seq(10, 90, len=5)
-text(x[1], y[2], expression(Q[2]), cex = 2)
-text(x[1], y[4], expression(Q[1]), cex = 2)
-
-text(x[2], y[2], expression(Y[2]), cex = 2)
-#text(x[2], y[3], expression(Y[2]))
-text(x[2], y[4], expression(Y[1]), cex = 2)
-
-arrowcol <- brocolors("crayons")["Cerulean"]
-xd <- 8
-#yd <- 3.5
-yd <- 0
-arrowlwd <- 5
-arrowlen <- 0.3
-arrows(x[1]+xd, y[2], x[2]-xd, y[2], lwd=arrowlwd,
-      col=arrowcol, len=arrowlen)
-#arrows(x[1]+xd, y[2]+yd, x[2]-xd, y[3]-yd, lwd=arrowlwd,
-#      col=arrowcol, len=arrowlen)
-#arrows(x[1]+xd, y[4]-yd, x[2]-xd, y[3]+yd, lwd=arrowlwd,
- #     col=arrowcol, len=arrowlen)
-arrows(x[1]+xd, y[4]+yd, x[2]-xd, y[4]-yd, lwd=arrowlwd,
-      col=arrowcol, len=arrowlen)
-
-arrowcol <- brocolors("crayons")["Tickle Me Pink"]
-yd2 <- 4
-xd2 <- 8
-iArrows(x[1]-xd2, y[2]+yd2, x[1]-xd2, y[4]-yd2,
-       h.lwd=arrowlwd, sh.lwd=arrowlwd,  sh.col=arrowcol,
-       curve=1, width=arrowlwd, size=0.3, code=0)
-# code=3 makes it double-headed
-# code=0 makes no heads
-
-# adding the heads "manually"
-xd3 <- 0.05
-yd3 <- 0.05
-arrows(x[1]-xd2-xd3, y[4]-yd2-yd3, x[1]-xd2, y[4]-yd2,
-       lwd=arrowlwd, col=arrowcol, len=arrowlen)
-arrows(x[1]-xd2-xd3, y[2]+yd2+yd3, x[1]-xd2, y[2]+yd2,
-       lwd=arrowlwd, col=arrowcol, len=arrowlen)
-@
 
 
 
@@ -800,18 +721,105 @@ a critical value when assessing statistical significance of observed peaks.
 \section{Testing pleiotropy in two-parent crosses}\label{sec:pleiotropy-two-parent}
 
 In anticipation that multivariate mapping of correlated traits would enhance statistical
-power to detect QTL and would improve precision of QTL positions,
+power to detect QTL and would improve precision of QTL position estimates,
 both \citet{jiang1995multiple} and \citet{korol1995interval} developed
 multivariate interval mapping procedures for two-parent crosses. 
-Among the novel methods from \citet{jiang1995multiple} is a test of pleiotropy vs separate QTL.
+Among the novel methods from \citet{jiang1995multiple} is a test of pleiotropy vs. separate QTL.
 They explain that such a test is useful when two traits map to a single genomic region.
 The question then arises ``do the two traits associate with the same locus, 
 or do they associate with separate loci''?
 
 If both traits associate with the same locus, then that locus is called ``pleiotropic''.
-If the two traits associate with separate loci, then we say that
-there are separate QTL (one for each trait). 
-In the development of their test of pleiotropy v separate QTL, \citet{jiang1995multiple} model
+If the two traits associate with separate loci, then I say that
+there are separate QTL (one for each trait). Figures~\ref{fig:pleiotropy-2traits}
+and \ref{fig:separate-2traits} provide schematics for the two possibilities.
+In Figure~\ref{fig:pleiotropy-2traits}, a single QTL (denoted by Q) affects both traits.
+In Figure~\ref{fig:separate-2traits} two distinct QTL (Q1 and Q2) affect one trait each. The pink arrows indicate that Q1 and Q2 are on the same chromosome and are correlated by linkage disequilibrium.
+
+<<pleiotropy-2traits, fig.height = 3, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "One pleiotropic QTL. Figure after code from https://github.com/kbroman/QTLFigs repository.">>=
+bgcolor <- brocolors("bg")
+iArrows <- igraph:::igraph.Arrows
+
+par(fg="white",col="white",col.axis="white",col.lab="white",col.main="white",
+    bg=bgcolor, 
+    mar=rep(0.1, 4), bty="n")
+
+plot(0,0, xaxt="n", yaxt="n", xlab="", ylab="", type="n",
+     xlim=c(-16-2/3, 150), ylim=c(0, 100), xaxs="i", yaxs="i")
+x <- c(25, 75)
+y <- seq(10, 90, len=5)
+text(x[1], y[3], expression(Q), cex = 2)
+
+text(x[2], y[2], expression(Y[2]), cex = 2)
+#text(x[2], y[3], expression(Y[2]))
+text(x[2], y[4], expression(Y[1]), cex = 2)
+
+arrowcol <- brocolors("crayons")["Cerulean"]
+xd <- 8
+yd <- 3.5
+arrowlwd <- 5
+arrowlen <- 0.3
+arrows(x[1]+xd, y[3] - yd, x[2] - xd, y[2] + yd, lwd=arrowlwd,
+      col=arrowcol, len=arrowlen)
+arrows(x[1]+xd, y[3] + yd, x[2] - xd, y[4] - yd, lwd=arrowlwd,
+      col=arrowcol, len=arrowlen)
+@
+
+
+
+<<separate-2traits, fig.height = 3, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "Two separate QTL. Figure after code from https://github.com/kbroman/QTLFigs repository.">>=
+
+par(fg="white",col="white",col.axis="white",col.lab="white",col.main="white",
+    bg=bgcolor, mar=rep(0.1, 4), bty="n")
+
+plot(0,0, xaxt="n", yaxt="n", xlab="", ylab="", type="n",
+     xlim=c(-16-2/3, 150), ylim=c(0, 100), xaxs="i", yaxs="i")
+x <- c(25, 75)
+y <- seq(10, 90, len=5)
+text(x[1], y[2], expression(Q[2]), cex = 2)
+text(x[1], y[4], expression(Q[1]), cex = 2)
+
+text(x[2], y[2], expression(Y[2]), cex = 2)
+#text(x[2], y[3], expression(Y[2]))
+text(x[2], y[4], expression(Y[1]), cex = 2)
+
+arrowcol <- brocolors("crayons")["Cerulean"]
+xd <- 8
+#yd <- 3.5
+yd <- 0
+arrowlwd <- 5
+arrowlen <- 0.3
+arrows(x[1]+xd, y[2], x[2]-xd, y[2], lwd=arrowlwd,
+      col=arrowcol, len=arrowlen)
+#arrows(x[1]+xd, y[2]+yd, x[2]-xd, y[3]-yd, lwd=arrowlwd,
+#      col=arrowcol, len=arrowlen)
+#arrows(x[1]+xd, y[4]-yd, x[2]-xd, y[3]+yd, lwd=arrowlwd,
+ #     col=arrowcol, len=arrowlen)
+arrows(x[1]+xd, y[4]+yd, x[2]-xd, y[4]-yd, lwd=arrowlwd,
+      col=arrowcol, len=arrowlen)
+
+arrowcol <- brocolors("crayons")["Tickle Me Pink"]
+yd2 <- 4
+xd2 <- 8
+iArrows(x[1]-xd2, y[2]+yd2, x[1]-xd2, y[4]-yd2,
+       h.lwd=arrowlwd, sh.lwd=arrowlwd,  sh.col=arrowcol,
+       curve=1, width=arrowlwd, size=0.3, code=0)
+# code=3 makes it double-headed
+# code=0 makes no heads
+
+# adding the heads "manually"
+xd3 <- 0.05
+yd3 <- 0.05
+arrows(x[1]-xd2-xd3, y[4]-yd2-yd3, x[1]-xd2, y[4]-yd2,
+       lwd=arrowlwd, col=arrowcol, len=arrowlen)
+arrows(x[1]-xd2-xd3, y[2]+yd2+yd3, x[1]-xd2, y[2]+yd2,
+       lwd=arrowlwd, col=arrowcol, len=arrowlen)
+@
+
+
+
+In the development of their test of pleiotropy v separate QTL,
+\citet{jiang1995multiple} model
 the multivariate trait as the sum of a linear function of the genotypes and
 a random error term. They assume that the traits matrix is related to the
 genotype data through Equation~\ref{eq:jz95}.
@@ -823,27 +831,32 @@ vec(Y) = Xvec(B) + vec(E)\label{eq:jz95}
 
 
 In Equation~\ref{eq:jz95}, $Y$ is a $n$ by $2$ matrix of trait values (with each 
-row being one subject and each column being one trait)
-, $X$ is a $2n$ by $4$ block-diagonal matrix containing genotype data for two positions, 
+row being one subject and each column being one trait),
+$X$ is a $2n$ by $4$ block-diagonal matrix containing
+genotype data for two positions, 
 and $B$ is a $4$ by $1$ matrix of allele effects.
 The random error is assumed to follow a normal distribution with mean zero and a 
 positive variance.
-\citet{jiang1995multiple} also incorporate additional terms to model dominant effects and to
+\citet{jiang1995multiple} also incorporate additional terms to model
+dominant effects and to
 control for residual genetic variation.
 To simplify model specification, we forego inclusion of dominant terms
 and additional markers for controlling residual
 genetic variation.
-Extensions of our model and software to accommodate dominance effects are straightforward.
+Extensions of our model and software to accommodate dominance effects
+are straightforward.
 
 
-\citet{jiang1995multiple} use a statistical ``mixture model'' to relate genotypes to phenotypes. 
+\citet{jiang1995multiple} use a statistical ``mixture model'' to relate
+genotypes to phenotypes. 
 They observe that the there are 9 possible ordered pairs of genotypes for two
 markers in a F$_2$ population, since each marker has
 one of three genotypes (AA, AB, BB).
 They thus approach the problem as one with a 9-component mixture model, with one 
 component for each ordered pair of genotypes. 
 They provide the equations needed for an
-expectation-conditional maximization algorithm, a variant of the expectation maximization
+expectation-conditional maximization algorithm, a variant of
+the expectation-maximization
 algorithm, to find a local maximum in the likelihood surface 
 \citep{dempster1977maximum,meng1993maximum}. 
 They use a chi-square distribution with one degree of freedom as the
@@ -852,12 +865,14 @@ null distribution of the test statistic.
 
 In statistical terminology, one would say that the parameter space is restricted
 under the null hypothesis. Here, the parameter space is the collection of ordered
-pairs of markers in the genomic region of interest. The restriction of that collection
+pairs of markers in the genomic region of interest.
+The restriction of that collection
 under pleiotropy corresponds to limiting consideration to only those ordered pairs
 that have both traits mapping to a single locus. 
 
 We illustrate these ideas in a drawing of a two-dimensional grid
-(Figure~\ref{fig:encircle}). Each point in the grid corresponds to an ordered pair of
+(Figure~\ref{fig:encircle}).
+Each point in the grid corresponds to an ordered pair of
 markers. Along the horizontal axis are the markers for the first component of the
 ordered pair; the second component of the ordered pair is indicated by the vertical
 axis. The red points correspond to those that are considered under the pleiotropy
@@ -898,9 +913,8 @@ tibble(c1, c2, foo = as.factor(foo)) %>%
 
 
 
-\citet{jiang1995multiple} then calculate the likelihoods of the two models
-(that under the hypothesis of pleiotropy and that under the hypothesis of separate QTL)
-at each ordered pair of putative loci in the genomic region of interest.
+\citet{jiang1995multiple} then calculate the likelihoods of the models
+corresponding to all grid points.
 The likelihood ratio test statistic (for the pleiotropy test)
 is the ratio of the maximum
 of the likelihoods under pleiotropy to the maximum of the likelihoods under
@@ -908,9 +922,6 @@ the separate QTL hypothesis. \citet{jiang1995multiple} determined
 p-values for their test statistics by comparing
 them, after logarithm transformation and multiplication by two,
 to a chi-squared distribution with 1 degree of freedom. 
-
-
-
 
 
 \section{Designs for multiparental populations and Diversity Outbred mice}\label{sec:mpp-designs}
@@ -922,9 +933,12 @@ approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred
 mouse population as such a high-resolution gene mapping resource 
 \citep{churchill2012diversity,svenson2012high}.
 They elected to seed the population with partially inbred progenitors of the
-Collaborative Cross lines \citep{churchill2004collaborative}. 
+Collaborative Cross lines \citep{churchill2004collaborative}. The Collaborative
+Cross is a collection of 
+dozens of inbred lines that result from shuffling of the eight founder line
+genomes and multiple generations of inbreeding. 
 The Collaborative Cross mating design started with
-mice from eight inbred lines: A/J, C57BL/6J, 129S1/SvImJ,
+mice from A/J, C57BL/6J, 129S1/SvImJ,
 NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ. 
 Three of these lines, CAST/EiJ, PWK/PhJ, and WSB/EiJ, are wild-derived. 
 Together, the three wild-derived lines contribute a high proportion of 
@@ -936,9 +950,9 @@ mice with DNA from all eight founder lines over the course of 3 generations
 The term ``funnel'' refers to the design for the first 3 mating generations in which the
 DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders.
 For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H
-in the first generation (Figure~\ref{fig:ri8}).
-AB offspring would then mate with CD offspring and EF offspring would mate with GH mice.
-Finally, the ABCD mice would mate with the EFGH mice to create a generation of mice that
+in the first generation (Figure~\ref{fig:ri8}) (where ``x'' denotes mating).
+AB offspring then mate with CD offspring and EF offspring mate with GH mice.
+Finally, the ABCD mice mate with the EFGH mice to create a generation of mice that
 contain genetic material from all eight inbred founder lines.
 Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross.
 
@@ -1220,7 +1234,7 @@ resolution.
 
 QTL mapping in Diversity Outbred mice, like that in mice from two-parent crosses, is a multi-step procedure: 1. data acquisition, 2. inference of missing genotypes, and 3. modeling phenotypes as a function of genotypes. Data acquisition involves measurement of phenotypes and, at specified genetic markers, termed ``single nucleotide polymorphism'' or SNP markers, measurement of two-allele genotypes. Often, the SNP marker genotypes are obtained by use of a microarray, such as the GigaMUGA SNP microarray \citep{morgan2015mouse}. 
 
-The next step, missing genotypes inference, is needed because of the ``missing data problem'' \citep{broman2009guide}. It takes as input the two-allele genotypes at the measured SNP markers. An expectation maximization algorithm \citep{dempster1977maximum} for a hidden Markov model, developed by \citet{broman2012haplotype} and \citet{broman2012genotype} and implemented in the \texttt{qtl2} R package \citep{broman2019rqtl2}, outputs 36-state genotype probabilities for all nuclear autosomal markers and pseudomarkers. Pseudomarkers, as we use the term, are arbitrary nucleotide bases at which the researcher wants 36-state genotype probabilities. Finally, we collapse the 36-state genotype probabilities to eight founder allele dosages at each marker. This last step is optional, but often helpful, because the simplified models require specification of fewer parameters. We then treat the founder allele dosages as known quantities in subsequent steps. 
+The next step, missing genotypes inference, is needed because of the ``missing data problem'' \citep{broman2009guide}. It takes as input the two-allele genotypes at the measured SNP markers. An expectation-maximization algorithm \citep{dempster1977maximum} for a hidden Markov model, developed by \citet{broman2012haplotype} and \citet{broman2012genotype} and implemented in the \texttt{qtl2} R package \citep{broman2019rqtl2}, outputs 36-state genotype probabilities for all nuclear autosomal markers and pseudomarkers. Pseudomarkers, as we use the term, are arbitrary nucleotide bases at which the researcher wants 36-state genotype probabilities. Finally, we collapse the 36-state genotype probabilities to eight founder allele dosages at each marker. This last step is optional, but often helpful, because the simplified models require specification of fewer parameters. We then treat the founder allele dosages as known quantities in subsequent steps. 
 
 % model form - connecting genotype to phenotype
 
