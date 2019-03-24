@@ -1,6 +1,8 @@
 \documentclass[oneside]{book}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[utf8]{inputenc}
+\usepackage{lineno}
+\linenumbers
 \usepackage{setspace}
 \usepackage[left = 1in, right = 1in, top = 1.5in, bottom = 1in]{geometry}
 \usepackage{multirow}
@@ -214,27 +216,27 @@ The dissertation is approved by the following members of the Final Oral Committe
 \chapter{Introduction}
 
 Quantitative trait locus (QTL) studies in model organisms like mice can identify 
-genomic regions that affect complex traits, such as systolic blood pressure and body weight \citep{broman2009guide,jansen2007quantitative}.
+genomic regions (termed ``QTL'') that affect complex traits, such as systolic blood pressure and body weight \citep{sax1923association,lander1989mapping,broman2009guide,jansen2007quantitative}.
 A genome-wide QTL ``scan'' reveals
 associations between genotypes and phenotypes by considering each position,
 one at a time, as a candidate QTL for the trait of interest.
-A region with strong evidence of association, then, defines a QTL. 
+A region with strong evidence of association with a complex trait, then, defines a QTL (for that trait). 
 Because nearby markers have correlated
 genotypes, a QTL in a two-parent cross often spans multiple megabases in length
 and may contain more than a hundred genes.
-Identification of the causal gene from among those genes near the QTL is
+Identification of the causal gene (for a given complex trait) from among those genes near the QTL is
 challenging and may require costly and time-consuming experiments. 
 The growing need for greater QTL mapping resolution fueled development over the
-last two decades of model organism multiparental populations for high-resolution QTL mapping.
+last two decades of model organism multiparental populations for high-resolution QTL mapping \citep{de2017back,churchill2004collaborative,svenson2012high,huang2012multiparent,shivakumar2018soybean,huang2011analysis,tisne2017identification,stanley2017genetic}.
 With experimentalists now measuring tens of thousands of biomolecular traits 
 in multiparental populations, the systems genetics community needs multivariate
-statistical tools to fully examine the large volumes of data \citep{keller2018genetic}. 
-A test of pleiotropy
-vs. separate QTL is one multivariate statistical tool that will inform
-complex trait genetics.
+statistical tools to fully examine the large volumes of data \citep{keller2018genetic,chick2016defining}. 
+A test of pleiotropy vs. separate QTL is one multivariate statistical tool that will inform
+complex trait genetics by enabling researchers to identify the number of
+unique QTL in a genomic region of interest.
 In this thesis, I develop a test of pleiotropy vs. separate QTL in multiparental
-populations. I study its statistical properties and demonstrate its usefulness
-with real experimental data. 
+populations. I study its statistical properties and demonstrate its utility
+by analyzing experimental data. 
 
 <<load-broman>>=
 library(broman)
@@ -363,7 +365,7 @@ founder line), we still call them ``heterozygous'' because, in terms of founder 
 The meiotic crossovers that occur as the F$_1$ animals produce gametes often
 are detectable because they result in ``BC'' generation animals that have individual
 chromosomes that contain DNA from both founder lines. Due to the limited number
-of crossovers in a single meiosis, the resulting ``BC'' generation subjects have
+of crossovers in a single meiosis, the resulting BC generation subjects have
 poor QTL mapping resolution.
 This poor mapping resolution corresponds to the relatively large segments
 of contiguous DNA, on average, that are inherited from, ultimately, the founder lines.
@@ -379,13 +381,14 @@ However, one often measures the most important phenotypes in founder line subjec
 the matings. This permits the experimenter to ensure that the two lines differ 
 sufficiently in phenotype values. Notice that the F$_1$ mean phenotype is intermediate
 between the two founder line means. The BC mean phenotype is between the F$_1$ mean and the
-AA founder line mean. It's also valuable to consider the range in the observations in each 
+AA founder line mean. It's also valuable to consider the range in the phenotype values in each 
 of the four samples. The BC subjects' values are spread out much more than those of the 
 three other samples. This corresponds to the observation that BC subjects have either one 
 or two copies of the A allele at each marker (Figure~\ref{fig:backcross}). 
 The other three samples have an unambiguous
 number of A alleles at each marker: two for AA founder line, zero for BB founder line, and
-one for the F$_1$ subjects.
+one for the F$_1$ subjects. Now that we've discussed
+two-parent designs, we turn attention to QTL mapping two-parent crosses.
 
 
 
@@ -550,17 +553,6 @@ Those loci for which the likelihood ratio test statistic is sufficiently large a
 
 
 
-In studies with sparse marker sets, one may use a strategy called ``interval mapping'' 
-to combat what \citet{broman2009guide} call the ``missing data'' problem. 
-The missing data problem refers to the fact that explicit genotyping occurs at
-only a subset of genomic positions, \emph{i.e.}, those positions
-occupied by the markers. In this sense, genotype data at all other
-positions is ``missing''. As genotyping technologies improved and
-associated costs decreased, dense marker sets became available for
-some multiparental populations. For example, the GigaMUGA single
-nucleotide polymorphism (SNP) genotyping microarray \citep{morgan2015mouse} 
-offers a dense marker set for studies of Diversity Outbred and 
-Collaborative Cross mice.
 
 
 
@@ -571,7 +563,7 @@ Collaborative Cross mice.
 
 
 %statistical challenges in QTL mapping
-Two major statistical challenges are what \citet{broman2009guide} call 
+In QTL mapping, two major statistical challenges are what \citet{broman2009guide} call 
 the ``missing data'' problem and the ``model selection'' problem. 
 The ``missing data'' problem arises in QTL studies because genotypes are obtained
 at only select markers. In this sense, genotypes at positions between
@@ -625,17 +617,16 @@ We discuss inference methods for genotype probabilities in Appendix~\ref{sec:sta
 
 
 
-
 % model form - linear regression
-A QTL analysis involves choosing a statistical model to be fitted at every marker. This is the ``model selection'' problem \citep{broman2009guide}.
+A QTL analysis involves choosing a statistical model to be fitted at every marker. The question of which statistical model to use is the ``model selection'' problem \citep{broman2009guide}.
 As in any statistical modeling, there is not one best model selection procedure.
 One needs to decide which main effects and interactions are needed.
 Also, one often transforms the trait values to achieve approximate normality before performing the QTL scan. 
 
 In a two-parent backcross, only two genotypes are possible in 
-generation ``BC'' subjects (Figure~\ref{fig:backcross}). 
+generation BC subjects (Figure~\ref{fig:backcross}). 
 Thus, one may choose a linear model that contains 
-the B allele count (1 or 0) at a specified marker
+the B allele count (1 or 0 for each subject) at each marker
 (Equation~\ref{eq:uni-2-parent}, Figure~\ref{fig:backcross}).
 
 \begin{equation}
@@ -646,7 +637,7 @@ the B allele count (1 or 0) at a specified marker
 Assuming that the random errors are normally distributed (and independent with common
 variance $\sigma^2$) for all subjects, we write the likelihood as
 a function of the parameters conditional on the observed
-data (Equation~\ref{eq:lik-bc}).
+data (Equation~\ref{eq:lik-bc}). We provide a primer on likelihood methods in Appendix. \todo[inline]{add appendix letter here}
 
 \begin{equation}
 L(\text{AA mean}, \text{B allele effect}, \text{random error variance}| \text{genotypes}, \text{phenotypes}) = \prod_{i=1}^n \phi(y_i; \mu_{AA}, \beta, \sigma^2)
