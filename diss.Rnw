@@ -466,6 +466,36 @@ for(i in 1:10) {
 text(38-25,95/2,"BC",cex=1.5,adj=c(1,0.5))
 @
 
+I now consider the intercross design (Figure~\ref{fig:intercross}).
+An intercross differs from a backcross design by mating F$_1$ subjects with each other,
+rather than with a parent line (as in a backcross). Because F$_1$ subjects
+produce gametes with detectable crossovers, the F$_2$ generation animals have,
+for every marker, three genotype classes: AA, AB, and BB. Compare this with
+the backcross, where BC subjects have only two genotype classes (AA and
+AB in Figure~\ref{fig:backcross}).
+I'll discuss the consequences of this distinction on QTL mapping methods below
+(Section~\ref{sec:qtl-two-parent}).
+
+In an intercross, phenotyping and genotyping are typically done in only the F$_2$ subjects.
+As with a backcross, intercross planning may involve genotyping and phenotyping of
+subjects from two (or more) inbred lines. The designers then have the option of
+choosing as founders two inbred lines that demonstrate a big difference in
+mean phenotype values (for traits of interest). 
+
+A plot of simulated phenotype values, analogous to that of Figure~\ref{fig:bc-pheno}, for 
+F$_2$ subjects would tend to reveal an even greater range of measurements than is present in 
+the BC generation. This is due to the three genotype classes (AA, AB, and BB) per marker that 
+are present in samples of F$_2$ subjects. The extent to which the trait value range is greater
+in F$_2$ subjects compared to BC subjects also depends on the true genetic model.
+If the trait is not a linear function of the number of A alleles at a single marker, then the 
+F$_2$ trait range may not exceed that
+in BC subjects. For example, in the extreme case where the B allele dominates the A allele,
+so that AB and BB genotype classes have the same mean trait value,
+the range in a sample of F$_2$ subjects may
+be similar to that of a sample of BC subjects (where the backcross involves mating F$_1$
+subjects with AA subjects). Now that I've considered two widely used two-parent designs, I discuss QTL mapping methods in both the backcross and intercross.
+
+
 
 <<intercross, fig.cap = "Breeding scheme for an intercross. Each pair of autosomes represents a single subject. (From \\citet{broman2009guide})", fig.lp="fig:", out.height="5in">>=
 par(mar=rep(0.1,4), bty="n")
@@ -529,27 +559,48 @@ text(38-25,95/2,expression(F[2]),cex=1.5,adj=c(1,0.5))
 
 \section{QTL mapping in two-parent crosses}\label{sec:qtl-two-parent}
 
-QTL mapping is a systematic, statistical approach to identifying genetic
+QTL mapping is a systematic, statistical approach for identifying genetic
 loci where genetic variation affects variation in a measured trait.
 We use the term ``locus'' to refer to a small, contiguous genomic region, often
-several megabases in length. Standard inputs are genome-wide marker genotypes
-for a collection of study subjects and a set of trait measurements on the same subjects.
+several megabases in length. A variety of statistical methods for QTL mapping
+exist. We discuss below three QTL mapping methods,
+marker regression, interval mapping, and Haley-Knott regression. I consider
+the three methods in analysis of both backcross and intercross designs.
+Before getting to the details of our three QTL mapping methods, I discuss
+data inputs that are required for QTL mapping. 
+
+%QTL mapping inputs
+Standard inputs for QTL mapping are 1. genome-wide marker genotypes
+for a collection of study subjects, 2. a set of trait measurements on the
+same subjects, and 3. a genetic map that contains genomic positions for
+all molecular markers. A physical map, with marker positions in 
+units of megabases, may also be used. 
+Additional inputs, including genotype data (for the same
+set of markers) from founder lines, \emph{i.e.}, the inbred lines that initiate
+the mating design. For example, in Figures~\ref{fig:backcross} and \ref{fig:intercross}
+there are two founder lines at the top of the mating design: 1. those with genotypes AA and 2. those with genotypes BB. 
+
+
 
 % QTL scan (univariate)
 A univariate QTL scan is a procedure to interrogate the entire genome for genetic
-variants that affect a specified trait of interest.
+variants that affect a single trait of interest.
 One specifies a statistical model and calculates the
 likelihood of the model parameters given the observed (trait and marker) data at each genomic position. 
-After obtaining likelihoods for all markers, likelihood ratio test statistics are calculated
+After obtaining likelihoods for models at every marker, likelihood ratio test statistics are calculated
 at every marker. The inputs for these calculations are the likelihoods from the model fits 
 and the likelihood for the null model, which contains no genotype data.
 The resulting likelihood ratios compare, for every marker, the null hypothesis that there is no 
 QTL (at that marker) against the alternative that there is a QTL (at the specified marker).
 In other words, one performs a likelihood ratio test for every marker across the genome.
-Often this amounts to thousands of (statistically dependent) hypothesis tests.
+The analyst typically visualizes likelihood ratio test
+statistics as log$_{10}$ likelihood ratio scores, or ``log odds (LOD)'' scores.
+In modern studies, this amounts to thousands of (statistically dependent)
+hypothesis tests.
 One then uses a permutation test to determine a genome-wide critical value
 for the likelihood ratio test statistic \citep{churchill1994empirical}.
-Those loci for which the likelihood ratio test statistic is sufficiently large are declared QTL. 
+Those loci for which the likelihood ratio test statistic is sufficiently
+large are declared QTL. 
 
 
 
@@ -605,8 +656,79 @@ x2 <- 48
 
 @
 
+The previously mentioned statistical methods for QTL mapping, marker regression, 
+interval mapping, and Haley-Knott regression, differ in strategies for addressing 
+the ``missing data'' problem. I first discuss marker regression, because it is the 
+simplest approach and because the other strategies share some aspects of it.
 
-A flexible framework for resolving the ``missing data'' problem involves use of a
+Marker regression inputs are genome-wide marker genotypes and measured values of a 
+complex trait of interest (from the same subjects). 
+At each marker, one fits a linear model by regressing trait values on marker 
+genotypes (Equation~\ref{eq:uni-2-parent}), sequentially, at each marker. In a 
+backcross, the ``B allele count'' variable takes values of 0 or 1. In an intercross
+, the ``B allele count'' may be 0, 1, or 2. Both backcross and intercross designs 
+permit solution of the regression by a statistical technique called ``ordinary 
+least squares''. In ordinary least squares, one assumes that the random errors for 
+all subjects have the same variance and are statistically independent. Statistical 
+independence means that knowing the value of one subject's random error provides no 
+information about the value of another subject's random error.
+
+
+\begin{equation}
+\text{trait} = \text{mean for AA genotype} + \text{(B allele count)}\text{(B allele effect)} + \text{random error}
+\label{eq:uni-2-parent}
+\end{equation}
+
+The linear regression equation (Equation~\ref{eq:uni-2-parent}) has two statistical 
+parameters, ``B allele effect'' and the variance of the random errors. Notice that 
+the variance of the random errors is not explicitly written in 
+Equation~\ref{eq:uni-2-parent}, while ``B allele effect'' is obviously part 
+of the equation. In this 
+statistical framework, I treat parameters as fixed, but unknown, numbers. I then 
+seek the parameter values that are most compatible with the data, under the 
+assumption that the statistical model is correctly specified. I use the approach 
+called ``maximum likelihood estimation''. Some details of maximum likelihood 
+estimation are in the appendix.
+
+The maximum likelihood estimates for the two parameters, ``B allele effect'' and 
+the random error variance, are given in Equations~\ref{eq:beta-hat} and
+\ref{eq:pooled-var}. Note that I've replaced ``B allele effect'' with 
+the Greek letter 
+$\beta$, while $\sigma^2$ denotes the random error variance. The ``hat'' 
+above $\beta$ indicates that $\hat\beta$ is a maximum likelihood estimate of the 
+parameter $\beta$ (\emph{i.e.}, the unknown ``B allele effect'').
+
+\begin{equation}
+\hat\beta = \frac{\sum_{i=1}^nx_iy_i}{\sum_{i = 1}^nx_i^2}
+\label{eq:beta-hat}
+\end{equation}
+
+
+
+\begin{equation}
+\widehat\sigma^2 = \frac{RSS_1}{n}
+\label{eq:pooled-var}
+\end{equation}
+
+The residual sum of squares ``RSS$_1$'', which is central to the
+calculation of the pooled variance estimate $\widehat\sigma^2$ in Equation~\ref{}, is an expression that
+tells us how far the observed trait measurements are
+from the predicted values, for a
+set of specified parameter values. Equation~\ref{eq:rss1} defines residual
+sum of squares for a univariate QTL analysis.
+
+\begin{equation}
+RSS_1 = \sum_{i=1}^n(y_i - \mu_{AA} - \beta \text{(B allele count)})^2
+\label{eq:rss1}
+\end{equation}
+
+
+
+
+
+%hmm for genotypes & missing data problem
+An innovative and flexible framework for resolving the ``missing data'' problem involves
+use of a statistical tool called a 
 hidden Markov model \citep{broman2009guide, broman2006use}. 
 In this hidden Markov model, marker genotypes are ``observed random variables'', 
 while genotypes at intervening bases are ``unobserved random variables''. 
@@ -618,10 +740,13 @@ We discuss inference methods for genotype probabilities in Appendix~\ref{sec:sta
 
 
 % model form - linear regression
-A QTL analysis involves choosing a statistical model to be fitted at every marker. The question of which statistical model to use is the ``model selection'' problem \citep{broman2009guide}.
+A QTL analysis involves choosing a statistical model to be fitted at every marker.
+The question of which statistical model to use is the
+``model selection'' problem \citep{broman2009guide}.
 As in any statistical modeling, there is not one best model selection procedure.
 One needs to decide which main effects and interactions are needed.
-Also, one often transforms the trait values to achieve approximate normality before performing the QTL scan. 
+Also, one often transforms the trait values to achieve approximate
+normality before performing the QTL scan. 
 
 In a two-parent backcross, only two genotypes are possible in 
 generation BC subjects (Figure~\ref{fig:backcross}). 
@@ -629,10 +754,6 @@ Thus, one may choose a linear model that contains
 the B allele count (1 or 0 for each subject) at each marker
 (Equation~\ref{eq:uni-2-parent}, Figure~\ref{fig:backcross}).
 
-\begin{equation}
-\text{trait} = \text{mean for AA genotype} + \text{(B allele count)}\text{(B allele effect)} + \text{random error}
-\label{eq:uni-2-parent}
-\end{equation}
 
 Assuming that the random errors are normally distributed (and independent with common
 variance $\sigma^2$) for all subjects, we write the likelihood as
@@ -663,21 +784,6 @@ AA genotype, the difference in sample mean between those with AA
 genotype and those with AB genotype, and the pooled variance estimate,
 $\widehat\sigma^2$ (Equation~\ref{eq:pooled-var})
 
-\begin{equation}
-\widehat\sigma^2 = \frac{RSS_1}{n}
-\label{eq:pooled-var}
-\end{equation}
-The residual sum of squares ``RSS$_1$'', which is central to the
-calculation of the pooled variance estimate, is an expression that
-tells us how far the observed trait measurements are
-from the predicted values, for a
-set of specified parameter values. Equation~\ref{eq:rss1} defines residual
-sum of squares for a univariate QTL analysis.
-
-\begin{equation}
-RSS_1 = \sum_{i=1}^n(y_i - \mu_{AA} - \beta \text{(B allele count)})^2
-\label{eq:rss1}
-\end{equation}
 
 We ultimately want to calculate a likelihood ratio test statistic
 for the competing hypotheses:
