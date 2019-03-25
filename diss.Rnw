@@ -580,6 +580,23 @@ set of markers) from founder lines, \emph{i.e.}, the inbred lines that initiate
 the mating design. For example, in Figures~\ref{fig:backcross} and \ref{fig:intercross}
 there are two founder lines at the top of the mating design: 1. those with genotypes AA and 2. those with genotypes BB. 
 
+<<map, fig.width = 6, fig.height = 3, out.width = "6in", fig.cap="Genetic map for markers from \\citet{sugiyama2001concordance}. Figure from \\citet{broman2009guide}.">>=
+# http://www.rqtl.org/book/RqtlBook_Code/fig01.R
+######################################################################
+# Figure 1.6
+#
+#  The genetic map of markers typed in the data from
+#  Sugiyama et al. (2001).  Almost all marker intervals are less than 20cM.  Some
+#  regions, most notably on chromosomes 1 and 4, have a higher density
+#  of markers.
+######################################################################
+data("hyper")
+hyper <- drop.nullmarkers(hyper)
+hyper <- jittermap(hyper)
+par(mar=c(4.1,4.1,0.1,0.1))
+plot.map(hyper, main="", alternate.chrid=TRUE)
+@
+
 
 
 % QTL scan (univariate)
@@ -711,16 +728,44 @@ parameter $\beta$ (\emph{i.e.}, the unknown ``B allele effect'').
 \end{equation}
 
 The residual sum of squares ``RSS$_1$'', which is central to the
-calculation of the pooled variance estimate $\widehat\sigma^2$ in Equation~\ref{}, is an expression that
+calculation of the pooled variance estimate $\widehat\sigma^2$ in Equation~\ref{eq:pooled-var}, is an expression that
 tells us how far the observed trait measurements are
 from the predicted values, for a
 set of specified parameter values. Equation~\ref{eq:rss1} defines residual
-sum of squares for a univariate QTL analysis.
+sum of squares for a univariate QTL analysis. I make an additional substitution in Equation~\ref{eq:rss1} by replacing ``B allele count'' with $x$. 
 
 \begin{equation}
-RSS_1 = \sum_{i=1}^n(y_i - \mu_{AA} - \beta \text{(B allele count)})^2
+RSS_1 = \sum_{i=1}^n(y_i - \mu_{AA} - x_i\beta)^2
 \label{eq:rss1}
 \end{equation}
+
+We ultimately want to calculate a likelihood ratio test statistic
+for the competing statistical hypotheses of Equation~\ref{eq:qtl-hypotheses}
+
+\begin{eqnarray}
+H_1: \text{A QTL is present at a specified marker}\nonumber \\
+H_0: \text{No QTL is present at a specified marker}
+\label{eq:qtl-hypotheses}
+\end{eqnarray}
+
+
+
+
+
+
+
+
+After calculating the likelihood ratio test statistic at every marker,
+one needs to obtain p-values for every test. Because a researcher performs many
+tests (\emph{i.e.}, one per marker) in a genome-wide QTL scan, one should perform
+a permutation test to determine adjusted p-values. In this permutation test, one
+shuffles or randomizes subjects' trait values to get a ``permuted phenotype''. One
+does this many times to obtain, say, 1000 permuted phenotypes. Each permuted phenotype
+is then analyzed with a univariate QTL scan. The statistician records, for
+each permuted phenotype, the maximum observed LOD score from the genome-wide scan to
+obtain an empirical distribution of ``max LOD score'' statistics. One then
+determines the $95^{th}$ percentile of the empirical distribution and uses it as 
+a critical value when assessing statistical significance of observed peaks.
 
 
 
@@ -783,35 +828,6 @@ for three parameters are the sample mean of trait values for those with
 AA genotype, the difference in sample mean between those with AA
 genotype and those with AB genotype, and the pooled variance estimate,
 $\widehat\sigma^2$ (Equation~\ref{eq:pooled-var})
-
-
-We ultimately want to calculate a likelihood ratio test statistic
-for the competing hypotheses:
-
-\begin{eqnarray}
-H_1: \text{A QTL is present at a specified marker}\nonumber \\
-H_0: \text{No QTL is present at a specified marker}\label{eq:qtl-hypotheses}
-\end{eqnarray}
-
-These hypotheses (Equation~\ref{eq:qtl-hypotheses}) are equivalent
-to stating that, under $H_0$, 
-$\beta = 0$ while under $H_1$, $\beta$ can be nonzero.
-In other words, under the null hypothesis, those with genotype AB 
-have the same
-mean trait value as those with genotype AA, while under the alternative hypothesis,
-the mean trait values for the two genotype classes may differ. 
-
-After calculating the likelihood ratio test statistic at every marker,
-one needs to obtain p-values for every test. Because a researcher performs many
-tests (\emph{i.e.}, one per marker) in a genome-wide QTL scan, one should perform
-a permutation test to determine adjusted p-values. In this permutation test, one
-shuffles or randomizes subjects' trait values to get a ``permuted phenotype''. One
-does this many times to obtain, say, 1000 permuted phenotypes. Each permuted phenotype
-is then analyzed with a univariate QTL scan. The statistician records, for
-each permuted phenotype, the maximum observed LOD score from the genome-wide scan to
-obtain an empirical distribution of ``max LOD score'' statistics. One then
-determines the $95^{th}$ percentile of the empirical distribution and uses it as 
-a critical value when assessing statistical significance of observed peaks.
 
 
 %%%%%%% pleio test in 2-parent crosses
