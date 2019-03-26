@@ -559,23 +559,28 @@ text(38-25,95/2,expression(F[2]),cex=1.5,adj=c(1,0.5))
 
 \section{QTL mapping in two-parent crosses}\label{sec:qtl-two-parent}
 
+\subsection{Overview}\label{sec:overview-2-parent-qtl-mapping}
+
 QTL mapping is a systematic, statistical approach for identifying genetic
-loci where genetic variation affects variation in a measured trait.
-We use the term ``locus'' to refer to a small, contiguous genomic region, often
-several megabases in length. A variety of statistical methods for QTL mapping
-exist. We discuss below three QTL mapping methods,
+loci where genetic variation affects variation in a measured trait. 
+A variety of statistical methods for QTL mapping
+exist. I discuss below three QTL mapping methods:
 marker regression, interval mapping, and Haley-Knott regression. I consider
 the three methods in analysis of both backcross and intercross designs.
 Before getting to the details of our three QTL mapping methods, I discuss
 data inputs that are required for QTL mapping. 
 
 %QTL mapping inputs
-Standard inputs for QTL mapping are 1. genome-wide marker genotypes
-for a collection of study subjects, 2. a set of trait measurements on the
-same subjects, and 3. a genetic map that contains genomic positions for
-all molecular markers. A physical map, with marker positions in 
+Three standard inputs for QTL mapping are:
+\begin{enumerate}
+\item genome-wide marker genotypes for a collection of study subjects
+\item a set of trait measurements on the same subjects
+\item a genetic map that contains genomic positions for all molecular markers (Figure~\ref{fig:map})
+\end{enumerate}
+
+A physical map, with marker positions in 
 units of megabases, may also be used. 
-Additional inputs, including genotype data (for the same
+Additional inputs include genotype data (for the same
 set of markers) from founder lines, \emph{i.e.}, the inbred lines that initiate
 the mating design. For example, in Figures~\ref{fig:backcross} and \ref{fig:intercross}
 there are two founder lines at the top of the mating design: 1. those with genotypes AA and 2. those with genotypes BB. 
@@ -597,6 +602,19 @@ par(mar=c(4.1,4.1,0.1,0.1))
 plot.map(hyper, main="", alternate.chrid=TRUE)
 @
 
+Figure~\ref{fig:map} depicts the positions of markers (horizontal hash marks) on 
+each chromosome (vertical lines). In practice, for QTL mapping, a genetic map 
+object may be stored as a collection of two-column data frames, where each row is a 
+unique marker and the two columns contain marker identities and marker positions. 
+In this structure, each chromosome has its own map object. Marker distribution is 
+not uniform across the 
+genome (Figure~\ref{fig:map}). Some chromosome regions, including parts of 
+Chromosome 4, have dense marker 
+coverage, while others, including Chromosome 2, have relatively sparse marker 
+coverage. Dense marker coverage is preferred in QTL mapping applications because it 
+provides more genetic information and enables more accurate genotype inference between markers. Before the recent development of high-density 
+single nucleotide polymorphism marker arrays, many studies relied on sparse 
+microsatellite and restriction fragment length polymorphism markers. 
 
 
 % QTL scan (univariate)
@@ -604,13 +622,13 @@ A univariate QTL scan is a procedure to interrogate the entire genome for geneti
 variants that affect a single trait of interest.
 One specifies a statistical model and calculates the
 likelihood of the model parameters given the observed (trait and marker) data at each genomic position. 
-After obtaining likelihoods for models at every marker, likelihood ratio test statistics are calculated
+After obtaining likelihoods, likelihood ratio test statistics are calculated
 at every marker. The inputs for these calculations are the likelihoods from the model fits 
 and the likelihood for the null model, which contains no genotype data.
 The resulting likelihood ratios compare, for every marker, the null hypothesis that there is no 
 QTL (at that marker) against the alternative that there is a QTL (at the specified marker).
 In other words, one performs a likelihood ratio test for every marker across the genome.
-The analyst typically visualizes likelihood ratio test
+In systems genetics studies, the analyst typically visualizes likelihood ratio test
 statistics as log$_{10}$ likelihood ratio scores, or ``log odds (LOD)'' scores.
 In modern studies, this amounts to thousands of (statistically dependent)
 hypothesis tests.
@@ -618,15 +636,6 @@ One then uses a permutation test to determine a genome-wide critical value
 for the likelihood ratio test statistic \citep{churchill1994empirical}.
 Those loci for which the likelihood ratio test statistic is sufficiently
 large are declared QTL. 
-
-
-
-
-
-
-
-
-
 
 
 
@@ -639,8 +648,7 @@ markers are ``missing'' because they aren't explicitly measured
 (Figure~\ref{fig:genoprob1}). Figure~\ref{fig:genoprob1} presents, for
 one subject, a chromosome with genotyped markers at the tick marks.
 The triangle represents a position at which we wish to know the allele's identity.
-We now consider a strategy for inference of genotypes at intermarker positions.
-
+Below, we discuss methods for genotype inference at positions between markers. 
 %\begin{figure}
 %\includegraphics[width = \textwidth]{figs/genoprob1.pdf}
 %\caption{Inferring genotypes at an intermarker position.}\label{fig:genoprob1}
@@ -678,36 +686,56 @@ interval mapping, and Haley-Knott regression, differ in strategies for addressin
 the ``missing data'' problem. I first discuss marker regression, because it is the 
 simplest approach and because the other strategies share some aspects of it.
 
+\subsection{Marker regression}
+
 Marker regression inputs are genome-wide marker genotypes and measured values of a 
 complex trait of interest (from the same subjects). 
 At each marker, one fits a linear model by regressing trait values on marker 
 genotypes (Equation~\ref{eq:uni-2-parent}), sequentially, at each marker. In a 
 backcross, the ``B allele count'' variable takes values of 0 or 1. In an intercross
 , the ``B allele count'' may be 0, 1, or 2. Both backcross and intercross designs 
-permit solution of the regression by a statistical technique called ``ordinary 
-least squares''. In ordinary least squares, one assumes that the random errors for 
+permit solution of the regression by a statistical technique called ``maximum likelihood estimation''. I assume that the random errors for 
 all subjects have the same variance and are statistically independent. Statistical 
 independence means that knowing the value of one subject's random error provides no 
 information about the value of another subject's random error.
 
 
 \begin{equation}
-\text{trait} = \text{mean for AA genotype} + \text{(B allele count)}\text{(B allele effect)} + \text{random error}
+\text{trait} = \text{(mean for AA genotype)} + \text{(B allele count)}\text{(B allele effect)} + \text{(random error)}
 \label{eq:uni-2-parent}
 \end{equation}
 
-The linear regression equation (Equation~\ref{eq:uni-2-parent}) has two statistical 
-parameters, ``B allele effect'' and the variance of the random errors. Notice that 
+\begin{equation}
+\text{(random error)} \sim N(0, \sigma^2), \hspace{1cm}\text{      (random errors) independent}
+\label{eq:random-error-dist}
+\end{equation}
+
+Equation~\ref{eq:random-error-dist} introduces notation that requires explanation. 
+The ``$\sim$'' symbol designates a probability distribution. The left-hand
+side ``is distributed'' the right-hand side. In this case, I describe the distribution of the 
+random errors. Capital ``N'', in a distribution, abbreviates ``Normal''. The first number after 
+the ``N'' is the distribution mean, while the second is the variance. These two numbers, mean 
+and variance, completely specify a normal distribution.
+
+
+
+
+The linear regression equation (Equation~\ref{eq:uni-2-parent}) has three statistical 
+parameters, ``mean for AA genotype'', ``B allele effect'', and the variance of the random errors. Notice that 
 the variance of the random errors is not explicitly written in 
-Equation~\ref{eq:uni-2-parent}, while ``B allele effect'' is obviously part 
+Equation~\ref{eq:uni-2-parent}, while ``mean for AA genotype'' and ``B allele effect'' are obviously part 
 of the equation. In this 
 statistical framework, I treat parameters as fixed, but unknown, numbers. I then 
 seek the parameter values that are most compatible with the data, under the 
 assumption that the statistical model is correctly specified. I use the approach 
 called ``maximum likelihood estimation''. Some details of maximum likelihood 
-estimation are in the appendix.
+estimation are in Appendix~\ref{sec:stat-primer}.
 
-The maximum likelihood estimates for the two parameters, ``B allele effect'' and 
+To say that a statistical model is correctly specified means, here, that the family, or functional form, of the model is correct. If I say that the data follow a normal distribution, then they do, in fact, follow a normal distribution. I generally will not know the true parameter values, but, in the case of the random errors in Equation~\ref{eq:random-error-dist}, the model is correctly specified if the random errors really do follow a normal distribution with some positive variance $\sigma^2$.
+
+
+
+The maximum likelihood estimates for two parameters, ``B allele effect'' and 
 the random error variance, are given in Equations~\ref{eq:beta-hat} and
 \ref{eq:pooled-var}. Note that I've replaced ``B allele effect'' with 
 the Greek letter 
@@ -732,7 +760,11 @@ calculation of the pooled variance estimate $\widehat\sigma^2$ in Equation~\ref{
 tells us how far the observed trait measurements are
 from the predicted values, for a
 set of specified parameter values. Equation~\ref{eq:rss1} defines residual
-sum of squares for a univariate QTL analysis. I make an additional substitution in Equation~\ref{eq:rss1} by replacing ``B allele count'' with $x$. 
+sum of squares for a univariate QTL analysis. I make an additional substitution in 
+Equation~\ref{eq:rss1} by replacing ``B allele count'' with $x$. In 
+Equation~\ref{eq:rss1}, I replace ``mean for AA genotype'' with $\mu_{AA}$. The Greek 
+letter $\mu$ is widely used in statistics to designate a mean, while the subscript ``AA'' 
+tells us the genotype class.
 
 \begin{equation}
 RSS_1 = \sum_{i=1}^n(y_i - \mu_{AA} - x_i\beta)^2
@@ -748,9 +780,31 @@ H_0: \text{No QTL is present at a specified marker}
 \label{eq:qtl-hypotheses}
 \end{eqnarray}
 
+I wish to calculate the likelihood for both the alternative hypothesis and the null hypothesis.
+I write the likelihood as a product of per-subject likelihoods in Equation~\ref{eq:lik-2parent}.
 
+\begin{equation}
+L_1(\mu_{AA}, \beta, \sigma^2) = P(\text{data}| \text{QTL at marker}, \mu_{AA}, \beta, \sigma^2) = \prod_{i=1}^n\phi(y_i; \mu_{g_i}, \sigma^2)
+\label{eq:lik-2parent}
+\end{equation}
 
+I introduce new notation in Equation~\ref{eq:lik-2parent}. $L_1$ denotes the likelihood under 
+hypothesis H$_1$. The likelihood of the model parameters is equal, by definition, to the joint 
+probability of the data conditional on presence of a QTL and the parameter values. This, by the 
+assumption of statistical independence of subjects, is equal to the product of the $n$ 
+per-subject likelihoods, where $\phi(y; \mu, \sigma^2)$ denotes the density at $y$ for a normal 
+distribution with mean $\mu$ and variance $\sigma^2$ (Equation~\ref{eq:normal-pdf})
 
+\begin{equation}
+\phi(y; \mu, \sigma^2 = \frac{1}{\sqrt{2\pi\sigma^2}}\exp{(- \frac{(y - \mu)^2}{2\sigma^2})}
+\label{eq:normal-pdf}
+\end{equation}
+
+I also need to calculate the maximum likelihood under the null model constraints, \emph{i.e.}, under the assumption that there is no QTL at the marker, in which case the genotype classes have the same mean trait value. 
+
+\begin{equation}
+L_0(\mu_0, \sigma^2_0) = P(\text{data}| \mu_0, \sigma^2_0) = \prod_{i=1}^n \phi_i(y_i; \mu_0, \sigma^2_0)
+\end{equation}
 
 
 
@@ -767,10 +821,42 @@ obtain an empirical distribution of ``max LOD score'' statistics. One then
 determines the $95^{th}$ percentile of the empirical distribution and uses it as 
 a critical value when assessing statistical significance of observed peaks.
 
+\subsection{Interval mapping}
+
+I highlight elements from the exposition in \citet{broman2009guide}. More details are available in its Chapter 4. \citet{lander1989mapping} describe interval mapping for QTL studies. While marker 
+regression considers only marker positions as candidate QTL, in interval mapping 
+one probabilistically infers genotypes for all genomic positions on a grid 
+along each chromosome. One leverages the entire collection of marker genotypes on each chromosome and their correlations to do this. 
+
+To illustrate this approach, consider a backcross sample with two adjacent markers. I suppose 
+that the backcross follows the design in Figure~\ref{fig:backcross}, with generation BC subjects 
+having either AA or AB genotypes. I wish to know the genotype probabilities at an intermediate 
+point, \emph{i.e.}, the putative QTL, between the two markers. Calling the markers ``marker 1'' 
+and ``marker 2'', suppose that the recombination fraction between marker 1 and marker 2 is 
+$r_{12}$. Assume that all subjects are genotyped at markers 1 and 2. With two additional 
+assumptions, that of no crossover interference and that of no genotyping errors, I can write 
+expressions for genotype probabilites at the putative QTL, conditional on the genotypes at 
+markers 1 and 2 (Table~\ref{tab:genoprob}).
+
+\begin{table}
+\caption{Probabilities for genotypes at intermediate putative QTL in a backcross, conditional on flanking marker genotypes.}\label{tab:genoprob}
+\begin{tabular}{cccc}
+\hline
+Marker 1 genotype & Marker 2 genotype & P(AA) & P(AB) \\
+\hline
+AA & AA & $\frac{(1- r_{1Q})(1-r_{Q2})}{1-r_{12}}$ & $\frac{r_{1Q}r_{Q2}}{(1-r_{12})}$ \\
+AA & AB & $\frac{(1-r_{1Q})r_{Q2}}{r_{12}}$ & $\frac{r_{1Q}(1-r_{Q2})}{r_{12}}$ \\
+AB & AA & $\frac{r_{1Q}(1-r_{Q2})}{r_{12}}$ & $\frac{(1-r_{1Q})r_{Q2}}{r_{12}}$ \\
+AB & AB & $\frac{r_{1Q}r_{Q2}}{(1-r_{12})}$ & $\frac{(1-r_{1Q})(1-r_{Q2})}{(1-r_{12})}$\\
+\hline
+\end{tabular}
+\end{table}
+
+In Table~\ref{tab:genoprob}, I present genotype probabilities for a putative QTL, denoted ``Q'', between marker 1 and marker 2, in a backcross (Figure~\ref{fig:backcross}). $r_{12}$ is the recombination probability between marker 1 and marker 2, $r_{1Q}$ is the recombination probability between marker 1 and putative QTL Q, and $r_{Q2}$ is the recombination probability between putative QTL Q and marker 2. 
 
 
 
-
+\subsection{Haley-Knott regression}
 %hmm for genotypes & missing data problem
 An innovative and flexible framework for resolving the ``missing data'' problem involves
 use of a statistical tool called a 
