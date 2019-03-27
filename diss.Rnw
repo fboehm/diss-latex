@@ -834,7 +834,8 @@ having either AA or AB genotypes. I wish to know the genotype probabilities at a
 point, \emph{i.e.}, the putative QTL, between the two markers. Calling the markers ``marker 1'' 
 and ``marker 2'', suppose that the recombination fraction between marker 1 and marker 2 is 
 $r_{12}$. Assume that all subjects are genotyped at markers 1 and 2. With two additional 
-assumptions, that of no crossover interference and that of no genotyping errors, I can write 
+assumptions, that of no crossover interference (\emph{i.e.}, recombinations are 
+assumed independent) and that of no genotyping errors, I can write 
 expressions for genotype probabilites at the putative QTL, conditional on the genotypes at 
 markers 1 and 2 (Table~\ref{tab:genoprob}).
 
@@ -852,21 +853,30 @@ AB & AB & $\frac{r_{1Q}r_{Q2}}{(1-r_{12})}$ & $\frac{(1-r_{1Q})(1-r_{Q2})}{(1-r_
 \end{tabular}
 \end{table}
 
-In Table~\ref{tab:genoprob}, I present genotype probabilities for a putative QTL, denoted ``Q'', between marker 1 and marker 2, in a backcross (Figure~\ref{fig:backcross}). $r_{12}$ is the recombination probability between marker 1 and marker 2, $r_{1Q}$ is the recombination probability between marker 1 and putative QTL Q, and $r_{Q2}$ is the recombination probability between putative QTL Q and marker 2. 
+In Table~\ref{tab:genoprob}, I present genotype probabilities for a putative QTL, denoted ``Q'', 
+between marker 1 and marker 2, in a backcross (Figure~\ref{fig:backcross}). $r_{12}$ is the 
+recombination probability between marker 1 and marker 2, $r_{1Q}$ is the recombination probability
+between marker 1 and putative QTL Q, and $r_{Q2}$ is the recombination probability between 
+putative QTL Q and marker 2. 
+Each row in the table represents an ordered pair of genotypes for markers 1 and 2. Since I'm 
+considering a backcross, each marker has one of two possible genotypes, so only four rows are 
+needed. The first two columns list the genotypes at the two genotyped markers. The third and 
+fourth columns contain the putative QTL's genotype probabilities. Note that these are 
+conditional probabilities, where the conditioning is done on the marker genotypes. To calculate 
+these values, recall the relationship between joint and conditional probabilities
+(Equation~\ref{eq:joint-conditional-probs}). Sequential application of this relationship yields 
+the probabilities in Table~\ref{tab:genoprob}. A more general solution for these calculations can be implemented with algorithms for hidden Markov models (Appendix~\ref{sec:stat-primer}) \citep{broman2009guide, broman2006use}.
 
+\begin{equation}
+\frac{P(\text{g$_1$} = AA, \text{g$_2$}=AA, \text{g$_Q$}=AA)}{P(\text{g$_1$} = AA, \text{g$_2$}=AA)} = P(\text{g$_Q$} = AA|\text{g$_1$} = AA, \text{g$_2$}=AA)
+\label{eq:joint-conditional-probs}
+\end{equation}
+
+In interval mapping, trait values are modeled statistically as having a distribution that is a mixture of normal distributions, where each component in the mixture corresponds to a genotype class. I assume a single variance common to all components (at a single putative QTL). In a backcross, there are thus two normal distribution components for each grid point, \emph{i.e.}, each putative QTL. Fitting such a model by maximum likelihood requires an iterative procedure like the expectation-maximization algorithm \citep{dempster1977maximum}. Performing the iterative procedure is required at every putative QTL position. Thus, it is more computationally intensive than other approaches, such as Haley-Knott regression, to which I now turn attention.
 
 
 \subsection{Haley-Knott regression}
-%hmm for genotypes & missing data problem
-An innovative and flexible framework for resolving the ``missing data'' problem involves
-use of a statistical tool called a 
-hidden Markov model \citep{broman2009guide, broman2006use}. 
-In this hidden Markov model, marker genotypes are ``observed random variables'', 
-while genotypes at intervening bases are ``unobserved random variables''. 
-Two sets of recursive equations, termed ``forward'' and ``backward'' equations,
-enable efficient calculation of genotype probabilities
-(conditional on the observed marker genotypes) \citep{baum1970maximization}.
-We discuss inference methods for genotype probabilities in Appendix~\ref{sec:stat-primer}.
+
 
 
 
@@ -4043,8 +4053,18 @@ this service.
 
 \chapter{Molecular biology primer}\label{sec:bio-primer}
 
-\section{DNA structure}\label{sec:dna-structure}
+%\section{DNA structure}\label{sec:dna-structure}
+
+%Deoxyribonucleic acid (DNA) arranges itself in a double helix. A single DNA polymer features a deoxyribose backbone with one of four nucleosides appended to each deoxyribose unit. The four nucleosides are: adenine, thymine, cytosine, and guanine. 
+
+
+
 \section{Cell division}\label{sec:cell-division}
+
+Our goals in this section are to explain meiosis and to understand why recombinations ``accumulate'' over multiple generations in subjects like Diversity Outbred mice. 
+
+
+
 
 \section{Central dogma of molecular biology}\label{sec:central-dogma}
 
