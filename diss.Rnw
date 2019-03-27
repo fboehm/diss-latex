@@ -686,7 +686,7 @@ interval mapping, and Haley-Knott regression, differ in strategies for addressin
 the ``missing data'' problem. I first discuss marker regression, because it is the 
 simplest approach and because the other strategies share some aspects of it.
 
-\subsection{Marker regression}
+\subsection{Marker regression}\label{sec:marker-regression}
 
 Marker regression inputs are genome-wide marker genotypes and measured values of a 
 complex trait of interest (from the same subjects). 
@@ -821,7 +821,7 @@ obtain an empirical distribution of ``max LOD score'' statistics. One then
 determines the $95^{th}$ percentile of the empirical distribution and uses it as 
 a critical value when assessing statistical significance of observed peaks.
 
-\subsection{Interval mapping}
+\subsection{Interval mapping}\label{sec:im}
 
 I highlight elements from the exposition in \citet{broman2009guide}. More details are available in its Chapter 4. \citet{lander1989mapping} describe interval mapping for QTL studies. While marker 
 regression considers only marker positions as candidate QTL, in interval mapping 
@@ -872,58 +872,32 @@ the probabilities in Table~\ref{tab:genoprob}. A more general solution for these
 \label{eq:joint-conditional-probs}
 \end{equation}
 
-In interval mapping, trait values are modeled statistically as having a distribution that is a mixture of normal distributions, where each component in the mixture corresponds to a genotype class. I assume a single variance common to all components (at a single putative QTL). In a backcross, there are thus two normal distribution components for each grid point, \emph{i.e.}, each putative QTL. Fitting such a model by maximum likelihood requires an iterative procedure like the expectation-maximization algorithm \citep{dempster1977maximum}. Performing the iterative procedure is required at every putative QTL position. Thus, it is more computationally intensive than other approaches, such as Haley-Knott regression, to which I now turn attention.
+In interval mapping, trait values are modeled statistically as having a distribution 
+that is a mixture of normal distributions, where each component in the mixture correspon
+ds to a genotype class. I assume a single variance common to all components (at a single 
+putative QTL). In a backcross, there are thus two normal distribution components for 
+each grid point, \emph{i.e.}, each putative QTL. Fitting such a model by maximum 
+likelihood requires an iterative procedure like the expectation-maximization algorithm 
+\citep{dempster1977maximum}. Performing the iterative procedure is required at every 
+putative QTL position. Thus, it is more computationally intensive than other approaches, 
+such as Haley-Knott regression, to which I now turn attention.
 
 
-\subsection{Haley-Knott regression}
+\subsection{Haley-Knott regression}\label{sec:hk}
 
-
-
-
-% model form - linear regression
-A QTL analysis involves choosing a statistical model to be fitted at every marker.
-The question of which statistical model to use is the
-``model selection'' problem \citep{broman2009guide}.
-As in any statistical modeling, there is not one best model selection procedure.
-One needs to decide which main effects and interactions are needed.
-Also, one often transforms the trait values to achieve approximate
-normality before performing the QTL scan. 
-
-In a two-parent backcross, only two genotypes are possible in 
-generation BC subjects (Figure~\ref{fig:backcross}). 
-Thus, one may choose a linear model that contains 
-the B allele count (1 or 0 for each subject) at each marker
-(Equation~\ref{eq:uni-2-parent}, Figure~\ref{fig:backcross}).
-
-
-Assuming that the random errors are normally distributed (and independent with common
-variance $\sigma^2$) for all subjects, we write the likelihood as
-a function of the parameters conditional on the observed
-data (Equation~\ref{eq:lik-bc}). We provide a primer on likelihood methods in Appendix. \todo[inline]{add appendix letter here}
+A computationally simpler approach that yields results similar to those of interval 
+mapping is ``Haley-Knott'' regression \citep{haley1992simple, martinez1992estimating}. 
+In Haley-Knott regression, one first infers genotype probabilities along a grid of 
+putative QTL positions. As mentioned above, algorithms for hidden Markov models provide 
+a flexible framework for this task \citep{broman2006use,broman2009guide}. At each grid point, then, one regresses the trait values on the genotype probabilities, much like the marker regression method (Section~\ref{sec:marker-regression}). In contrast to interval mapping, Haley-Knott regression doesn't require an iterative method. Haley-Knott regression treats the distribution of trait values, conditional on genome-wide marker data, as arising from a single normal distribution (Equation~\ref{eq:hk}). 
 
 \begin{equation}
-L(\text{AA mean}, \text{B allele effect}, \text{random error variance}| \text{genotypes}, \text{phenotypes}) = \prod_{i=1}^n \phi(y_i; \mu_{AA}, \beta, \sigma^2)
-\label{eq:lik-bc}
+y_i|M_i \sim N(\sum_j p_{ij}\mu_j, \sigma^2)
+\label{eq:hk}
 \end{equation}
 
-The symbol $\prod$ denotes a product of indexed terms.
-The index range for the terms are given above and below the $\prod$ symbol. 
-Here, $n$ is the sample size.
-In Equation~\ref{eq:lik-bc}, the three parameters are ``AA mean trait value'' 
-($\mu_{AA}$), ``B allele effect'' ($\beta$), and the random error
-variance, which we denote $\sigma^2$. In other words, I am specifying the 
-mean phenotype values for the three genotype classes. Genotype class AA has 
-mean phenotype value of $\mu_{AA}$, genotype class AB has mean phenotype
-value of $\mu_{AA} + \beta$ and genotype class BB has mean 
-phenotype value of $\mu_{AA} + 2\beta$. I assume that the error variance, $\sigma^2$ 
-is the same for all three genotype classes.
+In Equation~\ref{eq:hk}, ``j'' indexes the genotype classes, while ``i'' indexes the subjects. $p_{ij}$ is the probability that subject ``i'' belongs to genotype class ``j'', while $\mu_j$ is the mean trait value for genotype class ``j''. While Haley-Knott regression may be insufficient when marker data is sparse, it performs well (compared to interval mapping) with dense marker data when all subjects are successfully genotyped. Having completed our discussion of Haley-Knott regression, we now consider pleiotropy testing in two-parent crosses. 
 
-We use maximum likelihood
-methods to estimate parameter values. The maximum likelihood estimates
-for three parameters are the sample mean of trait values for those with
-AA genotype, the difference in sample mean between those with AA
-genotype and those with AB genotype, and the pooled variance estimate,
-$\widehat\sigma^2$ (Equation~\ref{eq:pooled-var})
 
 
 %%%%%%% pleio test in 2-parent crosses
@@ -1026,39 +1000,9 @@ arrows(x[1]-xd2-xd3, y[2]+yd2+yd3, x[1]-xd2, y[2]+yd2,
 @
 
 
-
-In the development of their test of pleiotropy v separate QTL,
-\citet{jiang1995multiple} model
-the multivariate trait as the sum of a linear function of the genotypes and
-a random error term. They assume that the traits matrix is related to the
-genotype data through Equation~\ref{eq:jz95}.
-
-
-\begin{equation}
-vec(Y) = Xvec(B) + vec(E)\label{eq:jz95}
-\end{equation}
-
-
-In Equation~\ref{eq:jz95}, $Y$ is a $n$ by $2$ matrix of trait values (with each 
-row being one subject and each column being one trait),
-$X$ is a $2n$ by $4$ block-diagonal matrix containing
-genotype data for two positions, 
-and $B$ is a $4$ by $1$ matrix of allele effects.
-The random error is assumed to follow a normal distribution with mean zero and a 
-positive variance.
-\citet{jiang1995multiple} also incorporate additional terms to model
-dominant effects and to
-control for residual genetic variation.
-To simplify model specification, we forego inclusion of dominant terms
-and additional markers for controlling residual
-genetic variation.
-Extensions of our model and software to accommodate dominance effects
-are straightforward.
-
-
 \citet{jiang1995multiple} use a statistical ``mixture model'' to relate
 genotypes to phenotypes. 
-They observe that the there are 9 possible ordered pairs of genotypes for two
+They observe that, just as there are three genotype classes for a single trait in an intercross, there are nine possible ordered pairs of genotypes for two
 markers in a F$_2$ population, since each marker has
 one of three genotypes (AA, AB, BB).
 They thus approach the problem as one with a 9-component mixture model, with one 
@@ -1067,10 +1011,8 @@ They provide the equations needed for an
 expectation-conditional maximization algorithm, a variant of
 the expectation-maximization
 algorithm, to find a local maximum in the likelihood surface 
-\citep{dempster1977maximum,meng1993maximum}. 
-They use a chi-square distribution with one degree of freedom as the
-null distribution of the test statistic. 
-
+\citep{dempster1977maximum,meng1993maximum}. In this sense, their strategy involves a 
+multivariate version of interval mapping. 
 
 In statistical terminology, one would say that the parameter space is restricted
 under the null hypothesis. Here, the parameter space is the collection of ordered
@@ -1079,7 +1021,7 @@ The restriction of that collection
 under pleiotropy corresponds to limiting consideration to only those ordered pairs
 that have both traits mapping to a single locus. 
 
-We illustrate these ideas in a drawing of a two-dimensional grid
+I illustrate these ideas in a drawing of a two-dimensional grid
 (Figure~\ref{fig:encircle}).
 Each point in the grid corresponds to an ordered pair of
 markers. Along the horizontal axis are the markers for the first component of the
@@ -1153,7 +1095,8 @@ Three of these lines, CAST/EiJ, PWK/PhJ, and WSB/EiJ, are wild-derived.
 Together, the three wild-derived lines contribute a high proportion of 
 the genetic variants in the Diversity Outbred mice. 
 
-The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to generate
+The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to 
+generate
 mice with DNA from all eight founder lines over the course of 3 generations
 \citep{churchill2004collaborative}.
 The term ``funnel'' refers to the design for the first 3 mating generations in which the
