@@ -53,6 +53,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{lineno}
 \linenumbers
+
 \usepackage{setspace}
 \usepackage[left = 1in, right = 1in, top = 1.5in, bottom = 1in]{geometry}
 \usepackage{multirow}
@@ -572,10 +573,7 @@ of the equation. In this
 statistical framework, I treat parameters as fixed, but unknown, numbers. I then 
 seek the parameter values that are most compatible with the data, under the 
 assumption that the statistical model is correctly specified. I use the approach 
-called ``maximum likelihood estimation''. Some details of maximum likelihood 
-estimation are in Appendix~\ref{sec:stat-primer}.
-
-To say that a statistical model is correctly specified means, here, that the family, or functional form, of the model is correct. If I say that the data follow a normal distribution, then they do, in fact, follow a normal distribution. I generally will not know the true parameter values, but, in the case of the random errors in Equation~\ref{eq:random-error-dist}, the model is correctly specified if the random errors really do follow a normal distribution with some positive variance $\sigma^2$.
+called ``maximum likelihood estimation''. 
 
 
 
@@ -773,13 +771,6 @@ In Figure~\ref{fig:separate-2traits} two distinct QTL (Q1 and Q2) affect one tra
 
 
 
-\begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{figure}
-\includegraphics[width=\textwidth]{figure/separate-2traits-1} \caption[Two separate QTL]{Two separate QTL. Figure after code from https://github.com/kbroman/QTLFigs repository.}\label{fig:separate-2traits}
-\end{figure}
-
-
-\end{knitrout}
 
 
 \citet{jiang1995multiple} use a statistical ``mixture model'' to relate
