@@ -931,7 +931,6 @@ arrows(x[1]-xd2-xd3, y[4]-yd2-yd3, x[1]-xd2, y[4]-yd2,
        lwd=arrowlwd, col=arrowcol, len=arrowlen)
 arrows(x[1]-xd2-xd3, y[2]+yd2+yd3, x[1]-xd2, y[2]+yd2,
        lwd=arrowlwd, col=arrowcol, len=arrowlen)
-
 @
 
 
@@ -940,7 +939,8 @@ arrows(x[1]-xd2-xd3, y[2]+yd2+yd3, x[1]-xd2, y[2]+yd2,
 
 \citet{jiang1995multiple} use a statistical ``mixture model'' to relate
 genotypes to phenotypes. 
-They observe that, just as there are three genotype classes for a single trait in an intercross, there are nine possible ordered pairs of genotypes for two
+They observe that, just as there are three genotype classes for a single trait
+in an intercross, there are nine possible ordered pairs of genotypes for two
 markers in a F$_2$ population, since each marker has
 one of three genotypes (AA, AB, BB).
 They thus approach the problem as one with a 9-component mixture model, with one 
@@ -1041,12 +1041,12 @@ The term ``funnel'' refers to the design for the first 3 mating generations in w
 DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders.
 For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H
 in the first generation (Figure~\ref{fig:ri8}) (where ``x'' denotes mating).
-AB offspring then mate with CD offspring and EF offspring mate with GH mice.
+AB offspring then mate with CD offspring, and EF offspring mate with GH mice.
 Finally, the ABCD mice mate with the EFGH mice to create a generation of mice that
 contain genetic material from all eight inbred founder lines.
 Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross.
 
-<<ri8, fig.lp="fig:", fig.cap="Schematic for a single funnel in the Collaborative Cross breeding design.">>=
+<<ri8, fig.lp="fig:", fig.cap="Schematic for a single funnel in the Collaborative Cross breeding design. Figure is created with R code from https://github.com/kbroman/QTLFigs repository.">>=
 color <- c(rgb(102,203,254,maxColorValue=255), # light blue
            rgb(254,  0,128,maxColorValue=255), # dark pink
            rgb(102,254,102,maxColorValue=255), # light green
