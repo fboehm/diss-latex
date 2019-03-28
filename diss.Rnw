@@ -330,24 +330,6 @@ with. The F$_1$ subjects mate with the specified founder line
 (A in Figure~\ref{fig:backcross}) to create generation ``BC'' subjects. 
 Generation BC subjects are then genotyped and phenotyped for QTL mapping. 
 
-<<bc-pheno, fig.cap="Simulated hypothetical phenotype data for two inbred lines, F$_1$ progeny, and a backcross population (Figure 1.4 from \\cite{broman2009guide})", fig.lp="fig:", fig.height = 3, fig.width = 6, out.width='\\textwidth'>>=
-# http://www.rqtl.org/book/RqtlBook_Code/fig01.R -- figure 1.4
-set.seed(4131972)
-data(map10)
-bc <- sim.cross(map10, type="bc", n.ind=50,
-                model=cbind(1:5, 50, 0.5))
-bc$pheno <- ((2*bc$qtlgeno - 3) %*% rep(1, 5)) + rnorm(50, 31.7*0.75+45*0.25, 2.5)
-
-x <- rev(list("A" = rnorm(15, 31.7, 2.5),
-          "B" = rnorm(15, 45.4, 2.5),
-          "F1" = rnorm(15, (31.7+45.4)/2,  2.5),
-          "BC" = bc$pheno[,1]))
-par(las=1, mar=c(4.1,2.1,0.1,0.1))
-stripchart(x, method="jitter", pch=1, xlab="Phenotype", cex.lab = 1.5)
-abline(h=1:4, lty=2)
-me <- sapply(x, mean)
-segments(me, 1:4-0.2, me, 1:4+0.2, lwd=3, col="blue")
-@
 
 
 As Figure~\ref{fig:backcross} illustrates, all backcross animals (generation
@@ -355,41 +337,13 @@ BC) have, for any locus, only two possible genotypes: heterozygote (AB)
 and homozygote (AA).
 The F$_1$ generation is heterozygous at all loci (Figure~\ref{fig:backcross}) because 
 they inherited one chromosome (of each pair) from each parent.
-While meiotic crossovers may occur in the founder generation, these crossover events are
-undetectable because the animals are inbred and, thus, have two identical copies
-of DNA at every locus. This causes the F$_1$ subjects to be heterozygous at all positions
-when genotyping with respect to the founder lines.
-In fact, the F$_1$ may have identical single nucleotide marker alleles at some
-positions, but, because one allele is inherited from each parent (and each inbred
-founder line), we still call them ``heterozygous'' because, in terms of founder allele genotypes, they have the ``AB'' heterozygote genotype.
 
 The meiotic crossovers that occur as the F$_1$ animals produce gametes often
 are detectable because they result in ``BC'' generation animals that have individual
-chromosomes that contain DNA from both founder lines. Due to the limited number
-of crossovers in a single meiosis, the resulting BC generation subjects have
-poor QTL mapping resolution.
-This poor mapping resolution corresponds to the relatively large segments
-of contiguous DNA, on average, that are inherited from, ultimately, the founder lines.
+chromosomes that contain DNA from both founder lines. 
 
 
-Figure~\ref{fig:bc-pheno} illustrates hypothetical values for a single phenotype
-in two founder lines (A and B), F$_1$ progeny, and a backcross population. 
-Mean phenotype values for each sample are indicated by blue vertical lines. 
-Each circle corresponds to a single subject.
-In practice, one might not phenotype F$_1$ subjects because the QTL mapping is performed in
-the BC subjects. 
-However, one often measures the most important phenotypes in founder line subjects before 
-the matings. This permits the experimenter to ensure that the two lines differ 
-sufficiently in phenotype values. Notice that the F$_1$ mean phenotype is intermediate
-between the two founder line means. The BC mean phenotype is between the F$_1$ mean and the
-AA founder line mean. It's also valuable to consider the range in the phenotype values in each 
-of the four samples. The BC subjects' values are spread out much more than those of the 
-three other samples. This corresponds to the observation that BC subjects have either one 
-or two copies of the A allele at each marker (Figure~\ref{fig:backcross}). 
-The other three samples have an unambiguous
-number of A alleles at each marker: two for AA founder line, zero for BB founder line, and
-one for the F$_1$ subjects. Now that we've discussed
-two-parent designs, we turn attention to QTL mapping two-parent crosses.
+
 
 
 
@@ -474,27 +428,12 @@ produce gametes with detectable crossovers, the F$_2$ generation animals have,
 for every marker, three genotype classes: AA, AB, and BB. Compare this with
 the backcross, where BC subjects have only two genotype classes (AA and
 AB in Figure~\ref{fig:backcross}).
-I'll discuss the consequences of this distinction on QTL mapping methods below
-(Section~\ref{sec:qtl-two-parent}).
 
 In an intercross, phenotyping and genotyping are typically done in only the F$_2$ subjects.
 As with a backcross, intercross planning may involve genotyping and phenotyping of
 subjects from two (or more) inbred lines. The designers then have the option of
 choosing as founders two inbred lines that demonstrate a big difference in
-mean phenotype values (for traits of interest). 
-
-A plot of simulated phenotype values, analogous to that of Figure~\ref{fig:bc-pheno}, for 
-F$_2$ subjects would tend to reveal an even greater range of measurements than is present in 
-the BC generation. This is due to the three genotype classes (AA, AB, and BB) per marker that 
-are present in samples of F$_2$ subjects. The extent to which the trait value range is greater
-in F$_2$ subjects compared to BC subjects also depends on the true genetic model.
-If the trait is not a linear function of the number of A alleles at a single marker, then the 
-F$_2$ trait range may not exceed that
-in BC subjects. For example, in the extreme case where the B allele dominates the A allele,
-so that AB and BB genotype classes have the same mean trait value,
-the range in a sample of F$_2$ subjects may
-be similar to that of a sample of BC subjects (where the backcross involves mating F$_1$
-subjects with AA subjects). Now that I've considered two widely used two-parent designs, I discuss QTL mapping methods in both the backcross and intercross.
+mean phenotype values (for traits of interest). Now that I've considered two widely used two-parent designs, I discuss QTL mapping methods for two-parent designs.
 
 
 
@@ -556,6 +495,11 @@ for(i in 1:10) {
 text(38-25,95/2,expression(F[2]),cex=1.5,adj=c(1,0.5))
 
 @
+
+
+
+
+
 
 
 \section{QTL mapping in two-parent crosses}\label{sec:qtl-two-parent}
