@@ -857,12 +857,12 @@ or do they associate with separate loci''?
 
 If both traits associate with the same locus, then that locus is called ``pleiotropic''.
 If the two traits associate with separate loci, then I say that
-there are separate QTL (one for each trait). Figures~\ref{fig:pleiotropy-2traits}
-and \ref{fig:separate-2traits} provide schematics for the two possibilities.
-In Figure~\ref{fig:pleiotropy-2traits}, a single QTL (denoted by Q) affects both traits.
-In Figure~\ref{fig:separate-2traits} two distinct QTL (Q1 and Q2) affect one trait each. The pink arrows indicate that Q1 and Q2 are on the same chromosome and are correlated by linkage disequilibrium.
+there are separate QTL (one for each trait). Figure~\ref{fig:pleiotropy-2traits}
+provides schematics for the two possibilities.
+On the left side of Figure~\ref{fig:pleiotropy-2traits}, a single QTL (denoted by Q) affects both traits.
+On the right side of Figure~\ref{fig:pleiotropy-2traits} two distinct QTL (Q1 and Q2) affect one trait each. The pink arrows indicate that Q1 and Q2 are on the same chromosome and are correlated by linkage disequilibrium.
 
-<<pleiotropy-2traits, fig.height = 3, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "One pleiotropic QTL. Figure after code from https://github.com/kbroman/QTLFigs repository.">>=
+<<pleiotropy-2traits, fig.height = 3, fig.width = 6.5, out.width = "\\textwidth", fig.cap = "One pleiotropic QTL affecting two traits (left) and two distinct, but correlated, QTL each affecting one trait (right). Figure after code from https://github.com/kbroman/QTLFigs repository.">>=
 bgcolor <- brocolors("bg")
 iArrows <- igraph:::igraph.Arrows
 
