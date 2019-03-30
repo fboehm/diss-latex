@@ -965,9 +965,18 @@ to a chi-squared distribution with 1 degree of freedom.
 
 \section{Designs for multiparental populations and Diversity Outbred mice}\label{sec:multiparent-designs}
 
+% overview of MPP mapping populations. What are the essential ideas?
+
+% Collaborative Cross
+
+% Diversity Outbred 
+
+
+
+
 Geneticists sought a mammalian gene mapping resource 
-that could be used for study of a wide variety of quantitative traits. 
-The magnitude of such an undertaking required a collaborative, community-supported
+for study of a wide variety of quantitative traits. 
+The magnitude of such an undertaking required a collaborative, research community-supported
 approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred
 mouse population as such a high-resolution gene mapping resource 
 \citep{churchill2012diversity,svenson2012high}.
@@ -1267,7 +1276,18 @@ QTL mapping resolution.
 
 QTL mapping in Diversity Outbred mice, like that in mice from two-parent crosses, is a multi-step procedure: 1. data acquisition, 2. inference of missing genotypes, and 3. modeling phenotypes as a function of genotypes. Data acquisition involves measurement of phenotypes and, at specified genetic markers, termed ``single nucleotide polymorphism'' or SNP markers, measurement of two-allele genotypes. Often, the SNP marker genotypes are obtained by use of a microarray, such as the GigaMUGA SNP microarray \citep{morgan2015mouse}. 
 
-The next step, missing genotypes inference, is needed because of the ``missing data problem'' \citep{broman2009guide}. It takes as input the two-allele genotypes at the measured SNP markers. An expectation-maximization algorithm \citep{dempster1977maximum} for a hidden Markov model, developed by \citet{broman2012haplotype} and \citet{broman2012genotype} and implemented in the \texttt{qtl2} R package \citep{broman2019rqtl2}, outputs 36-state genotype probabilities for all nuclear autosomal markers and pseudomarkers. Pseudomarkers, as we use the term, are arbitrary nucleotide bases at which the researcher wants 36-state genotype probabilities. Finally, we collapse the 36-state genotype probabilities to eight founder allele dosages at each marker. This last step is optional, but often helpful, because the simplified models require specification of fewer parameters. We then treat the founder allele dosages as known quantities in subsequent steps. 
+The next step, missing genotypes inference, is needed because of the 
+``missing data problem'' \citep{broman2009guide}. It takes as input the two-allele 
+genotypes at the measured SNP markers. An expectation-maximization algorithm 
+\citep{dempster1977maximum} for a hidden Markov model, developed by
+\citet{broman2012haplotype} and \citet{broman2012genotype} and implemented in the \texttt{qtl2} R 
+package \citep{broman2019rqtl2}, outputs 36-state genotype probabilities for all 
+nuclear autosomal markers and pseudomarkers. \todo[inline]{Explain why genotypes involve 36 states.}Pseudomarkers are 
+arbitrary positions at which the researcher wants 36-state genotype probabilities. 
+Finally, we collapse the 36-state genotype probabilities to eight founder allele 
+dosages at each marker. This last step is optional, but often helpful, because the 
+simplified models require specification of fewer parameters. We then treat the 
+founder allele dosages as known quantities in subsequent steps. 
 
 % model form - connecting genotype to phenotype
 
