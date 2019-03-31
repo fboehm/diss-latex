@@ -1261,7 +1261,7 @@ include_graphics("figs/svenson2012.pdf")
 @
 
 
-<<do, fig.cap = "Diversity outbred mouse genomes are a highly heterozygous mixture of eight founder genomes.", eval = TRUE>>=
+<<do, fig.cap = "Diversity outbred mouse genomes are a highly heterozygous mixture of eight founder genomes. (R code to create figure from https://github.com/kbroman/QTLFigs repository.)", eval = TRUE>>=
 ##############################
 # HS
 ##############################
