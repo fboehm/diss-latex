@@ -346,8 +346,11 @@ chromosomes that contain DNA from both founder lines.
 # load utility functions
 source("meiosis_func.R")
 
-lightblue <- "blue"
-pink <- "red"
+#lightblue <- "blue"
+#pink <- "red"
+lightblue <- brocolors("crayons")["Cerulean"]
+pink <- brocolors("crayons")["Tickle Me Pink"]
+
 
 par(mar=rep(0.1,4),bty="n")
 plot(0,0,xlim=c(-15,864),ylim=c(0,480),xaxt="n",yaxt="n",xlab="",ylab="",type="n")
