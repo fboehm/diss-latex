@@ -1256,7 +1256,12 @@ They produce three or four generations per year. Offspring from each mating are 
 used to create the next generation or shared with researchers around the 
 world \citep{svenson2012high,chesler2016diversity}. 
 
-<<do, fig.cap = "Diversity outbred mouse genomes are a highly heterozygous mixture of eight founder genomes.", eval = FALSE>>=
+<<svenson, fig.cap = "Color-coded genome of a G4 Diversity Outbred mouse (from \\citet{svenson2012high})", out.width = "6.5in", eval = FALSE>>=
+include_graphics("figs/svenson2012.pdf")
+@
+
+
+<<do, fig.cap = "Diversity outbred mouse genomes are a highly heterozygous mixture of eight founder genomes.", eval = TRUE>>=
 ##############################
 # HS
 ##############################
@@ -1439,10 +1444,8 @@ text(u[1],yloc-20,expression(G[20]),adj=c(0,0.5))
 
 Due to the breeding scheme, each Diversity Outbred mouse is a highly
 heterozygous and essentially unique mosaic of
-founders' DNA. Figure~\ref{fig:svenson} (Figure 5 in 
-\citet{svenson2012high})presents a Diversity Outbred mouse genome 
-from the fourth outbreeding generation. DNA from each founder 
-line is color-coded. 
+founders' DNA. Figure~\ref{fig:do} presents color-coded chromosomes for a collection of subjects from a multiparental population like the Diversity Outbred mice. DNA from each founder 
+line is color-coded. Each pair of vertical bars corresponds to one subject. Each row corresponds to a single generation. Generation number increases from top to bottom. 
 With each new generation, the Diversity Outbred mouse genomes are shuffled
 in smaller and smaller chunks.
 The smaller DNA chunk sizes in later generations correspond to 
