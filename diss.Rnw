@@ -963,40 +963,28 @@ them, after logarithm transformation and multiplication by two,
 to a chi-squared distribution with 1 degree of freedom. 
 
 
-\section{Designs for multiparental populations and Diversity Outbred mice}\label{sec:multiparent-designs}
+\section{Designs for Collaborative Cross and Diversity Outbred mice}\label{sec:multiparent-designs}
 
 % overview of MPP mapping populations. What are the essential ideas?
+Recognizing limitations of two-parent designs, geneticists sought populations with 
+greater QTL mapping precision. And, rather than designing a high-resolution mapping 
+resource for only one or few traits or diseases, they aimed to develop a mapping population for 
+study of a diverse collection of complex traits. Since this required a collaborative, 
+research community-supported
+investment, mammalian geneticists formed the Complex Trait Consortium to 
+create a high-resolution mouse mapping population, the Collaborative 
+Cross
+\citep{de2014genetics,threadgill2002genetic,churchill2004collaborative,threadgill2012ten}.
 
-% Collaborative Cross
-
-% Diversity Outbred 
-
-
-
-
-Geneticists sought a mammalian gene mapping resource 
-for study of a wide variety of quantitative traits. 
-The magnitude of such an undertaking required a collaborative, research community-supported
-approach \citep{de2014genetics}. Scientists conceived of the Diversity Outbred
-mouse population as such a high-resolution gene mapping resource 
-\citep{churchill2012diversity,svenson2012high}.
-They elected to seed the population with partially inbred progenitors of the
-Collaborative Cross lines \citep{churchill2004collaborative}. The Collaborative
-Cross is a collection of 
-dozens of inbred lines that result from shuffling of the eight founder line
-genomes and multiple generations of inbreeding. 
-The Collaborative Cross mating design started with
-mice from A/J, C57BL/6J, 129S1/SvImJ,
-NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ. 
-Three of these lines, CAST/EiJ, PWK/PhJ, and WSB/EiJ, are wild-derived. 
-Together, the three wild-derived lines contribute a high proportion of 
-the genetic variants in the Diversity Outbred mice. 
-
-The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to 
+The Collaborative Cross is a collection of eight-way recombinant inbred lines for 
+systems genetics studies (Figure~\ref{fig:ri8}). A ``$n$-way recombinant inbred'' line is an inbred line that arises 
+from a mating design with $n$ genetically distinct founder lines \citep{haldane1931inbreeding,bailey1971recombinant,crow2007haldane}. The Collaborative 
+Cross incorporates DNA from eight inbred founder lines: A/J, C57BL/6J, 129S1/SvImJ, 
+NOD/ShiLtJ, NZO/HILtJ, CAST/EiJ, PWK/PhJ, WSB/EiJ. The designers of the Collaborative Cross used a ``multi-funnel'' mating scheme to 
 generate
 mice with DNA from all eight founder lines over the course of 3 generations
 \citep{churchill2004collaborative}.
-The term ``funnel'' refers to the design for the first 3 mating generations in which the
+The term ``funnel'' refers to the design for the first three mating generations in which the
 DNA from eight founder lines ``funnels'' into animals that have DNA from all eight founders.
 For example, in one funnel, mating pairs are: A x B, C x D, E x F, and G x H
 in the first generation (Figure~\ref{fig:ri8}) (where ``x'' denotes mating).
@@ -1004,6 +992,14 @@ AB offspring then mate with CD offspring, and EF offspring mate with GH mice.
 Finally, the ABCD mice mate with the EFGH mice to create a generation of mice that
 contain genetic material from all eight inbred founder lines.
 Subsequent generations of inbreeding resulted in multiple inbred lines for the Collaborative Cross.
+
+
+
+% Collaborative Cross
+
+
+% Diversity Outbred 
+
 
 <<ri8, fig.lp="fig:", fig.cap="Schematic for a single funnel in the Collaborative Cross breeding design. Figure is created with R code from https://github.com/kbroman/QTLFigs repository.">>=
 color <- c(rgb(102,203,254,maxColorValue=255), # light blue
@@ -1263,14 +1259,12 @@ They produce three or four generations per year. Offspring from each mating are 
 used to create the next generation or shared with researchers around the 
 world \citep{svenson2012high,chesler2016diversity}. 
 
-Due to the breeding scheme, each Diversity Outbred mouse is a highly 
-heterozygous and essentially unique mosaic of 
-founders' DNA. \todo{add figure for one mouse's DNA?? like figure 5A in Svenson et al. 2012}
+Due to the breeding scheme, each Diversity Outbred mouse is a highly
+heterozygous and essentially unique mosaic of
+founders' DNA. \todo[inline]{add figure for one mouse's DNA?? like figure 5A in Svenson et al. 2012}
 With each new generation, the Diversity Outbred mouse genomes are shuffled
 in smaller and smaller chunks.
-Thus, Diversity Outbred mice from later generations have greater
-QTL mapping resolution.
-
+The smaller DNA chunk sizes in later generations correspond to greater QTL mapping resolution.
 
 \section{QTL mapping in Diversity Outbred mice}\label{sec:do-qtl}
 
@@ -1314,15 +1308,6 @@ two-parent crosses. Due to the complexity of the breeding design, Diversity Outb
 have 
 complicated pairwise relationships. A given study cohort may include pairs of first
 cousins, parent-offspring pairs, grandparent-grandchild pairs, second cousin pairs, and others.
-Contrasting this with the two-parent backcross (Figure~\ref{fig:backcross}) and
-intercross (Figure~\ref{fig:intercross}) designs, we see in the backcross that
-average relatedness between any two members of the BC generation is equal to the same, shared value.
-One measure of relatedness is the probability of identity by state, \emph{i.e.}, the
-probability that a randomly chosen allele from one subject is identical to a randomly chosen
-allele of the second subject. Measured in terms of the probability that a randomly chosen allele
-from one subject is identical to a randomly chosen allele of a second subject, we note that
-this probability of identity by state is $\frac{5}{8}$ in the backcross. F$_2$ subject pairs in an intercross, likewise, have a single, shared average relatedness, with an identity by state probability of $\frac{1}{2}$.
-
 Because relatedness can confound genotype-phenotype associations 
 \citep{yang2014advantages}, researchers have developed methods to account 
 for relatedness in their statistical models. One popular approach involves 
@@ -1350,10 +1335,10 @@ its contributions relative to mediation analysis in the dissection of expression
 hotspots. I then examine statistical power to distinguish local expression trait QTLs.
 I conclude Chapter 3 by applying the pleiotropy test to two microbiome-related traits,
 where we obtain a result consistent with a pleiotropic QTL that affects both traits.
-Chapter 4 consists of a user guide to the R software package \texttt{qtl2pleio}, which is
+Chapter 4 presents the R software package \texttt{qtl2pleio}, which is
 available on Github (\url{https://github.com/fboehm/qtl2pleio}, 
 \url{https://fboehm.us/static/software/qtl2pleio/}). The Github repository also
-features integration with the Binder software project. Thus, a user may explore the
+features integration with the Binder software project. With this, a user may explore the
 code in an interactive R session. 
 
 
@@ -1369,12 +1354,12 @@ code in an interactive R session.
 %%% CHAPTER 1 End
 %%%%%%%%%%%%%%%%%
 %%% chapter 2 start
-\chapter{Methods development}
+\chapter{Testing pleiotropy vs. separate QTL in multiparental populations}
 
 
 \section{Introduction}
 
-Complex trait studies in multiparental populations present new
+\footnote{Published at \url{https://www.biorxiv.org/content/10.1101/550939v1}.}Complex trait studies in multiparental populations present new
 challenges in statistical methods and data analysis. Among these is
 the development of strategies for multivariate trait analysis. The
 joint analysis of two or more traits allows one to address additional
