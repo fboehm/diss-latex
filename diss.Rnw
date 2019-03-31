@@ -1256,17 +1256,22 @@ They produce three or four generations per year. Offspring from each mating are 
 used to create the next generation or shared with researchers around the 
 world \citep{svenson2012high,chesler2016diversity}. 
 
-<<do, fig.cap = "Diversity outbred mouse genomes are a highly heterozygous mixture of eight founder genomes.">>=
+<<do, fig.cap = "Diversity outbred mouse genomes are a highly heterozygous mixture of eight founder genomes.", eval = FALSE>>=
 ##############################
 # HS
 ##############################
+bgcolor <- "white"
+color_col <- "black"
+par(mar=rep(0.1,4),las=1,fg=color_col,col=color_col,col.axis=color_col,
+    col.lab=color_col,
+    bg=bgcolor)
 
 n.lines <- 80
 
 color <- qtl2::CCcolors
-library(simcross)
 
-par(bty="n", mar=rep(0.1, 4), cex=2)
+
+par(bty="n", mar=rep(0.1, 4), cex=1)
 plot(0,0,xlim=c(0,864),ylim=c(25,480),xaxt="n",yaxt="n",xlab="",ylab="",type="n")
 
 u <- par("usr")
@@ -1286,7 +1291,7 @@ set.seed(11716366)
 # need to have source func.R
 gen <- vector("list", n.lines)
 for(i in 1:n.lines)
-  gen[[i]] <- create_parent(100, sample(1:8, 2))
+  gen[[i]] <- simcross::create_parent(100, sample(1:8, 2))
 wh <- seq(1, n.lines, by=5)
 
 xloc <- 10
@@ -1305,8 +1310,8 @@ mysample <- function(n)
 
 old <- gen[mysample(n.lines)]
 for(i in 1:(n.lines/2)) {
-  gen[[i*2-1]] <- cross(old[[i*2-1]], old[[i*2]])
-  gen[[i*2]] <- cross(old[[i*2-1]], old[[i*2]])
+  gen[[i*2-1]] <- simcross::cross(old[[i*2-1]], old[[i*2]])
+  gen[[i*2]] <- simcross::cross(old[[i*2-1]], old[[i*2]])
 }
 
 xloc <- 10
@@ -1337,8 +1342,8 @@ text(u[1],yloc-20,expression(G[2]),adj=c(0,0.5))
 for(kk in 3:10) {
   old <- gen[mysample(n.lines)]
   for(i in 1:(n.lines/2)) {
-    gen[[i*2-1]] <- cross(old[[i*2-1]], old[[i*2]])
-    gen[[i*2]] <- cross(old[[i*2-1]], old[[i*2]])
+    gen[[i*2-1]] <- simcross::cross(old[[i*2-1]], old[[i*2]])
+    gen[[i*2]] <- simcross::cross(old[[i*2-1]], old[[i*2]])
   }
 }
 
@@ -1370,8 +1375,8 @@ text(u[1],yloc-20,expression(G[10]),adj=c(0,0.5))
 for(kk in 11:15) {
   old <- gen[mysample(n.lines)]
   for(i in 1:(n.lines/2)) {
-    gen[[i*2-1]] <- cross(old[[i*2-1]], old[[i*2]])
-    gen[[i*2]] <- cross(old[[i*2-1]], old[[i*2]])
+    gen[[i*2-1]] <- simcross::cross(old[[i*2-1]], old[[i*2]])
+    gen[[i*2]] <- simcross::cross(old[[i*2-1]], old[[i*2]])
   }
 }
 
@@ -1402,8 +1407,8 @@ text(u[1],yloc-20,expression(G[15]),adj=c(0,0.5))
 for(kk in 16:20) {
   old <- gen[mysample(n.lines)]
   for(i in 1:(n.lines/2)) {
-    gen[[i*2-1]] <- cross(old[[i*2-1]], old[[i*2]])
-    gen[[i*2]] <- cross(old[[i*2-1]], old[[i*2]])
+    gen[[i*2-1]] <- simcross::cross(old[[i*2-1]], old[[i*2]])
+    gen[[i*2]] <- simcross::cross(old[[i*2-1]], old[[i*2]])
   }
 }
 
@@ -1434,17 +1439,26 @@ text(u[1],yloc-20,expression(G[20]),adj=c(0,0.5))
 
 Due to the breeding scheme, each Diversity Outbred mouse is a highly
 heterozygous and essentially unique mosaic of
-founders' DNA. Figure~\ref{fig:do} represents unique Diversity Outbred mice as a pair of 
-autosomes (vertical bars). DNA from each founder line is color-coded. Horizontal rows 
-correspond to unique generations, with generation number increasing from top to bottom. 
+founders' DNA. Figure~\ref{fig:svenson} (Figure 5 in 
+\citet{svenson2012high})presents a Diversity Outbred mouse genome 
+from the fourth outbreeding generation. DNA from each founder 
+line is color-coded. 
 With each new generation, the Diversity Outbred mouse genomes are shuffled
 in smaller and smaller chunks.
-The smaller DNA chunk sizes in later generations correspond to greater QTL mapping 
+The smaller DNA chunk sizes in later generations correspond to 
+greater QTL mapping 
 resolution.
 
 \section{QTL mapping in Diversity Outbred mice}\label{sec:do-qtl}
 
-QTL mapping in Diversity Outbred mice, like that in mice from two-parent crosses, is a multi-step procedure: 1. data acquisition, 2. inference of missing genotypes, and 3. modeling phenotypes as a function of genotypes. Data acquisition involves measurement of phenotypes and, at specified genetic markers, termed ``single nucleotide polymorphism'' or SNP markers, measurement of two-allele genotypes. Often, the SNP marker genotypes are obtained by use of a microarray, such as the GigaMUGA SNP microarray \citep{morgan2015mouse}. 
+QTL mapping in Diversity Outbred mice, like that in mice from two-parent 
+crosses, is a multi-step procedure: 1. data acquisition, 2. inference of 
+missing genotypes, and 3. modeling phenotypes as a function of genotypes. 
+Data acquisition involves measurement of phenotypes and, at specified 
+genetic markers, termed ``single nucleotide polymorphism'' or SNP markers, 
+measurement of two-allele genotypes. Often, the SNP marker genotypes are 
+obtained by use of a microarray, such as the GigaMUGA SNP microarray 
+\citep{morgan2015mouse}. 
 
 The next step, missing genotypes inference, is needed because of the 
 ``missing data problem'' \citep{broman2009guide}. It takes as input the two-allele 
@@ -1468,9 +1482,6 @@ A genetically ``additive'' linear model, in which
 we assume a linear relationship between
 a trait's values and each founder allele's dosage, is a popular default model.
 \citep{gatti2014quantitative,broman2019rqtl2}.
-The R package \texttt{qtl2} provides a straightforward user
-interface to include covariates and interaction terms in the linear 
-model \citep{broman2019rqtl2}.
 
 
 
