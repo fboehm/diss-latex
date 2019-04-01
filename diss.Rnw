@@ -4,6 +4,7 @@
 \usepackage{lineno}
 \linenumbers
 
+\usepackage{bbm}
 \usepackage{setspace}
 \usepackage[left = 1in, right = 1in, top = 1.5in, bottom = 1in]{geometry}
 \usepackage{multirow}
@@ -505,14 +506,14 @@ exist. I discuss below three QTL mapping methods:
 marker regression (Section~\ref{sec:marker-regression}), interval mapping (Section~\ref{sec:interval-mapping}), and Haley-Knott regression (Section~\ref{sec:haley-knott}). I consider
 the three methods in analysis of a backcross design. 
 Before getting to the details of our three QTL mapping methods, I discuss
-data inputs that are required for QTL mapping. 
+data inputs that are required for QTL mapping, assuming at most one QTL somewhere in the genome. 
 
 %QTL mapping inputs
 Three standard inputs for QTL mapping are:
 \begin{enumerate}
 \item genome-wide marker genotypes for a collection of study subjects
 \item a set of trait measurements on the same subjects
-\item a genetic map that contains genomic positions for all molecular markers (Figure~\ref{fig:map})
+\item a genetic map that contains genomic positions for all molecular markers (Figure~\ref{fig:map}) \citep{sturtevant1913linear}
 \end{enumerate}
 
 A physical map, with marker positions in 
@@ -545,7 +546,7 @@ object may be stored as a collection of two-column data frames, where each row i
 unique marker and the two columns contain marker identities and marker positions. 
 In this structure, each chromosome has its own map object. Marker distribution is 
 not uniform across the 
-genome (Figure~\ref{fig:map}). Some chromosome regions, including parts of 
+genome (Figure~\ref{fig:map}). Some chromosome regions in Figure~\ref{fig:map}, including parts of 
 Chromosome 4, have dense marker 
 coverage, while others, including Chromosome 2, have relatively sparse marker 
 coverage. Dense marker coverage is preferred in QTL mapping applications because it 
@@ -571,7 +572,7 @@ markers are ``missing'' because they aren't explicitly measured
 (Figure~\ref{fig:genoprob1}). Figure~\ref{fig:genoprob1} presents, for
 one subject, a chromosome with genotyped markers at the tick marks.
 The triangle represents a position at which we wish to know the allele's identity.
-Below, we discuss methods for genotype inference at positions between markers. 
+In Section~\ref{sec:interval-mapping}, we discuss methods for genotype inference at positions between markers. 
 %\begin{figure}
 %\includegraphics[width = \textwidth]{figs/genoprob1.pdf}
 %\caption{Inferring genotypes at an intermarker position.}\label{fig:genoprob1}
@@ -607,7 +608,7 @@ x2 <- 48
 The three statistical methods for QTL mapping, marker regression, 
 interval mapping, and Haley-Knott regression, differ in strategies for addressing 
 the ``missing data'' problem. I first discuss marker regression, because it is the 
-simplest approach and because the other strategies share some aspects of it.
+simplest approach and because the other methods share some aspects of it.
 
 \subsection{Marker regression}\label{sec:marker-regression}
 
@@ -615,36 +616,40 @@ Marker regression inputs are genome-wide marker genotypes and measured values of
 complex trait of interest (from the same subjects). 
 At each marker, one fits a linear model by regressing trait values on marker 
 genotypes (Equation~\ref{eq:uni-2-parent}), sequentially, at each marker. In a 
-backcross, the ``B allele count'' variable takes values of 0 or 1. In an intercross
+backcross, the ``B allele count'' variable, also denotes $x_i$, where $i$ indexes the subjects, takes values of 0 or 1. In an intercross
 , the ``B allele count'' may be 0, 1, or 2. Both backcross and intercross designs 
 permit solution of the regression by a statistical technique called ``maximum likelihood estimation''. I assume that the random errors for 
-all subjects have the same variance and are statistically independent. Statistical 
+all subjects have a normal distribution with mean zero and variance $\sigma^2$ and are statistically independent. Statistical 
 independence means that knowing the value of one subject's random error provides no 
 information about the distribution of another subject's random error.
 
 
-\begin{equation}
-\text{trait} = \text{(mean for AA genotype)} + \text{(B allele count)}\text{(B allele effect)} + \text{(random error)}
+\begin{eqnarray}
+\text{trait} &=& \text{(mean for AA genotype)} + \text{(B allele count)}\text{(B allele effect)} + \text{(random error)}\nonumber\\
+y_i &=& \mu_{AA} + x_i\beta + \epsilon_i
 \label{eq:uni-2-parent}
-\end{equation}
+\end{eqnarray}
 
 \begin{equation}
-\text{(random error)} \sim N(0, \sigma^2), \hspace{1cm}\text{      (random errors) independent}
+\epsilon_i \sim N(0, \sigma^2), \hspace{1cm}\epsilon_i\text{ independent}
 \label{eq:random-error-dist}
 \end{equation}
 
-Equation~\ref{eq:random-error-dist} specifies the random error distribution. It also introduces notation that requires explanation. 
+Equation~\ref{eq:random-error-dist} specifies the random error distribution. 
+Equation~\ref{eq:random-error-dist} also introduces 
+notation that requires explanation. 
 The ``$\sim$'' symbol designates a probability distribution. The left-hand
 side ``is distributed as'' the right-hand side. In this case, I describe the distribution of the 
 random errors. Capital ``N'', in a distribution, abbreviates ``Normal''. The first number after 
 the ``N'' is the distribution mean, while the second is the variance. These two numbers, mean 
-and variance, completely specify a normal distribution.
+and variance, completely specify a normal distribution. Equation~\ref{eq:normal-pdf} gives a mathematical definition of the normal 
+probability density. 
 
 
 
 
 The linear regression equation (Equation~\ref{eq:uni-2-parent}) has three statistical 
-parameters, ``mean for AA genotype'', ``B allele effect'', and the variance of the random errors. In this 
+parameters, ``mean for AA genotype'' ($\mu_{AA}$), ``B allele effect'' ($\beta$), and the variance ($\sigma^2$) of the random errors. In this 
 statistical framework, I treat parameters as fixed, but unknown, numbers. I then 
 seek the parameter values that are most compatible with the data. To do this, I use the approach 
 called ``maximum likelihood estimation''. 
@@ -658,7 +663,7 @@ above $\beta$ indicates that $\hat\beta$ is a maximum likelihood estimate of the
 parameter $\beta$ (\emph{i.e.}, the unknown ``B allele effect'').
 
 \begin{equation}
-\hat\beta = \frac{\sum_{i=1}^nx_iy_i}{\sum_{i = 1}^nx_i^2}
+\hat\beta = \frac{\sum_{i=1}^n(x_i - \bar x)y_i}{\sum_{i = 1}^n(x_i - \bar x)^2}
 \label{eq:beta-hat}
 \end{equation}
 
@@ -676,15 +681,27 @@ from the predicted values, for a
 set of specified parameter values. Equation~\ref{eq:rss1} defines residual
 sum of squares for a univariate QTL analysis. I make an additional substitution in 
 Equation~\ref{eq:rss1} by replacing ``B allele count'' with $x_i$, where ``i'' indexes subjects. In 
-Equation~\ref{eq:rss1}, I replace ``mean for AA genotype'' with $\mu_{AA}$. 
+Equation~\ref{eq:rss1}, I introduce $\hat\mu_{g_i}$ as an estimate of the parameter 
+$\mu_{g_i}$. $\mu_{g_i}$ is the mean trait value of the genotype class to which subject 
+$i$ belongs. If subject $i$ has genotype AA, then $\mu_{g_i} = \mu_{AA}$. I estimate 
+$\mu_{g_i}$ with Equation~\ref{eq:mu-g-i-hat}
 
 \begin{equation}
-RSS_1 = \sum_{i=1}^n(y_i - \mu_{AA} - x_i\beta)^2
+\hat\mu_{g} = \frac{\sum_{i = 1}^ny_i\mathbbm{1}{g_i = g}}{n_{g}}
+\label{eq:mu-g-i-hat}
+\end{equation}
+
+In Equation~\ref{eq:mu-g-i-hat}, $g$ is any of AA, AB, or BB. $\mathbbm{1}{g_i = g}$ 
+takes values 0 and 1; if $g_i = g$, then $\mathbbm{1}{g_i = g} = 1$; otherwise, it's zero.
+$n_g$ is the number of subjects with $g_i = g$. 
+
+\begin{equation}
+RSS_1 = \sum_{i=1}^n(y_i - \hat\mu_{g_i})^2
 \label{eq:rss1}
 \end{equation}
 
 We ultimately want to calculate a likelihood ratio test statistic
-for the competing statistical hypotheses of Equation~\ref{eq:qtl-hypotheses}
+for the competing statistical hypotheses of Equation~\ref{eq:qtl-hypotheses}.
 
 \begin{eqnarray}
 H_1: \text{A QTL is present at a specified marker}\nonumber \\
@@ -708,7 +725,7 @@ per-subject likelihoods, where $\phi(y; \mu, \sigma^2)$ denotes the density at $
 distribution with mean $\mu$ and variance $\sigma^2$ (Equation~\ref{eq:normal-pdf}).
 
 \begin{equation}
-\phi(y; \mu, \sigma^2 = \frac{1}{\sqrt{2\pi\sigma^2}}\exp{(- \frac{(y - \mu)^2}{2\sigma^2})}
+\phi(y; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp{(- \frac{(y - \mu)^2}{2\sigma^2})}
 \label{eq:normal-pdf}
 \end{equation}
 
@@ -779,19 +796,24 @@ these values, recall the relationship between joint and conditional probabilitie
 (Equation~\ref{eq:joint-conditional-probs}). Application of this relationship yields 
 the probabilities in Table~\ref{tab:genoprob}. A more general solution for 
 these calculations can be implemented with algorithms for hidden Markov 
-models (Appendix~\ref{sec:stat-primer}) \citep{broman2009guide, broman2006use}.
+models \citep{broman2009guide, broman2006use}.
 
 \begin{equation}
 \frac{P(\text{g$_1$} = AA, \text{g$_2$}=AA, \text{g$_Q$}=AA)}{P(\text{g$_1$} = AA, \text{g$_2$}=AA)} = P(\text{g$_Q$} = AA|\text{g$_1$} = AA, \text{g$_2$}=AA)
 \label{eq:joint-conditional-probs}
 \end{equation}
 
-In interval mapping, trait values are modeled statistically as having a distribution 
-that is a mixture of normal distributions, where each component in the mixture correspon
-ds to a genotype class. I assume a single variance common to all components (at a single 
-putative QTL). In a backcross, there are thus two normal distribution components for 
-each grid point, \emph{i.e.}, each putative QTL. Fitting such a model by maximum 
-likelihood requires an iterative procedure like the expectation-maximization algorithm 
+In interval mapping, trait values are modeled statistically as having a 
+distribution 
+that is a mixture of normal distributions, where each component in the mixture 
+corresponds to a genotype class. I assume a single variance common to all 
+components (at a single 
+putative QTL). In a backcross, there are thus two normal distribution 
+components for 
+each grid point, \emph{i.e.}, each putative QTL. Fitting such a model by 
+maximum 
+likelihood requires an iterative procedure like the expectation-maximization 
+algorithm 
 \citep{dempster1977maximum}. Performing the iterative procedure is required at every 
 putative QTL position. Thus, it is more computationally intensive than other approaches, 
 such as Haley-Knott regression, to which I now turn attention.
@@ -823,7 +845,7 @@ both \citet{jiang1995multiple} and \citet{korol1995interval} developed
 multivariate interval mapping procedures for two-parent crosses. 
 Among the novel methods from \citet{jiang1995multiple} is a test of pleiotropy vs. 
 separate QTL.
-They explain that such a test is useful when two traits map to a single genomic region.
+Such a test is useful when two traits map to a single genomic region.
 The question then arises ``do the two traits associate with the same locus, 
 or do they associate with separate loci''?
 
@@ -958,6 +980,7 @@ the separate QTL hypothesis. \citet{jiang1995multiple} determined
 p-values for their test statistics by comparing
 them, after logarithm transformation and multiplication by two,
 to a chi-squared distribution with 1 degree of freedom. 
+I continue this discussion in Section~\ref{sec:materials:methods}.
 
 
 \section{Designs for Collaborative Cross and Diversity Outbred mice}\label{sec:multiparent-designs}
@@ -1250,7 +1273,7 @@ for(j in 2:ncol(fa$mat)) {
 
 
 The designers of the Diversity Outbred population started with 167 breeding pairs
-from Collaborative Cross generations F4 to F12 \citep{svenson2012high}. They since
+from Collaborative Cross generations F$_4$ to F$_{12}$ \citep{svenson2012high}. They since
 have maintained the Diversity Outbred mouse population with about 175 mating pairs.
 They produce three or four generations per year. Offspring from each mating are either
 used to create the next generation or shared with researchers around the 
@@ -1444,8 +1467,9 @@ text(u[1],yloc-20,expression(G[20]),adj=c(0,0.5))
 
 Due to the breeding scheme, each Diversity Outbred mouse is a highly
 heterozygous and essentially unique mosaic of
-founders' DNA. Figure~\ref{fig:do} presents color-coded chromosomes for a collection of subjects from a multiparental population like the Diversity Outbred mice. DNA from each founder 
-line is color-coded. Each pair of vertical bars corresponds to one subject. Each row corresponds to a single generation. Generation number increases from top to bottom. 
+founders' DNA. Figure~\ref{fig:do} presents color-coded chromosomes for a collection of 
+subjects from a multiparental population like the Diversity Outbred mice. DNA from each founder 
+line is color-coded. Each pair of vertical bars corresponds to one subject. Each row corresponds to a single generation, with generation labels on the left. Generation number increases from top to bottom. 
 With each new generation, the Diversity Outbred mouse genomes are shuffled
 in smaller and smaller chunks.
 The smaller DNA chunk sizes in later generations correspond to 
@@ -1469,7 +1493,8 @@ genotypes at the measured SNP markers. An expectation-maximization algorithm
 \citep{dempster1977maximum} for a hidden Markov model, developed by
 \citet{broman2012haplotype} and \citet{broman2012genotype} and implemented in the \texttt{qtl2} R 
 package \citep{broman2019rqtl2}, outputs 36-state genotype probabilities for all 
-nuclear autosomal markers and pseudomarkers. The outputted genotypes have 36 states because each position has eight homozygote states (one for each founder line) and $\binom{8}{2}$ heterozygote states. Pseudomarkers are 
+nuclear autosomal markers and pseudomarkers. The outputted genotypes have 36 states 
+because each position has eight homozygote states (one for each founder line) and $\binom{8}{2}$ heterozygote states. Pseudomarkers are 
 arbitrary positions at which the researcher wants 36-state genotype probabilities. 
 Finally, we collapse the 36-state genotype probabilities to eight founder allele 
 dosages at each marker. This last step is optional, but often helpful, because the 
@@ -1625,7 +1650,7 @@ distinct. The logarithm of the ratio of the two likelihoods is our
 test statistic. We calibrate this test statistic with a parametric
 bootstrap.
 
-\section{Data structures}
+\subsection{Data structures}\label{sec:data-structures}
 
 The data consist of three objects. The first is an $n$ by $k$ by $m$
 array of allele probabilities for $n$ subjects with $k$ alleles and
