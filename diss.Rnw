@@ -616,7 +616,7 @@ Marker regression inputs are genome-wide marker genotypes and measured values of
 complex trait of interest (from the same subjects). 
 At each marker, one fits a linear model by regressing trait values on marker 
 genotypes (Equation~\ref{eq:uni-2-parent}), sequentially, at each marker. In a 
-backcross, the ``B allele count'' variable, also denotes $x_i$, where $i$ indexes the subjects, takes values of 0 or 1. In an intercross
+backcross, the ``B allele count'' variable, also denoted $x_i$, where $i$ indexes the subjects, takes values of 0 or 1. In an intercross
 , the ``B allele count'' may be 0, 1, or 2. Both backcross and intercross designs 
 permit solution of the regression by a statistical technique called ``maximum likelihood estimation''. I assume that the random errors for 
 all subjects have a normal distribution with mean zero and variance $\sigma^2$ and are statistically independent. Statistical 
@@ -624,35 +624,37 @@ independence means that knowing the value of one subject's random error provides
 information about the distribution of another subject's random error.
 
 
-\begin{eqnarray}
-\text{trait} &=& \text{(mean for AA genotype)} + \text{(B allele count)}\text{(B allele effect)} + \text{(random error)}\nonumber\\
-y_i &=& \mu_{AA} + x_i\beta + \epsilon_i
+\begin{equation}
+y_i = \mu_{g_i} + \epsilon_i
 \label{eq:uni-2-parent}
-\end{eqnarray}
+\end{equation}
 
 \begin{equation}
-\epsilon_i \sim N(0, \sigma^2), \hspace{1cm}\epsilon_i\text{ independent}
+\epsilon_i \sim_{ind.} N(0, \sigma^2)
 \label{eq:random-error-dist}
 \end{equation}
 
 Equation~\ref{eq:random-error-dist} specifies the random error distribution. 
-Equation~\ref{eq:random-error-dist} also introduces 
-notation that requires explanation. 
-The ``$\sim$'' symbol designates a probability distribution. The left-hand
-side ``is distributed as'' the right-hand side. In this case, I describe the distribution of the 
-random errors. Capital ``N'', in a distribution, abbreviates ``Normal''. The first number after 
-the ``N'' is the distribution mean, while the second is the variance. These two numbers, mean 
-and variance, completely specify a normal distribution. Equation~\ref{eq:normal-pdf} gives a mathematical definition of the normal 
-probability density. 
+The ``$\sim$'' symbol designates that a random variable has a probability distribution. The left-hand
+side ``is distributed as'' the right-hand side. The subscript ``ind.'' in ``$\sim_{ind.}$'' indicates that the random errors are statistically independent. 
+Capital ``N'' abbreviates ``Normal''. The first number after 
+the ``N'' is the distribution mean, while the second is the variance.
+These two numbers, mean 
+and variance, completely specify a normal distribution.
+Equation~\ref{eq:normal-pdf} gives a mathematical definition of the normal 
+probability density for a random variable $y$ with mean $\mu$ and variance $\sigma^2$. 
+
+\begin{equation}
+\phi(y; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp{(- \frac{(y - \mu)^2}{2\sigma^2})}
+\label{eq:normal-pdf}
+\end{equation}
 
 
 
-
-The linear regression equation (Equation~\ref{eq:uni-2-parent}) has three statistical 
-parameters, ``mean for AA genotype'' ($\mu_{AA}$), ``B allele effect'' ($\beta$), and the variance ($\sigma^2$) of the random errors. In this 
+For a backcross and a single marker, Equation~\ref{eq:uni-2-parent} has three statistical 
+parameters, ``mean for AA genotype'' ($\mu_{AA}$), ``mean for AB genotype'' ($\mu_{AB}$), and the variance ($\sigma^2$) of the random errors. In this 
 statistical framework, I treat parameters as fixed, but unknown, numbers. I then 
-seek the parameter values that are most compatible with the data. To do this, I use the approach 
-called ``maximum likelihood estimation''. 
+seek, via ``maximum likelihood estimation'', the parameter values that are most compatible with the data.
 
 The maximum likelihood estimates for two parameters, ``B allele effect'' and 
 the random error variance, are given in Equations~\ref{eq:beta-hat} and
@@ -704,7 +706,7 @@ We ultimately want to calculate a likelihood ratio test statistic
 for the competing statistical hypotheses of Equation~\ref{eq:qtl-hypotheses}.
 
 \begin{eqnarray}
-H_1: \text{A QTL is present at a specified marker}\nonumber \\
+H_1: \text{A QTL is present only at a specified marker}\nonumber \\
 H_0: \text{No QTL is present in the genome}
 \label{eq:qtl-hypotheses}
 \end{eqnarray}
@@ -724,10 +726,6 @@ assumption of statistical independence of subjects, is equal to the product of t
 per-subject likelihoods, where $\phi(y; \mu, \sigma^2)$ denotes the density at $y$ for a normal 
 distribution with mean $\mu$ and variance $\sigma^2$ (Equation~\ref{eq:normal-pdf}).
 
-\begin{equation}
-\phi(y; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp{(- \frac{(y - \mu)^2}{2\sigma^2})}
-\label{eq:normal-pdf}
-\end{equation}
 
 I also need to calculate the maximum likelihood under the null model constraints, \emph{i.e.}, under the assumption that there is no QTL in the genome, in which case the genotype classes have the same mean trait value. 
 
@@ -739,9 +737,9 @@ L_0(\mu_0, \sigma^2_0) = P(\text{data}| \mu_0, \sigma^2_0) = \prod_{i=1}^n \phi_
 
 
 After calculating the likelihood ratio test statistic at every marker,
-one needs to obtain p-values for every test. Because a researcher performs many
+one needs to obtain $p$-values for every test. Because a researcher performs many
 tests (\emph{i.e.}, one per marker) in a genome-wide QTL scan, one needs to account for multiple testing. One way to do this is to perform
-a permutation test to determine adjusted p-values. In this permutation test, one
+a permutation test to determine adjusted $p$-values. In this permutation test, one
 shuffles or randomizes subjects' trait values to get a ``permuted phenotype''. One
 does this many times to obtain, say, 1000 permuted phenotypes. Each permuted phenotype
 is then analyzed with a univariate QTL scan. The statistician records, for
@@ -766,7 +764,7 @@ $r_{12}$. Assume that all subjects are genotyped at markers 1 and 2. With two ad
 assumptions, that of no crossover interference (\emph{i.e.}, recombinations are 
 assumed independent) and that of no genotyping errors, I can write 
 expressions for genotype probabilites at the putative QTL, conditional on the genotypes at 
-markers 1 and 2 (Table~\ref{tab:genoprob}).
+markers 1 and 2 (Table~\ref{tab:genoprob}) \citep{broman2009guide}.
 
 \begin{table}
 \caption{Probabilities for genotypes at intermediate putative QTL in a backcross, conditional on flanking marker genotypes.}\label{tab:genoprob}
@@ -832,7 +830,7 @@ y_i|M_i \sim N(\sum_j p_{ij}\mu_j, \sigma^2)
 \label{eq:hk}
 \end{equation}
 
-In Equation~\ref{eq:hk}, ``j'' indexes the genotype classes, while ``i'' indexes the subjects. $p_{ij}$ is the probability that subject ``i'' belongs to genotype class ``j'', while $\mu_j$ is the mean trait value for genotype class ``j''. While Haley-Knott regression may be insufficient when marker data is sparse, it performs well (compared to interval mapping) with dense marker data when all subjects are successfully genotyped. Having completed the discussion of Haley-Knott regression, I now consider pleiotropy testing in two-parent crosses. 
+In Equation~\ref{eq:hk}, ``j'' indexes the genotype classes, while ``i'' indexes the subjects. $p_{ij}$ is the probability that subject ``$i$'' belongs to genotype class ``$j$'', while $\mu_j$ is the mean trait value for genotype class ``$j$''. While Haley-Knott regression may be insufficient when marker data is sparse, it performs well (compared to interval mapping) with dense marker data when all subjects are successfully genotyped \citep{broman2009guide}. Having completed the discussion of Haley-Knott regression, I now consider pleiotropy testing in two-parent crosses. 
 
 
 
@@ -972,15 +970,15 @@ tibble(c1, c2, foo = as.factor(foo)) %>%
 
 
 \citet{jiang1995multiple} then calculate the likelihoods of the models
-corresponding to all grid points.
+corresponding to all grid points (Figure~\ref{fig:encircle}).
 The likelihood ratio test statistic (for the pleiotropy test)
 is the ratio of the maximum
 of the likelihoods under pleiotropy to the maximum of the likelihoods under
 the separate QTL hypothesis. \citet{jiang1995multiple} determined
-p-values for their test statistics by comparing
+$p$-values for their test statistics by comparing
 them, after logarithm transformation and multiplication by two,
 to a chi-squared distribution with 1 degree of freedom. 
-I continue this discussion in Section~\ref{sec:materials:methods}.
+I detail these ideas in Section~\ref{sec:materials:methods}.
 
 
 \section{Designs for Collaborative Cross and Diversity Outbred mice}\label{sec:multiparent-designs}
@@ -1836,7 +1834,7 @@ is zero.
 
 We use a parametric bootstrap to calibrate our test statistic
 \citep{efron1979}. While \citet{jiang1995multiple} used quantiles of a
-chi-squared distribution to determine p-values, this does not account
+chi-squared distribution to determine $p$-values, this does not account
 for the two-dimensional search over QTL positions.
 We follow the approach of \citet{tian2016dissection}, and identify
 the maximum likelihood estimate of the QTL position under the null
@@ -1848,7 +1846,7 @@ For each of $b$ bootstrap data sets, we
 perform a two-dimensional QTL scan (over the genomic region of
 interest) and derive the test
 statistic value. We treat these $b$ test statistics as the
-empirical null distribution, and calculate a p-value as the
+empirical null distribution, and calculate a $p$-value as the
 proportion of the $b$ bootstrap test statistics that equal or exceed
 the observed one, with the original data,
 $p = \# \{ i:\text{LOD}^*_i \geq \text{LOD}\} / b$
@@ -2066,7 +2064,7 @@ The pleiotropy trace (in gray) peaks near 55 cM.
 
 The likelihood ratio test statistic for the test of pleiotropy was
 1.2. Based on a parametric bootstrap with 1,000 bootstrap replicates,
-the estimated p-value was 0.11, indicating weak
+the estimated $p$-value was 0.11, indicating weak
 evidence for distinct QTL for the two traits.
 
 
@@ -2614,7 +2612,7 @@ so that even a modest LOD difference gives rise to a sizeable LOD difference pro
 A second possible explanation is that the phenotype variances for both phenotypes in the pair 
 are large enough to skew the null distribution of the test statistic towards larger values. 
 To distinguish between these two, we would 
-examine the LOD difference statistics and obtain bootstrap p-values.
+examine the LOD difference statistics and obtain bootstrap $p$-values.
 
 In Figure~\ref{fig:lod-diff-prop-v-lrt-all}, we colored blue the points that involve \emph{Hnf4a}; 
 points with other local genes are red. 
@@ -3035,10 +3033,10 @@ Future research may clarify the impoact of founder allele effects patterns on pl
 The fact that all four anchor traits had strong PWK effects (Table~\ref{tab:effects}) limited
 our ability to fully define the impact of allele effects patterns on our test statistics.
 
-Throughout this study, we elected to use test statistic values rather than p-values as 
+Throughout this study, we elected to use test statistic values rather than $p$-values as 
 our measure of evidence supporting the separate QTL hypothesis.
 The primary reason for doing this is to avoid the computationally costly bootstrap
-sampling and two-dimensional QTL scans that we would need to get bootstrap p-values.
+sampling and two-dimensional QTL scans that we would need to get bootstrap $p$-values.
 
 We share our analysis \texttt{R} code \citep{r} as a \texttt{git}
 repository at this URL: \url{https://github.com/fboehm/keller-2018-chr19-power}.
@@ -3185,9 +3183,9 @@ using the methods of Chapter 2.
 To determine statistical significance, we performed a 
 parametric bootstrap analysis to acquire 1000 bootstrap samples. 
 With the collection of 1000 bootstrap test statistic values, we calculated a 
-bootstrap p-value as the proportion of the 1000 test statistics
+bootstrap $p$-value as the proportion of the 1000 test statistics
 that were at least as large as the true test statistic. 
-Calculation of a bootstrap p-value is the last step in our hypothesis test for pleiotropy vs. separate QTL.
+Calculation of a bootstrap $p$-value is the last step in our hypothesis test for pleiotropy vs. separate QTL.
 
 
 
@@ -3296,7 +3294,7 @@ abundance phenotype that begins near 7.5 Mb and ends near 8.7 Mb.
 
 We used the R package \texttt{qtl2pleio} \citep{qtl2pleio} to 
 calculate the likelihood ratio test statistic, $\Lambda = 0.45$. We 
-determined the bootstrap p-value to be $0.531$ with 1000 bootstrap 
+determined the bootstrap $p$-value to be $0.531$ with 1000 bootstrap 
 samples. Thus, we failed to reject the null hypothesis of pleiotropy.
 
 
@@ -3781,9 +3779,9 @@ genomic region.
 
 \hypertarget{bootstrap-analysis-to-get-p-values}{%
 \subsubsection{Bootstrap analysis to get
-p-values}\label{bootstrap-analysis-to-get-p-values}}
+$p$-values}\label{bootstrap-analysis-to-get-p-values}}
 
-The calibration of test statistic values to get p-values uses bootstrap
+The calibration of test statistic values to get $p$-values uses bootstrap
 methods because we don't know the theoretical distribution of the test
 statistic under the null hypothesis. Thus, we use a bootstrap approach
 to obtain an empirical distribution of test statistic values under the
@@ -3852,10 +3850,10 @@ samples that will be created and analyzed. Here, we set
 vector of length 10, where each entry is a LRT statistic value from a
 distinct bootstrap sample.
 
-Finally, we determine a bootstrap p-value in the usual method. We treat
+Finally, we determine a bootstrap $p$-value in the usual method. We treat
 the bootstrap samples' test statistics as an empirical distribution of
 the test statistic under the null hypothesis of pleiotropy. Thus, to get
-a p-value, we want to ask ``What is the probability, under the null
+a $p$-value, we want to ask ``What is the probability, under the null
 hypothesis, of observing a test statistic value that is at least as
 extreme as that which we observed?''
 
