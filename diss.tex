@@ -2228,7 +2228,7 @@ In our example above, I expect that the \emph{Asah2} expression QTL is near the 
 position and that no other local expression traits map to it.
 
 
-Our design involves selection of a set of ``anchor'' expression traits. Gene \emph{Asah2} is located near the center of Chromosome 19 and has a very strong local expression QTL (Table \ref{tab:ann4}). I chose it as our first ``anchor'' gene expression trait. To diversify our collection of anchor genes, I chose three additional expression traits with local expression QTL. These three are \emph{Lipo1}, \emph{Lipo2}, and \emph{4933413C19Rik} (Table \ref{tab:ann4}). Together, the four anchor genes represent a variety of strong local expression trait LOD scores (from 60 to 101) and demonstrate modest variability in their founder allele effects (Table~\ref{tab:effects}). All four anchor genes are located near the middle of Chromosome 19 (Table~\ref{tab:ann4}).
+Our design involves selection of a set of ``anchor'' expression traits. Gene \emph{Asah2} is located near the center of Chromosome 19 and has a very strong local expression QTL (Table \ref{tab:ann4}). I chose it as our first ``anchor'' gene expression trait. To diversify our collection of anchor genes, I chose three additional expression traits with local expression QTL. These three are \emph{Lipo1}, \emph{Lipo2}, and \emph{4933413C19Rik} (Table \ref{tab:ann4}). Together, the four anchor genes represent a variety of strong local expression trait LOD scores (from 60 to 101) and demonstrate modest variability in their founder allele effects (Figure~\ref{fig:anchor-effects}). All four anchor genes are located near the middle of Chromosome 19 (Table~\ref{tab:ann4}).
 
 
 
@@ -2292,25 +2292,29 @@ These methods are implemented in the R package \texttt{qtl2pleio} \citep{qtl2ple
 
 \begin{figure}
 \centering
-\begin{subfigure}[t]{\textwidth}
-\includegraphics[width = \textwidth]{../keller-2018-chr19-power/Rmd/allele_effects_4933413C19Rik.pdf}
+\begin{subfigure}[t]{0.45\textwidth}
+\includegraphics[height = 2in]{../keller-2018-chr19-power/Rmd/allele_effects_4933413C19Rik.pdf}
+\caption{Founder allele effects for \emph{4933413C19Rik} expression trait.}
 \end{subfigure}
-\begin{subfigure}[t]{\textwidth}
-\includegraphics[width = \textwidth]{../keller-2018-chr19-power/Rmd/allele_effects_Asah2.pdf}
+\begin{subfigure}[t]{0.45\textwidth}
+\includegraphics[height = 2in]{../keller-2018-chr19-power/Rmd/allele_effects_Asah2.pdf}
+\caption{Founder allele effects for \emph{Asah2} expression trait.}
 \end{subfigure}
-\begin{subfigure}[t]{\textwidth}
-\includegraphics[width = \textwidth]{../keller-2018-chr19-power/Rmd/allele_effects_Lipo1.pdf}
+\begin{subfigure}[t]{0.45\textwidth}
+\includegraphics[height = 2in]{../keller-2018-chr19-power/Rmd/allele_effects_Lipo1.pdf}
+\caption{Founder allele effects for \emph{Lipo1} expression trait.}
 \end{subfigure}
-\begin{subfigure}[t]{\textwidth}
-\includegraphics[width = \textwidth]{../keller-2018-chr19-power/Rmd/allele_effects_Lipo2.pdf}
+\begin{subfigure}[t]{0.45\textwidth}
+\includegraphics[height = 2in]{../keller-2018-chr19-power/Rmd/allele_effects_Lipo2.pdf}
+\caption{Founder allele effects for \emph{Lipo2} expression trait.}
 \end{subfigure}
 \caption{Founder allele effect estimates for the four ``anchor'' transcripts.}\label{fig:anchor-effects}
 \end{figure}
 
 
-
-All four anchor traits demonstrate strong PWK (``G'') allele effects (Figure~\ref{fig:anchor-effects}). 
-\emph{Lipo2} and \emph{Asah2} have similar patterns among allele effects (at their respective QTL peaks) (Table~\ref{tab:effects}).
+Figure~\ref{fig:anchor-effects} presents allele effects plots for the four ``anchor'' transcripts over the two-dimensional scan region on Chromosome 19. 
+All four anchor traits demonstrate strong PWK allele effects (Figure~\ref{fig:anchor-effects}). 
+Additionally, \emph{Lipo2} and \emph{Asah2} have highly similar patterns among the eight allele effects.
 
 
 %\subsection{Pleiotropy likelihood ratio test statistic vs. chromosomal position}
@@ -2322,7 +2326,7 @@ All four anchor traits demonstrate strong PWK (``G'') allele effects (Figure~\re
     \label{fig:middle}
 \end{figure}
 
-Figure~\ref{fig:middle} examines the relationship between inter-QTL distance and power to reject pleiotropy.
+Figure~\ref{fig:middle} examines the relationship between inter-QTL distance and power to reject the pleiotropy hypothesis.
 Along the horizontal axis is Chromosome 19 position. 
 The vertical axis is for pleiotropy test statistics. 
 Each point corresponds to a local gene expression trait (paired with the appropriate anchor gene expression trait). 
@@ -2418,7 +2422,7 @@ We've demonstrated strong evidence in support of the roles of 1) univariate QTL 
 2) interlocus distances impacting pleiotropy test statistic values. 
 Greater univariate QTL scores and greater interlocus distance lead to greater pleiotropy test statistics. 
 Future research may clarify the impoact of founder allele effects patterns on pleiotropy test statistics. 
-The fact that all four anchor traits had strong PWK effects (Table~\ref{tab:effects}) limited
+The fact that all four anchor traits had strong PWK effects (Figure~\ref{fig:anchor-effects}) limited
 our ability to fully define the impact of allele effects patterns on our test statistics.
 
 Throughout this study, I elected to use test statistic values rather than $p$-values as 
