@@ -2290,56 +2290,26 @@ These methods are implemented in the R package \texttt{qtl2pleio} \citep{qtl2ple
 
 \subsection{Results}
 
-% latex table generated in R 3.5.2 by xtable 1.8-3 package
-% Sat Feb  2 10:17:32 2019
-\begin{table}[ht]
-\caption{Founder allele effect estimates at Chromosome 19 QTL peak position.}\label{tab:effects}
+\begin{figure}
 \centering
-\begin{tabular}{>{\em}cccc}
-  \hline
- Gene & Founder allele & Effect & Standard error \\
-  \hline
-\multirow{8}{*}{Asah2} & A & -0.96 & 0.17 \\
-  & B & 1.01 & 0.19 \\
-  & C & 0.14 & 0.17 \\
-  & D & -1.16 & 0.17 \\
-  & E & 1.05 & 0.16 \\
-  & F & -0.61 & 0.20 \\
-  & G & 1.81 & 0.16 \\
-  & H & -0.18 & 0.18 \\
-  \hline
-  \multirow{8}{*}{Lipo1} & A & 0.29 & 0.18 \\
-  & B & 0.13 & 0.21 \\
-  & C & 0.28 & 0.20 \\
-  & D & 0.23 & 0.19 \\
-  & E & -0.17 & 0.18 \\
-  & F & -0.28 & 0.21 \\
-  & G & 2.55 & 0.19 \\
-  & H & -0.72 & 0.19 \\
-  \hline
-\multirow{8}{*}{Lipo2} & A & -0.10 & 0.18 \\
-  & B & -0.28 & 0.23 \\
-  & C & 0.00 & 0.20 \\
-  & D & 0.01 & 0.18 \\
-  & E & -0.77 & 0.17 \\
-  & F & -0.89 & 0.22 \\
-  & G & 2.65 & 0.18 \\
-  & H & -0.70 & 0.20 \\
-   \hline
-\multirow{8}{*}{4933413C19Rik} & A & 0.29 & 0.23 \\
-  & B & 0.76 & 0.24 \\
-  & C & 0.81 & 0.21 \\
-  & D & 0.49 & 0.24 \\
-  & E & 0.67 & 0.20 \\
-  & F & -0.53 & 0.22 \\
-  & G & -1.65 & 0.18 \\
-  & H & 0.67 & 0.21 \\
-   \hline
-\end{tabular}
-\end{table}
+\begin{subfigure}[t]{\textwidth}
+\includegraphics[width = \textwidth]{../keller-2018-chr19-power/Rmd/allele_effects_4933413C19Rik.pdf}
+\end{subfigure}
+\begin{subfigure}[t]{\textwidth}
+\includegraphics[width = \textwidth]{../keller-2018-chr19-power/Rmd/allele_effects_Asah2.pdf}
+\end{subfigure}
+\begin{subfigure}[t]{\textwidth}
+\includegraphics[width = \textwidth]{../keller-2018-chr19-power/Rmd/allele_effects_Lipo1.pdf}
+\end{subfigure}
+\begin{subfigure}[t]{\textwidth}
+\includegraphics[width = \textwidth]{../keller-2018-chr19-power/Rmd/allele_effects_Lipo2.pdf}
+\end{subfigure}
+\caption{Founder allele effect estimates for the four ``anchor'' transcripts.}\label{fig:anchor-effects}
+\end{figure}
 
 
-All four anchor traits demonstrate strong PWK (``G'') allele effects. 
+
+All four anchor traits demonstrate strong PWK (``G'') allele effects (Figure~\ref{fig:anchor-effects}). 
 \emph{Lipo2} and \emph{Asah2} have similar patterns among allele effects (at their respective QTL peaks) (Table~\ref{tab:effects}).
 
 
@@ -2395,15 +2365,6 @@ tend to have greater values of the pleiotropy test statistic.
 Anchor gene \emph{4933413C19Rik}, due to its position on Chromosome 19, has multiple light blue points. 
 Nearly all of these light blue points have large pleiotropy test
 statistics relative to their univariate LOD scores.
-
-
-
-
-
-
-
-
-
 
 
 
