@@ -1564,7 +1564,7 @@ code in an online, interactive R session.
 %%% CHAPTER 1 End
 %%%%%%%%%%%%%%%%%
 %%% chapter 2 start
-\chapter{Testing pleiotropy vs. separate QTL in multiparental populations}
+\chapter{Testing pleiotropy vs. separate QTL in multiparental populations}\label{sec:testing}
 
 
 \section{Introduction}
@@ -2200,9 +2200,14 @@ Science Foundation, and is an active member of the Open Science Grid,
 which is supported by the National Science Foundation and the U.S.
 Department of Energy's Office of Science.
 
-\chapter{Applications}
+\chapter{Applications}\label{sec:applications}
+
+I present in Chapter~\ref{sec:applications} three applications of the
+pleiotropy test that I developed in Chapter~\ref{sec:testing}. Through three case studies, I examine test properties and utility in data from Diversity Outbred mice. In the first case study (Section~\ref{sec:hotspot-dissection}), I clarify the role of my pleiotropy test with regards to mediation analysis in the dissection of expression trait hotspots. In Section~\ref{sec:power-analyses}, I study the test's power to discriminate expression QTL when I know, approximately, the true positions of the expression QTL. I conclude the series of three case studies with a data analysis of two gut microbiome-related traits.
+
+
 %%%%% 3A start
-\section{Expression trait hotspot dissection}
+\section{Expression trait hotspot dissection}\label{sec:hotspot-dissection}
 \subsection{Introduction}
 
 A central goal of systems genetics studies is to identify causal relationships between biomolecules. 
@@ -2274,7 +2279,7 @@ a nonlocal transcript level and a DNA variant, we perform a series of regression
 which we detail below (Frame~\ref{frame3}). 
 In brief, we regress the nonlocal transcript levels on founder allele dosages at the DNA 
 variant, with and without conditioning on the candidate mediator (the local transcript levels). 
-If the LOD score diminishes sufficiently upon conditioning on a candidate, 
+If the LOD score measuring association between nonlocal trait and QTL genotype diminishes sufficiently upon conditioning on a candidate, 
 then we declare the candidate a mediator.
 
 The rationale behind this strategy follows. 
@@ -2414,14 +2419,21 @@ a trait has a LOD$_1$ of 10, but unimportant if the trait's LOD$_1$ is 100. Now 
 \end{frameenv}
 
 
-Our first statistical challenge is due to confounding. To claim that the LOD difference statistic reflects a causal relationship, four assumptions about confounding are needed (Frame~\ref{frame1}) \citep{vanderweele2015explanation}, yet
+Our first statistical challenge is due to confounding. To claim that the LOD 
+difference statistic reflects a causal relationship, four assumptions about 
+confounding are needed (Frame~\ref{frame1}) \citep{vanderweele2015explanation}, 
+yet
 it is often difficult or impossible to recognize unmeasured confounders. 
 In studies of Diversity Outbred mice, relatedness is a possible confounder, 
 yet the linear models (Equations~\ref{model1},~\ref{model2},~\ref{model3},~\ref{model4}
 in Frame~\ref{frame3}) fail to account for the complex relatedness patterns 
 among Diversity Outbred mice. 
-In fact, the only covariates in our models are for wave membership and sex. 
-Other sources of confounding, such as batch effects in the phenotyping, may be unmeasured.
+In fact, the only covariates in our models are for wave membership and sex.
+The 400 mice were shipped from the Jackson Laboratory in four waves of 100 mice. 
+Because each wave was processed at a different time, I include wave membership 
+as a covariate with the goal of accounting for wave-related batch effects.
+Other sources of confounding, such as batch effects in the phenotyping, may be 
+unmeasured.
 
 In efforts to quantify the potential impact of unmeasured confounding, scientists have 
 developed a suite of sensitivity analysis tools for use in regression-based mediation analysis.
@@ -2442,7 +2454,7 @@ Besides accounting for confounding, a second statistical challenge in mediation 
 \citet{chick2016defining} used individual transcript levels as sham mediators and tabulated their LOD difference statistics. 
 They then compared the observed LOD difference statistics for putative mediators to the empirical distribution of LOD difference statistics obtained from the collection of sham mediators. 
 \citet{keller2018genetic}, on the other hand, in their study of pancreatic islet 
-cell biology, declared mediators those local transcripts that diminished the LOD score 
+biology, declared mediators those local transcripts that diminished the LOD score 
 of nonlocal transcripts by at least 1.5. 
 While significance threshold determination remains an active area of research, 
 we proceed below by examining all 147 nonlocal transcript levels that 
@@ -2464,10 +2476,10 @@ all of which map to a 4-Mb hotspot on Chromosome 2.
 
 We analyzed data from 378 Diversity Outbred mice \citep{keller2018genetic}. 
 \citet{keller2018genetic} genotyped tail biopsies with the GigaMUGA microarray \citep{morgan2015mouse}. 
-They also used RNA sequencing to measure genome-wide pancreatic islet cell gene expression 
+They also used RNA sequencing to measure genome-wide pancreatic islet gene expression 
 for each mouse at the time of sacrifice \citep{keller2018genetic}. 
 
-We examined the Chromosome 2 pancreatic islet cell expression trait hotspot that \citet{keller2018genetic} identified. 
+We examined the Chromosome 2 pancreatic islet expression trait hotspot that \citet{keller2018genetic} identified. 
 \citet{keller2018genetic} found that 147 nonlocal traits map to the 4-Mb region 
 centered at 165.5 Mb on Chromosome 2.
 The 147 nonlocal traits all exceeded the genome-wide LOD significance threshold, 
@@ -2546,10 +2558,6 @@ nonlocal trait has its univariate peak, are also possible.
 
 %\subsubsection{Local gene analyses}
 
-To visualize the summary statistics for our two methods, we plotted, 
-for each local gene, a scatterplot of LOD difference proportion values 
-against pleiotropy test statistics.
-
 % latex table generated in R 3.5.1 by xtable 1.8-3 package
 % Mon Dec 17 10:04:32 2018
 \begin{table}[ht]
@@ -2580,44 +2588,48 @@ LOD peak position and LOD peak height refer to those obtained from univariate an
 \label{tab:annot}
 \end{table}
 
+To visualize the summary statistics for the two methods, I plotted, 
+for each local gene, a scatterplot of LOD difference proportion values 
+against pleiotropy test statistics.
+
+
+
+
 %\subsubsection{Nonlocal gene analyses}
 
-We also examined the 1,911 pairs from the per-nonlocal gene perspective. 
-For each of the 147 nonlocal genes, we plotted LOD difference proportion 
+We also examined the 1,911 pairs by considering one nonlocal gene at a time.  
+For each of the 147 nonlocal genes, I plotted LOD difference proportion 
 against pleiotropy test statistic values. 
-We present below (Figure \ref{fig:4nonlocal}) examples that illustrate some of the 
+I present below (Figure \ref{fig:4nonlocal}) examples that illustrate some of the 
 observed patterns between pleiotropy test statistics and LOD difference proportion values.
 
 
 \subsection{Results}
 
 %\subsection{Scatter plot for all 1911 pairs}
-Below, we visualize results of our pleiotropy tests and mediation analyses. 
-After examining a plot involving all tested pairs, we take two distinct perspectives. 
-In these, we visualize results from the perspective of every local gene expression trait 
-before taking the complementary perspective with visualizations from the 
-perspective of every nonlocal gene expression trait.
-We present below our scatter plot for all 147 x 13 = 1,911 
-pairs of traits (Figure \ref{fig:lod-diff-prop-v-lrt-all}). 
-Each pair contains one local expression trait and one nonlocal expression trait. 
-Each point in the figure represents a single pair. 
-We see that points with high values of LOD difference proportion tend to have small 
+Figure \ref{fig:lod-diff-prop-v-lrt-all} is a scatterplot of the results from all pleiotropy tests and mediation analyses.  
+Each point contains one local expression trait and one nonlocal expression trait. 
+I see that points with high values of LOD difference proportion tend to have small 
 values of pleiotropy test statistic, and those points with high values of the 
 pleiotropy test statistic tend to have small values of LOD difference proportion. 
 
 Some points demonstrate large values of pleiotropy test statistic (\emph{eg.}, $>$ 10), 
-yet still have sizeable LOD difference proportion statistics (Figure~\ref{fig:lod-diff-prop-v-lrt-all}. 
+yet still have sizeable LOD difference proportion statistics (Figure~\ref{fig:lod-diff-prop-v-lrt-all}). 
 One possible explanation for such points is that the univariate LOD (LOD$_1$) value is small, 
 so that even a modest LOD difference gives rise to a sizeable LOD difference proportion value. 
 A second possible explanation is that the phenotype variances for both phenotypes in the pair 
 are large enough to skew the null distribution of the test statistic towards larger values. 
-To distinguish between these two, we would 
+To distinguish between these two, I would 
 examine the LOD difference statistics and obtain bootstrap $p$-values.
 
-In Figure~\ref{fig:lod-diff-prop-v-lrt-all}, we colored blue the points that involve \emph{Hnf4a}; 
-points with other local genes are red. 
-The most striking feature of the coloring is that many blue points have small 
-values of the pleiotropy test statistics and very high values of LOD difference proportion.
+In Figure~\ref{fig:lod-diff-prop-v-lrt-all}, I colored red the points that involve \emph{Hnf4a}; 
+points with other local genes are blue. 
+The most striking feature of the coloring is that many red points have small 
+values of the pleiotropy test statistics and very high values of LOD difference 
+proportion. This is what I expect when \emph{Hnf4a} mediates the relationship 
+between a nonlocal trait and a QTL; namely, \emph{Hnf4a} and a nonlocal trait 
+share a pleiotropic QTL and conditioning on \emph{Hnf4a} diminishes the LOD 
+score for the association between nonlocal trait and QTL. 
 
 
 
@@ -2625,8 +2637,8 @@ values of the pleiotropy test statistics and very high values of LOD difference 
     \centering
     \includegraphics[width = 0.7\textwidth]{../keller2018-chr2-hotspot-chtc/Rmd/lod-diff-prop-v-lrt.eps}
     \caption[LOD difference proportion vs. pleiotropy test statistic]{LOD difference proportion against pleiotropy vs. separate QTL test statistics for 1911 pairs of traits. 
-    Each point represents a single pair. Pairs that involve local expression trait Hnf4a are colored blue, while all others are colored red. 
-    Note the high prevalence of blue points in the upper left quadrant of the figure. 
+    Each point represents a single pair. Pairs that involve local expression trait \emph{Hnf4a} are colored red, while all others are colored blue. 
+    Note the high concentration of red points in the upper left quadrant of the figure. 
     These points, with low values of the pleiotropy vs. separate QTL test statistic and 
     high values of LOD difference proportion, are consistent with \emph{Hnf4a} transcript 
     levels mediating the effect of \emph{Hnf4a} genetic variants affecting nonlocal 
@@ -2638,10 +2650,10 @@ values of the pleiotropy test statistics and very high values of LOD difference 
 
 To more thoroughly examine the pleiotropy test and mediation analysis 
 relationships across the 13 local genes, 
-we created 13 plots of LOD difference proportion against pleiotropy test 
+I created 13 plots of LOD difference proportion against pleiotropy test 
 statistic (Figures~\ref{fig:hnf4a} and~\ref{fig:nothnf4a-12}). 
 They reveal common patterns. 
-First, we see no points in the upper right quadrant of each plot (Figure~\ref{fig:nothnf4a-12}). 
+First, I see no points in the upper right quadrant of each plot (Figure~\ref{fig:nothnf4a-12}). 
 This tells us that those nonlocal genes with high values of pleiotropy test statistic 
 (when paired with the specified local gene) have low values of LOD difference proportion. 
 Similarly, those nonlocal genes with high values of LOD difference proportion tend 
@@ -2654,7 +2666,7 @@ Low power to resolve multiple nearby QTL may give rise to such findings.
 
 In comparing the \emph{Hnf4a} plot (Figure \ref{fig:hnf4a}) with the other 
 12 plots (Figure \ref{fig:nothnf4a-12}), 
-we see that none of the 12 plots in Figure \ref{fig:nothnf4a-12} closely resembles Figure \ref{fig:hnf4a}. 
+I see that none of the 12 plots in Figure \ref{fig:nothnf4a-12} closely resembles Figure \ref{fig:hnf4a}. 
 \emph{Serinc3}, \emph{Stk4}, \emph{Neurl2}, and \emph{Cdh22} are closest in appearance to the plot of \emph{Hnf4a}. 
 However, each of \emph{Serinc3}, \emph{Stk4}, \emph{Neurl2}, and \emph{Cdh22} 
 has very few points with LOD difference proportion above 0.5, 
@@ -2688,17 +2700,30 @@ while \emph{Hnf4a} has many points with LOD difference proportion above 0.5.
 
 %\subsection{Nonlocal gene analyses}
 
-Now that we've examined our results from the perspective of every local gene expression trait,
-we turn attention to the nonlocal gene expression trait perspective. 
-Scatter plots of LOD difference proportion values against pleiotropy vs. separate QTL test
-statistics for each of the 147 nonlocal expression traits demonstrated multiple patterns. 
-Eighty-nine nonlocal genes' plots showed \emph{Hnf4a} to have the greatest value, among the 13 putative mediators, of the LOD difference proportion statistic. 
-In many cases, \emph{Hnf4a}'s LOD difference proportion statistic was at 
-least twice that of any of the other 12 local gene expression levels.
+Now that I've examined our results from the perspective of every one of 13 local gene expression traits,
+I turn attention to the nonlocal gene expression trait perspective. 
+I present four nonlocal gene expression trait plots in Figure~\ref{fig:4nonlocal}. I chose 
+these four from the 147 to demonstrate two of the observed patterns. In a single scatterplot, 
+I've plotted 13 points, one for each local gene expression trait, paired with a single 
+nonlocal gene expression trait. Local expression trait \emph{Hnf4a} is colored in red, 
+while the other local genes are colored in blue. The top row of Figure~\ref{fig:4nonlocal} 
+features scatterplots for nonlocal expression traits \emph{Abcb4} and \emph{Smim5}. I see 
+that local expression trait \emph{Hnf4a} has, by far, the greatest value of LOD difference 
+proportion. In the second row of Figure~\ref{fig:4nonlocal}, I see a different pattern in 
+the plots for nonlocal expression traits \emph{Tmprss4} and \emph{Gm3095}. Both demonstrate,
+for \emph{Hnf4a}, small values for the pleiotropy test statistic and small values of LOD 
+difference proportion. This tells me that \emph{Hnf4a} shares a pleiotropic locus with both 
+\emph{Tmprss4} and \emph{Gm3095}, yet none of the 13 local gene expression traits mediates 
+the relationship between these two nonlocal traits and the QTL.
+
 
 \begin{figure}
     \centering
-    \caption{Scatter plots for four nonlocal expression traits. Each plot features 13 points, one for each local gene expression trait. The vertical axis denotes LOD difference proportion values, while the horizontal axis corresponds to pleiotropy test statistics. Blue points represent the pairing with local gene expression trait \emph{Hnf4a}. Red points represent the other 12 local gene expression traits.}
+    \caption{Scatter plots for four nonlocal expression traits. Each plot features 13 
+    points, one for each local gene expression trait. The vertical axis denotes LOD 
+    difference proportion values, while the horizontal axis corresponds to pleiotropy test 
+    statistics. Red points represent the pairing with local gene expression trait 
+    \emph{Hnf4a}. Blue points represent the other 12 local gene expression traits.}
     \begin{subfigure}[t]{.45\textwidth}
         \includegraphics[width = \textwidth]{../keller2018-chr2-hotspot-chtc/Rmd/nonlocal-scatter_97.eps}
         \caption[\emph{Hnf4a} transcript levels mediate \emph{Abcb4} transcript levels.]{\emph{Hnf4a} transcript levels mediate \emph{Abcb4} transcript levels. The high LOD difference proportion and the very small pleiotropy test statistic together provide evidence that \emph{Hnf4a} mediates \emph{Abcb4} transcript levels.}
@@ -2726,7 +2751,7 @@ least twice that of any of the other 12 local gene expression levels.
 
 Our pairwise analyses with both mediation analyses and pleiotropy tests provide additional
 evidence for the importance of \emph{Hnf4a} in the biology of the Chromosome 2 hotspot
-in pancreatic islet cells. 
+in pancreatic islets. 
 Our analyses, and, specifically, the test of pleiotropy vs. separate QTL, may be more useful
 when studying nonlocal traits that map to a hotspot yet don't show strong evidence
 of mediation by local expression traits. 
@@ -2741,7 +2766,7 @@ target (nonlocal) expression trait presumably share a QTL. On the other hand, me
 trait by a local expression trait, are possibly more valuable than the test of pleiotropy vs.
 separate QTL, since the mediation analyses identify precisely the intermediate expression trait.
 
-We recommend using both tests of pleiotropy vs separate QTL and mediation analyses when
+I recommend using both tests of pleiotropy vs separate QTL and mediation analyses when
 dissecting an expression trait QTL hotspot. 
 In practice, mediation analyses, which involve a collection of univariate regressions at a small
 set of pre-specified markers, are less computationally intense than tests of pleiotropy vs.
@@ -2770,23 +2795,23 @@ epidemiology studies.
 
 %%%%% 3A end
 %%%% 3B start
-\section{Power analyses}
+\section{Power analyses}\label{sec:power-analyses}
 
 \subsection{Introduction}
 
-The goal of this section is to characterize the statistical power of our pleiotropy test under a variety of conditions by studying a real data set. 
-We examine pancreatic islet expression traits from the \citet{keller2018genetic} data. 
-As in chapters 2 and 3A, we test only two traits at a time. 
-Because we’ve chosen local expression traits in our analysis, we both know where each trait’s true QTL location (approximately), 
-and we anticipate that each trait has a unique QTL that is distinct from QTL for other local expression traits. 
+The goal of this section is to characterize the statistical power of our pleiotropy test under a variety of conditions by studying an expression QTL data set. 
+I examine pancreatic islet expression traits from the \citet{keller2018genetic} data. 
+As in Chapter~\ref{sec:testing} and Section~\ref{sec:hotspot-dissection}, I test only two traits at a time. 
+Because we’ve chosen local expression traits in our analysis, I both know where each trait’s true QTL location (approximately), 
+and I anticipate that each trait has a unique QTL that is distinct from QTL for other local expression traits. 
 This design thus provides opportunities to study statistical power for our test.
 
-We anticipate that inter-locus distance, univariate QTL strength, and correlation of founder allele effects patterns are three factors that contribute to power for our test. 
-Specifically, we expect that greater inter-locus distance, greater univariate LOD scores, and less similar founder allele effects patterns correspond to greater statistical power to detect two separate QTL.
+I anticipate that inter-locus distance, univariate QTL strength, and correlation of founder allele effects patterns are three factors that contribute to power for our test. 
+Specifically, I expect that greater inter-locus distance, greater univariate LOD scores, and less similar founder allele effects patterns correspond to greater statistical power to detect two separate QTL.
 
-We use pancreatic islet gene expression traits from a publicly available data set, which \citet{keller2018genetic} first collected, analyzed, and shared. 
-We examine a collection of 80 local traits on Chromosome 19 and perform our test for pleiotropy on pairs of traits. 
-We also examine pairwise relationships among gene expression traits to characterize the impacts of univariate LOD score, 
+I use pancreatic islet gene expression traits from a publicly available data set, which \citet{keller2018genetic} first collected, analyzed, and shared. 
+I examine a collection of 80 local traits on Chromosome 19 and perform our test for pleiotropy on pairs of traits. 
+I also examine pairwise relationships among gene expression traits to characterize the impacts of univariate LOD score, 
 inter-locus distance, and similarity of founder allele effects patterns on pleiotropy test statistics.
 
 
@@ -2794,25 +2819,25 @@ inter-locus distance, and similarity of founder allele effects patterns on pleio
 \subsection{Methods}
 
 
-We analyzed data from 378 Diversity Outbred mice \citep{keller2018genetic}. \citet{keller2018genetic} genotyped tail biopsies with the GigaMUGA microarray \citep{morgan2016mouse}. They used RNA sequencing to measure genome-wide pancreatic islet cell gene expression for each mouse at the time of sacrifice \citep{keller2018genetic}. They shared these data, together with inferred founder allele probabilities, on the Data Dryad site (\url{https://datadryad.org/resource/doi:10.5061/dryad.pj105}). We performed analyses with the R statistical computing environment \citep{r} and the packages \texttt{qtl2} \citep{broman2019rqtl2} and \texttt{qtl2pleio} \citep{qtl2pleio}.
+I analyzed data from 378 Diversity Outbred mice \citep{keller2018genetic}. \citet{keller2018genetic} genotyped tail biopsies with the GigaMUGA microarray \citep{morgan2016mouse}. They used RNA sequencing to measure genome-wide pancreatic islet cell gene expression for each mouse at the time of sacrifice \citep{keller2018genetic}. They shared these data, together with inferred founder allele probabilities, on the Data Dryad site (\url{https://datadryad.org/resource/doi:10.5061/dryad.pj105}). I performed analyses with the R statistical computing environment \citep{r} and the packages \texttt{qtl2} \citep{broman2019rqtl2} and \texttt{qtl2pleio} \citep{qtl2pleio}.
 
 
-We study below 80 Chromosome 19 local expression QTL and their corresponding transcript levels. We define a local expression QTL to be an expression QTL that is on the same chromosome as the gene itself. For example, the \emph{Asah2} gene is located on Chromosome 19 and its transcript levels have an expression QTL on Chromosome 19 (Table \ref{tab:ann4}). Thus, we term the Chromosome 19 \emph{Asah2} expression QTL a local expression QTL.
+I study below 80 Chromosome 19 local expression QTL and their corresponding transcript levels. I define a local expression QTL to be an expression QTL that is on the same chromosome as the gene itself. For example, the \emph{Asah2} gene is located on Chromosome 19 and its transcript levels have an expression QTL on Chromosome 19 (Table \ref{tab:ann4}). Thus, I term the Chromosome 19 \emph{Asah2} expression QTL a local expression QTL.
 
-We choose to focus on local expression QTL, while ignoring nonlocal expression QTL, 
-because we know, approximately, the true locations for local expression QTL. 
+I focused on local expression QTL, while ignoring nonlocal expression QTL, 
+because I know, approximately, the true locations for local expression QTL. 
 That is, a local expression QTL is near the corresponding gene position. 
-Additionally, we expect that a given local expression QTL affects only one local expression trait. 
-In our example above, we expect that the \emph{Asah2} expression QTL is near the \emph{Asah2} gene 
+Additionally, I expect that a given local expression QTL affects only one local expression trait. 
+In our example above, I expect that the \emph{Asah2} expression QTL is near the \emph{Asah2} gene 
 position and that no other local expression traits map to it.
 
 
-Our design involves selection of a set of ``anchor'' expression traits. Gene \emph{Asah2} is located near the center of Chromosome 19 and has a very strong local expression QTL (Table \ref{tab:ann4}). We chose it as our first ``anchor'' gene expression trait. To diversify our collection of anchor genes, we chose three additional expression traits with local expression QTL. These three are \emph{Lipo1}, \emph{Lipo2}, and \emph{4933413C19Rik} (Table \ref{tab:ann4}). Together, the four anchor genes represent a variety of strong local expression trait LOD scores (from 60 to 101) and demonstrate modest variability in their founder allele effects (Table~\ref{tab:effects}). All four anchor genes are located near the middle of Chromosome 19 (Table~\ref{tab:ann4}).
+Our design involves selection of a set of ``anchor'' expression traits. Gene \emph{Asah2} is located near the center of Chromosome 19 and has a very strong local expression QTL (Table \ref{tab:ann4}). I chose it as our first ``anchor'' gene expression trait. To diversify our collection of anchor genes, I chose three additional expression traits with local expression QTL. These three are \emph{Lipo1}, \emph{Lipo2}, and \emph{4933413C19Rik} (Table \ref{tab:ann4}). Together, the four anchor genes represent a variety of strong local expression trait LOD scores (from 60 to 101) and demonstrate modest variability in their founder allele effects (Table~\ref{tab:effects}). All four anchor genes are located near the middle of Chromosome 19 (Table~\ref{tab:ann4}).
 
 
 
 
-We identified a set of 76 non-anchor local expression traits that map to the 20-Mb region centered on the peak for \emph{Asah2}, at 32.1 Mb. Each trait among the 76 maps to Chromosome 19 with a univariate LOD score of at least 10 (Table \ref{tab:ann76}).
+I identified a set of 76 non-anchor local expression traits that map to the 20-Mb region centered on the peak for \emph{Asah2}, at 32.1 Mb. Each trait among the 76 maps to Chromosome 19 with a univariate LOD score of at least 10 (Table \ref{tab:ann76}).
 
 
 % latex table generated in R 3.5.2 by xtable 1.8-3 package
@@ -2838,24 +2863,31 @@ Asah2 & 31.98 & 32.06 & 32.14 & 101.20 \\
 
 
 
-We estimated founder allele and covariate effects for every trait on Chromosome 19. 
-For each of the 80 expression traits, we calculated fitted values for each subject with these estimated founder allele and covariate effects. 
-We then calculated correlations between fitted values for pairs of traits. 
+I estimated founder allele and covariate effects for every trait on Chromosome 19. I then 
+sought to calculate a similarity measure between two traits' allele effects patterns. 
+For each of the 80 expression traits, I calculated fitted values for each subject with the 
+estimated founder allele and covariate effects. 
+I then calculated correlations between fitted values for pairs of traits. 
 Our motivation for working with the fitted values vectors 
-(instead of the estimated founder allele effects vectors) is that the fitted values approximately weight the allele effects by allele frequency. 
-We anticipated that more similar two traits' founder allele effects would correspond, on average, to smaller pleiotropy test statistics. 
-We base this expectation on findings from \citet{macdonald2007joint} and 
+(instead of the estimated founder allele effects vectors) is that the fitted values 
+approximately weight the allele effects by allele frequency. 
+I anticipated that more similar two traits' founder allele effects would correspond, on 
+average, to smaller pleiotropy test statistics. 
+I base this expectation on findings from \citet{macdonald2007joint} and 
 \citet{king2012genetic}, who found that two traits that associate with a single 
-pleiotropic QTL tended to have similar founder allele effects patterns for biallelic markers. 
+pleiotropic QTL tended to have similar founder allele effects patterns for biallelic 
+markers. 
 
 
-We performed two-dimensional QTL scans for $4 * 76 + \binom{4}{2} = 310$ pairs. 
+I performed two-dimensional QTL scans for $4 * 76 + \binom{4}{2} = 310$ pairs. 
 Each pair included one of the four anchor gene expression traits and 
 either one of 76 non-anchor gene expression traits or one of 
 the remaining three anchor gene expression traits.
-Our two-dimensional QTL scan encompassed a 1000 by 1000 marker grid from 18.1 Mb to 42.5 Mb on Chromosome 19. 
+Our two-dimensional QTL scan encompassed a 1000 by 1000 marker grid from 18.1 Mb to 42.5 Mb 
+on Chromosome 19. 
 Each scan involved fitting 1000 x 1000 = 1,000,000 models via generalized least squares. 
-For a given ordered pair of markers, we used the bivariate linear mixed effects model and methods of Chapter 2. 
+For a given ordered pair of markers, I used the bivariate linear mixed effects model and 
+methods of Chapter 2. 
 These methods are implemented in the R package \texttt{qtl2pleio} \citep{qtl2pleio}.
 
 
@@ -2920,11 +2952,11 @@ All four anchor traits demonstrate strong PWK (``G'') allele effects.
 \begin{figure}
     \centering
     \includegraphics[width = \textwidth]{../keller-2018-chr19-power/Rmd/lrt-v-middle-of-gene.pdf}
-    \caption[Pleiotropy LRT vs. chromosomal position plots reveal that higher values of pleiotropy LRT tend to correspond to greater interlocus distance and greater univariate LOD score.]{Each anchor gene has its own panel. Along the horizontal axis is Chromosome 19 position. The vertical axis is for pleiotropy test statistic value. Each point corresponds to a local gene expression trait (paired with the anchor gene). Point color corresponds to the local gene's univariate LOD score, with lighter shades of blue denoting greater values of univariate LOD score. Vertical black bar denotes the anchor gene's position on Chromosome 19. All four panels reveal that points further from the anchor gene tend to show greater test statistic values. Additionally, the \emph{Lipo1} and \emph{Lipo2} panels offer an opportunity to compare the impact of anchor gene univariate LOD score on pleiotropy test statistic values.}
+    \caption[Pleiotropy LRT vs. chromosomal position plots reveal that higher values of pleiotropy LRT tend to correspond to greater interlocus distance and greater univariate LOD score.]{Relationship between pleiotropy test statistic and gene position. Each anchor gene has its own panel. Along the horizontal axis is Chromosome 19 position. The vertical axis is for pleiotropy test statistic value. Each point corresponds to a local gene expression trait (paired with the anchor gene). Point color corresponds to the local gene's univariate LOD score, with lighter shades of blue denoting greater values of univariate LOD score. Vertical black bar denotes the anchor gene's position on Chromosome 19. All four panels reveal that points further from the anchor gene tend to show greater test statistic values. Additionally, the \emph{Lipo1} and \emph{Lipo2} panels offer an opportunity to compare the impact of anchor gene univariate LOD score on pleiotropy test statistic values.}
     \label{fig:middle}
 \end{figure}
 
-Each anchor gene has its own panel in Figure \ref{fig:middle}. 
+Figure~\ref{fig:middle} examines the relationship between inter-QTL distance and power to reject pleiotropy.
 Along the horizontal axis is Chromosome 19 position. 
 The vertical axis is for pleiotropy test statistics. 
 Each point corresponds to a local gene expression trait (paired with the appropriate anchor gene expression trait). 
@@ -2939,11 +2971,11 @@ For example, near 32 Mb is a point with light blue color. The light blue indicat
 \emph{Lipo1} demonstrates a greater test statistic value, about 40, when paired with the same local expression trait.
 
 Similarly, a local expression trait near 29 Mb has a strong univariate LOD score (near 100). 
-We see that its pleiotropy test statistic values in the \emph{Lipo1} and \emph{Lipo2} panels reflect the difference in univariate LOD for the two anchor gene expression traits. 
+I see that its pleiotropy test statistic values in the \emph{Lipo1} and \emph{Lipo2} panels reflect the difference in univariate LOD for the two anchor gene expression traits. 
 The pleiotropy test statistic value is greater when 
 paired with \emph{Lipo1}, the anchor gene expression trait with greater univariate LOD (compared to \emph{Lipo2}). 
 
-In comparing the plot for \emph{Asah2} with those of \emph{Lipo1}, \emph{Lipo2}, and \emph{4933413C19Rik}, we also see that \emph{Asah2}, with the largest (101.2) of the four univariate LOD scores, demonstrates the steepest ascent of points as interlocus distance increases. 
+In comparing the plot for \emph{Asah2} with those of \emph{Lipo1}, \emph{Lipo2}, and \emph{4933413C19Rik}, I also see that \emph{Asah2}, with the largest (101.2) of the four univariate LOD scores, demonstrates the steepest ascent of points as interlocus distance increases. 
 
 
 
@@ -2958,13 +2990,13 @@ In comparing the plot for \emph{Asah2} with those of \emph{Lipo1}, \emph{Lipo2},
     \label{fig:lod}
 \end{figure}
 
-Analyses for all four anchor gene expression traits demonstrate that greater univariate LOD
+Figure~\ref{fig:lod} shows the relationship between univariate LOD scores and pleiotropy test statistics. Analyses for all four anchor gene expression traits demonstrate that greater univariate LOD
 scores tend to correspond to greater values of the pleiotropy test statistic (Figure~\ref{fig:lod}). 
 The coloring of points reflects interlocus distance from the anchor gene. 
 All four panels reveal a common pattern in the coloring of points.
 For a given univariate LOD value, those genes with greater interlocus distance 
 tend to have greater values of the pleiotropy test statistic. 
-Anchor gene 4933413C19Rik, due to its position on Chromosome 19, has multiple light blue points. 
+Anchor gene \emph{4933413C19Rik}, due to its position on Chromosome 19, has multiple light blue points. 
 Nearly all of these light blue points have large pleiotropy test
 statistics relative to their univariate LOD scores.
 
@@ -2992,8 +3024,8 @@ Figure \ref{fig:cor} features four panels, one for each anchor gene.
 Each point corresponds to a pairing between the specified anchor and one of the 79 other gene expression traits. 
 None of the four panels reveals a strong relationship between fitted values correlation and pleiotropy test statistics. 
 There may be weak evidence for a downward trend in pleiotropy
-test statistics at larger values of fitted values correlation, as 
-demonstrated by \emph{Asah2}, \emph{Lipo1}, and \emph{Lipo2}. 
+test statistics at larger fitted values correlations, as 
+demonstrated by \emph{Asah2}, \emph{Lipo1}, and \emph{Lipo2}. QTL with different effect patterns may be somewhat easier to distinguish, as separate QTL, but the effect is slight.
 
 
 
@@ -3002,16 +3034,15 @@ demonstrated by \emph{Asah2}, \emph{Lipo1}, and \emph{Lipo2}.
 Our goal for this study was to characterize the impacts of univariate LOD score, 
 inter-locus distance, and founder allele effects pattern similarities on pleiotropy test
 statistic values. 
-Our study design, in which we examined 310 pairs of local gene expression traits on Chromosome
+Our study design, in which I examined 310 pairs of local gene expression traits on Chromosome
 19, allowed us to interrogate both the effects of univariate association strength and the
 effects of inter-locus distance. 
-We found that stronger univariate associations and greater inter-locus distances
+I found that stronger univariate associations and greater inter-locus distances
 correspond to greater pleiotropy test statistic values (Figures \ref{fig:middle} 
 and \ref{fig:lod}). 
-We expected these trends based on our simulation studies in Chapter 2.
+I expected these trends based on our simulation studies in Chapter 2.
 
-Figure \ref{fig:cor} revealed no strong relationship between fitted values 
-correlations and pleiotropy test statistics. 
+Figure \ref{fig:cor} revealed no strong relationship between similarity of QTL effect pattern and pleiotropy test statistics. 
 However, close examination of Figure \ref{fig:cor} reveals the possibility that there is an interaction between 1) fitted values correlations and 2) univariate LOD scores. 
 In every panel, those expression traits with stronger univariate associations
 tend to have steeper slopes between the conditional mean pleiotropy
@@ -3020,9 +3051,9 @@ The plots weakly suggest that, at greater univariate LOD values,
 there is a greater (negative) relationship between fitted values 
 correlation and pleiotropy test statistic value.
 
-We anticipated that more similar founder allele effects patterns would correspond to 
+I anticipated that more similar founder allele effects patterns would correspond to 
 smaller values for the pleiotropy test statistic, when holding other factors constant.
-As we stated above, \citet{macdonald2007joint} and \citet{king2012genetic} argued that,
+As I stated above, \citet{macdonald2007joint} and \citet{king2012genetic} argued that,
 for biallelic markers, two pleiotropic traits should have similar founder allele effects patterns. 
 In our setting, it's unclear whether the markers are biallelic in the collection of eight founder lines.
 
@@ -3033,12 +3064,12 @@ Future research may clarify the impoact of founder allele effects patterns on pl
 The fact that all four anchor traits had strong PWK effects (Table~\ref{tab:effects}) limited
 our ability to fully define the impact of allele effects patterns on our test statistics.
 
-Throughout this study, we elected to use test statistic values rather than $p$-values as 
+Throughout this study, I elected to use test statistic values rather than $p$-values as 
 our measure of evidence supporting the separate QTL hypothesis.
 The primary reason for doing this is to avoid the computationally costly bootstrap
-sampling and two-dimensional QTL scans that we would need to get bootstrap $p$-values.
+sampling and two-dimensional QTL scans that I would need to get bootstrap $p$-values. Additionally, the null distribution of the test statistic is likely to be very similar for all gene pairs, and so the test statistics on their own may be compared.
 
-We share our analysis \texttt{R} code \citep{r} as a \texttt{git}
+I share our analysis \texttt{R} code \citep{r} as a \texttt{git}
 repository at this URL: \url{https://github.com/fboehm/keller-2018-chr19-power}.
 
 
@@ -3046,7 +3077,7 @@ repository at this URL: \url{https://github.com/fboehm/keller-2018-chr19-power}.
 %%%% 3B end
 %%%% 3C start
 
-\section{Microbiome case study}
+\section{Microbiome data analysis}\label{sec:microbiome}
 \subsection{Introduction}
 
 Recent technological innovations have fueled exploration of ecological relationships between gut microbiota and their hosts. 
@@ -3063,32 +3094,26 @@ While a portion of bile acids are lost in the feces, much of the secreted bile a
 Finally, reabsorbed bile acids are transported via the circulatory system back to the liver.
 
 
-Below, we use our pleiotropy test to identify a pleiotropic QTL that affects both the 
+Below, I use our pleiotropy test to identify a pleiotropic QTL that affects both the 
 abundance level of a group of bacteria in the distal gut and plasma cholic acid levels in the host. 
 While many questions remain after our investigation, 
 our identification of a single pleiotropic locus that affects these two phenotypes 
 is an important preliminary step for further investigations.
 
-\begin{figure}
-\centering
-\includegraphics[]{../kemis-do-analysis/overleaf/cholic-acid-structure.pdf}
-\caption[Cholic acid chemical structure.]{Cholic acid chemical structure. From Wikipedia, \url{https://upload.wikimedia.org/wikipedia/commons/2/21/Chols\%C3\%A4ure.svg}.}\label{fig:cholic-structure}
-\end{figure}
-
 
 
 \subsection{Methods}
 
-As we describe in \citet{kemis2019genetic}, we analyzed data from 384 Diversity Outbred mice.
+As I describe in \citet{kemis2019genetic}, I analyzed data from 384 Diversity Outbred mice.
 \citet{keller2018genetic} analyzed data from many of these same mice. 
-Specifically, we examined two microbiome-related phenotypes, 1. plasma cholic acid and 
+Specifically, I examined two microbiome-related phenotypes, 1. plasma cholic acid and 
 2. \emph{Turicibacter} abundance in the distal gut. 
 Both traits map to Chromosome 8 (4.3 Mb and 5.7 Mb, respectively) in 
 univariate QTL scans (Table \ref{tab:3c-lod-peaks}).
 Our methods proceed in three ordered steps. 
 First, we collect the biological samples. 
 Then, we prepare and process the data. 
-Finally, we perform our pleiotropy test.
+Finally, I perform our pleiotropy test.
 
 Our sample collection involves three steps, all of which are done at the time of sacrifice (at age 22 weeks). 
 We obtained fecal samples from all mice immediately 
@@ -3097,9 +3122,7 @@ We also obtained blood plasma from every mouse at the time of sacrifice.
 Tail clippings provided DNA for host genotyping.
 
 
-Data preparation and processing involves two parallel sets of procedures. In one set of procedures, we obtain genotype probabilities for all markers for all mice. In the other set of procedures, we obtain phenotypes. Obtaining phenotypes in this study involves processing both fecal samples and blood samples. 
-
-As the first ordered step in inferring genotype probabilities, we extracted DNA from tail clippings and subjected it to SNP genotyping with the GigaMUGA microarray \citep{morgan2015mouse}. 
+As the first ordered step in genotype reconstruction in the Diversity Outbred mice, DNA was extracted from tail clippings and subjected to SNP genotyping with the GigaMUGA microarray \citep{morgan2015mouse}. 
 We inferred 36-state genotype probabilities from SNP genotype calls for every (autosomal) 
 marker and every mouse. 
 We used a hidden Markov model strategy developed by 
@@ -3115,21 +3138,20 @@ genotype probabilities.
 
 Phenotype processing proceeds in parallel by separately processing fecal samples and blood samples. Processing of fecal samples to obtain microbial taxa counts 
 involves multiple experimental and computational steps. 
-We extracted microbiome DNA from fecal 
-samples and subjected it to 16S ribosomal RNA gene sequencing to infer 
+Microbiome DNA was extracted from fecal 
+samples and subjected to 16S ribosomal RNA gene sequencing to infer 
 abundances of microbial taxa. 
 Demultiplexed, 
 paired-end FASTQ files resulted from the sequencing. 
 We used the 
 QIIME2 (version 2018.4) software package \citep{bolyen2018qiime} for quality control and 
 processing of sequence data. 
-We applied the DADA2 software package \citep{callahan2016dada2} to denoise sequencing reads and to identify de novo sub-operational 
-taxonomic units. We aligned sequence variants with the software 
+DADA2 software package \citep{callahan2016dada2} was used to denoise sequencing reads and to identify de novo sub-operational 
+taxonomic units. Sequence variants were aligned with the software 
 package mafft \citep{katoh2013mafft}. 
-After FastTree-based phylogeny reconstruction \citep{price2010fasttree}, we 
-assigned taxonomic classifications with classify-sklearn against the 
+After FastTree-based phylogeny reconstruction \citep{price2010fasttree}, taxonomic classifications were assigned with classify-sklearn against the 
 Greengenes OTUs reference sequences \citep{desantis2006greengenes}. 
-We normalized sequencing data 
+Sequencing data was normalized
 with cumulative sum scaling with MetagenomeSeq \citep{paulson2013metagenomeseq}. 
 We limited study of 
 microbiota-derived traits to those that we detected in at least 20\% 
@@ -3138,24 +3160,23 @@ The \emph{Turicibacter} abundance trait is one element
 of the resulting core measurable microbiota. 
 
 
-Contemporaneously with the fecal sample processing, we subjected plasma samples to multiple experimental and computational steps to obtain traits for QTL mapping. 
+Contemporaneously with the fecal sample processing, plasma samples were subjected to multiple experimental and computational steps to obtain traits for QTL mapping. 
 After removing soluble 
-proteins from each plasma sample, we analyzed each sample by mass spectrometry to 
+proteins from each plasma sample, each sample was analyzed by mass spectrometry to 
 measure abundances 
 of pre-specified bile acids. 
-Finally, we processed and normalized plasma bile 
-acid measurements to obtain QTL analysis traits.
+Finally, plasma bile 
+acid measurements were processed and normalized to obtain QTL analysis traits.
 
 
 
 
 We then had the needed inputs for QTL mapping. 
-We performed univariate QTL analyses for our microbiome-related 
-traits. 
+We performed univariate QTL analyses for many bacterial abundances and many serum traits. 
 For each marker and each univariate phenotype we fitted a linear mixed effects model (with a polygenic random effect), 
 as implemented in the R package \texttt{qtl2} \citep{broman2019rqtl2}. 
 We treated founder allele effects as additive and neglected possible interactions. 
-We incorporated four covariates into the model: sex and three binary indicators for wave number. 
+We incorporated four covariates into the model: sex and three binary indicators for wave number. We needed to include wave number because the mice were shipped and studied in four distinct batches, or waves, from the Jackson Laboratory. We thus included wave number in efforts to accommodate wave effects that might have influenced measured trait values.
 
 
 
@@ -3164,7 +3185,7 @@ log-likelihoods at each marker to the log-likelihood of
 the model without founder allele dosages. 
 In summarizing LOD peak results, we identified a 
 small region on Chromosome 8 that contains LOD peaks for both 
-\emph{Turicibacter} abundance and plasma cholic acid levels.
+\emph{Turicibacter} abundance and plasma cholic acid levels. We decided to examine these two traits because they mapped to a single genomic region.
 
 
 
@@ -3179,7 +3200,7 @@ founder allele probabilities for each mouse at every
 marker and two traits that map to a single genomic region. 
 We performed a test of pleiotropy vs. separate QTL for our two traits, 
 \emph{Turicibacter} abundance and plasma cholic acid levels, 
-using the methods of Chapter 2. 
+using the methods of Chapter~\ref{sec:testing}. 
 To determine statistical significance, we performed a 
 parametric bootstrap analysis to acquire 1000 bootstrap samples. 
 With the collection of 1000 bootstrap test statistic values, we calculated a 
@@ -3294,7 +3315,7 @@ abundance phenotype that begins near 7.5 Mb and ends near 8.7 Mb.
 
 We used the R package \texttt{qtl2pleio} \citep{qtl2pleio} to 
 calculate the likelihood ratio test statistic, $\Lambda = 0.45$. We 
-determined the bootstrap $p$-value to be $0.531$ with 1000 bootstrap 
+determined the bootstrap $p$-value to be $0.53$ with 1000 bootstrap 
 samples. Thus, we failed to reject the null hypothesis of pleiotropy.
 
 
@@ -3340,23 +3361,24 @@ explicitly incorporate two QTL for
 a single QTL \citep{schadt2005integrative}. Distinguishing whether there are two QTL that affect \emph{Turicibacter} abundance offers insights into the trait's genetic architecture and, by suggesting candidate causal genes, may inform subsequent experiments.
 
 In this microbiome study, we've illustrated another scientific application of our pleiotropy test. 
-We plan to perform additional analyses, including 
-mediation studies and causal model selection tests, with these data. 
 Our pleiotropy test tells us that 
 the data are consistent with presence of a single QTL affecting both
 \emph{Turicibacter} abundance and plasma cholic acid levels. 
 This insight serves as a starting point for follow-up studies into the directions of 
-intertwined causal relationships between plasma cholic acid and \emph{Turicibacter} abundance.
+intertwined causal relationships between plasma cholic acid levels and \emph{Turicibacter} abundance.
 
 
 
 %%%% end 3C
 
 %%% Ch4 start
-\chapter{Computing vignettes}
+\chapter{Software}
 
+\texttt{qtl2pleio} is a freely available, open-source \texttt{R} \citep{r} package that I share on Github (\url{https://github.com/fboehm/qtl2pleio}). \texttt{qtl2pleio} complements the \texttt{R} package \texttt{qtl2} \citep{broman2019rqtl2} by offering functions that perform a multivariate, multi-QTL scan and calculate pleiotropy test statistics from scan results. Additionally, \texttt{qtl2pleio} contains functions to create profile LOD plots to aid in visualization of scan results. \texttt{qtl2pleio} includes unit tests to ensure accuracy of calculations \citep{wickham2011testthat}. I use the \texttt{Rcpp} and \texttt{RcppEigen} packages to incorporate \texttt{C++} code into \texttt{qtl2pleio} to enable faster matrix calculations \citep{eddelbuettel2011rcpp,bates2013fast}.
 
-\section{Pleiotropy testing}
+I present below the \texttt{qtl2pleio} package vignette. In it, I perform pleiotropy testing with determination of a bootstrap p-value. I also provide code to create profile LOD plots. The user needs to install the \texttt{qtl2} R package in addition to \texttt{qtl2pleio}. Additional package vignettes, available on Github, provide additional example analyses and details for using a computing cluster for bootstrap analysis. 
+
+\section{Pleiotropy testing vignette}
 
 
 Our setting involves a pair of traits, \(Y_1\) and \(Y_2\), each of
