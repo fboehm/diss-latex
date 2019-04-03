@@ -1387,6 +1387,91 @@ frequent, and smaller when a QTL allele is private to one strain. One
 can have high power to detect that the two traits have distinct QTL
 when they are separated by $>$ 1~cM and when the QTL have large effect.
 
+\section{Supplementary materials for Chapter 2}\label{sec:ch2-supp}
+
+%\renewcommand{\thetable}{\textbf{S\arabic{table}}}
+%\setcounter{table}{0}
+
+% supplemental tables
+
+\begin{table}
+  \caption{Eight founder lines and their one-letter abbreviations.}
+  \label{table-letters}
+\begin{center}
+\small
+  \begin{tabular}{ c | c }
+    \hline
+    Founder allele & One-letter abbreviation \\ \hline
+    A/J & A \\
+    C57BL/6J & B \\
+    129S1/SvImJ & C \\
+    NOD/ShiLtJ & D\\
+    NZO/H1LTJ & E\\
+    Cast/EiJ & F\\
+    PWK/PhJ & G\\
+    WSB/EiJ & H\\
+    \hline
+  \end{tabular}
+
+\end{center}
+  \end{table}
+
+\clearpage
+
+  % latex table generated in R 3.5.1 by xtable 1.8-3 package
+% Tue Nov 20 10:28:47 2018
+\begin{table}
+\caption{Both ``hot plate latency'' and ``percent time in light''
+  demonstrate multiple QTL peaks with LOD scores above 5.}
+  \label{table-peaks}
+\begin{center}
+\begin{tabular}{l|lrr}
+  \hline
+phenotype & chr & pos & LOD score \\
+   \hline
+percent time in light & 8 & 55.28 & 5.27 \\
+ hot plate latency & 8 & 57.77 & 6.22 \\
+ percent time in light & 9 & 36.70 & 5.42 \\
+ hot plate latency & 9 & 46.85 & 5.22 \\
+ percent time in light & 11 & 63.39 & 6.46 \\
+ hot plate latency & 12 & 43.52 & 5.13 \\
+ percent time in light & 15 & 15.24 & 5.67 \\
+ hot plate latency & 19 & 47.80 & 5.48 \\
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+
+
+
+
+
+\clearpage
+
+
+% supplemental figures
+%\renewcommand{\thefigure}{\textbf{S\arabic{figure}}}
+%\setcounter{figure}{0}
+
+\begin{figure}
+\includegraphics[width = \textwidth]{../qtl2pleio-manuscript/Rmd/scatter.eps}
+\caption{Scatter plot of ``hot plate latency'' against ``percent time in
+  light'', after applying logarithm transformations and winsorizing
+  both traits.}
+\label{fig:scatter}
+\end{figure}
+
+
+\begin{figure}
+\includegraphics{../qtl2pleio-manuscript/Rmd/genomewide_lods_10-22.eps}
+\caption{Genome-wide QTL scan for percent time in light reveals
+  multiple QTL, including one on Chromosome 8.}
+\label{fig:genomewide10-22}
+\end{figure}
+
+
 
 \section{Application}
 \label{sec:app}
@@ -2732,6 +2817,270 @@ intertwined causal relationships between plasma cholic acid levels and \emph{Tur
 
 %%%% end 3C
 
+\section{Supplementary materials for Chapter 3}
+
+% latex table generated in R 3.5.1 by xtable 1.8-3 package
+% Tue Dec 18 18:18:00 2018
+{\small
+\begin{longtable}{lrr}
+\caption{LOD peak positions and peak heights for 147 expression traits that map to the Chromosome 2 expression trait hotspot. We see that some transcript levels have LOD scores, per our calculations, below the 7.18 genome-wide threshold. We believe that this is due to differences in statistical modeling between our analyses and those of \citet{keller2018genetic}.}\label{tab:chr2-hot}\\ 
+% perhaps inclusion or exclusion of an intercept term.
+% Also, are these the LOD scores at the LOD peaks? Or at a specific marker?
+% need to double-check this!!
+% or inclusion/exclusion of random effects in the models?
+\hline \\
+%\begingroup\tiny
+
+Gene & Peak position & LOD \\
+  \hline
+Mtfp1 & 163.52 & 17.79 \\
+  Slc12a7 & 163.58 & 8.30 \\
+  Gpa33 & 163.58 & 26.38 \\
+  Tmem25 & 163.58 & 11.26 \\
+  Klhl29 & 163.58 & 11.03 \\
+  Slc9a3r1 & 163.58 & 8.40 \\
+  Kif1c & 163.58 & 11.12 \\
+  Gata4 & 163.58 & 8.72 \\
+  Ppp2r5b & 163.58 & 7.80 \\
+  Vil1 & 163.58 & 26.48 \\
+  Aldh4a1 & 163.58 & 9.38 \\
+  Cotl1 & 163.58 & 16.25 \\
+  Tmprss4 & 163.58 & 18.30 \\
+  Fhod3 & 163.58 & 17.62 \\
+  Zfp750 & 163.58 & 7.83 \\
+  Svop & 163.58 & 10.12 \\
+  Abcb4 & 163.58 & 16.59 \\
+  Ccnjl & 163.58 & 6.70 \\
+  Sephs2 & 163.58 & 27.21 \\
+  Pcdh1 & 163.58 & 12.48 \\
+  Fat1 & 163.58 & 7.49 \\
+  Sox4 & 163.58 & 14.71 \\
+  Gm8206 & 163.58 & 11.33 \\
+  Gm8492 & 163.58 & 10.47 \\
+  Clcn5 & 164.02 & 10.49 \\
+  Slc6a8 & 164.02 & 8.35 \\
+  Bcmo1 & 164.02 & 47.31 \\
+  Arrdc4 & 164.02 & 8.75 \\
+  Cacnb3 & 164.02 & 47.06 \\
+  Sec14l2 & 164.02 & 12.00 \\
+  Pgrmc1 & 164.02 & 15.88 \\
+  Baiap2l2 & 164.02 & 20.33 \\
+  Recql5 & 164.02 & 33.97 \\
+  Cpd & 164.02 & 13.70 \\
+  Degs2 & 164.02 & 15.20 \\
+  Muc13 & 164.02 & 18.91 \\
+  Clic5 & 164.02 & 10.39 \\
+  Tff3 & 164.02 & 16.38 \\
+  Myo7b & 164.02 & 13.70 \\
+  Afg3l2 & 164.02 & 19.12 \\
+  Sema4g & 164.02 & 23.39 \\
+  Agap2 & 164.02 & 33.99 \\
+  Plxna2 & 164.02 & 8.61 \\
+  Aldob & 164.02 & 20.99 \\
+  Epb4.1l4b & 164.02 & 9.21 \\
+  Sel1l3 & 164.02 & 17.92 \\
+  Sult1b1 & 164.02 & 17.63 \\
+  Hpgds & 164.02 & 31.14 \\
+  Ush1c & 164.02 & 21.90 \\
+  Calml4 & 164.02 & 12.62 \\
+  Fam83b & 164.02 & 16.12 \\
+  Myo15b & 164.02 & 71.57 \\
+  Inpp5j & 164.02 & 11.57 \\
+  Ttyh2 & 164.02 & 15.20 \\
+  Cdhr2 & 164.02 & 30.00 \\
+  Myrf & 164.02 & 37.55 \\
+  Sh3bp4 & 164.02 & 9.04 \\
+  Vgf & 164.02 & 15.05 \\
+  Grtp1 & 164.02 & 23.88 \\
+  B4galnt3 & 164.02 & 20.43 \\
+  Gucy2c & 164.02 & 12.02 \\
+  Smim5 & 164.02 & 18.20 \\
+  Nrip1 & 164.02 & 9.50 \\
+  Clrn3 & 164.02 & 20.13 \\
+  Acot4 & 164.02 & 12.17 \\
+  Hunk & 164.02 & 18.50 \\
+  Zbtb16 & 164.02 & 6.69 \\
+  Osgin1 & 164.02 & 13.51 \\
+  Zfp541 & 164.02 & 25.28 \\
+  2610042L04Rik & 164.02 & 8.14 \\
+  Gm9429 & 164.02 & 9.13 \\
+  Agxt2 & 164.02 & 14.54 \\
+  Gm17147 & 164.02 & 26.94 \\
+  Gm8281 & 164.02 & 8.40 \\
+  Ddx23 & 164.03 & 9.29 \\
+  Map2k6 & 164.03 & 18.54 \\
+  Npr1 & 164.03 & 9.68 \\
+  Hdac6 & 164.03 & 11.28 \\
+  Vav3 & 164.03 & 13.51 \\
+  Atp11b & 164.03 & 11.77 \\
+  Aadat & 164.03 & 8.08 \\
+  Tmem19 & 164.03 & 20.60 \\
+  Gbp4 & 164.03 & 7.14 \\
+  Papola & 164.03 & 12.14 \\
+  Als2 & 164.03 & 18.35 \\
+  Sult1d1 & 164.03 & 11.23 \\
+  Myo6 & 164.03 & 10.27 \\
+  Dnajc22 & 164.03 & 13.72 \\
+  Unc5d & 164.03 & 6.96 \\
+  Gm3095 & 164.03 & 10.90 \\
+  Gm26886 & 164.03 & 8.76 \\
+  Eps8 & 164.06 & 12.49 \\
+  Ddc & 164.06 & 13.61 \\
+  Fras1 & 164.06 & 10.06 \\
+  Card11 & 164.06 & 7.20 \\
+  Glyat & 164.06 & 10.79 \\
+  Pipox & 164.08 & 15.90 \\
+  Iyd & 164.08 & 23.23 \\
+  Man1a & 164.26 & 8.77 \\
+  Cdc42ep4 & 164.26 & 8.11 \\
+  Ppara & 164.26 & 8.84 \\
+  Galr1 & 164.26 & 10.10 \\
+  Ctdsp1 & 164.26 & 7.13 \\
+  Eif2ak3 & 164.26 & 8.93 \\
+  Misp & 164.26 & 9.24 \\
+  Sun1 & 164.26 & 7.35 \\
+  Kctd8 & 164.26 & 9.76 \\
+  Dcaf12l1 & 164.26 & 8.95 \\
+  4930539E08Rik & 164.26 & 8.25 \\
+  Slc29a4 & 164.26 & 7.94 \\
+  Gm3239 & 164.26 & 9.21 \\
+  Gm3629 & 164.26 & 9.77 \\
+  Gm3252 & 164.26 & 9.87 \\
+  Gm3002 & 164.26 & 7.62 \\
+  Ctsh & 164.29 & 9.76 \\
+  Dao & 164.29 & 7.06 \\
+  Ak7 & 164.31 & 10.07 \\
+  Pcp4l1 & 164.35 & 9.11 \\
+  Gm12929 & 164.62 & 37.80 \\
+  Mgat1 & 164.63 & 10.10 \\
+  Atg7 & 164.76 & 7.82 \\
+  Gm11549 & 165.05 & 10.23 \\
+  Ccdc111 & 165.12 & 7.77 \\
+  Fam20a & 165.15 & 7.59 \\
+  Oscp1 & 165.16 & 7.99 \\
+  Dsc2 & 165.28 & 8.06 \\
+  Adam10 & 165.28 & 9.73 \\
+  Plb1 & 165.28 & 8.85 \\
+  Ccdc89 & 165.28 & 7.84 \\
+  9930013L23Rik & 165.28 & 7.93 \\
+  Gm13648 & 165.28 & 7.08 \\
+  Igfbp4 & 165.45 & 8.68 \\
+  Ldlrap1 & 165.45 & 7.18 \\
+  Cdh18 & 165.45 & 7.96 \\
+  Arhgef10l & 165.46 & 7.57 \\
+  Cib3 & 165.48 & 8.70 \\
+  Macf1 & 165.57 & 9.10 \\
+  Fam63b & 165.58 & 8.33 \\
+  1190002N15Rik & 165.63 & 9.02 \\
+  Bcl2l14 & 165.71 & 7.54 \\
+  Hist2h2be & 165.88 & 8.96 \\
+  Gm6428 & 165.89 & 7.32 \\
+  Dennd5b & 166.18 & 9.42 \\
+  Gm12168 & 166.18 & 7.77 \\
+  Gm12230 & 166.42 & 7.46 \\
+  Acat3 & 166.61 & 7.17 \\
+  Gpr20 & 166.84 & 8.41 \\
+   \hline
+  % \endgroup
+  
+  \label{tab:hot-annot}
+
+\end{longtable}
+}
+% latex table generated in R 3.5.2 by xtable 1.8-3 package
+% Thu Jan  3 16:43:33 2019
+{\small
+\begin{longtable}{lrrrr}
+\caption{Annotations for 76 non-anchor genes on Chromosome 19.}\label{tab:ann76}\\
+\hline \\
+Gene & Start & End & Peak position & LOD \\
+  \hline
+C030046E11Rik & 29.52 & 29.61 & 29.55 & 95.58 \\
+  Tctn3 & 40.60 & 40.61 & 40.59 & 90.00 \\
+  Gm7237 & 33.41 & 33.42 & 33.67 & 74.61 \\
+  Lipo4 & 33.50 & 33.52 & 34.00 & 68.23 \\
+  Dock8 & 25.00 & 25.20 & 25.07 & 63.17 \\
+  Sorbs1 & 40.30 & 40.40 & 40.48 & 61.89 \\
+  Lipm & 34.10 & 34.12 & 34.06 & 58.43 \\
+  Blnk & 40.93 & 40.99 & 40.76 & 57.16 \\
+  A830019P07Rik & 35.84 & 35.92 & 35.60 & 55.54 \\
+  Uhrf2 & 30.03 & 30.09 & 29.96 & 54.40 \\
+  Mbl2 & 30.23 & 30.24 & 30.18 & 52.81 \\
+  Myof & 37.90 & 38.04 & 38.05 & 48.46 \\
+  Gm27042 & 40.59 & 40.59 & 40.61 & 44.27 \\
+  Btaf1 & 36.93 & 37.01 & 36.90 & 41.25 \\
+  Hoga1 & 42.05 & 42.07 & 42.09 & 41.23 \\
+  Ppp1r3c & 36.73 & 36.74 & 36.53 & 40.69 \\
+  Pcgf5 & 36.38 & 36.46 & 36.24 & 40.06 \\
+  Slc35g1 & 38.40 & 38.41 & 38.35 & 38.11 \\
+  Pten & 32.76 & 32.83 & 32.77 & 37.95 \\
+  Gldc & 30.10 & 30.18 & 30.17 & 36.26 \\
+  Lgi1 & 38.26 & 38.31 & 38.17 & 34.91 \\
+  C330002G04Rik & 23.04 & 23.08 & 23.34 & 34.84 \\
+  Ppapdc2 & 28.96 & 28.97 & 29.09 & 34.71 \\
+  Gm8978 & 33.61 & 33.63 & 33.03 & 34.59 \\
+  Mms19 & 41.94 & 41.98 & 41.98 & 32.03 \\
+  Ankrd22 & 34.12 & 34.17 & 34.04 & 31.83 \\
+  Cdc37l1 & 28.99 & 29.02 & 29.03 & 31.14 \\
+  Sgms1 & 32.12 & 32.39 & 32.11 & 30.10 \\
+  Entpd1 & 40.61 & 40.74 & 40.50 & 29.73 \\
+  Cbwd1 & 24.92 & 24.96 & 24.73 & 29.65 \\
+  Gm14446 & 34.59 & 34.60 & 34.28 & 27.65 \\
+  Ermp1 & 29.61 & 29.65 & 29.70 & 26.57 \\
+  Gm9938 & 23.72 & 23.73 & 23.87 & 26.46 \\
+  Insl6 & 29.32 & 29.33 & 29.37 & 26.23 \\
+  Slc16a12 & 34.67 & 34.75 & 34.71 & 25.54 \\
+  Pgm5 & 24.68 & 24.86 & 25.00 & 24.30 \\
+  Morn4 & 42.07 & 42.09 & 41.79 & 23.86 \\
+  Exosc1 & 41.92 & 41.93 & 42.10 & 23.28 \\
+  Smarca2 & 26.61 & 26.78 & 26.59 & 23.25 \\
+  4930418C01Rik & 24.42 & 24.43 & 23.92 & 23.10 \\
+  2700046G09Rik & 32.39 & 32.39 & 32.25 & 23.02 \\
+  Kcnv2 & 27.32 & 27.34 & 27.14 & 22.88 \\
+  1500017E21Rik & 36.61 & 36.71 & 37.07 & 22.78 \\
+  Fra10ac1 & 38.19 & 38.22 & 38.35 & 22.48 \\
+  Rnls & 33.14 & 33.39 & 34.17 & 21.94 \\
+  Noc3l & 38.79 & 38.82 & 40.20 & 21.67 \\
+  Pip5k1b & 24.29 & 24.56 & 24.15 & 21.62 \\
+  Plgrkt & 29.35 & 29.37 & 29.37 & 20.65 \\
+  Ifit3 & 34.58 & 34.59 & 34.28 & 20.45 \\
+  Fas & 34.29 & 34.33 & 34.20 & 19.65 \\
+  Slit1 & 41.60 & 41.74 & 41.70 & 18.95 \\
+  Rrp12 & 41.86 & 41.90 & 41.71 & 18.09 \\
+  Ak3 & 29.02 & 29.05 & 29.55 & 16.90 \\
+  A1cf & 31.87 & 31.95 & 32.11 & 15.56 \\
+  4430402I18Rik & 28.90 & 28.97 & 29.37 & 15.43 \\
+  Pdlim1 & 40.22 & 40.27 & 40.25 & 15.25 \\
+  Gm26902 & 34.47 & 34.48 & 36.15 & 14.26 \\
+  Plce1 & 38.48 & 38.79 & 38.42 & 14.26 \\
+  Slc1a1 & 28.84 & 28.91 & 28.97 & 14.18 \\
+  Fam122a & 24.48 & 24.48 & 24.08 & 14.07 \\
+  Lipa & 34.49 & 34.53 & 34.29 & 14.06 \\
+  Mamdc2 & 23.30 & 23.45 & 23.35 & 13.12 \\
+  Kif11 & 37.38 & 37.42 & 37.33 & 12.93 \\
+  4933411K16Rik & 42.05 & 42.05 & 42.08 & 12.92 \\
+  Ccnj & 40.83 & 40.85 & 40.59 & 12.19 \\
+  Gm340 & 41.58 & 41.59 & 41.30 & 12.17 \\
+  Fxn & 24.26 & 24.28 & 24.31 & 12.07 \\
+  Stambpl1 & 34.19 & 34.24 & 34.28 & 11.62 \\
+  Pde6c & 38.13 & 38.18 & 38.07 & 11.54 \\
+  Cyp26a1 & 37.70 & 37.70 & 37.48 & 11.35 \\
+  Ch25h & 34.47 & 34.48 & 32.50 & 10.74 \\
+  Pank1 & 34.81 & 34.88 & 35.55 & 10.61 \\
+  9930021J03Rik & 29.71 & 29.81 & 28.71 & 10.32 \\
+  Klf9 & 23.14 & 23.17 & 23.34 & 10.26 \\
+  Ubtd1 & 41.98 & 42.03 & 41.71 & 10.25 \\
+  Lipk & 34.01 & 34.05 & 34.29 & 10.23 \\
+   \hline
+\end{longtable}
+}
+
+
+
+
+
+
+
 %%% Ch4 start
 \chapter{Software}
 
@@ -3455,7 +3804,6 @@ this service.
 \section{Recla analysis}
 
 %%%%% END Recla analysis vignette
-\section{Cluster computing for bootstrap test}
 
 
 
@@ -3467,403 +3815,6 @@ this service.
 
 
 
-\newpage
-\begin{appendices}
-\appendixpage
-%\noappendicestocpagenum
-%\addappheadtotoc
-
-\chapter{Molecular biology primer}\label{sec:bio-primer}
-
-%\section{DNA structure}\label{sec:dna-structure}
-
-%Deoxyribonucleic acid (DNA) arranges itself in a double helix. A single DNA polymer features a deoxyribose backbone with one of four nucleosides appended to each deoxyribose unit. The four nucleosides are: adenine, thymine, cytosine, and guanine. 
-
-
-
-\section{Cell division}\label{sec:cell-division}
-
-Our goals in this section are to explain meiosis and to understand why recombinations ``accumulate'' over multiple generations in subjects like Diversity Outbred mice. 
-
-
-
-
-\section{Central dogma of molecular biology}\label{sec:central-dogma}
-
-
-
-\chapter{Statistical inference primer}\label{sec:stat-primer}
-
-\include{stats-primer}
-
-
-\section{Genotype inference with expectation-maximization}\label{sec:genotypes-em}
-% lander & botstein's 1989 plus lander & green 1987 EM after Dempster et al 1977
-% Give the equations and discuss what they're doing. What is the E step? the M step?
-% see karl's intro slides, too. He has the E and M equations in the slides, too. 
-
-
-
-
-
-
-
-
-\section{Genotype inference with hidden Markov models}\label{sec:genotypes-hmm}
-
-% explain why we might use a hmm instead of LB89 EM methods
-% follow KB & SS 2009 appendix D explanations of HMM
-% Add something about extra challenges when extending to multiparentals, and specifically DO
-
-
-
-
-
-
-\chapter{Supplementary materials for Chapter 2}\label{sec:ch2-supp}
-
-%\renewcommand{\thetable}{\textbf{S\arabic{table}}}
-%\setcounter{table}{0}
-
-% supplemental tables
-
-\begin{table}
-  \caption{Eight founder lines and their one-letter abbreviations.}
-  \label{table-letters}
-\begin{center}
-\small
-  \begin{tabular}{ c | c }
-    \hline
-    Founder allele & One-letter abbreviation \\ \hline
-    A/J & A \\
-    C57BL/6J & B \\
-    129S1/SvImJ & C \\
-    NOD/ShiLtJ & D\\
-    NZO/H1LTJ & E\\
-    Cast/EiJ & F\\
-    PWK/PhJ & G\\
-    WSB/EiJ & H\\
-    \hline
-  \end{tabular}
-
-\end{center}
-  \end{table}
-
-\clearpage
-
-  % latex table generated in R 3.5.1 by xtable 1.8-3 package
-% Tue Nov 20 10:28:47 2018
-\begin{table}
-\caption{Both ``hot plate latency'' and ``percent time in light''
-  demonstrate multiple QTL peaks with LOD scores above 5.}
-  \label{table-peaks}
-\begin{center}
-\begin{tabular}{l|lrr}
-  \hline
-phenotype & chr & pos & LOD score \\
-   \hline
-percent time in light & 8 & 55.28 & 5.27 \\
- hot plate latency & 8 & 57.77 & 6.22 \\
- percent time in light & 9 & 36.70 & 5.42 \\
- hot plate latency & 9 & 46.85 & 5.22 \\
- percent time in light & 11 & 63.39 & 6.46 \\
- hot plate latency & 12 & 43.52 & 5.13 \\
- percent time in light & 15 & 15.24 & 5.67 \\
- hot plate latency & 19 & 47.80 & 5.48 \\
-   \hline
-\end{tabular}
-\end{center}
-\end{table}
-
-
-
-
-
-
-
-\clearpage
-
-
-% supplemental figures
-%\renewcommand{\thefigure}{\textbf{S\arabic{figure}}}
-%\setcounter{figure}{0}
-
-\begin{figure}
-\includegraphics[width = \textwidth]{../qtl2pleio-manuscript/Rmd/scatter.eps}
-\caption{Scatter plot of ``hot plate latency'' against ``percent time in
-  light'', after applying logarithm transformations and winsorizing
-  both traits.}
-\label{fig:scatter}
-\end{figure}
-
-
-\begin{figure}
-\includegraphics{../qtl2pleio-manuscript/Rmd/genomewide_lods_10-22.eps}
-\caption{Genome-wide QTL scan for percent time in light reveals
-  multiple QTL, including one on Chromosome 8.}
-\label{fig:genomewide10-22}
-\end{figure}
-
-\chapter{Supplementary materials for Chapter 3}
-
-% latex table generated in R 3.5.1 by xtable 1.8-3 package
-% Tue Dec 18 18:18:00 2018
-{\small
-\begin{longtable}{lrr}
-\caption{LOD peak positions and peak heights for 147 expression traits that map to the Chromosome 2 expression trait hotspot. We see that some transcript levels have LOD scores, per our calculations, below the 7.18 genome-wide threshold. We believe that this is due to differences in statistical modeling between our analyses and those of \citet{keller2018genetic}.}\label{tab:chr2-hot}\\ 
-% perhaps inclusion or exclusion of an intercept term.
-% Also, are these the LOD scores at the LOD peaks? Or at a specific marker?
-% need to double-check this!!
-% or inclusion/exclusion of random effects in the models?
-\hline \\
-%\begingroup\tiny
-
-Gene & Peak position & LOD \\
-  \hline
-Mtfp1 & 163.52 & 17.79 \\
-  Slc12a7 & 163.58 & 8.30 \\
-  Gpa33 & 163.58 & 26.38 \\
-  Tmem25 & 163.58 & 11.26 \\
-  Klhl29 & 163.58 & 11.03 \\
-  Slc9a3r1 & 163.58 & 8.40 \\
-  Kif1c & 163.58 & 11.12 \\
-  Gata4 & 163.58 & 8.72 \\
-  Ppp2r5b & 163.58 & 7.80 \\
-  Vil1 & 163.58 & 26.48 \\
-  Aldh4a1 & 163.58 & 9.38 \\
-  Cotl1 & 163.58 & 16.25 \\
-  Tmprss4 & 163.58 & 18.30 \\
-  Fhod3 & 163.58 & 17.62 \\
-  Zfp750 & 163.58 & 7.83 \\
-  Svop & 163.58 & 10.12 \\
-  Abcb4 & 163.58 & 16.59 \\
-  Ccnjl & 163.58 & 6.70 \\
-  Sephs2 & 163.58 & 27.21 \\
-  Pcdh1 & 163.58 & 12.48 \\
-  Fat1 & 163.58 & 7.49 \\
-  Sox4 & 163.58 & 14.71 \\
-  Gm8206 & 163.58 & 11.33 \\
-  Gm8492 & 163.58 & 10.47 \\
-  Clcn5 & 164.02 & 10.49 \\
-  Slc6a8 & 164.02 & 8.35 \\
-  Bcmo1 & 164.02 & 47.31 \\
-  Arrdc4 & 164.02 & 8.75 \\
-  Cacnb3 & 164.02 & 47.06 \\
-  Sec14l2 & 164.02 & 12.00 \\
-  Pgrmc1 & 164.02 & 15.88 \\
-  Baiap2l2 & 164.02 & 20.33 \\
-  Recql5 & 164.02 & 33.97 \\
-  Cpd & 164.02 & 13.70 \\
-  Degs2 & 164.02 & 15.20 \\
-  Muc13 & 164.02 & 18.91 \\
-  Clic5 & 164.02 & 10.39 \\
-  Tff3 & 164.02 & 16.38 \\
-  Myo7b & 164.02 & 13.70 \\
-  Afg3l2 & 164.02 & 19.12 \\
-  Sema4g & 164.02 & 23.39 \\
-  Agap2 & 164.02 & 33.99 \\
-  Plxna2 & 164.02 & 8.61 \\
-  Aldob & 164.02 & 20.99 \\
-  Epb4.1l4b & 164.02 & 9.21 \\
-  Sel1l3 & 164.02 & 17.92 \\
-  Sult1b1 & 164.02 & 17.63 \\
-  Hpgds & 164.02 & 31.14 \\
-  Ush1c & 164.02 & 21.90 \\
-  Calml4 & 164.02 & 12.62 \\
-  Fam83b & 164.02 & 16.12 \\
-  Myo15b & 164.02 & 71.57 \\
-  Inpp5j & 164.02 & 11.57 \\
-  Ttyh2 & 164.02 & 15.20 \\
-  Cdhr2 & 164.02 & 30.00 \\
-  Myrf & 164.02 & 37.55 \\
-  Sh3bp4 & 164.02 & 9.04 \\
-  Vgf & 164.02 & 15.05 \\
-  Grtp1 & 164.02 & 23.88 \\
-  B4galnt3 & 164.02 & 20.43 \\
-  Gucy2c & 164.02 & 12.02 \\
-  Smim5 & 164.02 & 18.20 \\
-  Nrip1 & 164.02 & 9.50 \\
-  Clrn3 & 164.02 & 20.13 \\
-  Acot4 & 164.02 & 12.17 \\
-  Hunk & 164.02 & 18.50 \\
-  Zbtb16 & 164.02 & 6.69 \\
-  Osgin1 & 164.02 & 13.51 \\
-  Zfp541 & 164.02 & 25.28 \\
-  2610042L04Rik & 164.02 & 8.14 \\
-  Gm9429 & 164.02 & 9.13 \\
-  Agxt2 & 164.02 & 14.54 \\
-  Gm17147 & 164.02 & 26.94 \\
-  Gm8281 & 164.02 & 8.40 \\
-  Ddx23 & 164.03 & 9.29 \\
-  Map2k6 & 164.03 & 18.54 \\
-  Npr1 & 164.03 & 9.68 \\
-  Hdac6 & 164.03 & 11.28 \\
-  Vav3 & 164.03 & 13.51 \\
-  Atp11b & 164.03 & 11.77 \\
-  Aadat & 164.03 & 8.08 \\
-  Tmem19 & 164.03 & 20.60 \\
-  Gbp4 & 164.03 & 7.14 \\
-  Papola & 164.03 & 12.14 \\
-  Als2 & 164.03 & 18.35 \\
-  Sult1d1 & 164.03 & 11.23 \\
-  Myo6 & 164.03 & 10.27 \\
-  Dnajc22 & 164.03 & 13.72 \\
-  Unc5d & 164.03 & 6.96 \\
-  Gm3095 & 164.03 & 10.90 \\
-  Gm26886 & 164.03 & 8.76 \\
-  Eps8 & 164.06 & 12.49 \\
-  Ddc & 164.06 & 13.61 \\
-  Fras1 & 164.06 & 10.06 \\
-  Card11 & 164.06 & 7.20 \\
-  Glyat & 164.06 & 10.79 \\
-  Pipox & 164.08 & 15.90 \\
-  Iyd & 164.08 & 23.23 \\
-  Man1a & 164.26 & 8.77 \\
-  Cdc42ep4 & 164.26 & 8.11 \\
-  Ppara & 164.26 & 8.84 \\
-  Galr1 & 164.26 & 10.10 \\
-  Ctdsp1 & 164.26 & 7.13 \\
-  Eif2ak3 & 164.26 & 8.93 \\
-  Misp & 164.26 & 9.24 \\
-  Sun1 & 164.26 & 7.35 \\
-  Kctd8 & 164.26 & 9.76 \\
-  Dcaf12l1 & 164.26 & 8.95 \\
-  4930539E08Rik & 164.26 & 8.25 \\
-  Slc29a4 & 164.26 & 7.94 \\
-  Gm3239 & 164.26 & 9.21 \\
-  Gm3629 & 164.26 & 9.77 \\
-  Gm3252 & 164.26 & 9.87 \\
-  Gm3002 & 164.26 & 7.62 \\
-  Ctsh & 164.29 & 9.76 \\
-  Dao & 164.29 & 7.06 \\
-  Ak7 & 164.31 & 10.07 \\
-  Pcp4l1 & 164.35 & 9.11 \\
-  Gm12929 & 164.62 & 37.80 \\
-  Mgat1 & 164.63 & 10.10 \\
-  Atg7 & 164.76 & 7.82 \\
-  Gm11549 & 165.05 & 10.23 \\
-  Ccdc111 & 165.12 & 7.77 \\
-  Fam20a & 165.15 & 7.59 \\
-  Oscp1 & 165.16 & 7.99 \\
-  Dsc2 & 165.28 & 8.06 \\
-  Adam10 & 165.28 & 9.73 \\
-  Plb1 & 165.28 & 8.85 \\
-  Ccdc89 & 165.28 & 7.84 \\
-  9930013L23Rik & 165.28 & 7.93 \\
-  Gm13648 & 165.28 & 7.08 \\
-  Igfbp4 & 165.45 & 8.68 \\
-  Ldlrap1 & 165.45 & 7.18 \\
-  Cdh18 & 165.45 & 7.96 \\
-  Arhgef10l & 165.46 & 7.57 \\
-  Cib3 & 165.48 & 8.70 \\
-  Macf1 & 165.57 & 9.10 \\
-  Fam63b & 165.58 & 8.33 \\
-  1190002N15Rik & 165.63 & 9.02 \\
-  Bcl2l14 & 165.71 & 7.54 \\
-  Hist2h2be & 165.88 & 8.96 \\
-  Gm6428 & 165.89 & 7.32 \\
-  Dennd5b & 166.18 & 9.42 \\
-  Gm12168 & 166.18 & 7.77 \\
-  Gm12230 & 166.42 & 7.46 \\
-  Acat3 & 166.61 & 7.17 \\
-  Gpr20 & 166.84 & 8.41 \\
-   \hline
-  % \endgroup
-  
-  \label{tab:hot-annot}
-
-\end{longtable}
-}
-% latex table generated in R 3.5.2 by xtable 1.8-3 package
-% Thu Jan  3 16:43:33 2019
-{\small
-\begin{longtable}{lrrrr}
-\caption{Annotations for 76 non-anchor genes on Chromosome 19.}\label{tab:ann76}\\
-\hline \\
-Gene & Start & End & Peak position & LOD \\
-  \hline
-C030046E11Rik & 29.52 & 29.61 & 29.55 & 95.58 \\
-  Tctn3 & 40.60 & 40.61 & 40.59 & 90.00 \\
-  Gm7237 & 33.41 & 33.42 & 33.67 & 74.61 \\
-  Lipo4 & 33.50 & 33.52 & 34.00 & 68.23 \\
-  Dock8 & 25.00 & 25.20 & 25.07 & 63.17 \\
-  Sorbs1 & 40.30 & 40.40 & 40.48 & 61.89 \\
-  Lipm & 34.10 & 34.12 & 34.06 & 58.43 \\
-  Blnk & 40.93 & 40.99 & 40.76 & 57.16 \\
-  A830019P07Rik & 35.84 & 35.92 & 35.60 & 55.54 \\
-  Uhrf2 & 30.03 & 30.09 & 29.96 & 54.40 \\
-  Mbl2 & 30.23 & 30.24 & 30.18 & 52.81 \\
-  Myof & 37.90 & 38.04 & 38.05 & 48.46 \\
-  Gm27042 & 40.59 & 40.59 & 40.61 & 44.27 \\
-  Btaf1 & 36.93 & 37.01 & 36.90 & 41.25 \\
-  Hoga1 & 42.05 & 42.07 & 42.09 & 41.23 \\
-  Ppp1r3c & 36.73 & 36.74 & 36.53 & 40.69 \\
-  Pcgf5 & 36.38 & 36.46 & 36.24 & 40.06 \\
-  Slc35g1 & 38.40 & 38.41 & 38.35 & 38.11 \\
-  Pten & 32.76 & 32.83 & 32.77 & 37.95 \\
-  Gldc & 30.10 & 30.18 & 30.17 & 36.26 \\
-  Lgi1 & 38.26 & 38.31 & 38.17 & 34.91 \\
-  C330002G04Rik & 23.04 & 23.08 & 23.34 & 34.84 \\
-  Ppapdc2 & 28.96 & 28.97 & 29.09 & 34.71 \\
-  Gm8978 & 33.61 & 33.63 & 33.03 & 34.59 \\
-  Mms19 & 41.94 & 41.98 & 41.98 & 32.03 \\
-  Ankrd22 & 34.12 & 34.17 & 34.04 & 31.83 \\
-  Cdc37l1 & 28.99 & 29.02 & 29.03 & 31.14 \\
-  Sgms1 & 32.12 & 32.39 & 32.11 & 30.10 \\
-  Entpd1 & 40.61 & 40.74 & 40.50 & 29.73 \\
-  Cbwd1 & 24.92 & 24.96 & 24.73 & 29.65 \\
-  Gm14446 & 34.59 & 34.60 & 34.28 & 27.65 \\
-  Ermp1 & 29.61 & 29.65 & 29.70 & 26.57 \\
-  Gm9938 & 23.72 & 23.73 & 23.87 & 26.46 \\
-  Insl6 & 29.32 & 29.33 & 29.37 & 26.23 \\
-  Slc16a12 & 34.67 & 34.75 & 34.71 & 25.54 \\
-  Pgm5 & 24.68 & 24.86 & 25.00 & 24.30 \\
-  Morn4 & 42.07 & 42.09 & 41.79 & 23.86 \\
-  Exosc1 & 41.92 & 41.93 & 42.10 & 23.28 \\
-  Smarca2 & 26.61 & 26.78 & 26.59 & 23.25 \\
-  4930418C01Rik & 24.42 & 24.43 & 23.92 & 23.10 \\
-  2700046G09Rik & 32.39 & 32.39 & 32.25 & 23.02 \\
-  Kcnv2 & 27.32 & 27.34 & 27.14 & 22.88 \\
-  1500017E21Rik & 36.61 & 36.71 & 37.07 & 22.78 \\
-  Fra10ac1 & 38.19 & 38.22 & 38.35 & 22.48 \\
-  Rnls & 33.14 & 33.39 & 34.17 & 21.94 \\
-  Noc3l & 38.79 & 38.82 & 40.20 & 21.67 \\
-  Pip5k1b & 24.29 & 24.56 & 24.15 & 21.62 \\
-  Plgrkt & 29.35 & 29.37 & 29.37 & 20.65 \\
-  Ifit3 & 34.58 & 34.59 & 34.28 & 20.45 \\
-  Fas & 34.29 & 34.33 & 34.20 & 19.65 \\
-  Slit1 & 41.60 & 41.74 & 41.70 & 18.95 \\
-  Rrp12 & 41.86 & 41.90 & 41.71 & 18.09 \\
-  Ak3 & 29.02 & 29.05 & 29.55 & 16.90 \\
-  A1cf & 31.87 & 31.95 & 32.11 & 15.56 \\
-  4430402I18Rik & 28.90 & 28.97 & 29.37 & 15.43 \\
-  Pdlim1 & 40.22 & 40.27 & 40.25 & 15.25 \\
-  Gm26902 & 34.47 & 34.48 & 36.15 & 14.26 \\
-  Plce1 & 38.48 & 38.79 & 38.42 & 14.26 \\
-  Slc1a1 & 28.84 & 28.91 & 28.97 & 14.18 \\
-  Fam122a & 24.48 & 24.48 & 24.08 & 14.07 \\
-  Lipa & 34.49 & 34.53 & 34.29 & 14.06 \\
-  Mamdc2 & 23.30 & 23.45 & 23.35 & 13.12 \\
-  Kif11 & 37.38 & 37.42 & 37.33 & 12.93 \\
-  4933411K16Rik & 42.05 & 42.05 & 42.08 & 12.92 \\
-  Ccnj & 40.83 & 40.85 & 40.59 & 12.19 \\
-  Gm340 & 41.58 & 41.59 & 41.30 & 12.17 \\
-  Fxn & 24.26 & 24.28 & 24.31 & 12.07 \\
-  Stambpl1 & 34.19 & 34.24 & 34.28 & 11.62 \\
-  Pde6c & 38.13 & 38.18 & 38.07 & 11.54 \\
-  Cyp26a1 & 37.70 & 37.70 & 37.48 & 11.35 \\
-  Ch25h & 34.47 & 34.48 & 32.50 & 10.74 \\
-  Pank1 & 34.81 & 34.88 & 35.55 & 10.61 \\
-  9930021J03Rik & 29.71 & 29.81 & 28.71 & 10.32 \\
-  Klf9 & 23.14 & 23.17 & 23.34 & 10.26 \\
-  Ubtd1 & 41.98 & 42.03 & 41.71 & 10.25 \\
-  Lipk & 34.01 & 34.05 & 34.29 & 10.23 \\
-   \hline
-\end{longtable}
-}
-
-
-\end{appendices}
 
 
 
