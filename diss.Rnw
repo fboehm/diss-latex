@@ -3002,15 +3002,6 @@ statistics relative to their univariate LOD scores.
 
 
 
-
-
-
-
-
-
-
-
-
 %\subsection{Pleiotropy likelihood ratio test statistics vs. fitted values correlation}
 
 \begin{figure}
@@ -3376,7 +3367,7 @@ intertwined causal relationships between plasma cholic acid levels and \emph{Tur
 
 \texttt{qtl2pleio} is a freely available, open-source \texttt{R} \citep{r} package that I share on Github (\url{https://github.com/fboehm/qtl2pleio}). \texttt{qtl2pleio} complements the \texttt{R} package \texttt{qtl2} \citep{broman2019rqtl2} by offering functions that perform a multivariate, multi-QTL scan and calculate pleiotropy test statistics from scan results. Additionally, \texttt{qtl2pleio} contains functions to create profile LOD plots to aid in visualization of scan results. \texttt{qtl2pleio} includes unit tests to ensure accuracy of calculations \citep{wickham2011testthat}. I use the \texttt{Rcpp} and \texttt{RcppEigen} packages to incorporate \texttt{C++} code into \texttt{qtl2pleio} to enable faster matrix calculations \citep{eddelbuettel2011rcpp,bates2013fast}.
 
-I present below the \texttt{qtl2pleio} package vignette. In it, I perform pleiotropy testing with determination of a bootstrap p-value. I also provide code to create profile LOD plots. The user needs to install the \texttt{qtl2} R package in addition to \texttt{qtl2pleio}. Additional package vignettes, available on Github, provide additional example analyses and details for using a computing cluster for bootstrap analysis. 
+I present below the \texttt{qtl2pleio} package vignette. In it, I perform pleiotropy testing with determination of a bootstrap $p$-value. I also provide code to create profile LOD plots. The user needs to install the \texttt{qtl2} R package in addition to \texttt{qtl2pleio}. Additional package vignettes, available on Github, provide additional example analyses and details for using a computing cluster for bootstrap analysis. 
 
 \section{Pleiotropy testing vignette}
 
