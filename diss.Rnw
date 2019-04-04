@@ -3263,6 +3263,19 @@ Calculation of a bootstrap $p$-value is the last step in our hypothesis test for
 \subsection{Results}
 %\subsection{Univariate QTL analyses}
 
+\begin{figure}
+\begin{subfigure}[t]{\textwidth}
+\centering
+\includegraphics[height = 3in]{../kemis-do-analysis/Rmd/gw-lod-plasma-ca.pdf}
+\end{subfigure}
+\begin{subfigure}[t]{\textwidth}
+\centering
+\includegraphics[height = 3in]{../kemis-do-analysis/Rmd/gw-lod-turicibacter.pdf}
+\end{subfigure}
+
+\caption{Genome-wide LOD scores for plasma cholic acid and \emph{Turicibacter} abundance traits.}\label{fig:gw-lod-microbiome}
+\end{figure}
+
 % latex table generated in R 3.5.1 by xtable 1.8-3 package
 % Fri Nov 30 10:14:43 2018
 \begin{table}[ht]
@@ -3286,7 +3299,7 @@ phenotype & chromosome & position & LOD \\
 \caption{\label{tab:3c-lod-peaks}Genome-wide LOD peaks greater than 5 for plasma cholic acid levels and \emph{Turicibacter} abundance. Both traits map to approximately the same region on Chromosome 8. Chromosome positions are in Mb units.}
 \end{table}
 
-Both plasma cholic acid and \emph{Turicibacter} abundance demonstrate multiple univariate QTL across the genome. Each trait also maps to a 1.4-Mb region on Chromosome 8. Because these two traits map to a single genomic region, we elected to study them further. 
+Both plasma cholic acid and \emph{Turicibacter} abundance demonstrate multiple univariate QTL across the genome (Figure~\ref{fig:gw-lod-microbiome}). Both traits also map to a 1.4-Mb region on Chromosome 8. Because these two traits map to a single genomic region, we elected to study them further. 
 
 
 
