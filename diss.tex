@@ -726,7 +726,13 @@ y_i|M_i \sim N(\sum_j p_{ij}\mu_j, \sigma^2)
 \label{eq:hk}
 \end{equation}
 
-In Equation~\ref{eq:hk}, ``j'' indexes the genotype classes, while ``i'' indexes the subjects. $p_{ij}$ is the probability that subject ``$i$'' belongs to genotype class ``$j$'', while $\mu_j$ is the mean trait value for genotype class ``$j$''. While Haley-Knott regression may be insufficient when marker data is sparse, it performs well (compared to interval mapping) with dense marker data when all subjects are successfully genotyped \citep{broman2009guide}. Having completed the discussion of Haley-Knott regression, I now consider pleiotropy testing in two-parent crosses. 
+In Equation~\ref{eq:hk}, ``j'' indexes the genotype classes, while ``i'' indexes the 
+subjects. $p_{ij}$ is the probability that subject ``$i$'' belongs to genotype class 
+``$j$'', while $\mu_j$ is the mean trait value for genotype class ``$j$''. While Haley
+-Knott regression may be insufficient when marker data is sparse, it performs well 
+(compared to interval mapping) with dense marker data when all subjects are successfully 
+genotyped \citep{broman2009guide}. Having completed the discussion of Haley-Knott regressio
+n, I now consider pleiotropy testing in two-parent crosses. 
 
 
 
@@ -1633,19 +1639,32 @@ CAPE (Combinatorial Analysis of Pleiotropy and Epistasis) is a strategy for iden
 \citet{tyler2017epistatic} used CAPE to identify epistatic gene networks in Diversity Outbred mice. \citet{tyler2016weak} found evidence for weak epistasis in a large intercross population. 
 
 CAPE uses linear models that are distinct from those in our pleiotropy test. 
-A CAPE starts with founder allele dosages at all markers and a collection of two or more traits \citep{tyler2017epistatic}. 
-After eigendecomposition to get two or more eigentraits, univariate QTL scans are performed and founder allele effects are estimated at all markers (or a subset of all markers). 
-Next, one identifies markers with sufficiently strong effects of at least one founder allele. 
-Resulting (eigentrait, marker, founder allele) triples are then subjected to a second model fitting. 
-This second round of modeling involves two (eigentrait, marker, founder allele) triples that share an eigentrait. 
-The shared (univariate) eigentrait is modeled as a linear function of the two founder allele dosages and their interaction. 
+A CAPE starts with founder allele dosages at all markers and a collection of two or more 
+traits \citep{tyler2017epistatic}. 
+After eigendecomposition to get two or more eigentraits, univariate QTL scans are performed 
+and founder allele effects are estimated at all markers (or a subset of all markers). 
+Next, one identifies markers with sufficiently strong effects of at least one founder 
+allele. 
+Resulting (eigentrait, marker, founder allele) triples are then subjected to a second model 
+fitting. 
+This second round of modeling involves two (eigentrait, marker, founder allele) triples 
+that share an eigentrait. 
+The shared (univariate) eigentrait is modeled as a linear function of the two founder 
+allele dosages and their interaction. 
 
-In comparing CAPE and our pleiotropy test, it's important to recognize that the two methods ask different questions. 
-CAPE enables assessment of interactions among specific founder allele dosages at two (possibly identical) markers while examining one eigentrait at a time. 
-Our pleiotropy test, on the other hand, jointly models two phenotypes and quantifies the evidence against the pleiotropy hypothesis by performing a two-dimensional QTL scan over a genomic region. 
-One limitation of CAPE is its inability to account for population structure. Incorporation of a polygenic random effect into CAPE's linear models may improve its performance in multiparental populations. 
+In comparing CAPE and our pleiotropy test, it's important to recognize that the two methods 
+ask different questions. 
+CAPE enables assessment of interactions among specific founder allele dosages at two 
+(possibly identical) markers while examining one eigentrait at a time. 
+Our pleiotropy test, on the other hand, jointly models two phenotypes and quantifies the 
+evidence against the pleiotropy hypothesis by performing a two-dimensional QTL scan over a 
+genomic region. 
+One limitation of CAPE is its inability to account for population structure. Incorporation 
+of a polygenic random effect into CAPE's linear models may improve its performance in 
+multiparental populations. 
 CAPE's methods also highlight a current limitation of our pleiotropy test. 
-While our multivariate linear models accommodate interactions between founder allele dosages at two markers, we haven't yet incorporated this functionality into our software. 
+While our multivariate linear models accommodate interactions between founder allele 
+dosages at two markers, we haven't yet incorporated this functionality into our software. 
 It is one direction for future research.
 
 
@@ -1693,26 +1712,40 @@ pleiotropy test that I developed in Chapter~\ref{sec:testing}. Through three cas
 
 A central goal of systems genetics studies is to identify causal relationships between biomolecules. 
 Recent work by \citet{chick2016defining}, which builds on research from \citet{baron1986moderator}, has popularized linear regression-based methods, such as mediation analysis, for causal inference in genetics. 
-Because of the great successes of mediation analysis in systems genetics \citep{chick2016defining,keller2018genetic}, we need to clarify a role for our pleiotropy test. 
+Because of the great successes of mediation analysis in systems genetics 
+\citep{chick2016defining,keller2018genetic}, we need to clarify a role for our pleiotropy test. 
 We argue below that our pleiotropy test complements mediation analysis in two ways. 
-First, our test limits the set of candidate mediators by ruling out traits that don't share a single pleiotropic QTL. 
-This is reasonable because it's unlikely that one trait mediates a relationship between a genetic variant and a second trait unless the two traits share a pleiotropic QTL. 
-Second, when regression-based mediation analysis fails to identify a mediator, our pleiotropy test still provides information on the number of QTL, which may aid biological understanding and inform subsequent studies. Below, we first review the prerequisite molecular biology, including the ``central dogma'', before discussing in some detail regression-based mediation analysis in the systems genetics context. 
+First, our test limits the set of candidate mediators by ruling out traits that don't share 
+a single pleiotropic QTL. 
+This is reasonable because it's unlikely that one trait mediates a relationship between a 
+genetic variant and a second trait unless the two traits share a pleiotropic QTL. 
+Second, when regression-based mediation analysis fails to identify a mediator, our 
+pleiotropy test still provides information on the number of QTL, which may aid biological 
+understanding and inform subsequent studies. Below, we first review the prerequisite 
+molecular biology, including the ``central dogma'', before discussing in some detail 
+regression-based mediation analysis in the systems genetics context. 
 
-\citet{crick1958protein} articulated a pathway for transmission of biological information that is now known as the central dogma of molecular biology (Figure~\ref{fig:dogma}) \citep{crick1970central}. 
-In it, he argued that information encoded in DNA sequence is transmitted via transcription to 
+\citet{crick1958protein} articulated a pathway for transmission of biological information  
+that is now known as the central dogma of molecular biology (Figure~\ref{fig:dogma}) 
+\citep{crick1970central}. 
+In it, he argued that information encoded in DNA sequence is transmitted via transcription 
+to 
 RNA molecules, which, in turn, transfer the information to proteins via translation. 
-The process of transcription uses DNA as a template for creating a RNA molecule that conveys the information encoded in DNA. 
+The process of transcription uses DNA as a template for creating a RNA molecule that 
+conveys the information encoded in DNA. 
 In this sense, every gene leads to a unique RNA molecule. 
-Translation is the molecular biology process by which a RNA molecule's information is transferred to a protein. 
-As in transcription, the nucleic acid (DNA in transcription and RNA in translation) serves as a template for synthesis of the product (RNA in transcription and protein in translation). 
+Translation is the molecular biology process by which a RNA molecule's information is 
+transferred to a protein. 
+As in transcription, the nucleic acid (DNA in transcription and RNA in translation) serves 
+as a template for synthesis of the product (RNA in transcription and protein in translation). 
 Thus, RNA molecules from distinct genes lead to different proteins.
 
 This sequence of information transfer, from DNA to RNA to protein, provides a natural 
 setting by which to examine mediation analysis. If a DNA variant affects protein 
 concentrations only through its gene's RNA transcripts, then conditioning on RNA transcript 
 levels would greatly reduce the strength of association between DNA variant and protein 
-concentration. Before we continue our discussion, we define key terms and discuss an example below. 
+concentration. Before we continue our discussion, we define key terms and discuss an 
+example below. 
 
 We continue by stating what it means for one trait to mediate a relationship between a 
 DNA variant and another trait. To clarify our discussion, we refer to an example from 
@@ -1720,7 +1753,8 @@ DNA variant and another trait. To clarify our discussion, we refer to an example
 studying livers of 192 Diversity Outbred mice, found evidence that \emph{Dhtkd1} 
 transcript levels associated with a Chromosome 2 marker near the \emph{Dhtkd1} gene. 
 They also found that 
-the same marker affected DHTKD1 protein concentrations. (Note that DHTKD1 protein is the product of translation of \emph{Dhtkd1} transcripts.)
+the same marker affected DHTKD1 protein concentrations. (Note that DHTKD1 protein is the 
+product of translation of \emph{Dhtkd1} transcripts.)
 As anticipated, mediation analysis, in which the DHTKD1 protein concentrations are
 regressed on founder allele dosages (at the Chromosome 2 marker) demonstrated that
 \emph{Dhtkd1} transcript levels act as a mediator between DHTKD1 protein concentrations 
@@ -1742,11 +1776,14 @@ protein concentrations is through \emph{Dhtkd1} transcript levels.
 \end{figure}
 
 
-In our studies below, we follow \citet{keller2018genetic} by generalizing this setting to the case where a DNA variant affects a local transcript level, which then affects a nonlocal transcript level. 
+In our studies below, we follow \citet{keller2018genetic} by generalizing this setting to 
+the case where a DNA variant affects a local transcript level, which then affects a 
+nonlocal transcript level. 
 We term a transcript ``local'' to a marker when its gene is near that marker. 
 We use a threshold of no more than 2 Mb to restrict the 
 number of local transcripts for a given marker. 
-A nonlocal transcript, then, is either one that arises from a gene on another chromosome or from a distant gene on the same chromosome as the marker.
+A nonlocal transcript, then, is either one that arises from a gene on another chromosome or 
+from a distant gene on the same chromosome as the marker.
 
 It is highly plausible that concentration variations in one transcript may 
 affect abundances of a second transcript. 
@@ -1760,15 +1797,18 @@ a nonlocal transcript level and a DNA variant, we perform a series of regression
 which we detail below (Frame~\ref{frame3}). 
 In brief, we regress the nonlocal transcript levels on founder allele dosages at the DNA 
 variant, with and without conditioning on the candidate mediator (the local transcript levels). 
-If the LOD score measuring association between nonlocal trait and QTL genotype diminishes sufficiently upon conditioning on a candidate, 
+If the LOD score measuring association between nonlocal trait and QTL genotype diminishes 
+sufficiently upon conditioning on a candidate, 
 then we declare the candidate a mediator.
 
 The rationale behind this strategy follows. 
 If the DNA variant affects the nonlocal transcript levels solely by way of local 
-transcript levels, then conditioning on the local transcript levels would nullify the relationship between DNA variant and the nonlocal transcript levels. 
+transcript levels, then conditioning on the local transcript levels would nullify the 
+relationship between DNA variant and the nonlocal transcript levels. 
 At the other extreme, if the DNA variant affects nonlocal transcript levels solely 
 through mechanisms that don't involve the local transcript levels, then conditioning 
-on local transcript levels would not affect the association between the DNA variant and nonlocal transcript levels.
+on local transcript levels would not affect the association between the DNA variant and 
+nonlocal transcript levels.
 
 
 %\subsection{Regression-based mediation methods}
@@ -2774,7 +2814,7 @@ designate the profile LOD peak positions. Note that both profile LOD peak height
 definition, the same. 
 
 Plasma cholic acid profile LOD has a peak that begins about 4 Mb and extends to 
-approximately 6.5 Mb. \emph{Turicibacter} abundance profile LOD has a broader peak, 
+approximately 6.5 Mb (Figure~\ref{fig:3c-profile}). \emph{Turicibacter} abundance profile LOD has a broader peak, 
 with endpoints near 4 Mb and 7.5 Mb. Here, but not in the univariate 
 LOD plots, one sees what appears to be a second peak in the \emph{Turicibacter} 
 abundance phenotype that begins near 7.5 Mb and ends near 8.7 Mb. 
@@ -2782,7 +2822,7 @@ abundance phenotype that begins near 7.5 Mb and ends near 8.7 Mb.
 
 %\subsection{Calculating the likelihood ratio test statistic and bootstrap-based p-value}
 
-We calculated the likelihood ratio test statistic, $\Lambda = 0.45$. We 
+We calculated the (log) likelihood ratio test statistic, $\Lambda = 0.45$. We 
 determined the bootstrap $p$-value to be $0.53$ with 1000 bootstrap 
 samples. Thus, we failed to reject the null hypothesis of pleiotropy.
 
