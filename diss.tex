@@ -1633,10 +1633,11 @@ Department of Energy's Office of Science.
 
 \newpage
 
+\section{Supplementary materials}
 
 % supplemental tables
-\renewcommand{\thetable}{\textbf{S\arabic{table}}}
-\setcounter{table}{0}
+%\renewcommand{\thetable}{\textbf{S\arabic{table}}}
+%\setcounter{table}{0}
 
 
 \begin{table}
@@ -1955,16 +1956,6 @@ a trait has a LOD$_1$ of 10, but unimportant if the trait's LOD$_1$ is 100. Now 
 
 
 
-%\begin{mdframed}
-%\caption{XXXX}
-%\begin{enumerate}
-%\item No unmeasured confounding of the treatment-outcome %relationship
-%\item No unmeasured confounding of the mediator-outcome %relationship
-%\item No unmeasured confounding of the treatment-mediator relationship
-%\item No mediator-outcome confounder that is affected by the treatment
-%\label{list4}
-%\end{enumerate}
-%\end{mdframed}
 
 \begin{frameenv}{Four assumptions for causal inference}\label{frame1}
   \begin{enumerate}
@@ -1981,7 +1972,24 @@ Our first statistical challenge is due to confounding. To claim that the LOD
 difference statistic reflects a causal relationship, four assumptions about 
 confounding are needed (Frame~\ref{frame1}) \citep{vanderweele2015explanation}, 
 yet
-it is often difficult or impossible to recognize unmeasured confounders. 
+it is often difficult or impossible to recognize unmeasured confounders. Unmeasured 
+confounders, as I use the term here, are unmeasured random variables that confound a causal 
+relationship between two other random variables. 
+For example, Figure~\ref{fig:confounding} shows a directed graph. Arrows indicate causal 
+directions. For example, ``Q'' causes ``M''. ``M'' designates the mediator (local transcript), while ``Q'' designates the QTL (or DNA variant). ``Y'' denotes the nonlocal transcript 
+level in this setting, while ``C1'', ``C2'', and ``C3'' are covariates that confound, 
+respectively, the DNA variant - nonlocal transcript level relationship, the local transcript 
+level - nonlocal transcript level relationship, and the DNA variant - local transcript level 
+relationship. Failure to measure C1, C2, or C3 leads to violations of Assumption 1, 
+Assumption 2, or Assumption 3, respectively (Frame~\ref{frame1}). 
+
+\begin{figure}
+\includegraphics{figs/confounding.pdf}
+\caption{Example causal diagram showing relationships between random variables in an expression QTL study.}\label{fig:confounding}
+\end{figure}
+
+
+
 In studies of Diversity Outbred mice, relatedness is a possible confounder, 
 yet the linear models (Equations~\ref{model1},~\ref{model2},~\ref{model3},~\ref{model4}
 in Frame~\ref{frame3}) fail to account for the complex relatedness patterns 
@@ -1989,7 +1997,7 @@ among Diversity Outbred mice.
 In fact, the only covariates in our models are for wave membership and sex.
 The 400 mice were shipped from the Jackson Laboratory in four waves of 100 mice. 
 Because each wave was processed at a different time, I include wave membership 
-as a covariate with the goal of accounting for wave-related batch effects.
+as a covariate with the goal of accounting for wave-related effects.
 Other sources of confounding, such as batch effects in the phenotyping, may be 
 unmeasured.
 
@@ -3901,9 +3909,6 @@ this service.
 
 
 
-\section{Recla analysis}
-
-%%%%% END Recla analysis vignette
 
 
 

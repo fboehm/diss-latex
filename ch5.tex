@@ -10,15 +10,21 @@ The first vignette compared pleiotropy testing with mediation analysis
 in the dissection of expression trait QTL hotspots.
 I learned that the pleiotropy test provides information about the
 number of underlying QTL even when mediation analyses don't identify intermediates. 
+Pleiotropy testing also serves as a useful screen before applying mediation analyses for a 
+collection of putative intermediates.
 The second vignette examined my test's power to detect separate QTL
 in pairs of local expression traits.
 I learned that both interlocus distance and univariate LOD scores
-impact test statistic values. 
+impact test statistic values. I was unable to find a strong relationship between allele effects patterns and statistical power.
 In the last vignette, I applied my test to two gut microbiome-related traits.
 From this analysis, I learned that the two traits share a pleiotropic QTL and, thus,
 it is reasonable to conduct further causal modeling studies for these two traits.
-Chapter~\ref{sec:software} demonstrates features of the \texttt{qtl2pleio} R package.
-This package implements my pleiotropy test and uses the data structures in the R package \texttt{qtl2} \citep{broman2019rqtl2}.
+Chapter~\ref{sec:software} demonstrates features of the \texttt{qtl2pleio} R package. 
+\texttt{qtl2pleio} provides functions for multi-dimensional, multi-QTL scans. It also creates 
+profile LOD plots and performs bootstrap tests to get p-values for the pleiotropy test 
+statistics. 
+This package uses the data structures in the R package \texttt{qtl2} \citep{broman2019rqtl2}.
+I now conclude the thesis with brief discussions of limitations and future research.
 
 \section{Limitations}
 
@@ -59,17 +65,35 @@ To address this question, I would perform a simulation study. I would first stud
 
 \subsection{Selection bias}
 
-Selection bias is a known concern in QTL studies. Sometimes termed the ``Beavis effect'', after a researcher who described it in QTL studies, selection bias arises when characterizing the QTL impact on the trait. Given that a QTL is discovered, the estimated effects tend to overestimate the true effects. Originally described in two-parent crosses, \citet{king2017beavis} found evidence for the Beavis effect in multiparental \emph{Drosophila melanogaster} populations. QTL studies in Diversity Outbred mice likely exhibit similar phenomena. 
+Selection bias is a known concern in QTL studies \citep{lande1990efficiency}. Sometimes termed the ``Beavis effect'', after a researcher who described it in QTL studies \citep{beavis1991quantitative,beavis1994power}, selection bias arises when characterizing the QTL effect on the trait of interest. Given that a QTL is discovered, the estimated effect, in terms of proportion of trait variance explained, tends to overestimate the true effect \citep{broman2009guide}. Additionally, the number of detected QTL is biased downward in a genome-wide study \citep{beavis1998qtl}. Originally described in two-parent crosses, \citet{king2017beavis} found evidence for the Beavis effect in multiparental \emph{Drosophila melanogaster} populations. QTL studies in Diversity Outbred mice likely exhibit similar phenomena. \citet{xu2003theoretical} attributed the Beavis effect to the observation that QTL are only reported when the evidence in favor of a QTL exceeds a quantitative threshold. When \citet{xu2003theoretical} considered the appropriate truncated distributions, the experimental findings agreed with the theoretical expected results. 
+
+In my studies, I identify traits of interest as pairs in which each shows sufficiently strong evidence of univariate QTL in a single genomic region. Identifying the traits of interest, then, is subject to the Beavis effect. To my knowledge, the impact of the Beavis effect on pleiotropy testing has not been studied. The direction of the Beavis effect on my pleiotropy test remains unclear at the time of this writing. Recall that our pleiotropy test statistic is the difference in log likelihood values under the alternative and under the null hypothesis. If there truly are two distinct QTL for a pair of traits, then it may be that the Beavis effect inflates the pleiotropy test statistic because the maximum log likelihood value in the two-dimensional grid may be more inflated than the maximum log likelihood along the diagonal (\emph{i.e.}, under pleiotropy). This question could be studied with simulated phenotypes using the genotypic data from \citet{keller2018genetic}.
 
 
 
-\subsection{Sensitivity analysis for unmeasured confounding in mediation analysis}
+
+
+
+\subsection{Determining significance thresholds for LOD difference and LOD difference proportion statistics}
+
+One methodological question that arose in Chapter~\ref{sec:applications} is that of determining significance thresholds in mediation analyses. \citet{chick2016defining}, in a landmark investigation of mediation methods for sytems genetics studies, approximated the null LOD difference statistic distribution with an empirical distribution of sham intermediates. \citet{keller2018genetic} used an arbitrary threshold of 1.5 for declaring significant LOD difference statistics. To accommodate signals of differing strengths, I calculated LOD difference proportion statistics for the traits that Keller studied. However, I made no effort to determine a significance threshold for LOD difference proportion statistics. 
+
+\subsection{Collapsing eight alleles to two to enhance power}
+
+\citet{qtl2pattern} developed the R package \texttt{qtl2pattern} in which he collapses eight founder allele dosages into two ``pattern probabilities''. The assumption here is that, for some genomic regions, there may be only two alleles at each marker. If I can recognize the binary ``SNP distribution pattern'' for the genomic region, I could then collapse the eight alleles into two groups. For example, it may be that A, B, C, D, E, and F lines all have the same alleles at a sequence of markers, while G and H share a different set of alleles over the same interval. I would then partition the eight founder alleles into two groups, 1. ABCDEF and 2. GH, and determine the pattern probabilities. It might be that my pleiotropy test power would increase if I were to use the binary allele pattern probabilities instead of using the eight founder allele dosages. 
+
+At the present time, this is an open research question. I would begin with a simulation study using Diversity Outbred mouse genotypic data from \citep{keller2018genetic}. With a collection of simulated traits, I would know the true allele patterns. I would then compare statistical power when I perform my pleiotropy test with each of the two encodings of genotype data, the eight founder allele dosages and the pattern probabilities.
 
 
 
 
-\section{Determining significance thresholds for LOD difference and LOD difference proportion statistics}
 
-One methodological question that arose in Chapter~\ref{sec:applications} is that of determining significance thresholds in mediation analyses.
+
+
+
+\subsection{Multiple testing in mediation analysis}
+
+I learned in Chapter~\ref{sec:applications} that my pleiotropy test is a useful screen before performing mediation analyses. One application of this fact is in reducing the number of mediation analyses when examining an expression QTL hotspot. Doing fewer mediation analyses leads to a less strict significance threshold for the LOD difference and related test statistics. I envision a procedure in which one performs a collection of pleiotropy tests pairing local expression traits with nonlocal expression traits, like I did in Section~\ref{sec:hotspot-dissection}. With the results of these tests, one may identify local expression trait - nonlocal expression trait pairs that are consistent with a single pleiotropic locus. Subsequent mediation analysis, for only those trait pairs that arise from pleiotropic loci, would be done. In this manner, I would reduce the number, and reduce the impact of inflated family-wise error rate for a collection of mediation analyses.
+
 
 
