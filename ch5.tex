@@ -1,8 +1,11 @@
 \chapter{Conclusions}
 
 I've successfully developed a pleiotropy test for multiparental populations.
-I discussed our new methods in Chapter 2.
-In Chapter 3, we illustrated the test's use in three vignettes.
+I discussed our new methods in Chapter~\ref{sec:testing}. In developing a pleiotropy test 
+for multiparental populations, our novel contributions included accommodation of multiple 
+alleles and incorporation of polygenic random effects to account for complicated patterns 
+of relatedness. 
+In Chapter~\ref{sec:applications}, we illustrated the test's use in three vignettes.
 The first vignette compared pleiotropy testing with mediation analysis
 in the dissection of expression trait QTL hotspots.
 I learned that the pleiotropy test provides information about the
@@ -14,17 +17,59 @@ impact test statistic values.
 In the last vignette, I applied my test to two gut microbiome-related traits.
 From this analysis, I learned that the two traits share a pleiotropic QTL and, thus,
 it is reasonable to conduct further causal modeling studies for these two traits.
-Chapter 4 demonstrates features of the `qtl2pleio` R package.
-This package implements my pleiotropy test and uses the data structures in the R package `qtl2` \citep{broman2019rqtl2}.
+Chapter~\ref{sec:software} demonstrates features of the \texttt{qtl2pleio} R package.
+This package implements my pleiotropy test and uses the data structures in the R package \texttt{qtl2} \citep{broman2019rqtl2}.
 
-\section{A multivariate pleiotropy test}
+\section{Limitations}
 
-Pleiotropy tests for two traits at a time have a valuable role in complex trait genetics. However, to fully use the tens of thousands of experimentally measured traits, we need to consider testing more than two traits at a time. Suppose that five traits map to a single region spanned by 100 markers. One might perform a series of $\binom{5}{2} = 10$ bivariate QTL scans and 10 pairwise tests for pleiotropy. Each bivariate scan would require $100^2 = 10,000$ model fits by generalized least squares. Alternatively, one could perform a d-variate QTL scan, with $d=5$ in this case. With the results of the d-variate scan, a variety of statistical hypotheses could be tested. For example, one could formulate a test for the null hypothesis that all five traits share a pleiotropic QTL against the alternative that the first two traits share a single QTL and the last three traits share a distinct, pleiotropic QTL. The d-variate scan over the 100-marker region, would require $100^d = 100^5 = 10$ billion model fits via generalized least squares. With distributed computing resources, including the resources at the University of Wisconsin's Center for High-throughput Computing, this is not an unreasonable volume of computing. The use of C++ for generalized least squares calculations decreases the computing time for each model fit. 
+\subsection{A $d$-variate pleiotropy test}
 
-\section{X chromosome}
+Pleiotropy tests for two traits at a time have a valuable role in complex trait genetics. However, to 
+fully use the tens of thousands of experimentally measured traits, we need to consider testing more than 
+two traits at a time. Suppose that five traits map to a single region spanned by 100 markers. One might 
+perform a series of $\binom{5}{2} = 10$ bivariate QTL scans and 10 pairwise tests for pleiotropy. Each 
+bivariate scan would require $100^2 = 10,000$ model fits by generalized least squares. Alternatively, one 
+could perform a d-variate QTL scan, with $d=5$ in this case. With the results of the d-variate scan, a 
+variety of statistical hypotheses could be tested. For example, one could formulate a test for the null 
+hypothesis that all five traits share a pleiotropic QTL against the alternative that the first two traits 
+share a single QTL and the last three traits share a distinct, pleiotropic QTL. The d-variate scan over 
+the 100-marker region, would require $100^d = 100^5 = 10$ billion model fits via generalized least 
+squares. With distributed computing resources, including the resources at the University of Wisconsin's 
+Center for High-throughput Computing, this is not an unreasonable volume of computing. The use of C++, instead of R, for 
+generalized least squares calculations decreases the computing time for each model fit. 
+
+My \texttt{qtl2pleio} R package contains code that performs $d$-variate, $d$-QTL scans for a 
+genomic region. In this thesis, I set $d = 2$ for all analyses, yet the code and theory 
+accommodate $d > 2$. The major hurdle in performing $d$-variate, $d$-QTL scans, as the above 
+calculations suggest, is the computing time. Yet, even without modifying the current 
+\texttt{qtl2pleio} code base, I can use computing clusters to complete multivariate, multi-QTL scans in reasonable time periods when $d$ is 3, 4, or 5. 
+
+Before applying the $d$-variate pleiotropy test to experimental data, I would characterize its
+statistical properties, like I did for the bivariate test in Chapter~\ref{sec:testing}. I would examine power and type I error rate for a variety of settings and distinct values of $d$. 
+
+\subsection{Pleiotropy test power and allele effects patterns}
+
+Based on findings from \citet{macdonald2007joint} and \citet{king2012genetic} I anticipated finding a stronger relationship between allele effects patterns and pleiotropy test power (Section~\ref{sec:power-analyses} and Figure~\ref{fig:cor}). \citet{macdonald2007joint} and \citet{king2012genetic} argue that similar allele effects patterns for two traits in multiparental populations favor pleiotropy over separate QTL when the QTL is bi-allelic. I would like to investigate this question with simulated traits in which we know the true genetic architecture. In Chapter~\ref{sec:power-analyses}, we used experimental data where I don't know the true number of QTL alleles. 
+
+To address this question, I would perform a simulation study. I would first study pleiotropic (simulated) traits to see if they show evidence of similar allele effects, as measured by correlation between fitted values, when the QTL is bi-allelic. Because the Diversity Outbred mice have eight alleles at every locus, I want to consider the 22 partititions of eight alleles. The partition number (22 for eight objects) is the number of ways to form nonempty subsets with (unlabeled) objects. Because I'm concerned with merely the number of objects in each subset, rather than the labels of the objects, I only need to examine the 22 partitions. For example, one of the 22 partitions of eight objects is to have two subsets, where one subset has one allele and the other has seven alleles. A second partition of the 22 partitions of eight objects is to have eight subsets, with each subset containing exactly one allele.
+
+
+\section{Future research}
+
+
+\subsection{Selection bias}
+
+Selection bias is a known concern in QTL studies. Sometimes termed the ``Beavis effect'', after a researcher who described it in QTL studies, selection bias arises when characterizing the QTL impact on the trait. Given that a QTL is discovered, the estimated effects tend to overestimate the true effects. Originally described in two-parent crosses, \citet{king2017beavis} found evidence for the Beavis effect in multiparental \emph{Drosophila melanogaster} populations. QTL studies in Diversity Outbred mice likely exhibit similar phenomena. 
 
 
 
-\section{Sensitivity analysis for unmeasured confounding in mediation analysis}
+\subsection{Sensitivity analysis for unmeasured confounding in mediation analysis}
+
+
+
+
+\section{Determining significance thresholds for LOD difference and LOD difference proportion statistics}
+
+One methodological question that arose in Chapter~\ref{sec:applications} is that of determining significance thresholds in mediation analyses.
 
 
