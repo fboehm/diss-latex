@@ -2711,10 +2711,10 @@ above (Equations \ref{model1}, \ref{model2}, \ref{model3}, \ref{model4}).
 
 One question that needs clarification is the choice of genetic marker 
 for each mediation analysis. 
-We elected to use the founder allele dosages at the marker that demonstrated the 
-univariate LOD peak for the putative mediator. 
+We elected to use the founder allele dosages at the marker (or pseudomarker) that demonstrated the 
+univariate LOD peak for the nonlocal trait. 
 Alternative analyses, in which one uses the founder allele dosages at which the 
-nonlocal trait has its univariate peak, are also possible.
+local trait has its univariate peak, are also possible.
 
 
 
