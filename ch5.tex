@@ -76,7 +76,13 @@ In my studies, I identify traits of interest as pairs in which each shows suffic
 
 \subsection{Determining significance thresholds for LOD difference and LOD difference proportion statistics}
 
-One methodological question that arose in Chapter~\ref{sec:applications} is that of determining significance thresholds in mediation analyses. \citet{chick2016defining}, in a landmark investigation of mediation methods for sytems genetics studies, approximated the null LOD difference statistic distribution with an empirical distribution of sham intermediates. \citet{keller2018genetic} used an arbitrary threshold of 1.5 for declaring significant LOD difference statistics. To accommodate signals of differing strengths, I calculated LOD difference proportion statistics for the traits that Keller studied. However, I made no effort to determine a significance threshold for LOD difference proportion statistics. 
+One methodological question that arose in Chapter~\ref{sec:applications} is that of determining significance thresholds in mediation analyses. \citet{chick2016defining}, in a landmark investigation of mediation methods for sytems genetics studies, approximated the null LOD difference statistic distribution with an empirical distribution of sham intermediates. \citet{keller2018genetic} used an arbitrary threshold of 1.5 for declaring significant LOD difference statistics. To accommodate signals of differing strengths, I calculated LOD difference proportion statistics for the traits that \citet{keller2018genetic} studied. However, I made no effort to determine a significance threshold for LOD difference proportion statistics. 
+
+To address the issue of determining a significance threshold for LOD difference proportion statistics, one could borrow from \citet{chick2016defining} the idea of using sham mediators, and calculate the LOD difference proportion for each sham mediator. The collection of LOD difference proportion statistics for sham mediators would provide an empirical null distribution with which to compare the observed statistics. Instead of using experimentally obtained sham mediators, one could also simulate sham mediators.
+
+
+
+
 
 \subsection{Collapsing eight alleles to two to enhance power}
 
@@ -93,7 +99,7 @@ At the present time, this is an open research question. I would begin with a sim
 
 \subsection{Multiple testing in mediation analysis}
 
-I learned in Chapter~\ref{sec:applications} that my pleiotropy test is a useful screen before performing mediation analyses. One application of this fact is in reducing the number of mediation analyses when examining an expression QTL hotspot. Doing fewer mediation analyses leads to a less strict significance threshold for the LOD difference and related test statistics. I envision a procedure in which one performs a collection of pleiotropy tests pairing local expression traits with nonlocal expression traits, like I did in Section~\ref{sec:hotspot-dissection}. With the results of these tests, one may identify local expression trait - nonlocal expression trait pairs that are consistent with a single pleiotropic locus. Subsequent mediation analysis, for only those trait pairs that arise from pleiotropic loci, would be done. In this manner, I would reduce the number, and reduce the impact of inflated family-wise error rate for a collection of mediation analyses.
+I learned in Chapter~\ref{sec:applications} that my pleiotropy test is a useful screen before performing mediation analyses. One application of this fact is in reducing the number of mediation analyses when examining an expression QTL hotspot. Doing fewer mediation analyses leads to a less strict significance threshold for the LOD difference and related test statistics. I envision a procedure in which one performs a collection of pleiotropy tests pairing local expression traits with nonlocal expression traits, like I did in Section~\ref{sec:hotspot-dissection}. With the results of these tests, one may identify local expression trait - nonlocal expression trait pairs that are consistent with a single pleiotropic locus. Subsequent mediation analysis, for only those trait pairs that arise from pleiotropic loci, would be done. In this manner, I would reduce the number of mediation analyses, and reduce the impact of inflated family-wise error rate.
 
 
 
