@@ -59,6 +59,7 @@
 \usepackage[left = 1in, right = 1in, top = 1.5in, bottom = 1in]{geometry}
 \usepackage{multirow}
 \usepackage[framemethod=TikZ]{mdframed}
+\usepackage{float}
 \usepackage{newfloat}
 \usepackage{multicol}
 %\usepackage[lite]{mtpro2} %contains \widetilde
@@ -511,11 +512,12 @@ simplest approach and because the other methods share some aspects of it.
 Marker regression inputs are genome-wide marker genotypes and measured values of a 
 complex trait of interest (from the same subjects). 
 At each marker, one fits a linear model by regressing trait values on marker 
-genotypes (Equation~\ref{eq:uni-2-parent}), sequentially, at each marker. In a 
-backcross, the ``B allele count'' variable, also denoted $x_i$, where $i$ indexes the subjects, takes values of 0 or 1. In an intercross
-, the ``B allele count'' may be 0, 1, or 2. Both backcross and intercross designs 
-permit solution of the regression by a statistical technique called ``maximum likelihood estimation''. I assume that the random errors for 
-all subjects have a normal distribution with mean zero and variance $\sigma^2$ and are statistically independent. Statistical 
+genotypes (Equation~\ref{eq:uni-2-parent}), sequentially, at each marker. $i$ indexes subjects, while $g_i$ denotes genotype (at a marker) for subject $i$. Each marker genotype class has its own mean, denoted $\mu_{g}$ where $g$ denotes the marker genotype.
+
+
+Both backcross and intercross designs 
+permit solution by a statistical technique called ``maximum likelihood estimation''. I assume that the random errors for 
+all subjects have a normal distribution with mean zero and variance $\sigma^2$ and are statistically independent (Equation~\ref{eq:random-error-dist}). Statistical 
 independence means that knowing the value of one subject's random error provides no 
 information about the distribution of another subject's random error.
 
@@ -548,22 +550,12 @@ probability density for a random variable $y$ with mean $\mu$ and variance $\sig
 
 
 For a backcross and a single marker, Equation~\ref{eq:uni-2-parent} has three statistical 
-parameters, ``mean for AA genotype'' ($\mu_{AA}$), ``mean for AB genotype'' ($\mu_{AB}$), and the variance ($\sigma^2$) of the random errors. In this 
+parameters, two means for the two genotype classes and the variance ($\sigma^2$) of the random errors. In this 
 statistical framework, I treat parameters as fixed, but unknown, numbers. I then 
 seek, via ``maximum likelihood estimation'', the parameter values that are most compatible with the data.
 
-The maximum likelihood estimates for two parameters, ``B allele effect'' and 
-the random error variance, are given in Equations~\ref{eq:beta-hat} and
-\ref{eq:pooled-var}. Note that I've replaced ``B allele effect'' with 
-the Greek letter 
-$\beta$, while $\sigma^2$ denotes the random error variance. The ``hat'' 
-above $\beta$ indicates that $\hat\beta$ is a maximum likelihood estimate of the 
-parameter $\beta$ (\emph{i.e.}, the unknown ``B allele effect'').
+The maximum likelihood estimates for the genotype class means are given in Equation~\ref{eq:uni-2-parent}.
 
-\begin{equation}
-\hat\beta = \frac{\sum_{i=1}^n(x_i - \bar x)y_i}{\sum_{i = 1}^n(x_i - \bar x)^2}
-\label{eq:beta-hat}
-\end{equation}
 
 
 
@@ -578,7 +570,9 @@ tells us how far the observed trait measurements are
 from the predicted values, for a
 set of specified parameter values. Equation~\ref{eq:rss1} defines residual
 sum of squares for a univariate QTL analysis. I make an additional substitution in 
-Equation~\ref{eq:rss1} by replacing ``B allele count'' with $x_i$, where ``i'' indexes subjects. In 
+Equation~\ref{eq:rss1} by replacing ``B allele count'' with $x_i$, where ``i'' indexes subjects. 
+
+In 
 Equation~\ref{eq:rss1}, I introduce $\hat\mu_{g_i}$ as an estimate of the parameter 
 $\mu_{g_i}$. $\mu_{g_i}$ is the mean trait value of the genotype class to which subject 
 $i$ belongs. If subject $i$ has genotype AA, then $\mu_{g_i} = \mu_{AA}$. I estimate 
@@ -611,7 +605,7 @@ I wish to calculate the likelihood for both the alternative hypothesis and the n
 I write the likelihood as a product of per-subject likelihoods in Equation~\ref{eq:lik-2parent}.
 
 \begin{equation}
-L_1(\mu_{AA}, \beta, \sigma^2) = P(\text{data}| \text{QTL at marker}, \mu_{AA}, \beta, \sigma^2) = \prod_{i=1}^n\phi(y_i; \mu_{g_i}, \sigma^2)
+L_1(\mu_{AA}, \mu_{AB}, \sigma^2) = P(\text{data}| \text{QTL at marker}, \mu_{AA}, \mu_{AB}, \sigma^2) = \prod_{i=1}^n\phi(y_i; \mu_{g_i}, \sigma^2)
 \label{eq:lik-2parent}
 \end{equation}
 
@@ -620,7 +614,7 @@ hypothesis H$_1$, where a QTL is present. The likelihood of the model parameters
 probability of the data conditional on presence of a QTL and the parameter values. This, by the 
 assumption of statistical independence of subjects, is equal to the product of the $n$ 
 per-subject likelihoods, where $\phi(y; \mu, \sigma^2)$ denotes the density at $y$ for a normal 
-distribution with mean $\mu$ and variance $\sigma^2$ (Equation~\ref{eq:normal-pdf}).
+distribution with mean $\mu$ and variance $\sigma^2$ (Equation~\ref{eq:normal-pdf}). $\mu_{AA}$ and $\mu_{AB}$ are the mean trait values for the genotype classes AA and AB. 
 
 
 I also need to calculate the maximum likelihood under the null model constraints, \emph{i.e.}, under the assumption that there is no QTL in the genome, in which case the genotype classes have the same mean trait value. 
@@ -647,7 +641,7 @@ a critical value when assessing statistical significance of observed peaks.
 \subsection{Interval mapping}\label{sec:interval-mapping}
 
 I highlight elements from the exposition of interval mapping in \citet{broman2009guide}. 
-More details are available in its Chapter 4. \citet{lander1989mapping} describe interval 
+More details are available in its Chapter 4. \citet{lander1989mapping} first described interval 
 mapping for QTL studies. While marker 
 regression considers only marker positions as candidate QTL, in interval mapping 
 one probabilistically infers genotypes for all positions
@@ -895,9 +889,6 @@ subjects from a multiparental population like the Diversity Outbred mice. DNA fr
 line is color-coded. Each pair of vertical bars corresponds to one subject. Each row corresponds to a single generation, with generation labels on the left. Generation number increases from top to bottom. 
 With each new generation, the Diversity Outbred mouse genomes are shuffled
 in smaller and smaller chunks.
-The smaller DNA chunk sizes in later generations correspond to 
-greater QTL mapping 
-resolution.
 
 \section{QTL mapping in Diversity Outbred mice}\label{sec:do-qtl}
 
@@ -912,10 +903,9 @@ obtained by use of a microarray, such as the GigaMUGA SNP microarray
 
 The next step, missing genotypes inference, is needed because of the 
 ``missing data problem'' \citep{broman2009guide}. It takes as input the two-allele 
-genotypes at the measured SNP markers. An expectation-maximization algorithm 
-\citep{dempster1977maximum} for a hidden Markov model, developed by
+genotypes at the measured SNP markers. Hidden Markov model methods, developed by
 \citet{broman2012haplotype} and \citet{broman2012genotype} and implemented in the \texttt{qtl2} R 
-package \citep{broman2019rqtl2}, outputs 36-state genotype probabilities for all 
+package \citep{broman2019rqtl2}, output 36-state genotype probabilities for all 
 nuclear autosomal markers and pseudomarkers. The outputted genotypes have 36 states 
 because each position has eight homozygote states (one for each founder line) and $\binom{8}{2}$ heterozygote states. Pseudomarkers are 
 arbitrary positions at which the researcher wants 36-state genotype probabilities. 
@@ -1640,7 +1630,7 @@ Department of Energy's Office of Science.
 %\setcounter{table}{0}
 
 
-\begin{table}
+\begin{table}[H]
   \caption{Eight founder lines and their one-letter abbreviations.}
   \label{table-letters}
 \begin{center}
@@ -1662,7 +1652,7 @@ Department of Energy's Office of Science.
 \end{center}
   \end{table}
 
-\clearpage
+\newpage
 
   % latex table generated in R 3.5.1 by xtable 1.8-3 package
 % Tue Nov 20 10:28:47 2018
@@ -1698,8 +1688,8 @@ percent time in light & 8 & 55.28 & 5.27 \\
 
 
 % supplemental figures
-\renewcommand{\thefigure}{\textbf{S\arabic{figure}}}
-\setcounter{figure}{0}
+%\renewcommand{\thefigure}{\textbf{S\arabic{figure}}}
+%\setcounter{figure}{0}
 
 \begin{figure}
 \includegraphics[width = \textwidth]{../qtl2pleio-manuscript/Rmd/scatter.eps}
@@ -1976,7 +1966,7 @@ it is often difficult or impossible to recognize unmeasured confounders. Unmeasu
 confounders, as I use the term here, are unmeasured random variables that confound a causal 
 relationship between two other random variables. 
 For example, Figure~\ref{fig:confounding} shows a directed graph. Arrows indicate causal 
-directions. For example, ``Q'' causes ``M''. ``M'' designates the mediator (local transcript), while ``Q'' designates the QTL (or DNA variant). ``Y'' denotes the nonlocal transcript 
+directions. For example, ``QTL'' causes ``M''. ``M'' designates the mediator (local transcript). ``Y'' denotes the nonlocal transcript 
 level in this setting, while ``C1'', ``C2'', and ``C3'' are covariates that confound, 
 respectively, the DNA variant - nonlocal transcript level relationship, the local transcript 
 level - nonlocal transcript level relationship, and the DNA variant - local transcript level 
